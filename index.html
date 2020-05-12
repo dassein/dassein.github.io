@@ -148,6 +148,82 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-DTFT" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/12/DTFT/">DTFT</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/12/DTFT/" class="archive-article-date">
+  	<time datetime="2020-05-12T23:16:42.809Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="DTFT"><a href="#DTFT" class="headerlink" title="DTFT"></a>DTFT</h2><p>$$<br>\begin{aligned}<br>X(f) &amp;= \int_{-\infty}^{\infty} x(t) e^{-j2\pi ft} dt\<br>x^*(t) &amp;= \int_{-\infty}^{\infty} X(f) e^{j2\pi ft} df\<br>\end{aligned}<br>$$</p>
+<p>When $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, then we have $\lambda &lt; 1$ that<br>$$<br>\begin{aligned}<br>\hat{X}(f) &amp;= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt = \sum_n x(nT) \int_{-\infty}^{\infty} \delta(t-nT)e^{-j2\pi ft} dt\<br>&amp;=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\<br>\hat{x}^<em>(t) &amp;= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\<br>x(nT) &amp;=\int_{-\infty}^{\infty} \hat{x}^</em>(t) [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\<br>&amp;= \int_{-\infty}^{\infty}  \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)T}^{(n+\lambda)T} e^{j2\pi ft} dt\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)}^{(n+\lambda)} e^{j2\pi (f/f_s)t’} dt’/f_s  \quad[t’ = f_s t]\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \frac{e^{j2\pi (f/f_s)(n+\lambda)}-e^{j2\pi (f/f_s)(n-\lambda)}}{j2\pi  (f/f_s)}\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{e^{j2\pi (f/f_s)\lambda}-e^{-j2\pi (f/f_s)\lambda}}{j2\pi  (f/f_s)}\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{2\lambda j\sin(2\pi(f/f_s)\lambda)}{j2\pi  (f/f_s)\lambda}\<br>&amp;= 2\lambda \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{\sin(2\pi(f/f_s)\lambda)}{2\pi  (f/f_s)\lambda}\<br>\end{aligned}<br>$$</p>
+<p>If we replace kernel function: $[\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)]$ with function<br>$$<br>\frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} = \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{j2\pi f_s(t-nT)}<br>$$<br>We still have:<br>$$<br>\int_{-\infty}^{\infty} \hat{x}^<em>(t) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\<br>= \int_{-\infty}^{\infty} \sum_{n’} x(n’T)  \delta(t-n’T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\<br>= \sum_{n’} x(n’T)  \int_{-\infty}^{\infty} \delta(t-n’T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\<br>= \sum_{n’} x(n’T) \frac{\sin(\pi (f_s/f_s)(n’-n))}{\pi (f_s/f_s)(n’-n)}  \int_{-\infty}^{\infty} \delta(t-n’T) dt\<br>= \sum_{n’} x(n’T) \delta(n’-n) = x(nT)<br>$$<br>So, we have:<br>$$<br>\begin{aligned}<br>x(nT)&amp;=\int_{-\infty}^{\infty} \hat{x}^</em>(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft}\frac{\sin(2\pi (f_s/2)(t-nT))}{2\pi (f_s/2)(t-nT)}dt\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{2j2\pi (f_s/2)(t-nT)}dt\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{-j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt]\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t’} \frac{e^{j\pi t’}}{j2\pi (t’-n)}dt’/f_s - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t’} \frac{e^{-j\pi  t’}}{j2\pi (t’-n)}dt’/f_s]\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t’} \frac{1}{j2\pi (t’-n)}dt’ - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t’} \frac{1}{j2\pi (t’-n)}dt’]\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)(t’+n)} \frac{1}{j2\pi t’}dt’ - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)(t’+n)} \frac{1}{j2\pi t’}dt’]\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n}e^{j2\pi (f/f_s+0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t’} \frac{1}{j2\pi t’}dt’ - e^{ j2\pi n} e^{j2\pi (f/f_s-0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t’} \frac{1}{j2\pi t’}dt’]\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) [e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t’} \frac{1}{j2\pi t’}dt’ - e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t’} \frac{1}{j2\pi t’}dt’ ]\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t’} \frac{1}{j2\pi t’}dt’ - \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t’} \frac{1}{j2\pi t’}dt’ ]\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{1}{2}[\text{sgn}(f/f_s+0.5) - \text{sgn}(f/f_s-0.5) ]\<br>&amp;= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\text{u}(f/f_s+0.5) - \text{u}(f/f_s-0.5) ]\<br>&amp;= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\<br>\end{aligned}<br>$$</p>
+<p>because $\text{sgn}(t) &lt;=&gt; \frac{1}{j\pi f}$, then we have $\frac{1}{j\pi t} &lt;=&gt; \text{sgn}(-f)=-\text{sgn}(f)$,</p>
+<p>Thus means<br>$$<br>-\text{sgn}(f) = \int^{\infty}<em>{-\infty} \frac{1}{j\pi t} e^{-j2\pi ft} dt\<br>\text{sgn}(f) =-\text{sgn}(-f) = \int^{\infty}</em>{-\infty} \frac{1}{j\pi t} e^{j2\pi ft} dt\<br>\text{sgn}(f/f_s+0.5)= \int^{\infty}<em>{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s+0.5)t} dt = 2\text{u}(f/f_s+0.5)-1\<br>\text{sgn}(f/f_s-0.5)= \int^{\infty}</em>{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s-0.5)t} dt = 2\text{u}(f/f_s-0.5)-1\<br>$$<br>To sum up:</p>
+<p>for $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, we have<br>$$<br>\begin{aligned}<br>\hat{X}(f) &amp;= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt\<br>&amp;=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\<br>\hat{x}^<em>(t) &amp;= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\<br>x(nT) &amp;= \int_{-\infty}^{\infty} \hat{x}^</em>(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\<br>&amp;= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\<br>\end{aligned}<br>$$<br>Now define $\omega = 2\pi f/f_s$, then<br>$$<br>X(e^{jw}) \equiv \hat{X}(f) = \sum_n x(nT) [e^{j\omega}]^{-n}\<br>x(nT)=  \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \frac{1}{2\pi} \int_{2\pi} X(e^{jw}) [e^{j\omega}]^{n} d\omega<br>$$</p>
+<h2 id="Formula"><a href="#Formula" class="headerlink" title="Formula"></a>Formula</h2><p>$$<br>\text{FT}[\delta(t)] = \int\delta(t) e^{-j2\pi ft} dt = \int\delta(t) e^{-j2\pi f0} dt = 1\cdot \int\delta(t) dt=1(f)\<br>\text{so, } \delta(t) = \text{FT}^{-1}[1(f)] = \int 1 \cdot e^{j2\pi ft} df<br>$$</p>
+<p>then replace $f\to t, t\to -f$, having<br>$$<br>\begin{aligned}<br>\delta(-f) &amp;= \int1(t) \cdot e^{j2\pi t(-f)} dt = \text{FT}[1(t)]\<br>&amp;= \delta(f)<br>\end{aligned}<br>$$<br>Thus Fourier pair $1(t) &lt;-&gt; \delta(f)$, now we want to verify:<br>$$<br>\begin{aligned}<br>\sum_n \delta(t-nT) &amp;= \frac{1}{T} \sum_k e^{j2\pi k(\frac{t}{T})}  \quad [\alpha\delta(\alpha t’) = \delta(t’), t’=\frac{t}{T}=tf_s]\<br>\sum_n \delta(t’-n) &amp;= \sum_k e^{j2\pi k t’}<br>\end{aligned}<br>$$<br>Here we have:</p>
+<p>一个矩形脉冲的傅里叶变换是sinc函数</p>
+<p>一个矩形脉冲离散采样之后的离散傅里叶变换就是Dirichlet函数<br>$$<br>\begin{aligned}<br>\sum_{k=-A}^{A}e^{j2\pi kt’} &amp;= 1+ 2 \sum_{k=1}^A \cos(2\pi t’ k)\<br>\sin(\pi t’ ) \sum_{k=-A}^{A}e^{j2\pi kt’} &amp;= \sin(\pi t’ ) + \sum_{k=1}^A[ \sin(2\pi t’(k+0.5)) - \sin(2\pi t’(k-0.5)) ]\<br>&amp;= \sin(2\pi t’(A+0.5)) = \sin(\pi t’(2A+1))\<br>\sum_{k=-A}^{A}e^{j2\pi kt’} &amp;= \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}<br>\end{aligned}<br>$$</p>
+<p>Moreover, $ \frac{\sin(\pi (t’+\Delta) (2A+1))}{\sin(\pi (t’+\Delta) )}=  \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}, \Delta\in Z$, the period is 1:<br>$$<br>\int_{-0.5}^{0.5} \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )} dt’ = \sum_{k=-A}^{A}  \int_{-0.5}^{0.5}e^{j2\pi kt’} dt’= \sum_{k=-A}^{A} \delta(k) = 1<br>$$</p>
+<p>So, $\lim_{A\to \infty} \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}[\text{u}(t’+0.5)-\text{u}(t’-0.5)] = \delta(t’)$, then we have<br>$$<br>\begin{aligned}<br>\lim_{A\to \infty} \sum_{k=-A}^{A}e^{j2\pi kt’} &amp;= \lim_{A\to \infty} \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}\<br>&amp;= \lim_{A\to \infty} \sum_n \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )} [\text{u}(t’+0.5-n)-\text{u}(t’-0.5-n)] \<br>&amp;= \lim_{A\to \infty} \sum_n \frac{\sin(\pi (t’-n)(2A+1))}{\sin(\pi (t’-n) )} [\text{u}(t’+0.5-n)-\text{u}(t’-0.5-n)] \<br>&amp;= \sum_n \lim_{A\to \infty} \frac{\sin(\pi (t’-n)(2A+1))}{\sin(\pi (t’-n) )} [\text{u}(t’+0.5-n)-\text{u}(t’-0.5-n)] \<br>&amp;= \sum_n \delta(t’-n) \<br>\end{aligned}<br>$$<br>Thus,<br>$$<br>\sum_n \delta(t’-n) = \sum_k e^{j2\pi k t’} \quad[t=t’ T]\<br>T\sum_n \delta(t-nT) =  \sum_n \delta(t/T-n) = \sum_k e^{j2\pi k(\frac{t}{T})}<br>$$</p>
+<h2 id="DFT"><a href="#DFT" class="headerlink" title="DFT"></a>DFT</h2><p>consider to sample $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$ 0~NT, as a period<br>$$<br>\begin{aligned}<br>\tilde{x}(t) &amp;= \left{ \hat{x}(t) \left[ \text{u}(t)-\text{u}(t-NT) \right]  \right} * \sum_{n’} \delta(t-n’NT)\<br>&amp;= \left{  \sum_{n=0}^{N-1} x(nT)  \delta(t-nT) \right} * \sum_{n’} \delta(t-n’NT)\<br>&amp;=  \sum_{n’} \left{  \sum_{n=0}^{N-1} x(nT)  \delta(t-(n+n’N)T) \right}  \<br>\end{aligned}<br>$$</p>
+<p>For freq domain:<br>$$<br>\begin{aligned}<br>\tilde{X}(f) &amp;= \int_{-\infty}^{\infty} \tilde{x}(t) e^{-j2\pi ft} dt \<br>&amp;=  \sum_{n’} \left{  \sum_{n=0}^{N-1} x(nT)  [ \int_{-\infty}^{\infty} \delta(t-(n+n’N)T) e^{-j2\pi ft} dt] \right} \<br>&amp;=  \sum_{n’} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)(n+n’N)}  \right} \<br>&amp;=  \sum_{n’} e^{-j2\pi (\frac{f}{f_s/N})n’} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right}  \quad[\sum_n \delta(t’-n) = \sum_k e^{j2\pi k t’}] \<br>&amp;=  \sum_{k} \delta(\frac{f}{f_s/N}-k) \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right}\<br>&amp;=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right}\<br>&amp;=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right}\<br>&amp;= \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right} \Bigg]<br>\end{aligned}<br>$$<br>Reconstruction:<br>$$<br>\begin{aligned}<br>\tilde{x}^<em>(t) &amp;= \int_{-\infty}^{\infty} \tilde{X}(f) e^{j2\pi ft} df\<br>&amp;=\int_{-\infty}^{\infty} e^{j2\pi ft} df \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right} \Bigg] \<br>&amp;= \sum_{k} \Bigg[\frac{f_s}{N} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right} \Bigg]  \int_{-\infty}^{\infty} e^{j2\pi ft} \delta(f-k\frac{f_s}{N}) df \<br>&amp;= \sum_{k} \Bigg[\frac{f_s}{N} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right} \Bigg]  e^{j2\pi (k/N)f_st} \<br>x(nT) &amp;= \int_{-\infty}^{\infty} \tilde{x}^</em>(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\<br>&amp;= \int_{-0.5}^{0.5} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \int_{0}^{1} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\<br>&amp;=  \int_{0}^{1} e^{j2\pi (f/f_s)n} d(f/f_s)  \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right} \Bigg]\<br>&amp;= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{f}{f_s})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})<br>\Bigg[\frac{1}{N} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right} \Bigg]\<br>&amp;= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{k}{N})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})<br>\Bigg[\frac{1}{N} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right} \Bigg]\<br>&amp;= \sum_{k=0}^{N-1} e^{j2\pi (\frac{k}{N})n} \Bigg[\frac{1}{N} \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right} \Bigg]\<br>&amp;= \frac{1}{N} \sum_{k=0}^{N-1}  \left{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (\frac{k}{N}) n}  \right} e^{j2\pi (\frac{k}{N})n}<br>\end{aligned}<br>$$</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/12/DTFT/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
