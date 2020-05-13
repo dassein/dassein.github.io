@@ -148,6 +148,86 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Hexo 的主题中渲染 MathJax 数学公式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/12/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">Hexo 的主题中渲染 MathJax 数学公式</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/12/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2020-05-13T00:02:45.396Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Hexo-的主题中渲染-MathJax-数学公式"><a href="#Hexo-的主题中渲染-MathJax-数学公式" class="headerlink" title="Hexo 的主题中渲染 MathJax 数学公式"></a>Hexo 的主题中渲染 MathJax 数学公式</h2><p><a href="https://blog.csdn.net/wgshun616/article/details/81019687" target="_blank" rel="noopener">https://blog.csdn.net/wgshun616/article/details/81019687</a></p>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>Hexo 默认使用 hexo-renderer-marked 引擎渲染网页，该引擎会把一些特殊的 markdown 符号转换为相应的 html 标签，比如在 markdown 语法中，下划线<code>_</code>代表斜体，会被渲染引擎处理为<code>&lt;em&gt;</code>标签。</p>
+<p>因为类 Latex 格式书写的数学公式下划线<code>_</code>表示下标，有特殊的含义，如果被强制转换为<code>&lt;em&gt;</code>标签，那么 MathJax 引擎在渲染数学公式的时候就会出错。</p>
+<p>类似的语义冲突的符号还包括<code>*</code>, <code>{</code>, <code>}</code>, <code>\\</code>等。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ul>
+<li>更换 Hexo 的 markdown 渲染引擎:</li>
+</ul>
+<p>hexo-renderer-kramed 引擎是在默认的渲染引擎 </p>
+<p>hexo-renderer-marked 的基础上修改了一些 bug ，两者比较接近，也比较轻量级。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+<ul>
+<li>行内公式的渲染还是有问题，因为 hexo-renderer-kramed 引擎也有语义冲突的问题。</li>
+</ul>
+<p>博客根目录下，找到node_modules\kramed\lib\rules\inline.js，</p>
+<p>第11行的 escape 变量的值做相应的修改：(在原基础上取消了对\,{,}的转义(escape)。)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="built_in">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure>
+<p>第20行的em变量也要做相应的修改。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/12/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-DTFT" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
