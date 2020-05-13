@@ -6,20 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>DTFT | Hexo</title>
+  <title>Tag: MathJax | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="DTFT \begin{aligned} X(f) &amp;&#x3D; \int_{-\infty}^{\infty} x(t) e^{-j2\pi ft} dt\\ x^*(t) &amp;&#x3D; \int_{-\infty}^{\infty} X(f) e^{j2\pi ft} df\\ \end{aligned}">
-<meta property="og:type" content="article">
-<meta property="og:title" content="DTFT">
-<meta property="og:url" content="http://yoursite.com/2020/05/12/DTFT/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/tags/MathJax/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="DTFT \begin{aligned} X(f) &amp;&#x3D; \int_{-\infty}^{\infty} x(t) e^{-j2\pi ft} dt\\ x^*(t) &amp;&#x3D; \int_{-\infty}^{\infty} X(f) e^{j2\pi ft} df\\ \end{aligned}">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-05-13T03:56:48.428Z">
-<meta property="article:modified_time" content="2020-05-13T03:56:48.428Z">
 <meta property="article:author" content="dassein">
-<meta property="article:tag" content="DSP">
-<meta property="article:tag" content="math">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -164,327 +158,75 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-DTFT" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      DTFT
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/05/12/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2020-05-13T04:02:11.845Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/05/12/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">Hexo 的主题中渲染 MathJax 数学公式</a>
     </h1>
   
 
-        
-        <a href="/2020/05/12/DTFT/" class="archive-article-date">
-  	<time datetime="2020-05-13T03:56:48.428Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="DTFT"><a href="#DTFT" class="headerlink" title="DTFT"></a>DTFT</h2><script type="math/tex; mode=display">
-\begin{aligned}
-X(f) &= \int_{-\infty}^{\infty} x(t) e^{-j2\pi ft} dt\\
-x^*(t) &= \int_{-\infty}^{\infty} X(f) e^{j2\pi ft} df\\
-\end{aligned}</script><a id="more"></a>
-<p>When $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, then we have $\lambda &lt; 1$ that</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\hat{X}(f) &= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt = \sum_n x(nT) \int_{-\infty}^{\infty} \delta(t-nT)e^{-j2\pi ft} dt\\
-&=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\\
-\hat{x}^*(t) &= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\\
-x(nT) &=\int_{-\infty}^{\infty} \hat{x}^*(t) [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
-&= \int_{-\infty}^{\infty}  \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)T}^{(n+\lambda)T} e^{j2\pi ft} dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)}^{(n+\lambda)} e^{j2\pi (f/f_s)t'} dt'/f_s  \quad[t' = f_s t]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \frac{e^{j2\pi (f/f_s)(n+\lambda)}-e^{j2\pi (f/f_s)(n-\lambda)}}{j2\pi  (f/f_s)}\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{e^{j2\pi (f/f_s)\lambda}-e^{-j2\pi (f/f_s)\lambda}}{j2\pi  (f/f_s)}\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{2\lambda j\sin(2\pi(f/f_s)\lambda)}{j2\pi  (f/f_s)\lambda}\\
-&= 2\lambda \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{\sin(2\pi(f/f_s)\lambda)}{2\pi  (f/f_s)\lambda}\\
-\end{aligned}</script><p>If we replace kernel function: $[\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)]$ with function</p>
-<script type="math/tex; mode=display">
-\frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} = \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{j2\pi f_s(t-nT)}</script><p>We still have:</p>
-<script type="math/tex; mode=display">
-\int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
-= \int_{-\infty}^{\infty} \sum_{n'} x(n'T)  \delta(t-n'T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
-= \sum_{n'} x(n'T)  \int_{-\infty}^{\infty} \delta(t-n'T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
-= \sum_{n'} x(n'T) \frac{\sin(\pi (f_s/f_s)(n'-n))}{\pi (f_s/f_s)(n'-n)}  \int_{-\infty}^{\infty} \delta(t-n'T) dt\\
-= \sum_{n'} x(n'T) \delta(n'-n) = x(nT)</script><p>So, we have:</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-x(nT)&=\int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft}\frac{\sin(2\pi (f_s/2)(t-nT))}{2\pi (f_s/2)(t-nT)}dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{2j2\pi (f_s/2)(t-nT)}dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{-j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t'} \frac{e^{j\pi t'}}{j2\pi (t'-n)}dt'/f_s - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t'} \frac{e^{-j\pi  t'}}{j2\pi (t'-n)}dt'/f_s]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi (t'-n)}dt' - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi (t'-n)}dt']\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)(t'+n)} \frac{1}{j2\pi t'}dt' - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)(t'+n)} \frac{1}{j2\pi t'}dt']\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n}e^{j2\pi (f/f_s+0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - e^{ j2\pi n} e^{j2\pi (f/f_s-0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt']\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) [e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt' ]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt' ]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{1}{2}[\text{sgn}(f/f_s+0.5) - \text{sgn}(f/f_s-0.5) ]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\text{u}(f/f_s+0.5) - \text{u}(f/f_s-0.5) ]\\
-&= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
-\end{aligned}</script><p>because $\text{sgn}(t) &lt;=&gt; \frac{1}{j\pi f}$, then we have $\frac{1}{j\pi t} &lt;=&gt; \text{sgn}(-f)=-\text{sgn}(f)$,</p>
-<p>Thus means</p>
-<script type="math/tex; mode=display">
--\text{sgn}(f) = \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{-j2\pi ft} dt\\
-\text{sgn}(f) =-\text{sgn}(-f) = \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi ft} dt\\
-\text{sgn}(f/f_s+0.5)= \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s+0.5)t} dt = 2\text{u}(f/f_s+0.5)-1\\
-\text{sgn}(f/f_s-0.5)= \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s-0.5)t} dt = 2\text{u}(f/f_s-0.5)-1\\</script><p>To sum up:</p>
-<p>for $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, we have</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\hat{X}(f) &= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt\\
-&=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\\
-\hat{x}^*(t) &= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\\
-x(nT) &= \int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
-&= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
-\end{aligned}</script><p>Now define $\omega = 2\pi f/f_s$, then</p>
-<script type="math/tex; mode=display">
-X(e^{jw}) \equiv \hat{X}(f) = \sum_n x(nT) [e^{j\omega}]^{-n}\\
-x(nT)=  \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \frac{1}{2\pi} \int_{2\pi} X(e^{jw}) [e^{j\omega}]^{n} d\omega</script><h2 id="Formula"><a href="#Formula" class="headerlink" title="Formula"></a>Formula</h2><script type="math/tex; mode=display">
-\text{FT}[\delta(t)] = \int\delta(t) e^{-j2\pi ft} dt = \int\delta(t) e^{-j2\pi f0} dt = 1\cdot \int\delta(t) dt=1(f)\\
-\text{so, } \delta(t) = \text{FT}^{-1}[1(f)] = \int 1 \cdot e^{j2\pi ft} df</script><p>then replace $f\to t, t\to -f$, having</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\delta(-f) &= \int1(t) \cdot e^{j2\pi t(-f)} dt = \text{FT}[1(t)]\\
-&= \delta(f)
-\end{aligned}</script><p>Thus Fourier pair $1(t) &lt;-&gt; \delta(f)$, now we want to verify:</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\sum_n \delta(t-nT) &= \frac{1}{T} \sum_k e^{j2\pi k(\frac{t}{T})}  \quad [\alpha\delta(\alpha t') = \delta(t'), t'=\frac{t}{T}=tf_s]\\  
-\sum_n \delta(t'-n) &= \sum_k e^{j2\pi k t'}
-\end{aligned}</script><p>Here we have:</p>
-<p>一个矩形脉冲的傅里叶变换是sinc函数</p>
-<p>一个矩形脉冲离散采样之后的离散傅里叶变换就是Dirichlet函数</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\sum_{k=-A}^{A}e^{j2\pi kt'} &= 1+ 2 \sum_{k=1}^A \cos(2\pi t' k)\\
-\sin(\pi t' ) \sum_{k=-A}^{A}e^{j2\pi kt'} &= \sin(\pi t' ) + \sum_{k=1}^A[ \sin(2\pi t'(k+0.5)) - \sin(2\pi t'(k-0.5)) ]\\
-&= \sin(2\pi t'(A+0.5)) = \sin(\pi t'(2A+1))\\
-\sum_{k=-A}^{A}e^{j2\pi kt'} &= \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )}
-\end{aligned}</script><p>Moreover, $ \frac{\sin(\pi (t’+\Delta) (2A+1))}{\sin(\pi (t’+\Delta) )}=  \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}, \Delta\in Z$, the period is 1:</p>
-<script type="math/tex; mode=display">
-\int_{-0.5}^{0.5} \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )} dt' = \sum_{k=-A}^{A}  \int_{-0.5}^{0.5}e^{j2\pi kt'} dt'= \sum_{k=-A}^{A} \delta(k) = 1</script><p>So, $\lim_{A\to \infty} \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}[\text{u}(t’+0.5)-\text{u}(t’-0.5)] = \delta(t’)$, then we have</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\lim_{A\to \infty} \sum_{k=-A}^{A}e^{j2\pi kt'} &= \lim_{A\to \infty} \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )}\\
-&= \lim_{A\to \infty} \sum_n \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
-&= \lim_{A\to \infty} \sum_n \frac{\sin(\pi (t'-n)(2A+1))}{\sin(\pi (t'-n) )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
-&= \sum_n \lim_{A\to \infty} \frac{\sin(\pi (t'-n)(2A+1))}{\sin(\pi (t'-n) )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
-&= \sum_n \delta(t'-n) \\
-\end{aligned}</script><p>Thus,</p>
-<script type="math/tex; mode=display">
-\sum_n \delta(t'-n) = \sum_k e^{j2\pi k t'} \quad[t=t' T]\\
-T\sum_n \delta(t-nT) =  \sum_n \delta(t/T-n) = \sum_k e^{j2\pi k(\frac{t}{T})}</script><h2 id="DFT"><a href="#DFT" class="headerlink" title="DFT"></a>DFT</h2><p>consider to sample $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$ 0~NT, as a period</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\tilde{x}(t) &= \left\{ \hat{x}(t) \left[ \text{u}(t)-\text{u}(t-NT) \right]  \right\} * \sum_{n'} \delta(t-n'NT)\\
-&= \left\{  \sum_{n=0}^{N-1} x(nT)  \delta(t-nT) \right\} * \sum_{n'} \delta(t-n'NT)\\
-&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  \delta(t-(n+n'N)T) \right\}  \\
-\end{aligned}</script><p>For freq domain:</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\tilde{X}(f) &= \int_{-\infty}^{\infty} \tilde{x}(t) e^{-j2\pi ft} dt \\
-&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  [ \int_{-\infty}^{\infty} \delta(t-(n+n'N)T) e^{-j2\pi ft} dt] \right\} \\
-&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)(n+n'N)}  \right\} \\
-&=  \sum_{n'} e^{-j2\pi (\frac{f}{f_s/N})n'} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}  \quad[\sum_n \delta(t'-n) = \sum_k e^{j2\pi k t'}] \\
-&=  \sum_{k} \delta(\frac{f}{f_s/N}-k) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}\\
-&=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}\\
-&=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\}\\
-&= \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]
-\end{aligned}</script><p>Reconstruction:</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\tilde{x}^*(t) &= \int_{-\infty}^{\infty} \tilde{X}(f) e^{j2\pi ft} df\\
-&=\int_{-\infty}^{\infty} e^{j2\pi ft} df \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg] \\
-&= \sum_{k} \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]  \int_{-\infty}^{\infty} e^{j2\pi ft} \delta(f-k\frac{f_s}{N}) df \\
-&= \sum_{k} \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]  e^{j2\pi (k/N)f_st} \\
-x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
-&= \int_{-0.5}^{0.5} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \int_{0}^{1} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
-&=  \int_{0}^{1} e^{j2\pi (f/f_s)n} d(f/f_s)  \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\  
-&= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{f}{f_s})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})
-\Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\  
-&= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{k}{N})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})
-\Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\
-&= \sum_{k=0}^{N-1} e^{j2\pi (\frac{k}{N})n} \Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\
-&= \frac{1}{N} \sum_{k=0}^{N-1}  \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (\frac{k}{N}) n}  \right\} e^{j2\pi (\frac{k}{N})n}
-\end{aligned}</script>
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>Thank you for reading<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">DSP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">math</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MathJax</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/信号处理//" class="article-tag-list-link color5">信号处理</a>
+        			<a href="/categories/前端//" class="article-tag-list-link color3">前端</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/12/DTFT/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2020/05/12/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Hexo 的主题中渲染 MathJax 数学公式
-        
-      </div>
-    </a>
   
   
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DTFT"><span class="toc-number">1.</span> <span class="toc-text">DTFT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Formula"><span class="toc-number">2.</span> <span class="toc-text">Formula</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFT"><span class="toc-number">3.</span> <span class="toc-text">DFT</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -507,9 +249,9 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
