@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>DTFT</title>
+    <url>/2020/05/13/DTFT/</url>
+    <content><![CDATA[<h2 id="DTFT"><a href="#DTFT" class="headerlink" title="DTFT"></a>DTFT</h2><script type="math/tex; mode=display">
+\begin{aligned}
+X(f) &= \int_{-\infty}^{\infty} x(t) e^{-j2\pi ft} dt\\
+x^*(t) &= \int_{-\infty}^{\infty} X(f) e^{j2\pi ft} df\\
+\end{aligned}</script><a id="more"></a>
+<p>When $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, then we have $\lambda &lt; 1$ that</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\hat{X}(f) &= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt = \sum_n x(nT) \int_{-\infty}^{\infty} \delta(t-nT)e^{-j2\pi ft} dt\\
+&=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\\
+\hat{x}^*(t) &= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\\
+x(nT) &=\int_{-\infty}^{\infty} \hat{x}^*(t) [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
+&= \int_{-\infty}^{\infty}  \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)T}^{(n+\lambda)T} e^{j2\pi ft} dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)}^{(n+\lambda)} e^{j2\pi (f/f_s)t'} dt'/f_s  \quad[t' = f_s t]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \frac{e^{j2\pi (f/f_s)(n+\lambda)}-e^{j2\pi (f/f_s)(n-\lambda)}}{j2\pi  (f/f_s)}\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{e^{j2\pi (f/f_s)\lambda}-e^{-j2\pi (f/f_s)\lambda}}{j2\pi  (f/f_s)}\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{2\lambda j\sin(2\pi(f/f_s)\lambda)}{j2\pi  (f/f_s)\lambda}\\
+&= 2\lambda \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{\sin(2\pi(f/f_s)\lambda)}{2\pi  (f/f_s)\lambda}\\
+\end{aligned}</script><p>If we replace kernel function: $[\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)]$ with function</p>
+<script type="math/tex; mode=display">
+\frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} = \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{j2\pi f_s(t-nT)}</script><p>We still have:</p>
+<script type="math/tex; mode=display">
+\int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
+= \int_{-\infty}^{\infty} \sum_{n'} x(n'T)  \delta(t-n'T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
+= \sum_{n'} x(n'T)  \int_{-\infty}^{\infty} \delta(t-n'T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
+= \sum_{n'} x(n'T) \frac{\sin(\pi (f_s/f_s)(n'-n))}{\pi (f_s/f_s)(n'-n)}  \int_{-\infty}^{\infty} \delta(t-n'T) dt\\
+= \sum_{n'} x(n'T) \delta(n'-n) = x(nT)</script><p>So, we have:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+x(nT)&=\int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft}\frac{\sin(2\pi (f_s/2)(t-nT))}{2\pi (f_s/2)(t-nT)}dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{2j2\pi (f_s/2)(t-nT)}dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{-j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t'} \frac{e^{j\pi t'}}{j2\pi (t'-n)}dt'/f_s - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t'} \frac{e^{-j\pi  t'}}{j2\pi (t'-n)}dt'/f_s]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi (t'-n)}dt' - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi (t'-n)}dt']\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)(t'+n)} \frac{1}{j2\pi t'}dt' - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)(t'+n)} \frac{1}{j2\pi t'}dt']\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n}e^{j2\pi (f/f_s+0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - e^{ j2\pi n} e^{j2\pi (f/f_s-0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt']\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) [e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt' ]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt' ]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{1}{2}[\text{sgn}(f/f_s+0.5) - \text{sgn}(f/f_s-0.5) ]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\text{u}(f/f_s+0.5) - \text{u}(f/f_s-0.5) ]\\
+&= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
+\end{aligned}</script><p>because $\text{sgn}(t) &lt;=&gt; \frac{1}{j\pi f}$, then we have $\frac{1}{j\pi t} &lt;=&gt; \text{sgn}(-f)=-\text{sgn}(f)$,</p>
+<p>Thus means</p>
+<script type="math/tex; mode=display">
+-\text{sgn}(f) = \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{-j2\pi ft} dt\\
+\text{sgn}(f) =-\text{sgn}(-f) = \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi ft} dt\\
+\text{sgn}(f/f_s+0.5)= \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s+0.5)t} dt = 2\text{u}(f/f_s+0.5)-1\\
+\text{sgn}(f/f_s-0.5)= \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s-0.5)t} dt = 2\text{u}(f/f_s-0.5)-1\\</script><p>To sum up:</p>
+<p>for $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, we have</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\hat{X}(f) &= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt\\
+&=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\\
+\hat{x}^*(t) &= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\\
+x(nT) &= \int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
+&= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
+\end{aligned}</script><p>Now define $\omega = 2\pi f/f_s$, then</p>
+<script type="math/tex; mode=display">
+X(e^{jw}) \equiv \hat{X}(f) = \sum_n x(nT) [e^{j\omega}]^{-n}\\
+x(nT)=  \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \frac{1}{2\pi} \int_{2\pi} X(e^{jw}) [e^{j\omega}]^{n} d\omega</script><h2 id="Formula"><a href="#Formula" class="headerlink" title="Formula"></a>Formula</h2><script type="math/tex; mode=display">
+\text{FT}[\delta(t)] = \int\delta(t) e^{-j2\pi ft} dt = \int\delta(t) e^{-j2\pi f0} dt = 1\cdot \int\delta(t) dt=1(f)\\
+\text{so, } \delta(t) = \text{FT}^{-1}[1(f)] = \int 1 \cdot e^{j2\pi ft} df</script><p>then replace $f\to t, t\to -f$, having</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\delta(-f) &= \int1(t) \cdot e^{j2\pi t(-f)} dt = \text{FT}[1(t)]\\
+&= \delta(f)
+\end{aligned}</script><p>Thus Fourier pair $1(t) &lt;-&gt; \delta(f)$, now we want to verify:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\sum_n \delta(t-nT) &= \frac{1}{T} \sum_k e^{j2\pi k(\frac{t}{T})}  \quad [\alpha\delta(\alpha t') = \delta(t'), t'=\frac{t}{T}=tf_s]\\  
+\sum_n \delta(t'-n) &= \sum_k e^{j2\pi k t'}
+\end{aligned}</script><p>Here we have:</p>
+<p>一个矩形脉冲的傅里叶变换是sinc函数</p>
+<p>一个矩形脉冲离散采样之后的离散傅里叶变换就是Dirichlet函数</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\sum_{k=-A}^{A}e^{j2\pi kt'} &= 1+ 2 \sum_{k=1}^A \cos(2\pi t' k)\\
+\sin(\pi t' ) \sum_{k=-A}^{A}e^{j2\pi kt'} &= \sin(\pi t' ) + \sum_{k=1}^A[ \sin(2\pi t'(k+0.5)) - \sin(2\pi t'(k-0.5)) ]\\
+&= \sin(2\pi t'(A+0.5)) = \sin(\pi t'(2A+1))\\
+\sum_{k=-A}^{A}e^{j2\pi kt'} &= \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )}
+\end{aligned}</script><p>Moreover, $ \frac{\sin(\pi (t’+\Delta) (2A+1))}{\sin(\pi (t’+\Delta) )}=  \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}, \Delta\in Z$, the period is 1:</p>
+<script type="math/tex; mode=display">
+\int_{-0.5}^{0.5} \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )} dt' = \sum_{k=-A}^{A}  \int_{-0.5}^{0.5}e^{j2\pi kt'} dt'= \sum_{k=-A}^{A} \delta(k) = 1</script><p>So, $\lim_{A\to \infty} \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}[\text{u}(t’+0.5)-\text{u}(t’-0.5)] = \delta(t’)$, then we have</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\lim_{A\to \infty} \sum_{k=-A}^{A}e^{j2\pi kt'} &= \lim_{A\to \infty} \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )}\\
+&= \lim_{A\to \infty} \sum_n \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
+&= \lim_{A\to \infty} \sum_n \frac{\sin(\pi (t'-n)(2A+1))}{\sin(\pi (t'-n) )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
+&= \sum_n \lim_{A\to \infty} \frac{\sin(\pi (t'-n)(2A+1))}{\sin(\pi (t'-n) )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
+&= \sum_n \delta(t'-n) \\
+\end{aligned}</script><p>Thus,</p>
+<script type="math/tex; mode=display">
+\sum_n \delta(t'-n) = \sum_k e^{j2\pi k t'} \quad[t=t' T]\\
+T\sum_n \delta(t-nT) =  \sum_n \delta(t/T-n) = \sum_k e^{j2\pi k(\frac{t}{T})}</script><h2 id="DFT"><a href="#DFT" class="headerlink" title="DFT"></a>DFT</h2><p>consider to sample $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$ 0~NT, as a period</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\tilde{x}(t) &= \left\{ \hat{x}(t) \left[ \text{u}(t)-\text{u}(t-NT) \right]  \right\} * \sum_{n'} \delta(t-n'NT)\\
+&= \left\{  \sum_{n=0}^{N-1} x(nT)  \delta(t-nT) \right\} * \sum_{n'} \delta(t-n'NT)\\
+&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  \delta(t-(n+n'N)T) \right\}  \\
+\end{aligned}</script><p>For freq domain:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\tilde{X}(f) &= \int_{-\infty}^{\infty} \tilde{x}(t) e^{-j2\pi ft} dt \\
+&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  [ \int_{-\infty}^{\infty} \delta(t-(n+n'N)T) e^{-j2\pi ft} dt] \right\} \\
+&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)(n+n'N)}  \right\} \\
+&=  \sum_{n'} e^{-j2\pi (\frac{f}{f_s/N})n'} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}  \quad[\sum_n \delta(t'-n) = \sum_k e^{j2\pi k t'}] \\
+&=  \sum_{k} \delta(\frac{f}{f_s/N}-k) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}\\
+&=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}\\
+&=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\}\\
+&= \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]
+\end{aligned}</script><p>Reconstruction:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\tilde{x}^*(t) &= \int_{-\infty}^{\infty} \tilde{X}(f) e^{j2\pi ft} df\\
+&=\int_{-\infty}^{\infty} e^{j2\pi ft} df \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg] \\
+&= \sum_{k} \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]  \int_{-\infty}^{\infty} e^{j2\pi ft} \delta(f-k\frac{f_s}{N}) df \\
+&= \sum_{k} \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]  e^{j2\pi (k/N)f_st} \\
+x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
+&= \int_{-0.5}^{0.5} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \int_{0}^{1} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
+&=  \int_{0}^{1} e^{j2\pi (f/f_s)n} d(f/f_s)  \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\  
+&= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{f}{f_s})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})
+\Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\  
+&= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{k}{N})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})
+\Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\
+&= \sum_{k=0}^{N-1} e^{j2\pi (\frac{k}{N})n} \Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\
+&= \frac{1}{N} \sum_{k=0}^{N-1}  \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (\frac{k}{N}) n}  \right\} e^{j2\pi (\frac{k}{N})n}
+\end{aligned}</script>]]></content>
+      <categories>
+        <category>信号处理</category>
+        <category>公式</category>
+      </categories>
+      <tags>
+        <tag>DSP</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo 的主题中渲染 MathJax 数学公式</title>
+    <url>/2020/05/13/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="Hexo-的主题中渲染-MathJax-数学公式"><a href="#Hexo-的主题中渲染-MathJax-数学公式" class="headerlink" title="Hexo 的主题中渲染 MathJax 数学公式"></a>Hexo 的主题中渲染 MathJax 数学公式</h2><p><a href="https://blog.csdn.net/wgshun616/article/details/81019687" target="_blank" rel="noopener">https://blog.csdn.net/wgshun616/article/details/81019687</a></p>
+<a id="more"></a>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>Hexo 默认使用 hexo-renderer-marked 引擎渲染网页，该引擎会把一些特殊的 markdown 符号转换为相应的 html 标签，比如在 markdown 语法中，下划线<code>_</code>代表斜体，会被渲染引擎处理为<code>&lt;em&gt;</code>标签。</p>
+<p>因为类 Latex 格式书写的数学公式下划线<code>_</code>表示下标，有特殊的含义，如果被强制转换为<code>&lt;em&gt;</code>标签，那么 MathJax 引擎在渲染数学公式的时候就会出错。</p>
+<p>类似的语义冲突的符号还包括<code>*</code>, <code>{</code>, <code>}</code>, <code>\\</code>等。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ul>
+<li>更换 Hexo 的 markdown 渲染引擎:</li>
+</ul>
+<p>hexo-renderer-kramed 引擎是在默认的渲染引擎 </p>
+<p>hexo-renderer-marked 的基础上修改了一些 bug ，两者比较接近，也比较轻量级。</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+<ul>
+<li>行内公式的渲染还是有问题，因为 hexo-renderer-kramed 引擎也有语义冲突的问题。</li>
+</ul>
+<p>博客根目录下，找到node_modules\kramed\lib\rules\inline.js，</p>
+<p>第11行的 escape 变量的值做相应的修改：(在原基础上取消了对\,{,}的转义(escape)。)</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="built_in">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure>
+<p>第20行的em变量也要做相应的修改。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="comment">//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>前端</category>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>MathJax</tag>
+      </tags>
+  </entry>
+</search>
