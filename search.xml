@@ -1,8 +1,2981 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hexo 的主题中渲染 MathJax 数学公式</title>
+    <url>/2020/05/13/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="Hexo-的主题中渲染-MathJax-数学公式"><a href="#Hexo-的主题中渲染-MathJax-数学公式" class="headerlink" title="Hexo 的主题中渲染 MathJax 数学公式"></a>Hexo 的主题中渲染 MathJax 数学公式</h2><p><a href="https://blog.csdn.net/wgshun616/article/details/81019687" target="_blank" rel="noopener">https://blog.csdn.net/wgshun616/article/details/81019687</a></p>
+<a id="more"></a>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>Hexo 默认使用 hexo-renderer-marked 引擎渲染网页，该引擎会把一些特殊的 markdown 符号转换为相应的 html 标签，比如在 markdown 语法中，下划线<code>_</code>代表斜体，会被渲染引擎处理为<code>&lt;em&gt;</code>标签。</p>
+<p>因为类 Latex 格式书写的数学公式下划线<code>_</code>表示下标，有特殊的含义，如果被强制转换为<code>&lt;em&gt;</code>标签，那么 MathJax 引擎在渲染数学公式的时候就会出错。</p>
+<p>类似的语义冲突的符号还包括<code>*</code>, <code>{</code>, <code>}</code>, <code>\\</code>等。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ul>
+<li>更换 Hexo 的 markdown 渲染引擎:</li>
+</ul>
+<p>hexo-renderer-kramed 引擎是在默认的渲染引擎 </p>
+<p>hexo-renderer-marked 的基础上修改了一些 bug ，两者比较接近，也比较轻量级。</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+<ul>
+<li>行内公式的渲染还是有问题，因为 hexo-renderer-kramed 引擎也有语义冲突的问题。</li>
+</ul>
+<p>博客根目录下，找到node_modules\kramed\lib\rules\inline.js，</p>
+<p>第11行的 escape 变量的值做相应的修改：(在原基础上取消了对\,{,}的转义(escape)。)</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="built_in">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure>
+<p>第20行的em变量也要做相应的修改。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="comment">//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>前端</category>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>MathJax</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch10串行通信</title>
+    <url>/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/</url>
+    <content><![CDATA[<h2 id="串行通信技术"><a href="#串行通信技术" class="headerlink" title="串行通信技术"></a>串行通信技术</h2><a id="more"></a>
+<h3 id="串行通信基本概念"><a href="#串行通信基本概念" class="headerlink" title="串行通信基本概念"></a>串行通信基本概念</h3><p>baud rate = 1/T (每second 传字符数)</p>
+<p>波特率因子：发送/接收一个数据位所需要的时钟脉冲个数</p>
+<p>eg. 波特率=9600bps，波特率因子=16，则(接收和发送)时钟频率=9600×16=153600Hz</p>
+<p>调制解调器——Modem。</p>
+<p>Modem起着传输信号的作用，数据通讯设备，简称DCE</p>
+<p>接收设备和发送设备称为数据终端设备，简称DTE。</p>
+<ul>
+<li><p>连接方式：</p>
+<p>全双工方式：通信双方能同时进行发送和接收操作；</p>
+<p>半双工方式：只有1根数据线传送数据信号，要求通信双方的发送和接收由电子开关切换；</p>
+<p>单工方式：只允许数据按照一个固定的方向传送；</p>
+</li>
+</ul>
+<ul>
+<li><p>并行通信：将一组数据的各位同时进行传送。</p>
+</li>
+<li><p>串行通信：把数据的字节分解成单个二进制位依次传输[优势：传输干扰小]</p>
+<ul>
+<li><p>异步串行通信: 在单根数据线上逐字符逐位传输，</p>
+<p>传输一个字符时，依次传输起始位、字符各位、校验位、停止位结束该字符的传输</p>
+<p>帧（Frame）:起始位、字符各位、校验位、停止位构成一组完整的信息</p>
+<ul>
+<li>起始位  逻辑0  1位</li>
+<li>数据位  逻辑0或1    5位、6位、7位、8位</li>
+<li>校验位  逻辑0或1    1位或无</li>
+<li>停止位  逻辑1  1位、1.5位或2位</li>
+<li>空闲位  逻辑1  任意数量 </li>
+</ul>
+<p>[帧之间可有任意个空闲位]</p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/frame.png" alt="frame"></p>
+</li>
+<li><p>同步串行通信：以一个数据块为传输单位，</p>
+<p>在每个数据并不加起始和停止位，而是将数据顺序连接起来，每个数据块附加一个或多个同步字符，最后以校验字符结束。</p>
+<p>异步传输的错误检测:</p>
+<ul>
+<li>奇偶校验错（ParityError）</li>
+<li>溢出（超越）错（OverrunError）</li>
+<li>帧格式错（FrameError）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>校验方法</p>
+<ul>
+<li>奇偶校验法</li>
+<li>方阵码校验:<br>奇偶校验和“异或校验和”综合</li>
+<li>循环冗余校验码（CRC）（Cyclic Redundancy Check）</li>
+</ul>
+</li>
+</ul>
+<h4 id="串行总线标准RS-232C"><a href="#串行总线标准RS-232C" class="headerlink" title="串行总线标准RS-232C"></a>串行总线标准RS-232C</h4><p>串行通信中，DTE和DCE之间的连接要符合接口标准，计算机通信中使用最普遍的是RS-232C标准</p>
+<p>定义了按位串行传输的DTE和DCE之间的接口信息。</p>
+<p>eg. PC机上的COM1、COM2接口，就是RS-232C接口，使用9针和25针连接器</p>
+<p>见ppt P13,14</p>
+<p>RS-232三线通信的连线图</p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/RS232_simple.png" alt="RS232_simple"></p>
+<h3 id="异步串行通信接口芯片8250"><a href="#异步串行通信接口芯片8250" class="headerlink" title="异步串行通信接口芯片8250"></a>异步串行通信接口芯片8250</h3><p>8250芯片是一种通用的异步接收发送器</p>
+<p>发送和接收都采用双缓冲器结构</p>
+<ul>
+<li>发送时:自CPU的并行数据字符—&gt;转换为连续的数据流—&gt;移位寄存器发送。</li>
+<li>接收时: 接收串行数据流—&gt;转换为并行数据—&gt;数据寄存器提供给CPU</li>
+</ul>
+<p>支持异步串行通信规程: </p>
+<ul>
+<li>发送时可自动插入起始位、停止位和奇偶校验位。接收时能自动删除他们</li>
+</ul>
+<p>具有可编程的时钟产生电路:</p>
+<ul>
+<li>对外部输入时钟1~65535次分频，据规定Baud rate，可编程选择分频次数</li>
+</ul>
+<p>具有由CPU发向MODEM的控制信号</p>
+<p>具有优先级排队的中断系统，有多种中断源</p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250.png" alt="8250"></p>
+<h4 id="8250内部功能、结构"><a href="#8250内部功能、结构" class="headerlink" title="8250内部功能、结构"></a>8250内部功能、结构</h4><p>数据输入/输出缓冲器：与CPU总线D7~D0连接。</p>
+<p>读/写控制逻辑：接收读写命令和地址信号A2~A0，产生内部控制信号，决定哪寄存器进行操作</p>
+<p>接收器：由接收缓冲寄存器，接收移位寄存器、接收同步电路构成</p>
+<p>发送器：包括发送缓冲寄存器TBR，发送移位寄存器和发送同步控制。</p>
+<p>时钟发生环节：包括波特率发生器和分频次数锁存器。8250的发送和接收时钟为波特率的16倍。</p>
+<p>设外部时钟频率为1.8432MHz，则分频次数N=184320/（16*波特率）</p>
+<p>传输线控制寄存器&amp;传输线状态寄存器：控制寄存器用来写入控制字，状态寄存器用来记录通讯时状态。</p>
+<p>中断控制寄存器：包括中断允许寄存器、中断识别寄存器和中断控制逻辑三部分。</p>
+<p>MODEN控制逻辑：包括调制解调控制寄存器、调制解调状态寄存器和调制解调控制逻辑</p>
+<h4 id="8250的引脚功能"><a href="#8250的引脚功能" class="headerlink" title="8250的引脚功能"></a>8250的引脚功能</h4><p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250_2.png" alt="8250_2"></p>
+<ul>
+<li><p>双向数据线（D0~D7）</p>
+</li>
+<li><p>地址&amp;地址控制线</p>
+<p>CS0，CS1，$\overline{CS2}$—输入片选信号。当CS0与CS1为高、$\overline{CS2}$为低时，该芯片被选中</p>
+<p>A0，A1，A2—寻找8250内部寄存器。+ 除数锁存器访问位DLAB==&gt;芯片内部可供处理机访问10寄存器</p>
+<p>$\overline{ADS}$—地址选通信号:  锁存片选（CS0，CS1，$\overline{CS2}$ ）&amp;&amp; 寄存器选择（A0，A1，A2）</p>
+<p>DDIS—-收发器禁止，==1  禁止处理器对8250写操作；</p>
+<p>MR—主复位，==1 清除内部寄存器（除接收器数据、发送保持寄存器和除数锁存器）&amp; 控制逻辑；</p>
+<p>XTAL1、XTAL2—外时钟输入/输出，外部时钟XTAL1—-&gt;芯片内，芯片—-&gt;XTAL2基准时钟信号输出脚</p>
+<p>CSOUT—芯片选择输出, 开始数据传输； [when芯片已由CS0，CS1，CS2输入所选中时]，</p>
+<p>INTRPT—中断，8250内部有四种类型中断源。[any中断类型有效&amp;&amp;中断允许时]===&gt;该输出端==1</p>
+</li>
+<li><p>调制解调器控制逻辑</p>
+<p>$\overline{DSR}$数传机就绪（输入）Modem就绪==&gt; ==0，允许使用通讯设备进行数据传送—&gt;8250；</p>
+<p>$\overline{DTR}$数据终端8250就绪（输出）$\overline{DTR}$==0 ==&gt; 通知调制解调器或数传机8250已准备好通信；</p>
+<p>$\overline{RTS}$  8250请求发送（输出）$\overline{RTS}$==0 ==&gt; 8250要求向Modem输出串行数据</p>
+<p>$\overline{CTS}$  清除发送  （输入） ==0 ==&gt; MODEM已同意8250的发送请求</p>
+<p>$\overline{RLSD}$  接收线路信号检测（输入）==0 ==&gt; 说明MODEM接收数据载波，8250立即接收解调后的数据</p>
+<p>$\overline{RI}$    振铃指示（输入）MODEM要求8250予以回答。==0 + 若它已准备好==&gt;$\overline{DTR}$输出==0作为MODEM应答信号</p>
+<p>OUT1  输出1，MODEM控制寄存器的位2编程来控制OUT1输出电平</p>
+<p>OUT2  输出2，MODEM控制寄存器的位3编程来控制OUT2输出电平</p>
+</li>
+<li><p>接收器逻辑(接收器移位寄存器、数据寄存器、相应接收控制逻辑)</p>
+<p>RCLK   接收器时钟 :输入Baud rate X 16 时钟信号</p>
+<p>SIN      串行输入</p>
+</li>
+<li><p>发送器逻辑</p>
+<p>BAUDOUT    波特率输出: 输出Baud rate X 16 时钟信号</p>
+<p>SOUT            串行输出</p>
+<p>DISTR、$\overline{DISTR}$   数据输入选通,一个有效=&gt;被选中寄存器内容可被读出。常与系统总线$\overline{IOR}$相连</p>
+<p>DOSTR、$\overline{DOSTR}$   数据输出选通,一个有效=&gt;被选中寄存器内容可写入数据或控制字。常与系统总线$\overline{IOW}$相连</p>
+</li>
+</ul>
+<h4 id="8250内部寄存器-amp-amp-控制字及状态字"><a href="#8250内部寄存器-amp-amp-控制字及状态字" class="headerlink" title="8250内部寄存器 &amp;&amp; 控制字及状态字"></a>8250内部寄存器 &amp;&amp; 控制字及状态字</h4><ul>
+<li><p>初始化命令控制寄存器共5个</p>
+<p>传输线控制寄存器LCR                                           [A2A1A0 = 011, LCR地址为3F8H+011B=3FBH]</p>
+<ul>
+<li><p>A2A1A0 = 011</p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/LCR.png" alt="LCR"></p>
+<p>D7－DLAB除数锁存         </p>
+<p> 0－寻址RBR、TBR、IER寄存器；</p>
+<p> 1－寻址DLL、DLH；</p>
+<p>D6－SB设置间断</p>
+<p> 0－禁止间断产生；</p>
+<p> 1－设置间断，SOUT发送空号。据此，收方能识别发送设备已中止发送；</p>
+<p>D5－SP附加奇偶标志位选择位</p>
+<p>  0－无奇偶保持位选择位；</p>
+<p>  1 －PEN=1时，在奇偶校验位和停止位之间插入一个奇偶标志位。采用偶校验，此奇偶标志位为0。采用奇校验，此奇偶标志位为1。</p>
+<p>D4－EPS奇偶类型</p>
+<p> 0－奇校验（当D3=1）；</p>
+<p> 1－偶校验（当D3=1）；</p>
+<p>D3－PEN奇偶校验允许</p>
+<p> 0－无奇偶校验；</p>
+<p> 1－有奇偶校验；</p>
+<p>D2－STB停止位选择</p>
+<p> 0－1位停止位；</p>
+<p> 1－1.5位停止位（数据位5位）；</p>
+<p> 1－2位（数据位6、7、8）；</p>
+<p>D1，D0－WLS1，WLS0数据位数</p>
+<p>  00－5位</p>
+<p>  01－6位</p>
+<p> 10－7位</p>
+<p> 11－8位</p>
+<p>eg. 用串口COM1，LCR地址为3FBH，假定要求的</p>
+<p>数据位长7位=&gt;D1D0=10，2位停止位=&gt;D2=1，奇校验=&gt;D3=1,D4=0。</p>
+<p>0－寻址RBR、TBR、IER寄存器=&gt;D7=0。那么向LCR写入控制字程序</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV 	DX, 3FBH</span><br><span class="line">MOV 	AL, 00001110B</span><br><span class="line">OUT 		DX, AL</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>MODEM控制寄存器MCR        [A2A1A0=100]</p>
+<ul>
+<li><p>控制8250连接外部MODEM的信号线</p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/MCR.png" alt="MCR"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>D0－数据终端就绪</p>
+<p>  1=DTR#为低电平；  0=DTR#为高电平；</p>
+<p>D1－请求发送</p>
+<p>  1=RTS#输出低电平；0=RTS#输出高电平；</p>
+<p>D2－输出1（OUT1#）</p>
+<p>  1=用户指定辅助输出1，OUT1#为低电平；</p>
+<p>  0=OUT1#为高电平；</p>
+<p>D3－输出2（OUT2#）</p>
+<p>  1=用户指定辅助输出2，OUT2#为低电平；</p>
+<p>  0=OUT2#为高电平；</p>
+<p>D4－用来控制循环检测，实现8250的自测试。</p>
+<p>  1=芯片循环反馈，提供诊断测试，即发送的数据立即被接收，  完成8250的自检。允许CPU来验证8250的发送和接收通路是否正常；</p>
+<p>  0=8250正常工作</p>
+<p>中断允许寄存器IER                                                          [A2A1A0=001, 地址3F9H]</p>
+</li>
+</ul>
+<ul>
+<li><p>IER高4位固定为0。</p>
+<p>D0－允许接收数据就绪中断；</p>
+<p>D1－允许发送保持寄存器空中断；</p>
+<p>D2－允许接收字符错误或接收到间断状态中断（也称接收线路状态中断）；</p>
+<p>D3－允许MODEM状态改变中断</p>
+<p>除数锁存器低8位DLL（分频次数N低8位锁存器）       [A2A1A0=000, 地址3F8H]</p>
+<p>除数锁存器高8位DLH（分频次数N高8位锁存器）      [A2A1A0=001, 地址3F9H]</p>
+</li>
+<li><p>前提DLAB==1[DLAB为LCR的最高位]</p>
+<p>XTAL1输入基准时钟信号（1.8432MHz ）—-&gt;N分频——&gt;16倍波特率波特率发生器时钟（BAUDOUT）</p>
+<p>波特率=1843200/（分频系数N×16）</p>
+<p>eg. 分频系数寄存器为16位，高8位DLH，地址3F9H，低8位DLL，地址3F8H。</p>
+<p>波特率为4800Baud，外部基准时钟频率1.8432MHz 。分频系数N=1843200/（4800×16）=24=18H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV DX，03FBH</span><br><span class="line">MOV AL, 80H</span><br><span class="line">OUT DX, AL    ;set  DLAB&#x3D;&#x3D;1[DLAB为LCR的最高位]</span><br><span class="line">MOV DX，03F8H</span><br><span class="line">MOV AL, 18H   ;set N 低8位DLL &#x3D; 18H &#x3D; 24</span><br><span class="line">OUT DX, AL</span><br><span class="line">MOV DX，03F9H</span><br><span class="line">MOV AL, 00H   ;set N 低8位DLH &#x3D; 0H</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>状态寄存器3个</p>
+<p>传输线状态寄存器LSR           [A2A1A0=101]</p>
+<ul>
+<li><p>得到发送数据缓冲器和接收数据缓冲器的状态值</p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/LSR.png" alt="LSR"></p>
+</li>
+<li><p>D0－接收器数据就绪。</p>
+<p>  1=接收数据寄存器收到一个完整的输入字符；</p>
+<p>  0=读出接收数据寄存器的内容后，该位变0。</p>
+<p>D1－超越错，8250接收下一个字符前，接收数据寄存器中的数据尚未取走。</p>
+<p>  1=出现超越错；</p>
+<p>​    0=CPU读出接收缓冲寄存器的内容时使该位清0；</p>
+<p>D2－奇偶错</p>
+<p>  1=检验出奇偶错；</p>
+<p>  0=处理器读该状态寄存器时使其复位为0；</p>
+<p>D3－帧格式错</p>
+<p>  1=接收到的数据停止位不正确时置1</p>
+<p>D4－线路间断标志</p>
+<p>  1=接收的间断状态超过一个完整的数据字传输时间，则使该位置1；</p>
+<p>  0=读出该状态寄存器时使其复位为0 ；</p>
+<p>出现上述4种错误会使8250发出线路状态错中断。</p>
+<p>D5－发送保持寄存器空</p>
+<p>​     1=准备好接收下一个要求发送的字符或本次发送的字符已从保持寄存器传送到发送移位寄存器；</p>
+<p>  0=处理机将字符装入到发送保持寄存器后复位0；</p>
+<p>D6－发送移位寄存器空</p>
+<p>  1－发送移位寄存器空闲。</p>
+<p>  0－数据由保持寄存器送到移位器后复位0。</p>
+<p>D7－恒为0</p>
+</li>
+</ul>
+<p>MODEM状态寄存器MSR     [A2A1A0=110]</p>
+<ul>
+<li><p>D7~4调制解调器控制线当前状态，D3~0四位控制输入状态变化</p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/MSR.png" alt="MSR"></p>
+</li>
+<li><p>D0－清除发送</p>
+<p>​    该位逻辑1表示从处理机上一次读出以后，输入的CTS已改变状态；</p>
+<p>D1－数传机就绪</p>
+<p>​    该位逻辑1表示从处理机上一次读出以后，输入的DSR已改变状态；</p>
+<p>D2－振铃标志</p>
+<p>​    该位逻辑1表示RI已由接通（逻辑1）变成断开（逻辑0）状态；</p>
+<p>D3－接收线路信号检测</p>
+<p>​    该位逻辑1表示RLSD已改变状态；</p>
+<p>D4~D7位反映MODEM 控制输入的相应状态</p>
+</li>
+</ul>
+<p>中断标志寄存器IIR             [地址3FAH,  A2A1A0=010]</p>
+<ul>
+<li><p>四种类型中断优先级依次:  [默认D0=0]</p>
+<p>接收线路状态中断         [D2D1=11]</p>
+<p>接收数据就绪中断         [D2D1=10]</p>
+<p>发送保持寄存器空中断 [D2D1=01]</p>
+<p>MODEM状态改变中断 [D2D1=00]</p>
+</li>
+<li><p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/IIR.png" alt="IIR"></p>
+<p>高5位恒为0=&gt; 判别系统是否存在异步通讯接口</p>
+<p>D2和D1表示内部4类中断源。</p>
+<p>D0为0，表示有中断源请求中断，1无中断请求</p>
+<p>eg. 判别系统是否存在异步通讯接口=&gt;D7D6D5D4D3=11111, D2D1D0=000</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV DX, 3FAH</span><br><span class="line">IN　AL, DX</span><br><span class="line">TEST AL, 0F8H</span><br><span class="line">JZ INITIALIZATION</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>数据寄存器2个</p>
+<p>发送缓冲器TBR                  [A2A1A0 = 000, DLAB = 0,write]</p>
+<ul>
+<li>写入数据保持寄存器，串行发送从字节的最低位开始发送</li>
+</ul>
+<p>接收缓冲器RBR                  [A2A1A0 = 000, DLAB = 0,read]</p>
+<ul>
+<li>寄存器存放接收字符</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250_2.png" alt="8250_2"></p>
+</li>
+</ul>
+<p>10个寄存器寻址由A2，A1，A0决定：2^3 +2 = 10</p>
+<p>ps. 地址共用同样A2A1A0==000 or 001：两个分频次数寄存器&amp;&amp;其他两个寄存器</p>
+<p>DLAB=1时，寻址分频次数寄存器；[DLAB为LCR的最高位]</p>
+<p>DLAB=0时，寻址其他寄存器。</p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250_state.png" alt="8250_state"></p>
+<h3 id="串行通信8250初始化编程"><a href="#串行通信8250初始化编程" class="headerlink" title="串行通信8250初始化编程"></a>串行通信8250初始化编程</h3><h4 id="基本步骤"><a href="#基本步骤" class="headerlink" title="基本步骤"></a>基本步骤</h4><p>1.确认串行口地址</p>
+<p>  COM1为2F8~2FFH，COM2为3F8~3FFH。</p>
+<p>  各端口地址= 3F8H + A2A1A0</p>
+<ul>
+<li>DLL(000)地址3F8H,  DLH(001)地址3F9H         [先将LCR的D7置1（DLAB）]</li>
+<li>LCR(011)地址为3FBH</li>
+<li>MCR(100)地址3FCH</li>
+<li>IER(000)地址3F9H                                               [先将LCR的D7置0（DLAB）]</li>
+<li>MSR(110)地址3FDH</li>
+</ul>
+<p>2.设置分频次数（波特率）</p>
+<p>  据波特率，计算和查表得到分频系数16位，分别放入DLL和DLH。先将LCR的D7置1（DLAB），然后再写入。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV DX, 3FBH</span><br><span class="line">MOV AL, 80H</span><br><span class="line">OUT DX, AL	;DLAB&#x3D;1</span><br><span class="line">MOV DX, 3F8H</span><br><span class="line">MOV AL, 0CH</span><br><span class="line">OUT DX, AL	;设置分频系数DLL&#x3D;&#x3D;0CH</span><br><span class="line">MOV DX, 3F9H</span><br><span class="line">MOV AL, 00H</span><br><span class="line">OUT DX, AL	;设置分频系数DLH&#x3D;&#x3D;0H</span><br></pre></td></tr></table></figure>
+<p>3.设置通信数据格式</p>
+<p>  字符代码位数、停止位、奇偶校验位等，初始化LCR</p>
+<p>  eg. 数据位长7位=&gt;D1D0=10，1位停止位=&gt;D2=0，奇校验=&gt;D3=1-&gt;D4=1，0－寻址RBR、TBR、IER寄存器=&gt;D7=0，D6D5默认00</p>
+<p>D4D3D2D1D0=11010，D7D6D5=000==&gt;D7~D0=1AH</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV DX, 3FBH</span><br><span class="line">MOV AL, 0001 1010B</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+<p>4.设置MODEM控制寄存器MCR</p>
+<p>  一般情况MCR设置为03H&lt;=正常情况下，D4=0, </p>
+<p>   RTS#=0，DSR#=0。</p>
+<p>   <img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/MCR.png" alt="MCR"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV DX, 3FCH	;MCR</span><br><span class="line">MOV AL, 03H  	;set 03H</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+<p>5.设置中断允许寄存器IER（3F9H）</p>
+<p>IER高4位固定为0。[中断次序如下：]</p>
+<p>D0－允许接收数据就绪中断；</p>
+<p>D1－允许发送保持寄存器空中断；</p>
+<p>D2－允许接收字符错误或接收到间断状态中断（也称接收线路状态中断）；</p>
+<p>D3－允许MODEM状态改变中断</p>
+<p>发送：开放发送缓冲器空中断，使IER中D1=1。</p>
+<p>接收：开放接收数据出错中断，使IER中D2=1。开放接收数据就绪中断，使IER中D0=1</p>
+<p>eg. 禁止中断==&gt;D3D2D1D0=0000=&gt;D7~D0=00H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV DX, 3F9H	;  IER</span><br><span class="line">MOV AL, 00H  	;禁止中断</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+<p>eg. 允许接收      数据寄存器满产生中断==&gt;D3D2D1D0=0101=&gt;D7~D0=05H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV DX, 3F9H	;  IER</span><br><span class="line">MOV AL, 05H  	; 允许接收     数据寄存器产生中断</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+<p>PS附加. TEST检验D4~D1任一位为1出错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">   MOV DX,3FDH	;LSR传输线状态寄存器</span><br><span class="line">IN AL,DX</span><br><span class="line">TEST AL,1EH		;D4~D1任一位为1出错</span><br><span class="line">JNZ ERROR</span><br></pre></td></tr></table></figure>
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><p>eg. 以查询方式发送数据，</p>
+<p>发送字符数据顺序放在SENTDATA开始的单元。</p>
+<p>以中断方式接收数据，接收到的字符数据放在变量RECDATA开始的存储单元。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">	MOV DX, 3FBH</span><br><span class="line">	MOV AL, 80H</span><br><span class="line">	OUT DX, AL	;DLAB&#x3D;1</span><br><span class="line">	MOV DX, 3F8H	;规定波特率9600Baud</span><br><span class="line">	MOV AL, 0CH</span><br><span class="line">	OUT DX, AL	;设置分频系数DLL</span><br><span class="line">	MOV DX, 3F9H</span><br><span class="line">	MOV AL, 00H</span><br><span class="line">	OUT DX, AL	;设置分频系数DLH</span><br><span class="line">	</span><br><span class="line">	MOV DX, 3FBH</span><br><span class="line">	MOV AL, 1AH  	;长度7位，1位停止，奇校验</span><br><span class="line">	OUT DX, AL</span><br><span class="line"></span><br><span class="line">	MOV DX, 3FCH	;MCR</span><br><span class="line">	MOV AL, 0BH 	;0000 1011B  	</span><br><span class="line">	OUT DX, AL</span><br><span class="line"></span><br><span class="line">	MOV DX, 3F9H	;  IER</span><br><span class="line">	MOV AL, 05H  	; 允许接收数据寄存器满产生中断</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	</span><br><span class="line">	STI</span><br><span class="line">	MOV SI, OFFSET SENTDATA</span><br><span class="line">	MOV BX, OFFSET RECDATA</span><br><span class="line"></span><br><span class="line">	;接收中断服务程序：</span><br><span class="line">RECVE: PUSH AX</span><br><span class="line">	PUSH BX</span><br><span class="line">	PUSH DX</span><br><span class="line">	PUSH DS</span><br><span class="line">	MOV DX,3FDH	;LSR传输线状态寄存器</span><br><span class="line">	IN AL,DX</span><br><span class="line">	TEST AL,1EH	;D4~D1任一位为1出错</span><br><span class="line">	JNZ ERROR</span><br><span class="line">	MOV DX, 3F8</span><br><span class="line">	IN AL, DX</span><br><span class="line">	AND AL, 7FH</span><br><span class="line">	MOV [BX], AL</span><br><span class="line">	INC BX</span><br><span class="line">	MOV AL,20H</span><br><span class="line">	MOV DX,0020H</span><br><span class="line">	OUT DX,AL</span><br><span class="line">	POP DS</span><br><span class="line">	POP DX</span><br><span class="line">	POP BX</span><br><span class="line">	POP AX</span><br><span class="line">	STI</span><br><span class="line">	IRET</span><br></pre></td></tr></table></figure>
+<h3 id="异步串行通信接口芯片8251"><a href="#异步串行通信接口芯片8251" class="headerlink" title="异步串行通信接口芯片8251"></a>异步串行通信接口芯片8251</h3><p>同步方式或异步方式:</p>
+<ul>
+<li><p>同步方式下，波特率为0～64Kbps，</p>
+<p>每一个字符可为5、6、7或8位，</p>
+<p>能自动检测同步字符，</p>
+<p>可进行奇/偶校验；</p>
+</li>
+<li><p>异步方式下，波特率为0～19.2Kbps，</p>
+<p>每一个字符可为5、6、7或8位，</p>
+<p>启动位1位，校验位1位，能根据编程为每个数据增加1、1.5或2位停止位。</p>
+</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251.png" alt="8251"></p>
+<h4 id="8251管脚"><a href="#8251管脚" class="headerlink" title="8251管脚"></a>8251管脚</h4><ul>
+<li><p>与CPU的连接信号</p>
+<p>读/写控制信号：</p>
+<p>包括读信号RD#、写信号WR#、控制/数据信号C/D#</p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_wr.png" alt="8251_wr"></p>
+<p>片选信号CS#</p>
+<p>数据信号D7~D0</p>
+<p>收发联络信号:</p>
+<ul>
+<li>TXRDY   发送器准备好</li>
+<li>TXE  发送器空</li>
+<li>RXRDY  接收器准备好</li>
+<li>SYNDET  同步检测信号</li>
+</ul>
+</li>
+<li><p>与外设的连接信号</p>
+<p>数据信号: TxD、RxD；</p>
+<p>和外设的联络信号:</p>
+<ul>
+<li>DTR#(data terminal ready)：数据终端准备好信号；</li>
+<li>DSR#(data set ready)：数据设备准备好信号；</li>
+<li>RTS#(request to send)：请求发送信号；</li>
+<li>CTS#(clear to send)：清除发送信号；</li>
+</ul>
+<p>使用时，一般将DTR#和DSR#连接接收器，将RTS#和CTS#连接发送器。</p>
+<p>时钟信号: 系统时钟CLK；发送时钟TXC；接收时钟RXC；</p>
+</li>
+</ul>
+<h4 id="8251内部寄存器"><a href="#8251内部寄存器" class="headerlink" title="8251内部寄存器"></a>8251内部寄存器</h4><p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_reg1.png" alt="8251_reg1"></p>
+<p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_reg2.png" alt="8251_reg2"></p>
+<p>异步模式：</p>
+<ul>
+<li><p>发送时钟TxC、接收时钟RxC由专门的时钟发生器供给；</p>
+<p>发送和接收波特率分别由TxC、RxC与波特率因子决定：</p>
+<p>  波特率＝时钟频率/波特率因子</p>
+<p>异步发送数据时，在控制寄存器中允许发送位TxEN有效，且CTS#信号有效时，开始发送过程；</p>
+<p>异步接收数据时，在控制寄存器中允许发送位RxEN有效时，RxRDY信号表示收到了一个有效数据</p>
+</li>
+</ul>
+<p>同步模式：</p>
+<ul>
+<li><p>发送时钟TxC、接收时钟RxC由调制解调器和有关通信设备控制；</p>
+<p>发送和接收波特率分别和TxC、RxC引脚上的时钟频率相等；</p>
+<p>同步发送时，在控制寄存器中允许发送位TxEN有效，且CTS#信号有效时，开始发送过程:</p>
+<ul>
+<li><p>根据编程要求发送1个或2个同步字符，然后发送数据块；</p>
+<p>当CPU来不及提供数据时，8251自动插入同步字符；</p>
+</li>
+</ul>
+<p>同步接收时，8251首先搜索同步字符，将接收到的字符与同步字符寄存器内容比较</p>
+<ul>
+<li>根据编程，需较1或2个同步字符</li>
+</ul>
+</li>
+</ul>
+<h4 id="模式字-amp-控制字-amp-状态字"><a href="#模式字-amp-控制字-amp-状态字" class="headerlink" title="模式字&amp;控制字&amp;状态字"></a>模式字&amp;控制字&amp;状态字</h4><p>8251A有一奇一偶两个端口地址。</p>
+<p>偶地址对应数据输入寄存器和数据输出寄存器。</p>
+<p>奇地址对应状态寄存器、模式寄存器、控制寄存器和同步字符寄存器。</p>
+<p>8251的初始化</p>
+<ol>
+<li><p>芯片复位后，第一次对  模式字——-&gt;奇地址—-&gt;模式寄存器；</p>
+</li>
+<li><p>if模式字=&gt;同步模式，往奇地址写入同步字符，</p>
+<p>then if 规定同步字符为2个，则分别写入第一个和第二个同步字符寄存器；</p>
+</li>
+<li><p>此后，只要不是复位命令，不分同步、异步模式，往奇地址写的作为控制字送到控制寄存器，往偶地址写的作为数据送到数据发送缓冲器</p>
+</li>
+</ol>
+<p>eg. 异步模式初始化程序</p>
+<p>模式字和控制字都必须写入“奇地址”端口，这里假设为42H。异步模式下必须给出波特率因子。</p>
+<p>假设：字符用7位数据位表示、偶校验、2位停止位，波特率因子16。</p>
+<p>模式字：1111 10 10B      0FAH</p>
+<p>控制字：0011 0111B       37H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV   AL, 0FAH  ;设模式字：异步模式、波特率因子16、</span><br><span class="line">OUT   42H, AL   ; 7位数据位、偶校验、2位停止位</span><br><span class="line">MOV   AL, 37H   ;设置控制字：使发送启动、接收启动</span><br><span class="line">OUT   42H, AL</span><br></pre></td></tr></table></figure>
+<p>eg. 同步模式初始化程序</p>
+<p>假设“奇地址”端口为42H。程序往此端口设置的数据依次为模式字、同步字符和控制字符</p>
+<p>假设：字符用7位数据位表示、偶校验，用两个同步字符，采用内同步模式。同步字符16H</p>
+<p>模式字：00111000B  38H </p>
+<p>控制字：1001 0111B  97H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV   AL, 38H   ;设置模式字：同步模式、2个同步字符</span><br><span class="line">OUT    42H, AL   ; 7位数据位、偶校验</span><br><span class="line">MOV   AL, 16H   </span><br><span class="line">OUT    42H, AL   ;两个同步字符均为16H；</span><br><span class="line">OUT    42H, AL   </span><br><span class="line">MOV   AL, 97H   ;设置控制字：使发送启动、接收启动</span><br><span class="line">OUT    42H, AL</span><br></pre></td></tr></table></figure>
+<p>eg. </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV   DX,209H</span><br><span class="line">IN    AL,DX;状态字</span><br><span class="line">AND   AL,02H;RXRDY？</span><br></pre></td></tr></table></figure>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV   DX,209H</span><br><span class="line">IN     AL,DX	;状态字</span><br><span class="line">AND    AL,01H	;TXRDY？</span><br></pre></td></tr></table></figure>
+<h4 id="综合实例"><a href="#综合实例" class="headerlink" title="综合实例"></a>综合实例</h4><p><img src="/2020/05/13/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_ini.png" alt="8251_ini"></p>
+<p>eg. 输入80个字符。</p>
+<p>假设8251控制和状态端口为42H，数据输入和输出地址为40H。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">	MOV   AL, 0FAH ;设模式字：异步模式、波特率因子16、</span><br><span class="line">	OUT    42H, AL   ; 7位数据位、偶校验、2位停止位</span><br><span class="line">	MOV   AL, 37H   ;设置控制字：使发送启动、接收启动</span><br><span class="line">	OUT    42H, AL   </span><br><span class="line">	MOV DI, 0</span><br><span class="line">	MOV CX, 80</span><br><span class="line">BEGIN: IN AL, 42H</span><br><span class="line">	TEST AL,02H	;测试RxRDY</span><br><span class="line">	JZ BEGIN</span><br><span class="line">	IN AL, 40H</span><br><span class="line">	MOV DX,OFFSET BUFFER</span><br><span class="line">	MOV [DX+DI], AL</span><br><span class="line">	INC DI</span><br><span class="line">    IN AL, 42H</span><br><span class="line">    TEST AL,38H   ;测试是否有错</span><br><span class="line">    JNZ ERROR</span><br><span class="line">    LOOP BEGIN</span><br><span class="line">    JMP EXIT</span><br><span class="line">ERROR: CALL ERROR_OUT</span><br><span class="line">EXIT: </span><br><span class="line">	...</span><br></pre></td></tr></table></figure>
+<p>eg. 8251异步模式下的接收和发送程序，完成256个字符的发送和接收，</p>
+<p>设端口地址：208H，209H，波特率因子16，</p>
+<p>1起始位，1停止位，无奇偶校验，每字符8位</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;接收程序</span><br><span class="line">Data segment</span><br><span class="line">buf DB 256 dup(?)</span><br><span class="line">Data ends</span><br><span class="line">...</span><br><span class="line">MOV    DX, 209H</span><br><span class="line">MOV    AL, 40H;复位</span><br><span class="line">OUT     DX, AL</span><br><span class="line">MOV    AL, 01001110B;模式字</span><br><span class="line">OUT     DX, AL</span><br><span class="line">MOV    AL, 00110111B;控制字</span><br><span class="line">OUT     DX, AL</span><br><span class="line">MOV   CX, 256	;接收256字节</span><br><span class="line">MOV   SI, 0</span><br><span class="line">NEXT:MOV DX,209H</span><br><span class="line">     IN   AL,DX    ;状态字</span><br><span class="line">	AND   AL,02H  ;RXRDY？</span><br><span class="line">	JZ   NEXT</span><br><span class="line">	MOV  DX,208H</span><br><span class="line">	IN   AL,DX   ;接收1字符</span><br><span class="line">	MOV buf[SI],AL</span><br><span class="line">	INC SI</span><br><span class="line">	LOOP NEXT</span><br><span class="line">;发送程序</span><br><span class="line">	MOV  DX,  209H</span><br><span class="line">	MOV  AL,  40H		;复位命令。</span><br><span class="line">	OUT  DX,  AL</span><br><span class="line">	MOV  AL,  01001110B	;模式字</span><br><span class="line">	MOV  DX,  AL</span><br><span class="line">	MOV  AL,  00110111B	;控制字</span><br><span class="line">	OUT  DX,  AL</span><br><span class="line">	MOV  CX,  256		;发送256字节</span><br><span class="line">NEXT:MOV  DX, 209H</span><br><span class="line">	IN   AL,  DX		;状态字</span><br><span class="line">	AND  AL,  01H		;TXRDY？</span><br><span class="line">	JZ NEXT</span><br><span class="line">	MOV  AL,  CL</span><br><span class="line"> 	MOV  DX, 208H</span><br><span class="line">	OUT  DX, AL		;发送</span><br><span class="line">	LOOP NEXT</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch11微型计算机总线</title>
+    <url>/2020/05/13/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/</url>
+    <content><![CDATA[<h2 id="微型计算机总线"><a href="#微型计算机总线" class="headerlink" title="微型计算机总线"></a>微型计算机总线</h2><a id="more"></a>
+<h3 id="总线概述"><a href="#总线概述" class="headerlink" title="总线概述"></a>总线概述</h3><ul>
+<li><p>总线结构的优点：</p>
+<p>便于采用模块化结构设计方法，简化系统设计；</p>
+<p>便于开发相互兼容的硬件板卡和软件，标准总线得到各厂商的支持；</p>
+<p>便于系统的扩充和升级，灵活性好；</p>
+<p>便于故障诊断和维修</p>
+</li>
+<li><p>总线指标</p>
+<p>总线宽度：指一次可以同时传输的数据位数</p>
+<p>总线频率：指总线工作时每秒钟内能传输数据的次数</p>
+<p>传输速率：指每秒钟能够传输的字节数 = 总线宽度 X 总线频率</p>
+<p>eg. PCI总线的宽度为32位=4 B，总线频率为33MHz，所以，PCI的数据传输率为132MB/s(33*4)</p>
+</li>
+<li><p>总线功能分成</p>
+<p>控制总线 [控制其他部件的部件称为总线主控 (master)，被控部件称为从控(slave)]</p>
+<p>地址总线 [地址总线是单向的，即地址信号只能由总线主控至从控。地址总线也是三态的]</p>
+<p>数据总线 [数据总线是双向的。数据总线是三态的]</p>
+<p>(数据总线的根数==总线的宽度)</p>
+</li>
+<li><p>总线的层次结构（内—&gt;外）</p>
+<p>片内总线：CPU或IO芯片内部，用于各功能部件之间</p>
+<p>CPU总线：CPU、RAM、ROM、控制芯片组等芯片之间的信号连接[包括控制总线、地址总线和数据总线]</p>
+<p>局部总线：主机板上的信息通道，连接主机板上各主要部件，通过扩展槽连接各种适配器</p>
+<ul>
+<li>ISA, EISA :(Extended) Industry Standard Architecture 16,32位标准总线，数据传输率16,33MB/s</li>
+<li>MCA : Micro Channel Architecture  32位标准总线，数据传输率40MB/s</li>
+<li>PCI : Peripheral Component Interconnect  32/64位标准总线，数据传输率132MB/s</li>
+<li>VESA : Video Electronic Standard Association  32位标准总线，数据传输率133MB/s</li>
+<li>AGP :  Accelerated Graphics Port 是一种接口标准</li>
+</ul>
+<p>系统总线：多处理器系统连接各CPU插件板的信息通道；系统机箱底板上；</p>
+<p>外部总线：I/O设备（外设）与系统中其他部件（主机）间的公共通信通路</p>
+<ul>
+<li>SCSI－小型计算机系统互连；</li>
+<li>USB－通用串行总线</li>
+</ul>
+</li>
+</ul>
+<h3 id="ISA总线"><a href="#ISA总线" class="headerlink" title="ISA总线"></a>ISA总线</h3><p>Industry Standard Architecture 16位标准总线，数据传输率16MB/s</p>
+<p>数据线扩展为16位；</p>
+<p>地址线扩展为24位，直接寻址2^24=16MB；</p>
+<p>总线时钟为8MHZ，传输率8M*（16位/8bit）= 16MB/S</p>
+<p>15个外部中断输入和7个DMA通道</p>
+<p>62+36 =98 条信号线</p>
+<p><img src="/2020/05/13/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/ISA.png" alt="ISA"></p>
+<p>SBHE：System Byte High Enable, when==1 数据总线SD8-SD15—-&gt;高位字节—-&gt;数据总线缓冲器</p>
+<p>$\overline{MEM CS16}$：Memory 16 Bit Chip Select ==1  8位数据传输; ==0  16位数据传输</p>
+<p>$\overline{I/O CS16}$：I/O 16-Bit Chip Select ==1  8位数据传输; ==0  16位数据传输</p>
+<p>$\overline{MASTER}$[总线主模块信号] when扩展卡上有CPU或DMA控制器, ==0  获得总线控制权，并访问系统资源</p>
+<p>OWS：Zero Wait State ==1 完成当前的总线周期，无插入Tw等待周期</p>
+<p>$\overline{SMEMR}\   \overline{SMEMW}$   对系统16MB存储器read,write[$\overline{MEMR}\   \overline{MEMW}$ 1MB范围内的存储器]</p>
+<p>IRQ0-IRQ15：中断请求，主片的IRQ2—&gt;从片(2片8259A)中断请求端INT</p>
+<p>DRQ0、DRQ5-DRQ7：DMA请求，主片的DRQ0—&gt;从片(2片主从式8237A)DMA 请求端</p>
+<p>DACK0、DACK5-DACK7 ：DMA应答信号</p>
+<h3 id="EISA总线"><a href="#EISA总线" class="headerlink" title="EISA总线"></a>EISA总线</h3><p>Extended Industry Standard Architecture 32位标准总线，数据传输率33MB/s</p>
+<p>提高寻址能力(addr)、增加总线宽度(data)、增加控制信号 than ISA：</p>
+<p>地址线为32条，直接寻址范围可达2^32=4GB</p>
+<p>数据宽度为32位，自动进行8位、16位、32位数据转换</p>
+<p>共有198条信号线，其中，98条是ISA原有的</p>
+<p>时钟频率为8.3MHz，传输率为8.3MHz×32b/8b=33.2MB/s</p>
+<h3 id="PCI总线"><a href="#PCI总线" class="headerlink" title="PCI总线"></a>PCI总线</h3><p>Peripheral Component Interconnect  32/64位标准总线，数据传输率132MB/s</p>
+<p>四个主要的标准规格：</p>
+<p>分别支持32位与64位,其下又分成3.3V与5V两种信号</p>
+<p>运行在33MHz或66MHz：数据传输率最大可达66M*(64位/8bit)=528MB/s</p>
+<h4 id="PCI总线特点"><a href="#PCI总线特点" class="headerlink" title="PCI总线特点"></a>PCI总线特点</h4><p>高传输率: PCI频率限于66MHz，最高传输率528MB/s</p>
+<p>高效率: 集成高速缓冲器=&gt;缓冲CPU数据, 支持突发数据传输模式</p>
+<p>即插即用功能</p>
+<ul>
+<li><p>系统和适配器两方面: </p>
+<p>适配器中设EEPROM存按PCI规范的配置信息 </p>
+<p>PCI总线控制器测、调配置信息各参数，每PCI设备配256字节存放配置信息</p>
+</li>
+</ul>
+<p>独立于CPU</p>
+<ul>
+<li>中间连接件机制：PCI控制器 &amp;&amp; CPU  结构无关</li>
+<li>CPU不直接控制外设；</li>
+<li>支持当前、未来CPU</li>
+</ul>
+<p>负载能力强、易于扩展</p>
+<ul>
+<li>负载能力比较强，而且PCI总线—&gt;PCI控制器—&gt;form多级PCI总线—&gt;多个设备</li>
+</ul>
+<h4 id="PCI-总线信号"><a href="#PCI-总线信号" class="headerlink" title="PCI 总线信号"></a>PCI 总线信号</h4><p><img src="/2020/05/13/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI.png" alt="PCI"></p>
+<ul>
+<li><p>1 系统信号</p>
+<p>CLK：总线时钟输入信号0HZ～66MHz,除$\overline{RST}$，$\overline{INTA～D}$外，余信号在CLK 上升沿同步</p>
+<p>$\overline{RST}$: PCI 专用寄存器、定时器相关的信号恢复到规定的初始状态</p>
+</li>
+<li><p>2 地址和数据信号</p>
+<p>AD[31:00]地址/数据复用信号：双向（输入/输出）三态信号</p>
+<p>$C/\overline{BE[3:0]}$总线命令&amp;&amp;字节使能信号:地址期，定义总线命令；数据期，作字节使能</p>
+<ul>
+<li><p>总线命令的作用</p>
+<p>规定主从设备之间传输信息的类型</p>
+<p>0000   中断确认 中断识别命令 </p>
+<p>0001   特殊周期 提供在PCI上的简单广播机制 </p>
+<p>0010   I/O读 从I/O口地址中读数据 </p>
+<p>0011   I/O写 向I/O地址空间写数据</p>
+<p>0110   存储器读 从内存空间中读出数据 </p>
+<p>0111   存储器写 向内存空间写入数据 </p>
+<p>1100   多重存储器读 只要$\overline{FRAME}$==0,保持存取管道连续,以大量传输数据 </p>
+</li>
+</ul>
+<p>PAR奇偶校验信号: 进行偶校验AD[31:00]、$C/\overline{BE[3:0]}$双向</p>
+</li>
+<li><p>3 接口控制信号</p>
+<p>$\overline{FRAME}$：帧同步信号，由启动方驱动，==0 数据帧访问开始&amp;&amp; 数据传输keep</p>
+<p>$\overline{IRDY}$: （Initiator Ready）：启动方准备好信号</p>
+<p>$\overline{TRDY}$:（Target Ready）目标方准备好信号</p>
+<p>$\overline{STOP}$:停止数据传送信号，从设备要求主设备</p>
+<p>$\overline{LOCK}$: 总线锁定信号， ==0时阻其他设备 中断当前的总线周期</p>
+<p>IDSEL: 初始化设备选择信号</p>
+<p>$\overline{DEVSEL}$:  设备选择信号，此信号==0时，通知主设备，从设备被选中</p>
+</li>
+<li><p>4 总线仲裁信号</p>
+<p>$\overline{REQ}$: 总线请求信号，==0 表示驱动它的设备要求使用总线</p>
+<p>$\overline{GNT}$: 总线允许信号，==0仲裁器同意(请求总线的设备)使用总线</p>
+<p>PCI使用同步集中式隐含仲裁。</p>
+<ul>
+<li>对于每个主设备都有唯一的请求($\overline{REQ}$)和允许信号($\overline{GNT}$)连接到仲裁器，利用请求－允许方式完成总线的切换，仲裁过程在上一次访问期间隐性完成。</li>
+</ul>
+<p>仲裁器可以使用先来先服务法、循环轮流法和其他一些优先权排列法</p>
+<p>eg. 设备B的优先级高于设备A。</p>
+<p><img src="/2020/05/13/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_judge.png" alt="PCI_judge"></p>
+<p>PCI主设备必对它要执行每次传输 请求总线仲裁</p>
+</li>
+</ul>
+<ul>
+<li><p>5 错误报告信号</p>
+<p>$\overline{PERR}$: 数据奇偶校验parity错误报告信号</p>
+<p>$\overline{SERR}$: 系统错误报告信号, PCI的任一设备来驱动</p>
+</li>
+<li><p>6 中断信号</p>
+<p>$\overline{INTA-D}$: 四条中断请求线, 单功能设备只能用$\overline{INTA}$，后三个信号用于多功能设备</p>
+</li>
+<li><p>7 Cache 支持信号</p>
+<p>$\overline{SBO}$: PCI  Cache /bridge的输出信号, PCI总线上高速缓冲存储器子系统的输入信号</p>
+<p>$\overline{SDONE}$:  侦听完成信号。是PCI Cache / bridge 输出信号，在PCI总线上高速缓冲存储器子系统的输入信</p>
+</li>
+<li><p>8 64位总线扩展信号</p>
+<p>AD[63:32] : 扩展的32位地址和数据多路复用线</p>
+<p>$C/\overline{BE[7:4]}$: 总线命令&amp;&amp;字节使能多路复用信号</p>
+<p>$\overline{REQ64}$: 64位传输请求, 本设备要求采用64位传送数据</p>
+<p>$\overline{ACK64}$: 64位传输确认信号，表示目标方同意执行64位传输</p>
+<p>PAR64: 奇偶校验信号，是AD[64:32]和C/BE[7:4]的校验位</p>
+</li>
+<li><p>9 边界扫描信号JTAG</p>
+<p>TCK：边界扫描的测试时钟，用于记录状态信息，测试设备的输入输出数据</p>
+<p>TDI： 测试输入信号，通过串行移位将测试数据和指令送入设备中</p>
+<p>TDO： 测试输出信号，串行移位设备中的输出数据和指令</p>
+<p>TMS： 测试模式选择，用于初始化“测试访问口控制器”的状态</p>
+<p>$\overline{TEST}$: 测试复位，用于初始化“测试访问口控制器”</p>
+</li>
+</ul>
+<h4 id="PCI-数据传输"><a href="#PCI-数据传输" class="headerlink" title="PCI 数据传输"></a>PCI 数据传输</h4><p>由一个地址期和一个或多个数据期所组成</p>
+<p>[地址期为一个时钟周期，数据期可插入Tw，等待由于主or从设备未准备好造成]</p>
+<p>事件在时钟下降沿同步,  在每个时钟周期中间部位发生</p>
+<p>总线设备在总线周期开始的上升沿,  采样总线上的各信号</p>
+<p>信号变化在时钟下降沿  +  信号采样在时钟上升沿</p>
+<p>传输过程: 主设备-&gt;$\overline{FRAME}$==0开始;  $\overline{FRAME}$==1后最后一个数据传输</p>
+<h4 id="PCI编码"><a href="#PCI编码" class="headerlink" title="PCI编码"></a>PCI编码</h4><ul>
+<li><p>I/O空间：位于主机系统</p>
+<p>正向译码：</p>
+<p>负向译码：其他设备未被选中时，由总线扩展桥发$\overline{DEVSEL}$来响应</p>
+</li>
+<li><p>内存空间：位于主机系统</p>
+</li>
+<li><p>配置空间：分布于各个设备中</p>
+<ul>
+<li><p>基本配置空间为256字节。</p>
+<p>头标区(0~3FH)64字节，描述与系统相关的信息</p>
+<p>设备相关区(40H~FFH)192字节，描述设备本身功能细节</p>
+<p>配置寄存器如下</p>
+<p><img src="/2020/05/13/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set1.png" alt="PCI_set1"></p>
+<p><img src="/2020/05/13/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set2.png" alt="PCI_set2"></p>
+<p>三种头标类型[头标区(0~3FH)] (前16字节（0～0FH）定义是统一的，后48字节的定义不同)</p>
+<ul>
+<li><p>2类：专用于PCI-CardBus桥</p>
+</li>
+<li><p>1类：专用于PCI-CPI桥</p>
+</li>
+<li><p>0类：适用于普通的PCI设备和CPI扩展桥</p>
+<p><img src="/2020/05/13/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_head0.png" alt="PCI_head0"></p>
+<p>10H～27H共16+8=24个字节，组成：</p>
+<p>6个32位(4B)寄存器，可申请6个32位寻址存储区，or</p>
+<p>3个64位(8B)寄存器，可申请3个64位寻址存储区，or</p>
+<p>6个32位(4B)寄存器，可申请6个32位寻址IO端口；</p>
+<p>基于映射机制:基址寄存器第0位决定</p>
+<p>0－存储器空间；  1－IO空间</p>
+<p>基址寄存器第1、2位==&gt;存储空间基址寄存器长度32 or 64位&amp;&amp;存储空间大小</p>
+</li>
+</ul>
+</li>
+<li><p>提供设备的各种寄存器地址(映射到统一的空间，用来支持即插即用功能)、设备及其类型、设备运行时需要存储空间和IO接口</p>
+</li>
+<li><p>设备所需存储器和IO端口统一编址，使互不冲突</p>
+</li>
+<li><p>为需要的设备分配中断类型号</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="外部总线"><a href="#外部总线" class="headerlink" title="外部总线"></a>外部总线</h3><p>RS232；</p>
+<p>IDE(IntegratedDrive Electronics)：原指把控制器和盘体集中在一起的硬盘驱动器，主要用于主机和硬盘、光驱、软驱之间的连接</p>
+<p>[ATA（Advanced Technology Attachment）：IDE技术规范归纳成为全球硬盘标准]</p>
+<p>SATA(SerialATA)：SATA规范将硬盘的外部传输速率理论值提高到了150MB/s，比标准ATA/100高出50%。</p>
+<p>SCSI(SmallComputer System Interface)：用于小型机、工作站、服务器或其他多任务、高性能、智能外设。</p>
+<p>USB：通用串行总线</p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch1基本组成</title>
+    <url>/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/</url>
+    <content><![CDATA[<h3 id="层次"><a href="#层次" class="headerlink" title="层次"></a>层次</h3><a id="more"></a>
+<ul>
+<li><p>微处理器 (CPU)：（8086, 80286）</p>
+<p>控制器， 运算器（ALU）， 寄存器组， 系统总线</p>
+<p>控制器分为：</p>
+<ul>
+<li>指令寄存器IR (Instruction Register)</li>
+<li>指令译码器ID (Instruction Decoder)</li>
+<li>定时与控制电路</li>
+</ul>
+<p>寄存器组分为：</p>
+<ul>
+<li>累加器                      AX</li>
+<li>数据缓冲寄存器      DX</li>
+<li>计数寄存器              CX</li>
+<li>地址缓冲寄存器      BX</li>
+<li>程序计数器              IP</li>
+<li>状态标志寄存器      PSW</li>
+<li>通用寄存器组          AX ~ DX</li>
+<li>暂存器</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/2.png" alt="2"></p>
+</li>
+</ul>
+<p>  <img src="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/segment_address.png" alt="segment_address"></p>
+<p>  系统总线(BUS)外部分为：</p>
+<ul>
+<li><p>控制总线</p>
+<p>一般为单向</p>
+</li>
+<li><p>地址总线</p>
+<p>地址为n位宽，那么将有2^n个地址（即0~(2^n)-1），对应存储单元2^n Bytes</p>
+</li>
+<li><p>数据总线</p>
+<p>双向传送</p>
+</li>
+</ul>
+<ul>
+<li><p>微型计算机 (增加Cache，主存储器：内存)</p>
+<p>Cache RAM，RAM，ROM， I/O接口（即输入输出接口电路）</p>
+<p><img src="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/3.png" alt="3"></p>
+<p>输入输出接口电路用芯片如：</p>
+<ul>
+<li>缓冲器：74LS244、74LS245</li>
+<li>锁存器：74LS373</li>
+<li>可编程中断控制器8259A</li>
+<li>可编程计数器/定时器8253</li>
+<li>可编程并行/串行接口芯片8255A/8250A</li>
+<li>DMA控制器8237A模/数和数/模转换器</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/4.png" alt="4"></p>
+</li>
+<li><p>微型计算机系统 (MCS) (增加外存，外设)</p>
+<p>I/O设备，软件系统</p>
+</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/1.png" alt="1"></p>
+<h3 id="硬件结构"><a href="#硬件结构" class="headerlink" title="硬件结构"></a>硬件结构</h3><ul>
+<li><p>冯·诺依曼结构</p>
+<ul>
+<li><p>地址码（2进制）-&gt; data &amp;&amp; program（2进制） 存放地址   [data &amp;&amp; program不分开存]</p>
+</li>
+<li><p>程序计数器（PC）-&gt; 指令序列（即程序）-&gt; 控制器工作</p>
+<p>具体过程：</p>
+<ul>
+<li>码段寄存器CS及指令指针寄存器IP -&gt; 控制器             （取指）</li>
+<li>控制器取 -&gt; 指令代码 in 内存                           </li>
+<li>CPU中对代码 分析                                                         （译码）</li>
+<li>控制器send该指令功能对应控制信号 - &gt; 各个部件</li>
+<li>各个部件执行                                                                   （执行）</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/7.png" alt="7"></p>
+</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/5.png" alt="5"></p>
+</li>
+<li><p>哈佛结构</p>
+<ul>
+<li>存储器：程序存储器，数据存储器</li>
+<li>总线分为：程序总线，数据总线</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/6.png" alt="6"></p>
+</li>
+</ul>
+<p>​     </p>
+<ul>
+<li><p>现代计算机</p>
+<ul>
+<li><p>主存储器：冯·诺依曼结构</p>
+<p>指令和数据合用</p>
+</li>
+<li><p>高速缓冲存储器（Cache）：哈佛结构</p>
+<p>指令Cache，数据Cache</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="分段编址"><a href="#分段编址" class="headerlink" title="分段编址"></a>分段编址</h3><ul>
+<li><p>分为代码段、数据段、堆栈段和附加段，一段最大 2^ 16 = 64KB</p>
+<p>段地址分别由CS/DS/SS/ES四个寄存器给出</p>
+<p><img src="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/memory_address.png" alt="memory_address"></p>
+<ul>
+<li>串操作：源串DS:SI ，目的串ES:DI</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>分段编址好处</p>
+<ul>
+<li>大部分指令只涉及16位地址：在2 ^16 = 64kB的段内寻址 =&gt; 减小了指令长度、提高了执行速度</li>
+<li>便于程序的浮动加载：程序本身是可浮动的，与物理地址（段地址无关），只与偏移地址有关</li>
+</ul>
+</li>
+<li><p>8086的固定用途存储区 [物理地址 20 bits]</p>
+<p>00000H－003FFH，1KB    中断向量表；</p>
+<p>B0000H－B0F9FH， 4KB    单色显示器显示缓冲区；</p>
+<p>B8000H－BBF3FH，16KB    彩色显示器显示缓冲区；</p>
+<p>FFFF0H－FFFFFH，16B    复位程序入口；</p>
+</li>
+<li><p>8086的I/O编址</p>
+<p>端口：I/O接口电路中可被访问存储单元   (8086可以访问64KB的I/O端口)</p>
+<ul>
+<li><p>I/O端口和存储器统一编址</p>
+<p>可以用对存储器的指令来 =&gt; 对IO端口的访问</p>
+</li>
+<li><p>I/O端口单独编址</p>
+<ul>
+<li><p>使用MOV指令访问存储器，M/$\overline{IO}$ = 1    </p>
+</li>
+<li><p>使用IN/OUT指令访问端口，M/$\overline{IO}$ = 0</p>
+<p>输入－IN，  $\overline{RD}$=0    </p>
+<p>输出－OUT，$\overline{WR}$=0</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch12ADDA转换</title>
+    <url>/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/</url>
+    <content><![CDATA[<h2 id="模-数和数-模转换"><a href="#模-数和数-模转换" class="headerlink" title="模/数和数/模转换"></a>模/数和数/模转换</h2><a id="more"></a>
+<h3 id="数据采集基本概念"><a href="#数据采集基本概念" class="headerlink" title="数据采集基本概念"></a>数据采集基本概念</h3><p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADDA_control.png" alt="ADDA_contro"></p>
+<p>传感器: 物理量转换成电信号</p>
+<p>多路模拟开关: 模拟信号源—&gt;转换成数字形式</p>
+<p>信号调理器（SIGNAL CONDITIONING ）:</p>
+<ul>
+<li>信号的电平、极性等转换，以便与A/D变换器所需的电平极性匹配</li>
+<li>阻抗变换作用，隔离后面的负载对传感器的影响</li>
+<li>抑制干扰，提高信噪比</li>
+<li>防止混叠现象</li>
+</ul>
+<p>采样保持(Sample/Hold)电路:</p>
+<ul>
+<li><p>A/D进行转换时间内，保持输入信号不变</p>
+</li>
+<li><p>采样模式: 输出随输入变化，通常增益为1</p>
+<p>在保持模式: 采样保持电路的输出保持命令发出时的输出值</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/sample_keeper.png" alt="sample_holder"></p>
+</li>
+</ul>
+<p>eg : 高速多通道数据采集系统</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD.png" alt="multi_AD"></p>
+<p>eg: 多通道共用A/D变换器</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD2.png" alt="multi_AD2"></p>
+<h3 id="A-D转换器及其应用"><a href="#A-D转换器及其应用" class="headerlink" title="A/D转换器及其应用"></a>A/D转换器及其应用</h3><h4 id="AD转换器参数"><a href="#AD转换器参数" class="headerlink" title="AD转换器参数"></a>AD转换器参数</h4><ul>
+<li>量程：输入模拟信号幅度</li>
+<li>带宽：输入模拟信号频率</li>
+<li>转换速率：每秒能进行的转换次数</li>
+<li>分辨率（Resolution）: 位数8位，满量程5V，则其分辨率为8位，或<br>5V/(2^8-1)=19.6mV</li>
+<li>转换精度（Accuracy）: 精度和分辨率的区别，例如某ADC具有24位的分辨率，但其精度相当于16位，低8位表征随机噪声的影响</li>
+</ul>
+<h4 id="ADC0809工作原理及接口"><a href="#ADC0809工作原理及接口" class="headerlink" title="ADC0809工作原理及接口"></a>ADC0809工作原理及接口</h4><p>转换时间是100us，分辨率为8位，单5V供电，输入模拟电压范围为0—5V</p>
+<ul>
+<li><p>8路模拟开关；</p>
+</li>
+<li><p>地址锁存与译码；</p>
+</li>
+<li><p>8位A/D转换；(DAC)</p>
+</li>
+<li><p>三态输出锁存器。</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809.png" alt="ADC0809"></p>
+</li>
+</ul>
+<p>IN0～IN7: 输入，8路模拟输入</p>
+<p>DB0～DB7 : 三态输出，A/D转换数据输出线; </p>
+<p>ADD_A，ADD_B，ADD_C: 输入，模拟通道选择线;</p>
+<p>ALE: 输入，地址锁存使能，上升沿将ADD_A、ADD_B、ADD_C三位地址信号锁存，译码选通对应的模拟通道;</p>
+<p>REF(+)/REF(-): 输入，基准电压输入端，要求1/2[VREF(+)+VREF(-)]=1/2Vc</p>
+<p>模拟输入与数字输出的关系为：N＝(UIN - UREF-) / (UREF+ - UREF-)*28</p>
+<p>START: 输入,脉冲上升使所有内部寄存器清零，下降沿使A/D转换开始</p>
+<p>EOC: 输出，转换结束信号,EOC变为高电平</p>
+<p>OE: 输入，输出允许</p>
+<h4 id="AD574A工作原理"><a href="#AD574A工作原理" class="headerlink" title="AD574A工作原理"></a>AD574A工作原理</h4><p>12位的A/D转换芯片, 转换时间为35us, 输入模拟电压范围：单极性0~+10V或0~+20V；双极性±5V或±10V</p>
+<p>[可直接与8位或16位微处理器接口, 集成时钟&amp;基准电压电路, 输出可读全部12位数据，亦可两个8位方式读取]</p>
+<p>DB0～DB11，三态输出数据线，DB0为LSB,  DB11为MSB</p>
+<p>CE,芯片使能输入, CE由0变1,启动一次转换</p>
+<p>$\overline{CS}$,芯片选择输入,低电平有效</p>
+<p>$R/\overline{C}$,  =1 read &amp;&amp; =0 convert</p>
+<p>STS, 状态信号输出, 转换开始,STS=1; 转换周期完成, STS=0</p>
+<p>A0和$12/\overline{8}$这两个信号控制转换的长度和数据的格式</p>
+<p>$REF_{IN}$   基准电压输入,在使用中,可在REF IN和REF OUT之间接一个100欧的可调电阻,进行增益微调;</p>
+<p>$REF_{OUT}$  基准电压输出,AD574A内有基准电压电路,以供DAC的基准电压,基准电压可以被调到10.00V±1%;</p>
+<p>$BIP_{OFF}$   双极性偏置, 在使用中用于偏置的调整;</p>
+<p>DC: 数字公共端,   AC: 模拟公共端;</p>
+<p>Vlogic  逻辑电源,接+5V;</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_logic.png" alt="ADC574_logic"></p>
+<p>eg. $\overline{CS}$=0,$R/\overline{C}$=0,CE由0—&gt;1,启动一次转换；</p>
+<p>若此时A0=1,表明进行8bit转换; A0=0,表明进行12bit转换</p>
+<p>转换开始后,STS==1,直到转换周期完成STS==0;</p>
+<p>[转换期间,忽略新转换启动信号,不允许输出数据缓冲器输出]</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_eg1.png" alt="ADC574_eg1"></p>
+<p>eg. 读取周期自CE==1和$R/\overline{C}$==1时开始；</p>
+<p>$12/\overline{8}$=1,表明是16位接口方式,12位转换结果一次读出；</p>
+<p>$12/\overline{8}$=0,表明是8位接口方式,A0=0使能高8位, A0=1使能低4位数据</p>
+<h4 id="A-D转换器与系统的典型接口"><a href="#A-D转换器与系统的典型接口" class="headerlink" title="A/D转换器与系统的典型接口"></a>A/D转换器与系统的典型接口</h4><ul>
+<li><p>ADC0809通过8255A与系统的接口（P521）</p>
+<p>程序设定8255A的PA口和PC口为输入</p>
+<p>[ADC0809的数据输出经8255A的PA输入给CPU]</p>
+<p>[A/D转换状态信号EOC由PC4输入]</p>
+<p>PB口为输出，均为方式0，</p>
+<p>[ADDA、ADDB和ADDC以及地址锁存信号ALE由8255A的PB3~PB0输入]</p>
+<p>以查询方式来读取A/D转换结果。</p>
+<p>设8255A端口地址为0FFFCH~0FFFFH</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A.png" alt="ADC0809_8255A"></p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A2.png" alt="ADC0809_8255A2"></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">	MOV AL, 98H     ;8255A控制字	</span><br><span class="line">	MOV DX, 0FFFFH	;控制字端口地址</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV AL, 0BH		;选IN3输入端和地址锁存信号</span><br><span class="line">	MOV DX, 0FFFDH</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV AL, 1BH		;start PB4&#x3D;1</span><br><span class="line">	OUT DX, AL		;启动A&#x2F;D转换</span><br><span class="line">	MOV AL, 0BH</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV DX, 0FFFEH</span><br><span class="line">TEST: IN AL, DX			;读C端口状态</span><br><span class="line">	AND AL, 10H		;测试EOC状态（PC4）</span><br><span class="line">	JZ TEST</span><br><span class="line">	MOV DX, 0FFFCH</span><br><span class="line">	IN AL, DX			;读转换结果</span><br><span class="line">	HLT</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>AD574与8086CPU [8283：带锁存器的缓冲器 8286：数据收发器]</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8086.png" alt="AD574_8086"></p>
+</li>
+</ul>
+<ul>
+<li><p>AD574与8088CPU</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8088.png" alt="AD574_8088"></p>
+</li>
+</ul>
+<h3 id="D-A转换器及其应用"><a href="#D-A转换器及其应用" class="headerlink" title="D/A转换器及其应用"></a>D/A转换器及其应用</h3><h4 id="DAC指标"><a href="#DAC指标" class="headerlink" title="DAC指标"></a>DAC指标</h4><p>分辨率：满量程$V_{FS}$ ，N位的DAC，分辨率＝$V_{FS}$/(2^N-1)</p>
+<p>转换精度：</p>
+<ul>
+<li>相对转换精度：用数字量最低有效位LSB的一半来表示，±0.5LSB＝±0.5*(1/2^N)＝ ±1/2^(N+1)；</li>
+<li>绝对转换精度：相对转换精度对应的电压值表示，即±$V_{FS}$/2^(N+1)；</li>
+</ul>
+<p>转换速率和建立时间</p>
+<p>线性误差：在整个量程上，转换输出偏离理想转换特性的最大值</p>
+<h4 id="DAC0832"><a href="#DAC0832" class="headerlink" title="DAC0832"></a>DAC0832</h4><p>8位数模转换芯片，片中有R-2R梯形电阻</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832.png" alt="DAC0832"></p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2.png" alt="DAC0832_2"></p>
+<p>DI0～DI7：8位数据输入线；</p>
+<p>$\overline{CS}$：片选端，低电平有效，仅用于控制$\overline{WR1}$；</p>
+<p>ILE：数据允许锁存信号，高电平有效；</p>
+<p>$\overline{WR1}$：写信号1端，低电平有效。用于将输入数据锁存到输入寄存器中。必须与ILE、$\overline{CS}$同时有效；</p>
+<p>$\overline{WR2}$：写信号2端，低电平有效。</p>
+<p>$\overline{XFER}$：传送控制信号，低电平有效。用于控制$\overline{WR2}$ </p>
+<p>[$\overline{WR2}$和$\overline{XFER}$同时有效时，输入寄存器中的数据才能通过DAC寄存器进行D/A转换]</p>
+<p>$V_{REF}$：参考电压，+10V～-10V，电压愈稳定模拟输出精度越高;</p>
+<p>$I_{OUT1}$、$I_{OUT2}$：模拟电流输出端，与运放输入端相接;</p>
+<p>$R_{fb}$: 反馈电阻接出端</p>
+<p>两级输入锁存器：输入寄存器、DAC寄存器</p>
+<p>三种工作方式：</p>
+<ul>
+<li><p>双缓冲工作方式[转换输出模拟信号, 同时输入新的数据==&gt;提高速度,多个输出通道同步]</p>
+<p>eg. CS由A9~A1经译码产生，DAC的地址范围是228-22FH，实际只使用228H和229H两个地址:</p>
+<p>在CPU执行OUT指令时</p>
+<p>若A0=0，DAC0832内部LE1有效，数据总线上的值（AL）—&gt;数据输入寄存器;</p>
+<p> 若A0=1，DAC0832内部LE2有效，数据输入寄存器的值 —&gt;DAC寄存器</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2buf.png" alt="DAC0832_2buf"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A0832   EQU 228H</span><br><span class="line">MOV    DX, A0832+0       ;A0&#x3D;0</span><br><span class="line">OUT     DX, AL                ;AL的值为待转换的数字</span><br><span class="line">MOV    DX, A0832+1      ;A0&#x3D;1</span><br><span class="line">OUT     DX, AL                ;AL的值无关</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>单缓冲工作方式</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_1buf.png" alt="DAC0832_1buf"></p>
+<p>eg. 设D/A转换端口号为PORTDA，设需转换的数据放在1000H单元，则D/A转换程序为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV BX, 1000H</span><br><span class="line">MOV AL, [BX]</span><br><span class="line">MOV DX, PORTDA</span><br><span class="line">OUT  DX, AL</span><br></pre></td></tr></table></figure>
+<p>eg. 工作在单缓冲方式下。</p>
+<p>设D/A转换端口地址为200H，设需转换的数据量为10H，则D/A转换程序为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV AL, 10H</span><br><span class="line">MOV DX, 0200H</span><br><span class="line">OUT  DX, AL</span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
+<p>eg. 利用D/A转换器可以输出不同的电压波形，输出三角波的程序段如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TRG0:    MOV DX, 0200H</span><br><span class="line">		MOV AL, 0H</span><br><span class="line">T1: 	OUT  DX, AL</span><br><span class="line">		INC AL</span><br><span class="line">		JNZ T1</span><br><span class="line">T2: 	OUT  DX, AL</span><br><span class="line">		DEC AL</span><br><span class="line">		JNZ T2</span><br><span class="line">		JMP T1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直通工作方式</p>
+</li>
+</ul>
+<h4 id="12位D-A转换器DAC1210"><a href="#12位D-A转换器DAC1210" class="headerlink" title="12位D/A转换器DAC1210"></a>12位D/A转换器DAC1210</h4><p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210_2.png" alt="DAC1210_2"></p>
+<p>12位D/A转换器DAC1210与CPU的接口</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210.png" alt="DAC1210"></p>
+<p>eg. DAC占用220H～222H三个端口地址。</p>
+<p>A0地址线不参与I/O地址译码，反相—&gt;$B1/\overline{B2}$。</p>
+<p>设BX寄存器的低12位为待转换的数字量，完成一次转换输出的程序段如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	DX, 220H             </span><br><span class="line">MOV	CL, 4</span><br><span class="line">SHL	BX, CL</span><br><span class="line">MOV	AL, BH		;送高8位数据 </span><br><span class="line">	OUT	DX, AL</span><br><span class="line">	INC	DX           ;送低4位数据</span><br><span class="line">	MOV  AL, BL</span><br><span class="line">	OUT	DX, AL</span><br><span class="line">	INC	DX		          </span><br><span class="line">OUT	DX, AL 		;启动D&#x2F;A转换</span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch2微处理器80286</title>
+    <url>/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A880286/</url>
+    <content><![CDATA[<h3 id="80286"><a href="#80286" class="headerlink" title="80286"></a>80286</h3><a id="more"></a>
+<ul>
+<li><p>特征：</p>
+<p>16位CPU</p>
+<p>两种工作方式：实地址方式、保护方式 (MMU支持虚拟存储)</p>
+<p>(保护方式下，直接寻址16MB物理地址空间，虚拟存储空间为1GB)</p>
+<p>有24条地址线、16条数据线</p>
+<p>内部寄存器：</p>
+<p>通用寄存器、IP和段寄存器等与8086相同，增加保护方式下 描述符寄存器GDTR/LDTR/IDTR。</p>
+<p>支持多用户和多任务</p>
+</li>
+<li><p>结构</p>
+<p>地址单元AU、指令单元IU、执行单元EU、总线单元BU</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A880286/80286.png" alt="80286"></p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A880286/80286_2.png" alt="80286_2"></p>
+</li>
+<li><p>工作方式</p>
+<ul>
+<li><p>实地址模式 (86模式)</p>
+<p>把80286作为一个高速的8086来使用</p>
+</li>
+<li><p>保护方式（虚地址方式）</p>
+<p>目的：实现任务和操作系统、任务和任务间的隔离及保护</p>
+<p>4级层次的保护结构：操作系统，0级(最高)；系统服务程序，1级；应用服务程序，2级；应用程序，3级</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>程序在磁盘存储器(虚拟存储器)（当执行程序时）加载  =&gt; 物理存储器 [映射: 虚拟地址 -&gt; 实地址]
+
+![80286_reflect](./2_ch2_80286_figure/80286_reflect.png)
+
+* MMU：支持对虚拟存储器的访问
+
+采用32位虚地址指示器寻址：
+
+一个数据结构，包含了16位段选择字(进入存储器中一个称为描述符表的参数)和16位偏移地址
+</code></pre><h3 id="80386"><a href="#80386" class="headerlink" title="80386"></a>80386</h3><ul>
+<li><p>特征：</p>
+<p>32位CPU</p>
+<p>三种工作方式：实地址方式、保护方式、虚拟8086方式  (分段部件SU、分页部件PU支持虚拟存储)</p>
+<p>(保护方式下，直接寻址4GB物理地址空间，虚拟存储空间为64TB)</p>
+<p>32条地址线、32条数据线</p>
+<p>80386内部包含 7类 32个寄存器：</p>
+<p>通用寄存器(8个，32位) ；</p>
+<p>指令指针寄存器和标志寄存器(2个) ；</p>
+<p>段寄存器和段描述符寄存器(6个) ；</p>
+<p>系统地址寄存器(4个) ；</p>
+<p>控制寄存器(4个) ；</p>
+<p>调试寄存器(6个) ；</p>
+<p>测试寄存器(2个) ；</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A880286/80386_register.png" alt="80386_register"></p>
+</li>
+<li><p>结构</p>
+<p>CPU</p>
+<pre><code>    －指令预取部件(IPU)
+</code></pre><p>​        －指令译码部件(IDU)</p>
+<p>​        －执行部件(EU)存储器管理部件</p>
+<p>(MMU)</p>
+<p>​        －分段部件(SU)</p>
+<p>​        －分页部件(PU)</p>
+<p>总线接口部件(BIU)</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A880286/80386.png" alt="80386"></p>
+</li>
+<li><p>实地址方式   &amp;&amp;  虚拟8086方式  区别</p>
+<ol>
+<li>实地址方式不支持多任务，实地址是对整个CPU的，虚拟8086方式是对CPU多任务状态下某任务的；</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li>实地址方式下整个系统的寻址空间为1MB，虚拟8086方式下每个任务的寻址空间1MB；</li>
+<li>实地址方式下内存采用分段方式，虚拟8086方式下内存采用分段方式 + 分页方式</li>
+</ol>
+<h3 id="80486"><a href="#80486" class="headerlink" title="80486"></a>80486</h3><ul>
+<li><p>与80386的不同</p>
+<p>增加 内部集成高速缓存Cache和浮点单元FPU</p>
+<p>高速缓冲存储器（Cache）</p>
+<p>​    指令和数据公用的8KB高速缓存，采用最近最少使用法则进行自动更新，约92%的命中率</p>
+<p>浮点单元（FPU）</p>
+<p>​    单独的浮点处理单元，直接进行浮点处理</p>
+</li>
+</ul>
+<h3 id="pentium奔腾CPU"><a href="#pentium奔腾CPU" class="headerlink" title="pentium奔腾CPU"></a>pentium奔腾CPU</h3><ul>
+<li><p>与80486区别</p>
+<p>内部集成16KB高速缓存和浮点协处理器；</p>
+<p>有最多36条地址线、64条数据线；</p>
+<p>常用运算指令采用硬件实现，不再使用微码解释执行，指令执行进一步加快；</p>
+<p>加入了多媒体增强技术，提高在多媒体和通信中的性能；</p>
+<p>主频提高，功耗降低；</p>
+<p>指令缓存I-Cache与数据缓存D-Cache分开</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch2微处理器8086</title>
+    <url>/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/</url>
+    <content><![CDATA[<h3 id="8086-微处理器CPU-组成"><a href="#8086-微处理器CPU-组成" class="headerlink" title="8086(微处理器CPU)组成"></a>8086(微处理器CPU)组成</h3><a id="more"></a>
+<ul>
+<li><p>功能分类：</p>
+<p>控制器， 运算器（ALU）， 寄存器组， 系统总线</p>
+<p>控制器分为：</p>
+<ul>
+<li>指令寄存器IR (Instruction Register)</li>
+<li>指令译码器ID (Instruction Decoder)</li>
+<li>定时与控制电路</li>
+</ul>
+</li>
+<li><p>编程结构分类：（程序员和使用者的角度）</p>
+<ul>
+<li><p>总线接口部件（bus interface unit, BIU）</p>
+<p>传送data —&gt; 存储器(Cache, RAM, ROM)、I/O端口（即输入输出接口电路）</p>
+<ul>
+<li><p>16位段地址寄存器</p>
+<p>CS (Code Segment)  — 代码段寄存器</p>
+<p>DS (Data Segment)  — 数据段寄存器</p>
+<p>SS (Stack Segment)  — 堆栈段寄存器</p>
+<p>ES (Extra Segment) — 扩展段寄存器</p>
+</li>
+<li><p>16位指令指针寄存器 IP (Instruction Pointer)</p>
+<p>指向下一条指令的地址 in 当前代码段(CS)。取出一个字节指令后，IP += 1</p>
+<p>转移指令、调用指令、中断和复位   ==&gt;  改变IP值</p>
+</li>
+<li><p>20位物理地址的加法器<script type="math/tex">\Sigma</script></p>
+<p>段地址*16+段内偏移量－－20位实际物理地址</p>
+<p>(CS, DS, SS, ES)*16 + (IP, SP, BP, DI, SI)</p>
+</li>
+<li><p>6个字节Bytes的指令队列（ISQ）</p>
+<p>when 执行指令:</p>
+<p>指令: 内存取 -&gt; 指令队列缓冲器</p>
+</li>
+<li><p>输入输出控制电路</p>
+</li>
+</ul>
+</li>
+<li><p>执行部件（execution unit, EU）</p>
+<p>执行 指令</p>
+<ul>
+<li><p>16位算术逻辑单元ALU</p>
+</li>
+<li><p>16位数据寄存器</p>
+<p>AX、BX、CX、DX，又可以分为8个8位寄存器使用：    </p>
+<p>AH、AL、BH、BL、CH、CL、DH、DL</p>
+<p>AX和AL可用作累加操作</p>
+<p>BX可作基址指针寄存器，与DS配对</p>
+</li>
+<li><p>16位地址指针寄存器</p>
+<p>SP (Stack Pointer)— 堆栈指针寄存器   </p>
+<p>堆栈段中的栈顶位置，与SS配对</p>
+<p>BP (Base Pointer) — 基址指针寄存器</p>
+<p>数据区的基址位置，与SS配对</p>
+<p>SI  (Source Index) — 源变址寄存器</p>
+<p>某一存储单元的偏移地址，与DS配对</p>
+<p>串操作：源string       DS:SI</p>
+<p>DI  (Destination Index)— 目的变址寄存器</p>
+<p>某一存储单元的偏移地址，与DS配对</p>
+<p>串操作：目标string       ES:DI</p>
+</li>
+<li><p>16位状态标志寄存器 FLAG</p>
+<ul>
+<li><p>6个状态标志：</p>
+<p>CF (Carry Flag)— 进（借）位标志，若运算结果最高位产生进位或借位则CF置“1”，否则置“0”；</p>
+<p>AF (Auxiliary Flag)— 辅助进位标志，若低字节的第4位向上产生一个进位或借位，则AF置“1”，否则置“0”；</p>
+<p>ZF(Zero Flag) — 零标志位, 若运算结果为零, 则ZF置1,否则置0；</p>
+<p>SF(Sign Flag) — 符号标志位，若算数运算的结果为负，SF置1, 否则置0；</p>
+<p>OF(Overflow Flag) — 溢出标志位，有符号数算术运算结果产生溢出, OF置“1”，否则置“0”；</p>
+<p>PF(Pariy Flag) —奇偶标志位，逻辑运算中低8位所含1的个数为偶数则PF置“1” ，否则置“0”；</p>
+</li>
+<li><p>3个控制标志IF、DF、TF，余下7位保留：</p>
+<p>DF(Direction Flag) —方向标志位</p>
+<p>​    DF=1  串操作指令以递减顺序处理数据串；</p>
+<p>​    DF=0  串操作指令以递增顺序处理数据串；</p>
+<p>IF(Interrupt Flag) — 中断允许标志</p>
+<p>​    IF=1 CPU允许接收外部可屏蔽中断请求，即开中断；</p>
+<p>​    IF=0 关中断；<br>TF(Trace Flag) — 跟踪标志位</p>
+<p>​    TF=1  处理器处于单步工作方式时，每执行完一条指令产生一个软件中断；</p>
+<p>​    TF=0  正常工作；</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>  <img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/1.png" alt="1"></p>
+<ul>
+<li>编程结构(BIU &amp;&amp; EU)工作过程:</li>
+</ul>
+<ul>
+<li><p>when 两个字节Bytes为 empty   in   指令队列   —-&gt;    </p>
+<p>CS:IP   —-&gt;    取指令（2 Bytes）  in  存储器   —-&gt;</p>
+<p>存放  指令队列</p>
+</li>
+<li><p>指令队列   —-&gt;    EU</p>
+</li>
+<li><p>译码分析    in    EU控制电路</p>
+</li>
+<li><p>EU控制电路  send   控制信号  ——&gt;  各个部件</p>
+</li>
+<li><p>各个部件执行</p>
+<ul>
+<li><p>（special执行时）访问存储器 data -&gt; 运算后结果存入存储器 :</p>
+<p>EU  get  操作数16位地址偏移量  —-&gt; 20位物理地址  in  BIU的地址加法器  —-&gt;</p>
+<p>data  in  存储器  —-&gt;   内部EU数据总线    —-&gt;   ALU 计算结果  —-&gt;</p>
+<p>20位实际目标地址(同上地址加法器产生)  in  存储器</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>8086引脚信号</p>
+<ul>
+<li><p>预备知识：</p>
+<p>信号特点：引脚功能复用，不工作时8086 device处于高阻状态，总线时分复用</p>
+<p>模式：最小模式（系统中只有一个8086微处理器），最大模式（系统中包含两个或多个微处理器）</p>
+<p>输入RESET == 1，处于复位状态时：</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/reset.png" alt="reset"></p>
+</li>
+<li><p>引脚功能：</p>
+<p><strong>在min最小模式下</strong></p>
+<p>AD15 ~ AD0                                                                     (地址/数据复用：双向工作)</p>
+<ul>
+<li>AD0: 可作为低8位数据的选通信号(when AD0 == 0)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>A19/S6，A18/S5，A17/S4，A16/S3                            (地址/状态复用：输出)
+
+$\overline{BHE}$/S7                                                                         (高8位数据总线允许/状态复用：输出)
+
+MN/$\overline{MX}$                                                                         (min/max  模式选择：输入)
+
+$\overline{RD}$                                                                                  (读信号：输出)
+
+HOLD               &lt;=&gt;       $\overline{RQ}/\overline{GT0}$                                (hold request 总线保持请求信号：输出)
+
+HLDA               &lt;=&gt;       $\overline{RQ}/\overline{GT1}$                                (hold acknowledge 总线保持应答信号：输出)
+
+$\overline{WR}$                  &lt;=&gt;       $\overline{LOCK}$                                    (写信号：输出)
+
+M/$\overline{IO}$               &lt;=&gt;       $\overline{S2}$                                             (存储器/输入输出端口控制信号：输出)
+
+DT/$\overline{R}$                &lt;=&gt;       $\overline{S1}$                                             (data transmit/receive 数据收发信号：输出)
+
+$\overline{DEN}$               &lt;=&gt;       $\overline{S0}$                                            (data enable 数据允许信号：输出)
+
+ALE                    &lt;=&gt;       QS0                                         (address latch enable  地址锁存允许信号：输出)
+
+$\overline{INTA}$              &lt;=&gt;       QS1                                         (interrupt acknowledge  中断响应信号：输出)
+
+NMI                                                                                (non-maskable interrupt 非屏蔽中断输入：输入)
+
+INTR                                                                               (interrupt request 可屏蔽中断输入：输入)
+
+$\overline{TEST}$                                                                           (测试信号输入：输入)
+
+READY                                                                            (准备好信号输入：输入)
+
+RESET                                                                             (复位：输入)
+
+CLK                                                                                 (时钟信号输入：输入)
+
+![2](./2_ch2_8086_figure/2.png) 
+
+**在max最大模式下**  :（协处理器：8087专用于数值运算，8089专用于输入输出控制）
+
+$\overline{RQ}/\overline{GT0}$                                                                   (总线请求信号输入：输出)
+
+$\overline{RQ}/\overline{GT1}$                                                                   (总线授权信号:  输出)
+
+$\overline{LOCK}$                                                                       (总线封锁信号：输出)
+
+$\overline{S2}\ \overline{S1}\ \overline{S0}$                                                                   (总线周期状态信号：输出)
+
+QS0，QS1                                                                  (指令队列状态 IQS 信号：输出)
+</code></pre><ul>
+<li><p>8086 与其他芯片连接（8284A，8282，8286，8259A，8288）</p>
+<ul>
+<li><p>8284A 时钟发生器</p>
+<p>输入：READY信号</p>
+<p>​           RESET信号</p>
+<p>输出：(发 =&gt; 8086的 CLK)</p>
+<p>​           (发 =&gt; 8086的 READY)</p>
+<p>​           (发 =&gt; 8086的 RESET)</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>8282 地址锁存器</p>
+<p>输入：STB (min模式：8086发出的ALE)</p>
+<p>​                   (max模式：8282发出的ALE)</p>
+<p>​           $\overline{OE} == 0$</p>
+<p>​           (8086发出的$\overline{BHE}$)</p>
+<p>​           (8086发出的 A19 ~ A16，AD15 ~ AD0)</p>
+<p>输出：$\overline{BHE}$</p>
+<p>​           (发 =&gt; 地址总线)</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/8282.png" alt="8282"></p>
+</li>
+<li><p>8286 数据收发器</p>
+<p>输入：$\overline{OE}$(min模式：8086发出的$\overline{DEN}$ )，</p>
+<p>​                  (max模式：8288控制信号 DEN 和8259A发出的控制信号 与非)</p>
+<p>​            T    (min模式：8086发出的 DT/$\overline{R}$)</p>
+<p>​                  (max模式：8288发出的 DT/$\overline{R}$)  </p>
+<p>​            A7 ~ A0 (8086发出的AD7 ~ AD0)       </p>
+<p>输出：B7 ~ B0 (发 =&gt; 数据总线)           </p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/8286.png" alt="8286"></p>
+</li>
+<li><p>8259A 中断控制器 (max 模式下)</p>
+<p>输入： (max模式：8288发出的$\overline{INTA}$)</p>
+<p>​            (max模式：8288发出的$\overline{IORC}$)</p>
+<p>​            (max模式：8288发出的$\overline{IOWC}$)</p>
+<p>输出：(max模式：8259A发出控制信号)   [和 8288控制信号 DEN 与非 =&gt; 8286 的 $\overline{OE}$]</p>
+<p>​            (max 模式：发 =&gt; 8086的 INTR)</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/interrupt.png" alt="interrupt"></p>
+</li>
+<li><p>8288 总线控制器 (max 模式下)</p>
+<ul>
+<li><p>功能：</p>
+<ol>
+<li><p>主处理器和协处理器协调工作</p>
+</li>
+<li><p>总线的共享控制</p>
+</li>
+<li><p>对CPU发出控制信号变换和组合：</p>
+<p>对存储器和 I/O 端口的读写信号</p>
+<p>对地址锁存器 (8282) 控制信号</p>
+<p>对数据收发器 (8286) 控制信号</p>
+<p>对中断控制器 (8259A) 控制信号</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>输入：CLK (max模式：8284A 时钟发生器的输出)</p>
+<p>​           $\overline{S0}\ \overline{S1}\ \overline{S2}$ (max模式：8288发出的$\overline{S0}\ \overline{S1}\ \overline{S2}$)</p>
+<p>​           $\overline{AEN}$，IOB  == 0</p>
+<p>​           CEN  ==  5V</p>
+<p>输出：ALE (max模式：发 =&gt; 8282 的STB)</p>
+<p>​           DEN (max模式：和 8259A发出控制信号 与非，发 =&gt; 8286 的 $\overline{OE}$)</p>
+<p>​           DT/$\overline{R}$ (max模式：发 =&gt; 8286 的 T)</p>
+<p>​           $\overline{MRDC}$  (max模式：发 =&gt; 控制总线)                        (对存储器的读命令 memory read command)</p>
+<p>​           $\overline{MWTC}$ (max 模式：发 =&gt; 控制总线)                       (对存储器的写命令 memory write command)</p>
+<p>​           $\overline{IORC}$ (max模式：发 =&gt; 控制总线，8259A中断控制器)                      (对I/O的读命令)</p>
+<p>​           $\overline{IOWC}$ (max模式：发 =&gt; 控制总线，8259A中断控制器)                     (对I/O的写命令)</p>
+<p>​           $\overline{INTA}$ (max模式：发 =&gt; 8259A中断控制器)                                         (中断响应信号)</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/8288.png" alt="8288"></p>
+</li>
+<li><p>总连接图</p>
+<p><strong>min 最小模式</strong></p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/min.png" alt="min"></p>
+<p><strong>max 最大模式</strong></p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/max.png" alt="max"></p>
+</li>
+</ul>
+<ul>
+<li><p>8086总线操作</p>
+<ul>
+<li><p>周期</p>
+<ul>
+<li><p>时钟周期：计算机主频决定的基本时间计量单位</p>
+</li>
+<li><p>指令周期：从取指令到执行指令完毕所需的时间</p>
+</li>
+<li><p>总线周期：外部存储器 or I/O端口  存or取 数据 的时间</p>
+<p>总线的4个状态：T1、T2、T3、T4；有时插入等待状态Tw，空闲状态Ti</p>
+<p>T1：8086（AD15 ~ AD0，A19/S6 ~ A16/S3）发送 存储单元地址</p>
+<p>T2：AD15 ～ AD0低16位成高阻状，A19/S6 ~ A16/S3 发送 总线周期状态</p>
+<p>T3：AD15 ~ AD0 发送  data</p>
+<p>Tw：插入n个附加的时钟周期Tw，直到外设或存储器完成数据传输 =&gt; READY == 1，进入T4</p>
+<p>T4：总线周期结束</p>
+<p>Ti：总线处于空闲</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>min &amp;&amp; max 模式的 read &amp;&amp; write</p>
+<ul>
+<li><p>min read</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/min_read.png" alt="min_read"></p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/min_read2.png" alt="min_read2"></p>
+<p>T1：M/$\overline{IO}$ == 1 =&gt; memory输入输出，DT/$\overline{R}$ == 0 =&gt; data receive，  ALE ==1 =&gt; address latch enable 地址锁存器enable ,   $\overline{BHE}/S7$ == 0 =&gt; A19/S6 ~ A16/S3不能状态复用，而是传address</p>
+<p>T2： $\overline{BHE}/S7$ == 1 =&gt; A19/S6 ~ A16/S3状态复用，ALE ==0 =&gt; 无效化 地址锁存器，$\overline{RD}$ == 0 =&gt; 可read 数据，$\overline{DEN}$ == 0 =&gt; data enable 可传数据</p>
+<p>T3：READY == 0 =&gt; 开始传数据</p>
+<p>Tw：继续传数据，直到 READY == 1(CLK上升沿)时停止 =&gt;进入T4</p>
+<p>T4：结束，各信号归位</p>
+</li>
+<li><p>min write</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/min_write.png" alt="min_write"></p>
+</li>
+<li><p>max read</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/max_read.png" alt="max_read"></p>
+</li>
+<li><p>max write</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/max_write.png" alt="max_write"></p>
+</li>
+</ul>
+</li>
+<li><p>min &amp;&amp; max 模式的总线 BUS</p>
+<ul>
+<li><p>min 总线BUS保持</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/min_BUSkeep.png" alt="min_BUSkeep"></p>
+</li>
+<li><p>max 总线BUS请求，应答</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/max_BUSrequest.png" alt="max_BUSrequest"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>8086中断</p>
+<ul>
+<li><p>中断类型：</p>
+<ul>
+<li><p>硬件中断：由外部请求引起的中断</p>
+<ul>
+<li><p>可屏蔽中断INTR</p>
+<p>INTR高电平有效 (受IF控制)，</p>
+<p>CPU (每条指令的最后一个T状态) 检测INTR =&gt;</p>
+<p>CPU响应中断 =&gt; INTA有效 =&gt; 读取中断类型码  from  外设</p>
+</li>
+<li><p>非屏蔽中断NMI  (INT   2)</p>
+<p>NMI (上升沿有效) (不受CPU控制)，</p>
+<p>中断类型码为2（INT 2)</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>* 软件中断：由指令执行引起的中断
+
+  * DIV和IDIV指令（INT   0）
+
+    除数为0或商超过寄存器所能表达
+
+  * INT 指令          （INT   n）
+
+    执行INT n指令引起的中断
+
+  * INTO 指令       （INT   4）
+
+    若OF=1，则指令INTO引起类型码为4的软件中断
+
+  * 单步中断         （INT   1）
+
+    若TF=1，则CPU每执行完一条指令后便产生类型码为1的软件中断
+</code></pre><ul>
+<li><p>中断向量 (4 Bytes)</p>
+<p>中断处理子程序的入口地址:</p>
+<p>中断服务程序偏移地址IP(前 2 Bytes)  +  中断服务程序段地址CS(后 2 Bytes)</p>
+<p>eg:  INT 21H  =&gt;   21H * 4Bytes  =  84H =&gt; 87H ~ 84H 作为 CS:IP</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/interrupt_eg.png" alt="interrupt_eg"></p>
+<ul>
+<li><p>中断向量表</p>
+<p>内存0段：0～3FFH  =  4 bytes * 256  (0 ~ 0FFH 共 256 个中断向量)</p>
+<p>0 ～ 4：  专用中断类型</p>
+<p>5 ～ 1FH：保留中断类型 （可修改中断服务程序）[ 其中   8～0FH是8个硬件中断]</p>
+<p>20H～0FFH：用户可用中断类型 </p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/interrupt_chart.png" alt="interrupt_chart"></p>
+</li>
+</ul>
+</li>
+<li><p>中断响应</p>
+<ul>
+<li><p>过程</p>
+<p>软件中断 or NMI中断信号 or  INTR中断信号( when CPU允许中断响应: IF=1)  </p>
+<p>==&gt;进入中断响应周期:     (4 种情况)</p>
+<ol>
+<li><p>NMI中断信号  =&gt;  类型码是2</p>
+</li>
+<li><p>INTR中断信号(IF = 1) =&gt; 外设-&gt;低8位AD7 ~ AD0 传送中断类型码 -&gt;CPU   [占用两个总线周期]</p>
+<ul>
+<li>第一周期用来通知发中断请求的设备，准备好中断类型码；    </li>
+<li>第二周期接收外设接口发来的中断类型码；    (外设在第二个INTA负脉冲时，将中断类型码通过数据总线的低8位传给CPU)</li>
+<li>M/$\overline{IO}$ == 0，ALE 每个总线周期T1状态输出正脉冲，作为地址锁存信号。</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/INTR_code.png" alt="INTR_code"></p>
+</li>
+<li><p>中断指令  =&gt; 指令中类型码</p>
+</li>
+<li><p>程序出错产生中断  =&gt; 默认的类型码</p>
+</li>
+</ol>
+<p>==&gt;FLAG 压入堆栈，set  TF = 0，IF = 0，先压CS后压IP入堆栈</p>
+<p>==&gt;中断类型码 * 4 = 中断服务程序的入口地址 </p>
+<p>==&gt;转入执行 中断服务程序</p>
+<p>==&gt;执行后，堆栈弹出 pop 恢复断点处 CS:IP 和 FLAG</p>
+<p>==&gt;返回执行下一条指令</p>
+<p><img src="/2020/05/13/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/interrupt_process.png" alt="interrupt_process"></p>
+<ul>
+<li>注意：TF=1  处理器处于单步工作方式时，每执行完一条指令产生一个软件中断</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>8086和8088的区别</p>
+<ul>
+<li><p>8086是16位数据总线，8088是8位数据总线</p>
+<p>在处理16位数据字时：8088需要两步操作，而8086只需要一步</p>
+</li>
+<li><p>8086内部6字节指令缓冲队列，8088内部4字节指令缓冲队列</p>
+</li>
+<li><p>8086有M/$\overline{IO}$信号，8088对应为IO/$\overline{M}$</p>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch7可编程并行接口8255A_计数器8253</title>
+    <url>/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/</url>
+    <content><![CDATA[<h2 id="8255"><a href="#8255" class="headerlink" title="8255"></a>8255</h2><a id="more"></a>
+<p><img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8255.png" alt="8255"></p>
+<p>和CPU一边相连的信号a</p>
+<p>RESET－复位信号；</p>
+<p>D7～D0 －数据线；</p>
+<p>CS#   －片选信号；</p>
+<p>RD#   －读出信号；</p>
+<p>WR#   －写入信号；</p>
+<p>A1、A0－端口选择信号</p>
+<p>和外设一边相连的信号</p>
+<p>PA7～PA0—A组数据信号；</p>
+<p>PB7～PB0—B组数据信号；</p>
+<p>PC7～PC0—C组数据信号。</p>
+<p>有三种基本工作方式：</p>
+<p>p方式0——基本的输入输出方式；</p>
+<p>p方式1——选通的输入输出方式；</p>
+<p>p方式2——双向传输方式；</p>
+<p>eg. 应用1：多片8255的连接</p>
+<p>  某微机系统有两片8255芯片：J1和J2；</p>
+<p>  J1、J2的A1/A0分别和系统地址总线的A2/A1连接；</p>
+<p>  其它控制信号分别连在一起，然后与系统相关信号连接；</p>
+<p>  系统靠片选信号CS#来区分对J1和J2的访问；</p>
+<p>solu:</p>
+<p>A8A7 A6 A5 A4 A3 A2 A1 A0    （Y4 Y5）</p>
+<p>0    1   1    1   0  0    0    0    0      00E0H     </p>
+<p>0    1   1    1   0  0    1    1    0   00E6H</p>
+<p>0    1   1    1   0  1    0    0    0   00E8H</p>
+<p>0    1   1   1   0  1    1     1    0   00EEH</p>
+<p>J1：端口A，方式0，输出</p>
+<p>​        端口B，方式0，输入</p>
+<p>​        端口C高4位，输出</p>
+<p>​        端口C低4位，输入</p>
+<p>控制字：10000011  83H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL,83H</span><br><span class="line">MOV	DX,00E6H</span><br><span class="line">OUT	DX,AL</span><br></pre></td></tr></table></figure>
+<p>J2：端口A，方式0，输入</p>
+<p>​        端口B，方式1，输出</p>
+<p>​        端口C高4位，输出</p>
+<p>端口C低4位，配合端口B工作，可任意为1或0，此处0</p>
+<p>控制字：10010100  94H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL,94H</span><br><span class="line">MOV	DX,00EEH</span><br><span class="line">OUT	DX,AL</span><br></pre></td></tr></table></figure>
+<p>eg. 8255工作于方式0 </p>
+<p>端口地址</p>
+<p>A端口：00D0H;     B端口：  00D2H;</p>
+<p>C端口：00D4H;  控制端口：00D6H;</p>
+<p>A端口：方式0，输出  （传送字符的通道）</p>
+<p>B端口：未用</p>
+<p>C端口高4位：方式0，输出（PC6作为STB#信号输出端） </p>
+<p>C端口低4位：方式0，输入  （PC2作为BUSY信号输入端） </p>
+<p>控制字：</p>
+<p>​    10000001  81H</p>
+<p>A端口：00D0H;   B端口：00D2H;<br>C端口：00D4H; 控制端口：00D6H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">	MOV     AL, 81H</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">	MOV	AL,0DH</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">WAIT:   IN	AL,00D4H</span><br><span class="line">	AND	AL,04H	</span><br><span class="line">	JNZ	WAIT</span><br><span class="line">	MOV	AL,CL</span><br><span class="line">	OUT	00D0H,AL</span><br><span class="line">	MOV	AL,0CH</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">	INC	AL</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">;控制字：10000001</span><br><span class="line"></span><br><span class="line">;用置1&#x2F;0 方式使PC6为1，使STB#高电平，00001101B</span><br><span class="line">;读端口C的值</span><br><span class="line"></span><br><span class="line">;如不为0，说明忙信号为1，打印机忙，等待</span><br><span class="line"></span><br><span class="line">;不忙，把CL中字符送端口A</span><br><span class="line"></span><br><span class="line">;用置1&#x2F;0 方式使PC6为0，使STB#低电平，00001100B</span><br><span class="line"></span><br><span class="line">;再使STB#高电平</span><br></pre></td></tr></table></figure>
+<p>eg. 8255工作于方式1 </p>
+<p>设8255端口地址：</p>
+<p>A端口00C0H;   B端口 00C2H;</p>
+<p>C端口00C4H;   控制端口 00C6H</p>
+<p>A端口作为数据通道，工作在方式1，输出方式。PC7自动作为OBF#信号输出端，PC6自动作为ACK#信号输入端。CPU控制PC0产生选通脉冲。OBF#此处无用，悬空。</p>
+<p>PC3自动作为INTR信号输出端。中断类型号0BH</p>
+<p>中断入口地址在2CH~2FH</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MAIN:MOV   AL,0A0H     </span><br><span class="line">	OUT  0C6H,AL      ;设置控制字    10100000</span><br><span class="line">	MOV   AL,01H        ;PC0&#x3D;1，让选通无效</span><br><span class="line">	OUT    0C6H,AL      </span><br><span class="line">	XOR	AX,AX        ;设置中断处理子程序入口地址：</span><br><span class="line">	MOV   DS,AX        ;1000H:2000H 在2CH~2EH</span><br><span class="line">	MOV   AX,2000H  ;中断类型号为多少？</span><br><span class="line">	MOV   WORD PRT[002C], AX</span><br><span class="line">	MOV   AX,1000H</span><br><span class="line">	MOV   WORD PRT[002E],AX</span><br><span class="line">	MOV   AL,0DH      ;PC6&#x3D;1,允许8255中断</span><br><span class="line">	OUT    0C6,AL</span><br><span class="line">	STI    </span><br><span class="line">;中断处理</span><br><span class="line">TINTR: </span><br><span class="line">	MOV   AL,[DI]       ;[DI]为打印内容, 字符送A端口</span><br><span class="line">	 OUT    0C0H,AL    ;</span><br><span class="line">	 MOV   AL,00          ;PC0&#x3D;0，产生选通信号</span><br><span class="line">	  OUT    0C6H,AL    ;PC0&#x3D;1 ，撤销选通信号</span><br><span class="line">	  INC     AL</span><br><span class="line">	  OUT    0C6H,AL</span><br><span class="line">              …</span><br><span class="line">              IRET</span><br></pre></td></tr></table></figure>
+<h2 id="8253"><a href="#8253" class="headerlink" title="8253"></a>8253</h2><p>8254&amp;8253不同点：</p>
+<ul>
+<li>只有8254内部有状态寄存器；</li>
+<li>8253有2种方式读出计数值，8254增加了读出控制字命令，有3种方式可读出计数值和状态值</li>
+</ul>
+<p>8253内部有三个计数器，他们的结构完全相同。</p>
+<p>每个计数器的输入和输出都决定于设置在控制寄存器中的控制字，互相之间工作完全独立。</p>
+<p>每个计数器通过三个引脚和外部联系:</p>
+<ul>
+<li>一个为时钟输入端CLK，一个为门控信号输入端GATE，另一个为输出端OUT。</li>
+</ul>
+<p>每个计数器内部有</p>
+<ul>
+<li>一个8位的控制寄存器，</li>
+<li>16位的计数初值寄存器CR</li>
+<li>计数执行部件CE</li>
+<li>输出锁存器OL</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253.png" alt="8253"></p>
+<h3 id="控制字"><a href="#控制字" class="headerlink" title="控制字"></a>控制字</h3><p><img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_controlword.png" alt="8253_controlword"></p>
+<h3 id="8253初始化program"><a href="#8253初始化program" class="headerlink" title="8253初始化program"></a>8253初始化program</h3><p>8253CNT0~ CNT2端口地址：0200H~0202H</p>
+<p>控制寄存器端口地址：0203H</p>
+<p>eg. 端口地址：0200H~0203H</p>
+<p>CNT0工作于方式3，二进制计数，计数初值65536</p>
+<p>CNT0控制字：00 11 011 0   36H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;CNT0初始化编程</span><br><span class="line">MOV AL,36H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0200H</span><br><span class="line">MOV AL,00H</span><br><span class="line">OUT DX,AL</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+<p>eg. 端口地址：0200H~0203H</p>
+<p>CNT1工作于方式2，BCD计数，计数初值1023H</p>
+<p>CNT1控制字：01 11 010 1  75H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;CNT1初始化编程</span><br><span class="line">MOV AL,75H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0201H</span><br><span class="line">MOV AX,1023H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV AL,AH</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+<p>eg. 端口地址：0200H~0203H</p>
+<p>CNT2工作于方式3，二进制计数，计数初值255</p>
+<p>CNT2控制字：10 01 011 0   96H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;CNT2初始化编程</span><br><span class="line">MOV AL,96H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0202H</span><br><span class="line">MOV AL,0FFH</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+<h3 id="8253的锁存读出命令program"><a href="#8253的锁存读出命令program" class="headerlink" title="8253的锁存读出命令program"></a>8253的锁存读出命令program</h3><p>方法：</p>
+<p>（1）写锁存命令，使计数值锁存到输出寄存器OL；</p>
+<p>（2）读锁定的计数值</p>
+<p>eg. 若8253端口地址200H~203H，已知CNT1已经工作，现需要读出CNT1的当前计数值</p>
+<p>；锁存命令， CNT0、<br>CNT1和 CNT2分别为00H、40H和80H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV AL,40H    	;锁存命令， CNT0、 CNT1和 CNT2分别为00H、40H和80H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0201H</span><br><span class="line">IN AL,DX</span><br><span class="line">MOV CL,AL</span><br><span class="line">IN AL,DX</span><br><span class="line">MOV CH,AL</span><br></pre></td></tr></table></figure>
+<h3 id="8253-工作mode"><a href="#8253-工作mode" class="headerlink" title="8253 工作mode"></a>8253 工作mode</h3><p>软件触发计数启动</p>
+<ul>
+<li>模式0－计数结束中断</li>
+<li>模式4－软件触发延时选通</li>
+</ul>
+<p>硬件触发计数启动</p>
+<ul>
+<li>模式1－可编程单拍</li>
+<li>模式5－硬件触发延时选通</li>
+</ul>
+<p>周期信号发生器</p>
+<ul>
+<li>模式2－频率发生器</li>
+<li>模式3－方波发生器</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_workmode.png" alt="8253_workmode"></p>
+<h3 id="8253实例"><a href="#8253实例" class="headerlink" title="8253实例"></a>8253实例</h3><p>eg. OUT0输出接8259A的IRQ0，用作PC实时时钟的定时中断请求信号。</p>
+<p>工作于方式3，</p>
+<p>CNT0的控制字</p>
+<p>0011 011 0       36H</p>
+<p>计数器初值为0000H，</p>
+<p>对应最大方波周期：  T=65536*838ns» 55ms。</p>
+<p>输出信号频率：   f=1/T=18.206Hz </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL, 36H</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AL, 0</span><br><span class="line">OUT	40H, AL</span><br><span class="line">OUT	40H, AL</span><br></pre></td></tr></table></figure>
+<p>用来为动态存储器的刷新提供定时信号。</p>
+<p>工作于方式2。</p>
+<p>CNT1的控制字</p>
+<p>0101 010 0       54H</p>
+<p>计数器初值为18H。</p>
+<p>对应最大方波周期：  T=18*838ns» 15us。</p>
+<p>每次刷新512单元，128次刷新全部64KB。所需时间：</p>
+<p>​      15us*128 »1.92ms&lt;2ms</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL, 54H</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AL, 18</span><br><span class="line">OUT	41H, AL</span><br></pre></td></tr></table></figure>
+<p>GATE2接至并行接口8255A的PB0位，用它控制通道2的计数过程。</p>
+<p>输出OUT2经过一个与门，这个与门受PB1位控制。扬声器可由PB0或PB1分别控制发声。8255A的端口地址为60H~63H。</p>
+<p>若要求扬声器发出600Hz的声音，可将计数器2设定为方式3，作为方波发生器</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL, 10110110B     ;方式3，写入16位计数值</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AX, 1989		；1.19318MHz&#x2F;600&#x3D;1989</span><br><span class="line">OUT	42H, AL		;写入低8位</span><br><span class="line">MOV AL，AH</span><br><span class="line">OUT	42H, AL		;写入高8位</span><br><span class="line">IN AL, 61H			;读8255A的B端口原输入值</span><br><span class="line">MOV AH, AL</span><br><span class="line">OR AL, 03H		;使PB1和PB0位均为1</span><br><span class="line">OUT 61H,AL		;输出以使扬声器能够发声</span><br></pre></td></tr></table></figure>
+<p>eg. <img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_eg2.png" alt="8253_eg2"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">		NAME EX_1</span><br><span class="line">DATA		SEGMENT</span><br><span class="line">MESS	DB	‘8253 CNT0 IN MODE 3’,0DH,0AH</span><br><span class="line">		DB	‘8253 CNT1 IN MODE 2’,0DH,0AH,‘$’</span><br><span class="line">DATA		ENDS</span><br><span class="line">CODE 	SEGMENT</span><br><span class="line">		ASSUME CS:CODE,DS:DATA</span><br><span class="line">START:	MOV AX,DATA</span><br><span class="line">MOV DS,AX</span><br><span class="line">CLI</span><br><span class="line">MOV DX,0203H	;CNT0初始化，产生方波，周期10ms</span><br><span class="line">MOV AL,36H	; CNT0方式控制字   00110110    </span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0200H</span><br><span class="line">MOV AL,0C4H</span><br><span class="line">OUT DX,AL		;写入低字节计数值          09C4H</span><br><span class="line">MOV AL,09H</span><br><span class="line">OUT DX,AL		;写入高字节计数值</span><br><span class="line">MOV DX,0203H	;CNT1初始化，产生周期性负脉冲信号，MOV AL,74H	;周期1s ，CNT1方式控制字   01110100    </span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0201H</span><br><span class="line">MOV AL,064H</span><br><span class="line">OUT DX,AL		;写入低字节计数值          64H</span><br><span class="line">MOV AL,00H</span><br><span class="line">OUT DX,AL		;写入高字节计数值</span><br><span class="line">STI</span><br><span class="line">MOV DX,OFFSET MESS</span><br><span class="line">MOV AH,09H</span><br><span class="line">INT 21H</span><br><span class="line">MOV AH,4CH</span><br><span class="line">INT 21H</span><br><span class="line">CODE ENDS</span><br><span class="line">END START</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch5存储器</title>
+    <url>/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/</url>
+    <content><![CDATA[<h3 id="存储器分类"><a href="#存储器分类" class="headerlink" title="存储器分类"></a>存储器分类</h3><a id="more"></a>
+<ul>
+<li>寄存器</li>
+<li>Cache(一般use SRAM)</li>
+<li><p>内部存储器 (ROM, RAM)</p>
+<ul>
+<li><p>CPU总线访问</p>
+</li>
+<li><p>容量$\le 2^{N_{地址总线}}  \times 8bits$</p>
+</li>
+<li><p>内容：系统软件(ROM)，当前将运行application software(RAM)</p>
+</li>
+<li><p>内存分类：</p>
+<p>基本内存：00000H～9FFFFH，640KB，DOS系统；</p>
+<p>高端内存：A0000H～FFFFFH，384KB，系统ROM、缓冲区；</p>
+<p>扩充内存：CPU直接寻址范围之外的物理存储器，扩充内存管理软件EMM管理，映射到高端内存中；</p>
+<p>扩展内存：1MB以上但不是通过内存扩充卡映射来获得的内存空间；</p>
+</li>
+</ul>
+</li>
+<li>外部存储器<ul>
+<li>专用设备（如硬盘驱动器、软驱、光驱等）管理</li>
+<li>CPU不直接访问</li>
+<li>容量不受限制</li>
+<li>内容：任意 software, data</li>
+</ul>
+</li>
+</ul>
+<h3 id="程序运行"><a href="#程序运行" class="headerlink" title="程序运行"></a>程序运行</h3><ul>
+<li>step1 内存ROM: 引导程序 -&gt; start system</li>
+<li>step2 外存: 系统、应用程序 -&gt; 内存RAM</li>
+<li>step3 内存RAM: run 系统、应用程序</li>
+<li>step4 内存RAM: store 中间结果(while running program)</li>
+<li>step5 内存RAM: 最后结果 -&gt; 外存(when program exit)</li>
+</ul>
+<h3 id="存储器指标"><a href="#存储器指标" class="headerlink" title="存储器指标"></a>存储器指标</h3><ul>
+<li>memory size</li>
+<li>access time(存取时间、速度)</li>
+<li>功耗</li>
+<li>性价比</li>
+<li>工艺复杂</li>
+<li>集成度</li>
+<li>控制简单：是否need 刷新</li>
+</ul>
+<h3 id="RAM（Random-Access-Memory）"><a href="#RAM（Random-Access-Memory）" class="headerlink" title="RAM（Random Access Memory）"></a>RAM（Random Access Memory）</h3><ul>
+<li><p>种类：</p>
+<ul>
+<li><p>Static RAM, SRAM</p>
+<p>例子：</p>
+<p>2114  （1K*4位）</p>
+<p>6116  （2K*8位）  $\overline{CS}$</p>
+<p>6264  （8K*8位）  $\overline{CE}$</p>
+<p>62128 （16K*8位）</p>
+<p>62256 （32K*8位） $\overline{CS}$</p>
+<p>FIFO: First In First Out</p>
+<ul>
+<li><p>ASRAM (asynchronous SRAM)</p>
+</li>
+<li><p>SSRAM (synchronous SRAM)</p>
+<p>例子：SBSRAM:  Synchronous Burst SRAM</p>
+</li>
+</ul>
+</li>
+<li><p>Dynamic RAM, DRAM</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/DRAM.png" alt="DRAM"></p>
+<ul>
+<li><p>SDRAM (Synchronous Dynamic RAM)</p>
+<p>用时钟同步CPU和DRAM；</p>
+<p>有突发模式;</p>
+<p>有PC66/100/133/150不同规范速率，工作频率分别是66/100/133/150MHz;</p>
+</li>
+<li><p>DDR SDRAM (Double data rate SDRAM)</p>
+<p>时钟上升沿、下降沿均传输数据，速率加倍；</p>
+<p>数据线宽64位（8字节）；</p>
+<p>主要标准：DDR200/266/333/400等，分别对应PC1600/2100/2700/3200规范</p>
+<p>例：DDR200,工作频率100MHz，传输速率200MHz，传输带宽1600MB/s。</p>
+</li>
+<li><p>DDR2 SDRAM</p>
+<p>在DDR的基础上，有两倍的预读取能力，数据传输速率4倍于工作频率;</p>
+<p>主要标准：DDR2 400/533/667/800等;</p>
+</li>
+<li><p>DDR3 SDRAM </p>
+<p>是DDR2的升级，数据传输速率8倍于工作频率；</p>
+<p>主要标准：DDR3 800/1066/1333/1600等；</p>
+</li>
+<li><p>DDR4 SDRAM </p>
+<p>是DDR3的升级，数据传输速率8倍于工作频率，频率提高；</p>
+<p>最低标准DDR4 1600。random access/read any unit</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>不同于顺序存储器，for不同存储单元：visit time 一样</li>
+<li>存储数据lost(when 断电)</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>SRAM</th>
+<th>DRAM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>memory size</td>
+<td>small</td>
+<td>big</td>
+</tr>
+<tr>
+<td>access time</td>
+<td>short</td>
+<td>long</td>
+</tr>
+<tr>
+<td>功耗</td>
+<td>大</td>
+<td>小</td>
+</tr>
+<tr>
+<td>性价比</td>
+<td>price high</td>
+<td>price low</td>
+</tr>
+<tr>
+<td>工艺复杂</td>
+<td>complex</td>
+<td>simple</td>
+</tr>
+<tr>
+<td>集成度</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>控制简单：是否需刷新</td>
+<td>简单：不需要</td>
+<td>复杂：需要 (刷新时限 2ms)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="SRAM-62256-amp-amp-DRAM-MT48LC4M32"><a href="#SRAM-62256-amp-amp-DRAM-MT48LC4M32" class="headerlink" title="SRAM-62256 &amp;&amp; DRAM   MT48LC4M32"></a>SRAM-62256 &amp;&amp; DRAM   MT48LC4M32</h3><h4 id="62256"><a href="#62256" class="headerlink" title="62256"></a>62256</h4><p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/62256.png" alt="62256"></p>
+<p>A0 ~ A14  15根地址线，可访问215=32768（32K）存储单元；</p>
+<p>I/O1 ~ I/O8，8根数据线;</p>
+<p>3个控制引脚  控制  存储器的读写：</p>
+<p>  $\overline{CS}$：片选信号chip select，低有效，允许存储器读写 (6116 为$\overline{CS}$ ，6264中为 $\overline{CE}$ chip enable)</p>
+<p>  $\overline{WE}$：写控制信号，低有效，低电平为写</p>
+<p>  $\overline{OE}$：输出使能，低有效，在读存储器周期中，$\overline{OE}$为低电平允许输出数据</p>
+<p>两根电源线：Vcc，Vss</p>
+<ul>
+<li><p>为了刷新，控制器有3 功能</p>
+<p>时序功能 </p>
+<p>地址处理功能 </p>
+<p>仲裁功能</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/DRAM_renew.png" alt="DRAM_renew"></p>
+</li>
+</ul>
+<h4 id="MT48LC4M32"><a href="#MT48LC4M32" class="headerlink" title="MT48LC4M32"></a>MT48LC4M32</h4><p>初始化：Initialization</p>
+<p>在正常操作之前进行</p>
+<p>通过LOAD MODE REGISTER command对模式寄存器（Mode Register）编程</p>
+<h3 id="ROM"><a href="#ROM" class="headerlink" title="ROM"></a>ROM</h3><ul>
+<li><p>种类</p>
+<ul>
+<li><p>掩膜ROM:  Mask Programmed ROM</p>
+</li>
+<li><p>PROM 可编程ROM:  Programmable ROM</p>
+</li>
+<li><p>EPROM 可擦除的PROM:  Erasable PROM</p>
+<p>例子：2716，2732，2764，27128，27256，27512    $\overline{CE}$</p>
+<p>它们的存储容量分别为2K、4K、6K、16K、32K、64K Byte；</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/27128.png" alt="27128"></p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/27128_chart.png" alt="27128_chart"></p>
+<ul>
+<li>$\overline{E}$ 即 $\overline{CE}$ ，$\overline{G}$ 即 $\overline{OE}$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>E2PROM/EEPROM 电擦除的PROM: Electrically Erasable PROM</p>
+<p>例子：2816的基本特点</p>
+<p>容量为2K×8bit的电擦除PROM，它的管脚排列与EPROM2716一致。</p>
+<p>2816的存储时间为250ns, 按字节为单位进行擦除和编程，擦除和编程只用$\overline{CE}$、$\overline{OE}$两个信号来控制</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/2816_chart.png" alt="2816_chart"></p>
+</li>
+<li><p>NOR flash/NAND flash 闪烁存储器FLASH</p>
+</li>
+<li><p>串行EEPROM</p>
+</li>
+</ul>
+<h3 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h3><p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/Cache.png" alt="Cache"></p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/Cache2.png" alt="Cache2"></p>
+<h3 id="微机系统的内存组织"><a href="#微机系统的内存组织" class="headerlink" title="微机系统的内存组织"></a>微机系统的内存组织</h3><h4 id="16位微机系统-8086"><a href="#16位微机系统-8086" class="headerlink" title="16位微机系统  (8086)"></a>16位微机系统  (8086)</h4><ul>
+<li><p>20根地址线—&gt; 2^20=1MB存储空间 00000H～FFFFFH；</p>
+<p>两个512KB的存储器组成：(两个存储器和地址线A19～A1连接)</p>
+<p>奇地址存储器（高字节存储器），与数据总线D15 ~ D8高8位相连；</p>
+<p>偶地址存储器（低字节存储器），与数据总线D7 ~ D0低8位相连；</p>
+</li>
+<li><p>字节访问 &amp;&amp; 按字访问两种方式</p>
+<p>按字节访问时：可只访问奇地址存储体，也可只访问偶地址存储体</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/visit_byte.png" alt="visit_byte"></p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/visit_byte_chart.png" alt="visit_byte_chart"></p>
+<p>按字访问时：</p>
+<p>对准状态</p>
+<p>1 个字的低 8 位在偶地址体中，高 8位在奇地址体中。</p>
+<p>(A0 和$\overline{BHE}$ ==0) 用 1个总线周期即可通过D15～ D0 完成 16位的字传输</p>
+<p>非对准状态</p>
+<p>1个字的低 8位在奇地址体中，高 8位在偶地址体中。</p>
+<p>CPU 会自动用两个总线周期完成 16位的字传输，</p>
+<p>第一个总线周期访问奇地址体，在 D15～ D8 传输低 8位数据，</p>
+<p>第二个总线周期访问偶地址体，在 D7～ D0传输高 8位数据。</p>
+</li>
+</ul>
+<h4 id="32位微机系统"><a href="#32位微机系统" class="headerlink" title="32位微机系统"></a>32位微机系统</h4><ul>
+<li><p>32位地址总线—&gt; 2^32 =  4GB 的物理地址空间，地址范围为 0 ～ FFFFFFFFH</p>
+<p>4个存储体，每个为 1GB ： (4个存储体均与地址线 A31～ A2 相连 )</p>
+<p>均与32位数据总线D31 ~ D0相连</p>
+<p>字节允许信号$\overline{BE3}$～$\overline{BE0}$则作为体选信号分别连接 1个存储体</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/32byte_BE.png" alt="32byte_BE"></p>
+</li>
+<li><p>32 位存储器要满足对 8位、16 位、32 位各种不同规格的数据的访问 ($\overline{BE3}$～$\overline{BE0}$ 决定)</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/32byte_visit_BE.png" alt="32byte_visit_BE"></p>
+<p>在 D23～ D16或 D31～ D24上进行 8位传输时，分别在 D7～ D0 或 D15～8 上传输同样数据；</p>
+<p>在 D31～ D16上进行 16位传输时，在 D15~0 上也传输同样数据。</p>
+<ul>
+<li>地址 A31～ A2 选择双字的起始地址，(A1A0==00)地址A31~A0是 4的倍数即 0、4、8、……FFFFFFFCH</li>
+</ul>
+<p>对准状态、非对准状态：</p>
+<p>如果用奇地址进行字访问或双字访问，或者用不是 4的倍数的地址进行双字访问，</p>
+<p>==&gt; 出现非对准状态，这时需要用 2个总线周期完成字传输或双字传输</p>
+</li>
+</ul>
+<h3 id="存储器应用设计"><a href="#存储器应用设计" class="headerlink" title="存储器应用设计"></a>存储器应用设计</h3><ul>
+<li><p>预备知识：</p>
+<p>74LS138 : </p>
+<p>G1 == 1 &amp; $\overline{G2A}$ == 0 &amp; $\overline{G2B}$ == 0时选通 </p>
+<p>(CBA) =  i   决定  $\overline{Y_{i}}$  == 0</p>
+<ul>
+<li><p>注意：</p>
+<p>8086、8088的 $\overline{M}$/IO == 0 时 ，才能74LS138选通，对存储器操作</p>
+<p>8086、8088的 $\overline{WR}$ —&gt; SRAM存储器$\overline{WE}$   (EPROM、EEPROM没有)</p>
+<p>8086、8088的 $\overline{RD}$ —&gt; SRAM、EPROM、EEPROM存储器 $\overline{OE}$</p>
+<p>8086通过 $\overline{Y_{i}}$ + A0 =&gt; $\overline{CE}$ 偶位、$\overline{Y_{i}}$ + $\overline{BHE}$ =&gt; $\overline{CE}$ 奇位 —-&gt; 8位(D7~D0, D15~D8)拓展为16位(D15~D0)；</p>
+<p>8088 没有A0，$\overline{BHE}$ 决定输出奇偶位的作用</p>
+<p>2716，2732，2764，27128，27256，27512 的 $\overline{PGM}$ == +5V</p>
+<p>选通信号：</p>
+<ul>
+<li>SRAM (6116、62256 为$\overline{CS}$ ；6264中为 $\overline{CE1}$ chip enable，$\overline{CE2}$不接)</li>
+<li>EPROM 2716，2732，2764，27128，27256，27512 为   $\overline{CE}$ or $\overline{CS}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>存储拓展</p>
+<ul>
+<li><p>存储宽度扩展:  位扩展 (多个存储器$\overline{CE}$ 同时选通，data同时输入输出I/O)</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/width.png" alt="width"></p>
+<ul>
+<li><p>8086的8位(D7~D0, D15~D8)拓展为16位(D15~D0) </p>
+<p>[通过 $\overline{Y_{i}}$ + A0 =&gt; $\overline{CE}$ 偶位、$\overline{Y_{i}}$ + $\overline{BHE}$ =&gt; $\overline{CE}$ 奇位]</p>
+</li>
+</ul>
+</li>
+<li><p>存储深度扩充: 字扩展 (不同 Address —&gt; 不同存储器的$\overline{CE_{i}}$ 分别选通)</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/depth.png" alt="depth"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>地址译码方式</p>
+<ul>
+<li><p>线选法</p>
+<p>直接用地址线作为片选信号，不需要片选译码器</p>
+<p>优点：译码逻辑简单</p>
+<p>缺点1：整个存储器的地址常常不连续；</p>
+<p>缺点2：同一单元可对应不同的地址，形成地址重叠</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/addr_lineselect.png" alt="addr_lineselect"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>全地址译码法</p>
+<p>除去用作片内译码的低位地址后，把全部高位地址进行译码来产生片选信号</p>
+<p>优点：存储单元地址是唯一的、不存在地址重叠问题；</p>
+<p>缺点：需要较多的译码逻辑</p>
+<ul>
+<li><p>全译码法8088与SRAM 6264(8K * 8bits)构成32KB存储空间</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/addr_alladdr.png" alt="addr_alladdr"></p>
+</li>
+</ul>
+</li>
+<li><p>部分地址译码法</p>
+<p>除去用作片内译码的低位地址后，将高位地址的一部分进行译码来产生片选信号</p>
+<p>优点：存储单元地址是唯一的、不存在地址重叠问题 =&gt; 充分利用存储空间；</p>
+<p>缺点：需要较多的译码逻辑</p>
+<p>部分译码法8088与SRAM 6116(2K * 8 bits)构成8KB存储空间</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/addr_partaddr.png" alt="addr_partaddr"></p>
+</li>
+</ul>
+<ul>
+<li><p>8086 和 8088的杂例</p>
+<p>图5.35  8088需要16KB的ROM和16KB的RAM</p>
+<p>16KB的ROM：两片EPROM2764   8K*8bits</p>
+<p>16KB的RAM：两片SRAM6264  8K*8bits</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/8088_5_35.png" alt="8088_5_35"></p>
+<p>图5.36  8088需要256KB的ROM和256KB的RAM</p>
+<p>256KB的ROM：？片EPROM27256   32K*8bits</p>
+<p>256KB的RAM：？片SRAM62256  32K*8bits</p>
+<p>ROM地址范围的选取：高端，C0000H~FFFFFH</p>
+<p>RAM地址范围的选取：00000H~3FFFFH</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/8088_5_36.png" alt="8088_5_36"></p>
+<ul>
+<li><p>8086芯片简化图</p>
+<p>8086通过 $\overline{Y_{i}}$ + A0 =&gt; $\overline{CE}$ 偶位、$\overline{Y_{i}}$ + $\overline{BHE}$ =&gt; $\overline{CE}$ 奇位 —-&gt; 8位(D7~D0, D15~D8)拓展为16位(D15~D0)；</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/8086_simplify.png" alt="8086_simplify"></p>
+</li>
+</ul>
+<p>图5.39  全译码法8086与6116构成8KB存储空间  (6116：2K*8bits)</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/8086_5_39.png" alt="8086_5_39"></p>
+<p>图5.40   8086与ROM/RAM综合</p>
+<p>6116（2K×8bit)构成8KB（4K字)的RAM</p>
+<p>2716 （2K×8bits）构成8KB（4K字)的ROM</p>
+<p><img src="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/8086_5_40.png" alt="8086_5_40"></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch9DMA8237</title>
+    <url>/2020/05/13/computer_organization/9_ch9_DMA8237/</url>
+    <content><![CDATA[<h2 id="DMA8237"><a href="#DMA8237" class="headerlink" title="DMA8237"></a>DMA8237</h2><a id="more"></a>
+<h3 id="内存与外设之间的数据传输控制方式"><a href="#内存与外设之间的数据传输控制方式" class="headerlink" title="内存与外设之间的数据传输控制方式"></a>内存与外设之间的数据传输控制方式</h3><p>程序控制方式</p>
+<p>中断方式</p>
+<p>[以上方式都需要CPU执行程序来控制数据传输；]</p>
+<ul>
+<li>中断过程需要额外的保护断点、标志操作；</li>
+<li>中断响应和中断返回时，都要清除指令队列，重新装入程序；</li>
+</ul>
+<p>DMA方式</p>
+<p>[外设和存储器之间直接进行数据传输，不经过CPU。]</p>
+<ul>
+<li><p>DMA过程中，DMAC能独立控制三大总线来访问存储器和I/O端口，</p>
+<p>像CPU一样提供数据传送所需的地址信息和读写控制信息==&gt;存储器</p>
+<p>－DMAC内部有地址寄存器和字节计数器</p>
+</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/9_ch9_DMA8237/DMA.png" alt="DMA"></p>
+<h3 id="DMA操作过程三个阶段"><a href="#DMA操作过程三个阶段" class="headerlink" title="DMA操作过程三个阶段"></a>DMA操作过程三个阶段</h3><ol>
+<li>DMA请求；<ul>
+<li>外设要求以DMA方式为它服务时，==DMA请求信号DREQ==&gt;DMAC</li>
+<li>DMAC检查该信号是否被屏蔽及其优先权，if 该信号有效则</li>
+<li>DMAC===发送总线请求信号HRQ==&gt;CPU的HOLD</li>
+</ul>
+</li>
+<li>DMA响应和数据传送；<ul>
+<li>DMAC接管总线===DACK信号==&gt;外设，使之成为DMA传送时被选中的设备</li>
+<li>DMAC==内存地址以及I/O读写和存储器读写控制信号==&gt;存储器</li>
+<li>在外设和存储器之间数据传送</li>
+</ul>
+</li>
+<li>传送结束；<ul>
+<li>DMAC放弃总线，撤消总线请求(HRQ==0)，</li>
+<li>CPU检测到HRQ(HOLD)==0后，HLDA==0，</li>
+<li>CPU重新获得总线控制权</li>
+</ul>
+</li>
+</ol>
+<h3 id="8237地址"><a href="#8237地址" class="headerlink" title="8237地址"></a>8237地址</h3><p>一片8237占用连续16个端口地址，用DMA+00H~DMA+0FH表示。其中，DMA表示该片8237的基地址。</p>
+<p>在AT以上的微机中，使用2片8237，其地址为：</p>
+<p>第一片8237，基地址DMA=0000H，使用0000H~000F  I/O地址。</p>
+<p>第二片8237，基地址DMA=00C0H，使用00C0H~00CF  I/O地址</p>
+<p><img src="/2020/05/13/computer_organization/9_ch9_DMA8237/8237-addr.png" alt="8237-addr"></p>
+<p>传输模式：</p>
+<p>单字节传输模式</p>
+<ul>
+<li>每次DMA操作只传送一字节，接着8237释放总线；</li>
+</ul>
+<p>块传输模式</p>
+<ul>
+<li>8237获得总线控制权后，连续传送多个字节，每传输一个字节，当前字节计数器减1当前地址寄存器加1或1，直到所要求的字节数传输完（当前字节计数器减至0），8237在EOP引脚上发出结束信号，然后释放总线</li>
+</ul>
+<p>请求传输模式</p>
+<ul>
+<li>在传输过程中，8237要检测DREQ信号（询问外设），当DREQ==0时，8237暂停传输（不释放总线），当DREQ再次==1后，继续进行传输。</li>
+</ul>
+<p>级联传输模式    </p>
+<ul>
+<li>多片8237级联时，可以构成主从式DMA系统。级联的方式是把从片的请求线HRQ==&gt;主片的DREQ引脚，主DACK==&gt;从片的HLDA引脚</li>
+</ul>
+<h3 id="8237寄存器"><a href="#8237寄存器" class="headerlink" title="8237寄存器"></a>8237寄存器</h3><p><img src="/2020/05/13/computer_organization/9_ch9_DMA8237/8237-reg.png" alt="8237-reg"></p>
+<h3 id="8237的初始化编程"><a href="#8237的初始化编程" class="headerlink" title="8237的初始化编程"></a>8237的初始化编程</h3><p>1.输出主清除命令</p>
+<p>2.写入基地址与现行地址寄存器</p>
+<p>3.写入基字节数与现行字节数寄存器</p>
+<p>4.写入方式寄存器</p>
+<p>5.写入屏蔽寄存器</p>
+<p>6.写入控制寄存器</p>
+<p>7.写入请求寄存器</p>
+<p>若有软件请求，就写入指定通道，便可以开始DMA传送的过程。</p>
+<p>若无软件请求，由通道的DREQ启动DMA传送过程 </p>
+<p>eg. 若要利用通道0，由外设（磁盘）输入32KB的一个数据块，传送至内存8000H开始的区域（增量传送），</p>
+<p>采用数据块连续传送的方式，传送完不自动初始化，</p>
+<p>外设的DREQ和DACK都为高电平有效。要编程首先要确定端口地址。</p>
+<p>地址的低4位以区分8237A的内部寄存器，高4位地址A7~A4，经译码后，连至选片端CS#，假定选中时高4位为7</p>
+<p>solution:依据要求，</p>
+<ol>
+<li><p>方式控制字为84H；</p>
+<p><img src="/2020/05/13/computer_organization/9_ch9_DMA8237/mode.PNG" alt="mode"></p>
+</li>
+<li><p>屏蔽寄存器的单屏蔽字为00H；</p>
+<p><img src="/2020/05/13/computer_organization/9_ch9_DMA8237/pinbi.png" alt="pinbi"></p>
+</li>
+<li><p>命令字0A0H</p>
+<p><img src="/2020/05/13/computer_organization/9_ch9_DMA8237/control.PNG" alt="control"></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">OUT		7DH,AL		 ;输出主清除命令:对端口0DH写入0，使8237复位,70+DH&#x3D;&gt;复位寄存器</span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址低8位，70+0H&#x3D;&gt;基地址 reg 0</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址高8位</span><br><span class="line"></span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	71H, AL       ;70+1H&#x3D;&gt;基字节 counter</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	71H, AL;给基字节数和现行字节数</span><br><span class="line">			      ;寄存器赋值为32768</span><br><span class="line">MOV 	AL, 84H		</span><br><span class="line">OUT 	7BH, AL		 ;输出方式字,70+BH&#x3D;&gt;mode reg </span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	7AH, AL 	;输出屏蔽字,70+AH&#x3D;&gt;屏蔽 reg</span><br><span class="line">MOV 	AL, 0A0H</span><br><span class="line">OUT 	78H, AL		 ;输出命令字 , 70+8H&#x3D;&gt; control reg</span><br></pre></td></tr></table></figure>
+<p>1.简述DMA数据传送方式过程、特点和优点。</p>
+<p>2.在DMA方式数据传输过程中，是由DMAC控制总线。</p>
+<p>3.CPU与外设之间的数据传送控制方式有哪三种？</p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch8中断8259</title>
+    <url>/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/</url>
+    <content><![CDATA[<h2 id="中断8259"><a href="#中断8259" class="headerlink" title="中断8259"></a>中断8259</h2><a id="more"></a>
+<p>1.解释概念：中断，可屏蔽中断，非屏蔽中断，中断类型号，中断向量，中断向量表，</p>
+<ul>
+<li><p>中断：处理器暂停执行当前程序，转处理随机发生事件，后返回到断点处继续执行原来程序</p>
+<p>中断优先级依次降低:</p>
+<p>内部中断和异常</p>
+<p>软件中断</p>
+<p>外部非屏蔽中断</p>
+<p>外部可屏蔽中断</p>
+<p>单步中断</p>
+</li>
+<li><p>外部中断: (CPU通过8259A芯片管理外部中断)</p>
+<p>通过CPU的INTR管脚申请的中断请求，如：键盘中断、打印机中断、定时器中断等，是可屏蔽中断。</p>
+<p>通过CPU的NMI管脚申请的中断请求，是不可屏蔽中断。</p>
+<p>内部中断:</p>
+<p>内部硬件中断：由某些特殊指令触发的中断，如单步中断、除法出错中断、溢出中断</p>
+<p>软件中断：由指令INT n引起的非屏蔽中断，如DOS中断、BIOS中断和其他自由中断</p>
+</li>
+<li><p>中断响应信号输出：输出$\overline{INTA}$</p>
+</li>
+<li><p>中断类型码: 中断系统可处理256个中断类型(0H~0FFH号中断)，每种中断安排了1字节中断类型码，每种类型的中断都有相应的中断处理程序</p>
+<p>中断类型号乘以4就得到对应中断向量的地址 eg.21H×4＝84H</p>
+</li>
+<li><p>中断向量表: 中断类型码对应4个字节的中断服务程序入口地址, 系统所有中断服务程序的入口地址</p>
+<p>8086中断向量组成的中断向量表位于内存的0～3FFH区域 (4*256B)</p>
+</li>
+<li><p>中断向量：中断处理子程序的入口地址IP,CS</p>
+</li>
+</ul>
+<p>2.CPU在何时检测有无中断请求，中断响应过程是什么？</p>
+<p>(每条指令执行的最后一个时钟周期检测中断请求)</p>
+<p>出现以下之一，进入中断响应周期：</p>
+<p>有软件中断；有NMI中断信号；有INTR中断信号，而且CPU允许中断响应，即IF=1</p>
+<p>进入中断响应周期以后:</p>
+<p>若是INTR，则产生INTA信号，中断源通过数据总线的低8位将中断类型码传送给CPU；</p>
+<p>若是NMI，则类型码是2；</p>
+<p>若程序出错产生中断，则使用默认的类型码；</p>
+<p>若是中断指令，则指令中有类型码</p>
+<p>3.如何保护原有的中断向量？如向设置新的中断向量？</p>
+<p>保护断点:</p>
+<p>系统自动将标志寄存器FLAG压入堆栈</p>
+<p>清除TF和IF</p>
+<p>将断点处的CS和IP压入堆栈，先压CS后压IP</p>
+<p>设置新的中断向量:</p>
+<p>系统根据中断类型码形成中断服务程序的入口地址。</p>
+<p>转入中断服务程序执行</p>
+<p>4.什么叫中断嵌套？何谓普通全嵌套？何谓特殊全嵌套？</p>
+<p>一系列压栈指令进一步保护中断现场，即保护CPU各寄存器的值；</p>
+<p>[一般应设置中断允许标志IF开放中断，以允许高级别中断请求进入；]</p>
+<p>中断处理具体内容；</p>
+<p>恢复现场，通过弹出堆栈指令恢复各寄存器值；</p>
+<p>中断返回</p>
+<ul>
+<li><p>普通EOI方式</p>
+<p>用于全嵌套方式；8259A每得到一次EOI命令，将把当前中断服务寄存器ISR中最高的非零位清零</p>
+</li>
+</ul>
+<p>中断嵌套:</p>
+<p>有优先级更高的中断源发出请求，CPU将中止正在执行的中断服务程序而转入为新的中断源服务，等新的中断服务程序执行完后，再返回到被中止的中断服务程序</p>
+<p>普通全嵌套:</p>
+<p>中断优先级为0～7，0级中断优先级最高；</p>
+<p>中断类型码放到数据总线上，ISR中相应位置位并保持，直到被自动清除或被指令清除；</p>
+<p>新收到的中断和当前ISR中的位进行比较，判断是否进行中断嵌套；可响应更高级中断请求，屏蔽同级或低级中断</p>
+<p>特殊全嵌套: (8259级连系统中，设置主片工作于特殊全嵌套方式，从片工作于其它方式)</p>
+<p>区别是有同级中断请求，也给予响应</p>
+<h3 id="8259A-功能"><a href="#8259A-功能" class="headerlink" title="8259A 功能"></a>8259A 功能</h3><p>CPU响应中断时，为CPU提供中断类型码；</p>
+<p>一片Intel 8259可管理8个中断请求，并把当前优先级最高的中断请求送到CPU的INTR端；</p>
+<p>8个外部中断的优先级排列方式，可以通过对8259编程进行指定。也可以通过编程屏蔽某些中断请求;</p>
+<p>允许9片8259级联，构成64级中断系统</p>
+<h3 id="中断处理程序"><a href="#中断处理程序" class="headerlink" title="中断处理程序"></a>中断处理程序</h3><p>eg. 修改中断处理程序，需按下面的操作过程来完成：</p>
+<ol>
+<li>读取指定中断’s 中断处理程序入口地址==&gt;保存存储单元；</li>
+</ol>
+<ol>
+<li>用户编写的程序段设置==&gt;中断的新处理程序；</li>
+</ol>
+<ol>
+<li><p>在用户程序结束之前(或不需要新的处理程序时)，</p>
+<p>把步骤1保存的入口地址恢复==&gt;处理该中断的入口地址</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">INTNO  EQU  40H   ;将占用的中断号 </span><br><span class="line">OLDADDR  DD  ?</span><br><span class="line">…</span><br><span class="line">NEWPROG PROC  ;新中断处理程序</span><br><span class="line">NEWPROG …</span><br><span class="line">IRET 				</span><br><span class="line">ENDP </span><br><span class="line">;步骤1，获取并保存原入口地址（ES：BX）</span><br><span class="line">MOV AL, INTNO</span><br><span class="line">MOV AH,35H </span><br><span class="line">INT 21H</span><br><span class="line">MOV word ptr OLDADDR,  BX </span><br><span class="line">MOV word ptr OLDADDR+2, ES </span><br><span class="line"></span><br><span class="line">;步骤2，设置新的入口地址（DS：DX）</span><br><span class="line">MOV AX, SEG NEWPROG </span><br><span class="line">MOV DS, AX </span><br><span class="line">MOV DX, OFFSET NEWPROG </span><br><span class="line">MOV AL, INTNO</span><br><span class="line">MOV AH, 25H </span><br><span class="line">INT 21H</span><br><span class="line"></span><br><span class="line">…;用户主程序。。。。 </span><br><span class="line"></span><br><span class="line">;步骤3，恢复原入口地址</span><br><span class="line">MOV DX, word ptr OLDADDR</span><br><span class="line">MOV DS, word ptr OLDADDR+2</span><br><span class="line">MOV AL, INTNO</span><br><span class="line">MOV AH,25H</span><br><span class="line">INT  21H</span><br></pre></td></tr></table></figure>
+<p>eg. 同上，user 程序使show “the bell is ringing!”</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DATA  SEGMENT</span><br><span class="line">	MSG  DB  7,&#39;The bell is ring!&#39;,0ah,0dh,&#39;$&#39;</span><br><span class="line">	INTNO  EQU  40H   ;将占用的中断号 </span><br><span class="line">	OLDADDR  DD  ?</span><br><span class="line">DATA  ENDS</span><br><span class="line"></span><br><span class="line">CODE SEGMENT</span><br><span class="line">ASSUME  CS:CODE,DS:DATA,ES:DATA</span><br><span class="line">NEWPROG PROC  ;新中断处理程序</span><br><span class="line">	MOV  AX,DATA</span><br><span class="line">        	MOV  DS,AX</span><br><span class="line">          	LEA   DX,MSG</span><br><span class="line">	MOV   AH,9</span><br><span class="line">	INT 21H</span><br><span class="line">	IRET 				</span><br><span class="line">NEWPROG ENDP</span><br><span class="line"></span><br><span class="line">RING    PROC FAR</span><br><span class="line">          MOV  AX,DATA</span><br><span class="line">          MOV  DS,AX</span><br><span class="line">	 ;步骤1，获取并保存原入口地址</span><br><span class="line">	MOV AL, INTNO</span><br><span class="line">	MOV AH,35H </span><br><span class="line">	INT 21H</span><br><span class="line">	MOV word ptr OLDADDR,  BX </span><br><span class="line">	MOV word ptr OLDADDR+2, ES </span><br><span class="line">	;步骤2，设置新的入口地址</span><br><span class="line">	MOV AX, SEG NEWPROG </span><br><span class="line">	MOV DS, AX </span><br><span class="line">	MOV DX, OFFSET NEWPROG </span><br><span class="line">	MOV AL, INTNO</span><br><span class="line">	MOV AH, 25H </span><br><span class="line">	INT 21H</span><br><span class="line"></span><br><span class="line">	;用户主程序 </span><br><span class="line">	MOV CX,5</span><br><span class="line">AA:	INT INTNO</span><br><span class="line">	LOOP AA</span><br><span class="line">	;步骤3，恢复原入口地址</span><br><span class="line">	MOV DX, word ptr OLDADDR</span><br><span class="line">	MOV DS, word ptr OLDADDR+2</span><br><span class="line">	MOV AL, INTNO</span><br><span class="line">	MOV AH,25H</span><br><span class="line">	INT  21H</span><br><span class="line"></span><br><span class="line">	MOV  AX,4C00H</span><br><span class="line">	INT  21H</span><br><span class="line">RING	ENDP</span><br><span class="line">CODE	ENDS</span><br><span class="line">	END  RING</span><br></pre></td></tr></table></figure>
+<h3 id="8259初始化、操作命令"><a href="#8259初始化、操作命令" class="headerlink" title="8259初始化、操作命令"></a>8259初始化、操作命令</h3><p>8259A内部寄存器的选择依靠CS#、地址线A0、命令字特征位D4来选择不同的寄存器。</p>
+<p>初始化、操作命令in两个不同的阶段</p>
+<h4 id="8259A初始化命令"><a href="#8259A初始化命令" class="headerlink" title="8259A初始化命令"></a>8259A初始化命令</h4><ul>
+<li>对于8259A初始化一旦开始，就必须根据初始化要求，严格按流程逐一写入初始化命令</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/init.png" alt="init"></p>
+<ul>
+<li><p>ICW1  [A0=0]</p>
+<p>A0=0，D4=1 表示对ICW1编程；</p>
+<p>D0（IC4）D0=1需要ICW4；D0=0 不需要ICW4；</p>
+<p>D1（SNGL）D1=1为单片8259工作方式；D1=0 为级联工作方式，此时要用ICW3指明级联端；</p>
+<p>D2（ADI）指明8080/8085系统中地址间距，8086系统不用(==0)；</p>
+<p>D3（LTIM）D3=1 中断请求是电平触发方式；D3=0 上升沿触发方式</p>
+<p>eg. (8086=&gt;D2=0)设ICW1=&gt;D4=1，边沿触发=&gt;D3=0，单片=&gt;D1=0; D4~D0==10011=13H</p>
+</li>
+<li><p>ICW2  [A0=1]</p>
+<p>中断类型码高5位来自ICW2高5位，低3位D2D1D0=i对应IR0~IR7的IR_{i}</p>
+</li>
+<li><p>ICW3  [A0=1]</p>
+<p>包含多片8259时，ICW3才有意义&lt;=&gt;当SNGL=0时，才设置ICW3</p>
+<p>本片为主片时，对ICW3相应位置Di==1表示IR0~ IR7的IR_{i}连有从片；</p>
+<p>本片为从片时，ICW3低3位D2D1D0=i对应连接==&gt;主片IR0~IR7的IR_{i}中断输入引脚</p>
+</li>
+<li><p>ICW4   [A0=1] D7~D5==000</p>
+<p>D4（SFNM）D4=1  为特殊全嵌套方式，此时允许同级中断再次进入，一般用于多片级联方式；D4=0  为普通全嵌套方式，禁止同级中断再次进入。</p>
+<p>D3（BUF）D3=1为缓冲工作方式，即8259通过总线驱动器和数据总线相连，此时SP#/EN#为输出，用于缓冲器选通信号；D3=0为非缓冲工作方式</p>
+<p>D2（M/S）在缓冲方式下（BUF=1)，表示本片为主片或从片：M/S# = 1为主片， M/S#=0为从片。</p>
+<p>在非缓冲方式下，由SP#/EN#引脚设定主片和从片，本位不起作用</p>
+<p>D1（AEOI）D1=1自动结束中断方式，在第二个INTA#时，清中断服务寄存器ISR中的对应位；D1=0 非自动结束中断方式，中断结束时发EOI命令清ISR中的对应位；</p>
+<p>D0（mPM）D0=1为16位处理器体系；D0=0 为8085处理器体系；</p>
+<p>eg. (默认D3=0,从片=&gt;D2=0, EOI命令清ISR对应位D1=0)设ICW4，普通全嵌套=&gt;D4=0，8088系统=&gt;D0=1</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">…</span><br><span class="line">INTA00 EQU 20H</span><br><span class="line">INTA01 EQU 21H</span><br><span class="line">…</span><br><span class="line">MOV AL,13H	;设ICW1，边沿触发，单片</span><br><span class="line">OUT INTA00,AL	;要设置ICW4，00010011B</span><br><span class="line">;………………………………………..</span><br><span class="line">MOV AL,08H	;设ICW2起始中断类型号08H</span><br><span class="line">OUT INTA01,AL	</span><br><span class="line">;………………………………………..</span><br><span class="line">MOV AL,09H	;设ICW4，全嵌套，8088系统</span><br><span class="line">OUT INTA01,AL	; 00001001B   ??</span><br><span class="line">;………………………………………..</span><br></pre></td></tr></table></figure>
+<p> eg. 8259A以两片级联的方式管理15级向量中断。</p>
+<p>1.两片级联时，CAS2~CAS0互联，从片的INT端输出作为主片第二级中断请求的输入。</p>
+<p>2.端口地址，主片：020H~021H ，从片：0A0H~0A1H</p>
+<p>3.主从片的中断请求信号为边沿触发</p>
+<p>4.选择全嵌套方式，优先级排队顺序为0级最高。</p>
+<p>5.主从片数据线采用非缓冲方式连接到CPU，主片SP#/EN#接+5V，从片SP#/EN#接地。</p>
+<p>6.设定0~7级对应的中断号08~0FH，8~15级对应的中断号为70~77H。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">INTA00 	EQU 	20H		;8259A主片端口0</span><br><span class="line">INTA01 	EQU 	21H		;8259A主片端口1</span><br><span class="line">EOI		EQU  20H</span><br><span class="line">INTB00 	EQU 	0A0H		;8259A从片端口0</span><br><span class="line">INTB01 	EQU 	0A1H		;8259A从片端口1</span><br><span class="line">INT_TYPE	EQU	070H		;从片起始中断号</span><br><span class="line"></span><br><span class="line">;初始化8259A主片</span><br><span class="line">MOV AL, 11H	;ICW1:边沿触发，多片，设置ICW4</span><br><span class="line">OUT INTA00,AL	;0001 0001B</span><br><span class="line">JMP SHORT $+2	;CPU对I&#x2F;O端口的等待状态</span><br><span class="line">MOV AL, 8H	;ICW2:中断号从08H开始</span><br><span class="line">OUT INTA01,AL</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 04H	;ICW3：主片第二级接从片</span><br><span class="line">OUT INTA01,AL	;0000 0100B</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 01H	;ICW4非缓冲普通全嵌套，8086系统</span><br><span class="line">OUT INTA01,AL	;0000 0001B</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 0FFH	;屏蔽所有中断</span><br><span class="line">OUT INTA01,AL</span><br><span class="line"></span><br><span class="line">;初始化8259A从片</span><br><span class="line">MOV AL, 11H	;ICW1:边沿触发，多片，设置ICW4</span><br><span class="line">OUT INTB00,AL	;0001 0001B</span><br><span class="line">JMP SHORT $+2	;CPU对I&#x2F;O端口的等待状态</span><br><span class="line">MOV AL, INT_TYPE	;ICW2:中断号从70H开始</span><br><span class="line">OUT INTB01,AL</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 02H	;ICW3：从片接主片第二级</span><br><span class="line">OUT INTB01,AL</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 01H	;ICW4非缓冲普通全嵌套，8086系统</span><br><span class="line">OUT INTB01,AL</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 0FFH	;屏蔽所有中断</span><br><span class="line">OUT INTB01,AL</span><br><span class="line"></span><br><span class="line">MOV  AL, 13H	;边沿触发， 单片        00010011</span><br><span class="line">OUT  80H, AL    	;设置ICW1;</span><br><span class="line">MOV AL,  18H</span><br><span class="line">OUT  81H, AL	;设置ICW2,中断类型码00011＋IR;</span><br><span class="line">MOV AL,0DH	;00001101</span><br><span class="line">OUT 81H, AL	;设置ICW4</span><br></pre></td></tr></table></figure>
+<h4 id="地址："><a href="#地址：" class="headerlink" title="地址："></a>地址：</h4><p>主片的端口地址在020H～03FH范围内，实际使用20H～21H两个端口。</p>
+<p>从片的端口地址为0A0H～0BFH，实际使用0A0H～0A1H两个端口。</p>
+<p>从片的INT信号与主片的IR2端相连，这样共构成15个向量中断。</p>
+<p>主8259A的中断类型号08H～0FH；从8259A的中断类型号70H～7FH</p>
+<h4 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h4><ul>
+<li><p>对8259的操作命令字设置靠A0和命令字特征位D4区分</p>
+</li>
+<li><p>8259A共有三个操作控制字：OCW1，OCW2和OCW3。</p>
+<p>操作命令字可在任何时候写入8259A，且无顺序。</p>
+</li>
+<li><p>OCW1  [A0=1]</p>
+<p>OCW1为中断屏蔽操作命令字；</p>
+<p>A0=1 表示设置OCW1；</p>
+<p>Mi=1 表示屏蔽IRi输入中断请求；</p>
+<p>先读IMR，用逻辑或指令使对应屏蔽位置1（屏蔽该中断），用逻辑与指令使对应屏蔽位为0（开放该中断）。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;若开放IR2的中断：</span><br><span class="line">	IN AL, 21H</span><br><span class="line">	AND AL, 11111011B</span><br><span class="line">	OUT 21H,AL</span><br><span class="line">;若屏蔽IR2的中断：</span><br><span class="line">	IN AL, 21H</span><br><span class="line">	OR AL, 00000100B</span><br><span class="line">	OUT 21H,AL</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>OCW2    [A0=0]</p>
+<p>设置优先级循环方式和中断结束方式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;非特殊的EOI命令为</span><br><span class="line">    	MOV       AL，      20H</span><br><span class="line">     	OUT       PORT，     AL    ；PORT为8259A的端口地址。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>OCW3  [A0=0]</p>
+<p>A0=0，且D4D3=01，表示对OCW3编程</p>
+</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/mult_chip.png" alt="mult_chip"></p>
+<p> eg. 每片8259A只能管理8级中断，为了扩展系统的中断能力，</p>
+<p>可把若干个8259A按级联方式连接起来。一般一个系统中最多级联8片8259A中断控制器，即中断级数可达64级。</p>
+<ol>
+<li>级联方式</li>
+<li>特殊完全嵌套方式</li>
+<li>缓冲方式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">   INTA1CS   EQU   020H</span><br><span class="line">         </span><br><span class="line">   MOV AL，11H    ;ICW1边沿触发，多片ICW4</span><br><span class="line">   OUT    INTA1CS,AL</span><br><span class="line"></span><br><span class="line">    MOV   AL,8</span><br><span class="line">    OUT    INTA1CS+1,AL     ;ICW2中断向量</span><br><span class="line"></span><br><span class="line">  	MOV   AL,4               ;ICW3主片IR2上接从片</span><br><span class="line">   	OUT    INTA1CS+1,AL      ;S2&#x3D;1</span><br><span class="line">  	</span><br><span class="line">   	MOV   AL,01H  ;ICW4无缓冲，非自动结束中断</span><br><span class="line">   	OUT    INTA1CS</span><br><span class="line">;.................................................</span><br><span class="line">	INTA2CS     EQU   0A0H</span><br><span class="line"></span><br><span class="line">  	MOV   AL,11H ;ICW1边沿触发多片，需要ICW4</span><br><span class="line">  	OUT    INTA2CS,AL    </span><br><span class="line">  	</span><br><span class="line">  	MOV   AL,70H        ;ICW2中断号高5位</span><br><span class="line">  	OUT    INTA2CS+1,AL     </span><br><span class="line">	</span><br><span class="line">       MOV   AL,2       ;ICW3从片接主片的IR2</span><br><span class="line">       OUT    INTA2CS+1,AL</span><br><span class="line"></span><br><span class="line">       MOV   AL,01H     ;ICW4非缓冲，非自动结束中断</span><br><span class="line">       OUT     INTA2CS</span><br></pre></td></tr></table></figure>
+<p>eg. 日时钟中断设置55ms定时，通过修改日时钟中断向量来对用户打字实现计时，</p>
+<p>中断服务程序对中断次数进行统计，每18次后秒计数加1，然后逐一对分、时进行调整。</p>
+<p>主程序功能对计时进行初始化为0，并清除错误计数缓存区，</p>
+<p>等待键盘输入，判断键盘输入字符是否为命令，</p>
+<p>若“ESC”则结束打字测试，若“回车”则显示输入一行字符所花时间以及键入字符错误个数，</p>
+<p>此外均将键入字符与提示行字符进行逐一比较，以统计正确率</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TITLE      TYPE_ER ---TEST TIME FOR TYPING EXERXISE</span><br><span class="line">STACK     SEGMENT  STACK &#39;STACK&#39;</span><br><span class="line">                  DB      256 DUP (0)</span><br><span class="line">TOP          LABEL   WORD</span><br><span class="line">STACK    ENDS</span><br><span class="line">DATA       SEGMENT</span><br><span class="line">DEBUG    EQU     0</span><br><span class="line">BUFFER   DB      32 DUP(?)</span><br><span class="line">BUFPT1    DW      0</span><br><span class="line">BUFPT2    DW      0</span><br><span class="line">KBFLAG   DB      0</span><br><span class="line">PROMPT   DB      &#39; *PLEASE PRACTICE TYPEING*&#39;,0DH,0AH,&#39;$&#39;</span><br><span class="line">OLDCS9    DW      ?</span><br><span class="line">OLDIP9     DW      ?</span><br><span class="line">STR1   	DB  &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ. &#39; , 0DH,0AH,&#39;$&#39;</span><br><span class="line">STR2   	DB  &#39;CHRISTMAS IS A TIME OF JOY AND LOVE.&#39; , 0DH,0AH,&#39;$&#39;</span><br><span class="line">STR3   	DB  &#39;STORE WINDOWS HOLD TOGS AND GIFTS.&#39;, 0DH,0AH,&#39;$&#39;</span><br><span class="line">STR4	DB &#39;PEOPLE SEND CHRISTMAS CARDS AND GIFTS.&#39;,                 0DH,0AH,&#39;$&#39;</span><br><span class="line">STR5	      DB      &#39;SANTA WISH ALL PEOPLE PEACE ON EARTH.&#39;</span><br><span class="line">CRLF          DB      0DH,0AH,&#39;$&#39;</span><br><span class="line">COLON      DB      &#39;:&#39;,&#39;$&#39;</span><br><span class="line">SADDR       DW      STR1,STR2,STR3,STR4,STR5</span><br><span class="line">COUNT      DW      0</span><br><span class="line">HOURS1     DB      0DH,0AH</span><br><span class="line">HOURS       DB      30H</span><br><span class="line">            DB      30H</span><br><span class="line">            DB      &#39;: &#39;</span><br><span class="line">                     </span><br><span class="line">MIN    	DB      30H</span><br><span class="line">        DB      30H</span><br><span class="line">        DB      &#39;:&#39;</span><br><span class="line">SEC     DB      30H</span><br><span class="line">        DB      30H</span><br><span class="line">        DB      0DH,0AH</span><br><span class="line">ERR    	DB      &#39;ERROR&#39;</span><br><span class="line">ERR1  	DB      30H</span><br><span class="line">        DB      30H</span><br><span class="line">        DB      0DH,0AH,&#39;$&#39;</span><br><span class="line">SAVE_08    DW      2 DUP(?)</span><br><span class="line">MEM         DB      10</span><br><span class="line">MEM1        DB      ?</span><br><span class="line">DATA        ENDS</span><br><span class="line">CODE          SEGMENT</span><br><span class="line">ASSUME     CS:CODE,DS:DATA,SS:STACK,ES:DATA</span><br><span class="line">TYPE_ER    PROC     FAR</span><br><span class="line">START:</span><br><span class="line">          	MOV      AX,DATA</span><br><span class="line">           	MOV      ES,AX</span><br><span class="line">           	MOV      DS,AX</span><br><span class="line">           	CLI			        ;关闭中断</span><br><span class="line">           	MOV     AL,00110100B            ;置8253的0通道为模式2</span><br><span class="line">          	OUT      43H,AL</span><br><span class="line">          	MOV     AX,0</span><br><span class="line">              OUT       40H,AL                        ;装定时间常数</span><br><span class="line">          	MOV     AL,AH</span><br><span class="line">          	OUT      40H,AL</span><br><span class="line">          	PUSH    ES</span><br><span class="line">               MOV      AH,35H值                ;保护原类型号8的中断向量</span><br><span class="line">               MOV      AL,08H</span><br><span class="line">               INT         21H</span><br><span class="line">               MOV      SAVE_08,BX</span><br><span class="line">               MOV      SAVE_08+2,ES</span><br><span class="line">               POP        ES</span><br><span class="line">FIRST:  MOV      AH,0                    ;设置显示为文本模式</span><br><span class="line">               MOV      AL,3</span><br><span class="line">               INT         10H</span><br><span class="line">               MOV      DX,OFFSET PROMPT        ;屏幕提示输出</span><br><span class="line">               MOV      AH,9</span><br><span class="line">               INT         21H</span><br><span class="line">               MOV      SI,0</span><br><span class="line">NEXT:   MOV      DX, ES:SADDR[SI]         ;提示打印的字符</span><br><span class="line">               PUSH     DX</span><br><span class="line">           MOV      AH,9</span><br><span class="line">           INT         21H</span><br><span class="line">           MOV      COUNT,0                 ;初始化HH:MM:SS</span><br><span class="line">           MOV      AL,30H                     ;30H－’0’</span><br><span class="line">           MOV      ERR1+1,AL</span><br><span class="line">           MOV      ERR1,AL</span><br><span class="line">           MOV      SEC,AL</span><br><span class="line">           MOV      SEC+1,AL</span><br><span class="line">           MOV      MIN,AL</span><br><span class="line">           MOV      MIN+1,AL</span><br><span class="line">           MOV      HOURS,AL</span><br><span class="line">           MOV      HOURS+1,AL</span><br><span class="line">           IN           AL,21H                  ;</span><br><span class="line">           MOV      MEM1,AL</span><br><span class="line">           AND      AL,0FCH              ;允许时钟中断、键盘中断</span><br><span class="line">           		OUT      21H,AL</span><br><span class="line">			PUSH     DS</span><br><span class="line">           		MOV    DX,OFFSET CLINT ;设置类型号08新的中断向量</span><br><span class="line">			MOV      BX,SEG CLINT</span><br><span class="line">		              MOV      DS,BX</span><br><span class="line">          		MOV      AL,08H</span><br><span class="line">		              MOV      AH,25H</span><br><span class="line">           		INT         21H</span><br><span class="line">		              POP        DS</span><br><span class="line">			STI</span><br><span class="line">                             MOV    BX,0     ;增加红色2句</span><br><span class="line"> 			PUSH   BX</span><br><span class="line">	FOREVER:   POP      BX</span><br><span class="line">		FOR2:   MOV     AH,0;等待键盘输入字符</span><br><span class="line">              		INT      16H</span><br><span class="line">		      F7:  CLI</span><br><span class="line">             		CMP      AL,1BH</span><br><span class="line">	JNZ       F1</span><br><span class="line">            	JMP      ENDINT                  ;若ESC退回</span><br><span class="line">     F1:   	CMP     AL,0DH                  ;若回车则显示时间</span><br><span class="line">           	JZ          F5</span><br><span class="line">           	CMP     AL,ES:[BX]              ;比较输入字符是否正确</span><br><span class="line">           	JZ          FO1</span><br><span class="line">           	INC       ES:ERR1+1		;统计错误次数</span><br><span class="line">           	CMP     ES:ERR1+1,39H</span><br><span class="line">           	JLE       FOR2</span><br><span class="line">           	MOV     ES:ERR1+1,30H</span><br><span class="line">           	INC       ES:ERR1</span><br><span class="line">           	JMP     FOR2         ;错误则不显示，返回，继续等待输入；</span><br><span class="line">   FO1:   STI                       ;输入正确则显示</span><br><span class="line">           	INC      BX</span><br><span class="line">           	PUSH     BX</span><br><span class="line">           PUSH     AX</span><br><span class="line">           CALL     DISCHAR</span><br><span class="line">           POP        AX</span><br><span class="line">           JMP        FOREVER</span><br><span class="line">F5:      CALL    DISTIME               ;显示时间</span><br><span class="line">           MOV      AL,0AH                  ;换行</span><br><span class="line">           CALL     DISCHAR</span><br><span class="line">           CLI</span><br><span class="line">           MOV      AL,ES:MEM1        ;恢复中断设置；</span><br><span class="line">           OR         AL,1                         ;屏蔽定时中断</span><br><span class="line">           OUT      21H,AL</span><br><span class="line">           ADD      SI,2		;移动显示下一行字符指针</span><br><span class="line">           CMP      SI,5*2</span><br><span class="line">           JZ          F4</span><br><span class="line">           JMP      NEXT                     ;继续测试</span><br><span class="line">	      F4: 	MOV	AH,1</span><br><span class="line">		INT      	16H                     ;检查是否有键按下</span><br><span class="line">           		JZ         	F4                         ;无,等待</span><br><span class="line">	              JMP      	FIRST                 ;有</span><br><span class="line">         ENDINT:   CLI</span><br><span class="line">		PUSH   	DS</span><br><span class="line">           		MOV    	DX,SAVE_08</span><br><span class="line">           		MOV    	AX,SAVE_08+2</span><br><span class="line">           		MOV    	DS,AX</span><br><span class="line">           		MOV    	AL,08H</span><br><span class="line">           		MOV    	AH,25H</span><br><span class="line">           		INT       	21H</span><br><span class="line">          		POP      	DS</span><br><span class="line">		STI</span><br><span class="line">		MOV    	AL,MEM1</span><br><span class="line">		OUT   21H,AL</span><br><span class="line">               M1:	MOV  AH,4CH</span><br><span class="line">             		INT     21H</span><br><span class="line">	TYPE_ER    ENDP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CLINT      PROC     FAR                     ;中断服务程序</span><br><span class="line">            IN         AL,21H</span><br><span class="line">            OR        AL,1</span><br><span class="line">            OUT     21H,AL</span><br><span class="line">C2:      INC      COUNT</span><br><span class="line">            CMP     COUNT  18</span><br><span class="line">            JNE       ADJ</span><br><span class="line">            MOV     COUNT,0</span><br><span class="line">C1:      CALL    INCT</span><br><span class="line">ADJ:   MOV      AL,20H                  ;结束中断</span><br><span class="line">            OUT      20H,AL		;OCW2</span><br><span class="line">            IRET                             ;中断返回</span><br><span class="line"> CLINT      ENDP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INCT     PROC   NEAR</span><br><span class="line">           CMP      SEC+1,39H</span><br><span class="line">           JZ           INT1</span><br><span class="line">           INC    SEC+1                   ;加一秒</span><br><span class="line">           JMP      EXIT</span><br><span class="line">INT1: MOV      SEC+1,30H</span><br><span class="line">           INC      SEC                     ;加十秒</span><br><span class="line">           CMP      SEC,36H</span><br><span class="line">           JNZ      EXIT</span><br><span class="line">           MOV      SEC,30H</span><br><span class="line">           INC      MIN+1                   ;加一分</span><br><span class="line">           CMP      MIN+1,3AH</span><br><span class="line">           JNZ      EXIT</span><br><span class="line">           MOV      MIN+1,30H</span><br><span class="line">           INC      MIN                     ;加十分</span><br><span class="line">           CMP      MIN,36H</span><br><span class="line">           JNZ      EXIT</span><br><span class="line">           MOV      MIN,30H</span><br><span class="line">  	INC      HOURS+1                 ;加一小时</span><br><span class="line">           	CMP    HOURS+1,3AH</span><br><span class="line">           	JNZ      EXIT</span><br><span class="line">           	MOV    HOURS+1,0</span><br><span class="line">           	INC      HOURS                   ;加十小时</span><br><span class="line">EXIT:   RET</span><br><span class="line">	INCT       ENDP</span><br><span class="line"></span><br><span class="line">DISCHAR    PROC     NEAR                    ;送换行字符</span><br><span class="line">          	PUSH     DS</span><br><span class="line">           	PUSH     BX</span><br><span class="line">           	MOV      BX,0</span><br><span class="line">           	MOV      AH,0EH</span><br><span class="line">           	INT      	 10H</span><br><span class="line">           	POP	 BX</span><br><span class="line">           	POP      	 DS</span><br><span class="line">	       RET</span><br><span class="line">DISCHAR   ENDP</span><br><span class="line">DISTIME    PROC     NEAR    ;显示时、分、秒以及错误次数</span><br><span class="line">	       PUSH     DS</span><br><span class="line">           	       MOV      AX,DATA</span><br><span class="line">	       MOV      DS,AX</span><br><span class="line">           	       MOV      DX,OFFSET HOURS1</span><br><span class="line">           	       MOV      AH,9</span><br><span class="line">           	       INT        21H</span><br><span class="line">           	       POP      DS</span><br><span class="line">           	       RET</span><br><span class="line">CODE       ENDS</span><br><span class="line">           END      START</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Appendix-Jury&#39;s Criterion</title>
+    <url>/2020/05/14/control_system/Appendix-Jury&#39;s%20Criterion/</url>
+    <content><![CDATA[<h1 id="Jury’s-Criterion"><a href="#Jury’s-Criterion" class="headerlink" title="Jury’s Criterion"></a>Jury’s Criterion</h1><a id="more"></a>
+<p><img src="/2020/05/14/control_system/Appendix-Jury's%20Criterion/Jury_criterion.png" alt="criteraion"></p>
+<p><img src="/2020/05/14/control_system/Appendix-Jury's%20Criterion/Jury_calculate.png" alt="calculate"></p>
+<p><img src="/2020/05/14/control_system/Appendix-Jury's%20Criterion/Jury_criterion02.png" alt="criterion02"></p>
+<p><img src="/2020/05/14/control_system/Appendix-Jury's%20Criterion/Jury_example.png" alt="example"></p>
+]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Appendix-settling and peak time</title>
+    <url>/2020/05/14/control_system/Appendix-T_s%20and%20T_p/</url>
+    <content><![CDATA[<h1 id="T-s-and-T-p"><a href="#T-s-and-T-p" class="headerlink" title="T_s and T_p"></a>T_s and T_p</h1><a id="more"></a>
+<script type="math/tex; mode=display">
+G(s) = \frac{\omega_n^2}{s^2 + 2 \zeta \omega_n s + \omega_n^2} \\ 
+= \frac{\omega_n^2}{(s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)(s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)}\\
+= \frac{A}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
+- \frac{A}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}</script><p>here</p>
+<script type="math/tex; mode=display">
+-2A j \sqrt{1-\zeta^2}\omega_n = \omega_n^2 \\
+A = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}</script><p>So</p>
+<script type="math/tex; mode=display">
+G(s) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}} 
+[\frac{1}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
+- \frac{1}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}]\\
+g(t) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}
+[e^{-(\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)t}
+-e^{-(\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)t}]\\
+= \frac{j\omega_n}{2\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t} 
+[-2j\sin(\sqrt{1-\zeta^2}\omega_n t)]\\
+= \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
+\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>So the output:</p>
+<script type="math/tex; mode=display">
+Y(s) = \frac{1}{s} G(s)\\
+y(t) = u(t) * g(t) = \int^t_{0_-} g(\tau) d\tau\\
+\mathbb{L}[y'(t)] = sY(s) - y(0_-) = sY(s) = G(s)</script><p>So we have</p>
+<script type="math/tex; mode=display">
+y'(t) = g(t) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
+\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>Now we want to calculate y(t), consider</p>
+<script type="math/tex; mode=display">
+\int^t_0 e^{-a\tau}\sin(b\tau) d\tau\\
+= \int^t_0 \text{Im}[e^{(-a+jb)\tau}] d\tau\\
+= \text{Im}[ \int^t_0 e^{(-a+jb)\tau} d\tau ]\\
+= \text{Im}[ \frac{1}{a-jb} [1 - e^{(-a+jb)t}] ]\\
+= \text{Im}[ \frac{a+jb}{a^2 + b^2} [1-e^{-at}\cos(bt)
+-je^{-at}\sin(bt)]  ]\\
+= \frac{1}{a^2+b^2} [-ae^{-at}\sin(bt) + b - be^{-at}\cos(bt)]\\
+= \frac{b}{a^2+b^2} - \frac{e^{-at}}{a^2+b^2} \sqrt{a^2+b^2}\sin(bt+\phi)</script><p>Here</p>
+<script type="math/tex; mode=display">
+\tan(\phi) = \frac{b}{a}</script><p>in all</p>
+<script type="math/tex; mode=display">
+y(t) = \int^t_{0_-} g(\tau) d\tau\\
+= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
+\int^t_{0_-} e^{-\zeta\omega_n \tau}
+\sin(\sqrt{1-\zeta^2}\omega_n \tau) d\tau\\
+= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
+[ \frac{\sqrt{1-\zeta^2}\omega_n}{\omega_n^2} - 
+\frac{e^{-\zeta\omega_n t}}{\omega_n}
+\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)]\\
+= 1 - \frac{e^{-\zeta\omega_n t}}{\sqrt{1-\zeta^2}}
+\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)</script><p>Here</p>
+<script type="math/tex; mode=display">
+\tan(\phi) = \frac{\sqrt{1-\zeta^2}}{\zeta}\\
+\sin(\phi) = \sqrt{1-\zeta^2}\\
+\cos(\phi) = \zeta</script><h2 id="Calculate-T-s"><a href="#Calculate-T-s" class="headerlink" title="Calculate T_s"></a>Calculate T_s</h2><p>For T_s</p>
+<script type="math/tex; mode=display">
+T_s = \frac{4}{\zeta \omega_n}\\
+e^{-\zeta\omega_n T_s} = e^{-4} \approx 0.02</script><h2 id="Calculate-overshoot-and-T-p"><a href="#Calculate-overshoot-and-T-p" class="headerlink" title="Calculate overshoot and T_p"></a>Calculate overshoot and T_p</h2><p>set y’(T_p) = 0</p>
+<script type="math/tex; mode=display">
+y'(t=T_p) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n T_p}
+\sin(\sqrt{1-\zeta^2}\omega_n T_p) = 0\\
+\sqrt{1-\zeta^2}\omega_n T_p = \pi\\
+T_p = \frac{\pi}{\sqrt{1-\zeta^2}\omega_n}</script><p>here we have</p>
+<script type="math/tex; mode=display">
+1 + \% = y(t=T_p) \\
+= 1 - \frac{e^{-\zeta\omega_n T_p}}
+{\sqrt{1-\zeta^2}}
+\sin(\sqrt{1-\zeta^2}\omega_n T_p + \phi)\\
+= 1 - \frac{e^{-\zeta\omega_n T_p}}
+{\sqrt{1-\zeta^2}}
+\sin(\pi + \phi)\\
+= 1 + \frac{e^{-\zeta\omega_n T_p}}
+{\sqrt{1-\zeta^2}} \sqrt{1-\zeta^2}\\
+= 1 + e^{-\zeta\omega_n T_p}
+= 1 + e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}</script><p>So, we have</p>
+<script type="math/tex; mode=display">
+\% = e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}\\
+-\frac{\ln(\%)}{\pi} = \frac{\zeta}{\sqrt{1-\zeta^2}}\\
+\frac{-\ln(\%)}{\sqrt{\pi^2 + \ln^2(\%)}} = \zeta</script>]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 13-Linearization</title>
+    <url>/2020/05/14/control_system/Lecture%2013-Linearization/</url>
+    <content><![CDATA[<h1 id="Chap-2-Linearizatin"><a href="#Chap-2-Linearizatin" class="headerlink" title="Chap 2: Linearizatin"></a>Chap 2: Linearizatin</h1><a id="more"></a>
+<script type="math/tex; mode=display">
+y-y_0 = y_0'(x-x_0)</script><h2 id="example-1"><a href="#example-1" class="headerlink" title="example 1"></a>example 1</h2><p>nonlinear r: $i_r = e^{V_r}$<br>so</p>
+<script type="math/tex; mode=display">
+C \frac{dV}{dt} + i_r -i(t) - 2 = 0</script><p>replace</p>
+<script type="math/tex; mode=display">
+V = V_0 + \delta V\\
+i_r = e^{V_r} = e^{V_0 + \delta V}</script><p>So we obtain, here C = 1</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + e^{V_0 + \delta V} - 2 = i(t)</script><p>replace $e^{V_0 + \delta V} \approx e^{V_0} + e^{V_0} \delta V$\<br>So we havee</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + e^{V_0} + e^{V_0} \delta V - 2 = i(t)</script><p>Thus means</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + e^{V_0} \delta V = i(t) + 2 - e^{V_0}</script><p>Because $i_r|_{V_r = V_0} = e^{V_0} = 2, V_0 = ln(2) = 0.693$<br>so, simplyfied equation:</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + 2 \delta V = i(t)</script><p>Then do laplace transform $\mathbb{L}$</p>
+<script type="math/tex; mode=display">
+(s+2)\delta V(s) - \delta V(0_-) = I(s)</script><p>because</p>
+<script type="math/tex; mode=display">
+\int_{0_-}^{\infty} \frac{df(t)}{dt}e^{-st}dt
+= e^{-st} f(t)|_{0_-}^{\infty} + s \int_{0_-}^{\infty} f(t)e^{-st}dt\\
+\mathbb{L}[\frac{df(t)}{dt}] = s\mathbb{L}[f(t)] - f(0_-)</script><h2 id="example-2"><a href="#example-2" class="headerlink" title="example 2"></a>example 2</h2><script type="math/tex; mode=display">
+M \frac{d^2 y(t)}{dt^2} = Mg - \frac{i^2(t)}{y(t)}\\
+
+V(t) = R i(t) + L \frac{d i(t)}{dt}</script><p>V(t) is input, now select varaible</p>
+<script type="math/tex; mode=display">
+X_1 = y(t)\\
+X_2 = \frac{dy(t)}{dt}\\
+X_3 = i(t)</script><p>So we obtain</p>
+<script type="math/tex; mode=display">
+\dot{X_1} = X_2\\
+\dot{X_2} = -\frac{X_3^2}{MX_1} + g\\
+\dot{X_3} = - \frac{R}{L} X_3 + V(t)</script><p>Find balanced point, suppose input $V(t) = V_0 + \Delta V(t), i(t) = i_0 + \Delta i(t), y(t) = y_0 + \Delta y(t)$\<br>Then we have, by set $\dot{X} = 0$</p>
+<script type="math/tex; mode=display">
+0 = \frac{dy(t)}{dt} |_{y(t) = y_0}\\
+0 = Mg- \frac{i_0^2}{y_0}\\
+V_0 = R i_0</script><p>now express Phase variable balanced poit with input balanced point $V_0$</p>
+<script type="math/tex; mode=display">
+i_0 = \frac{V_0}{R}\\
+y_0 = \frac{i_0^2}{Mg} = \frac{V_0^2}{R^2 Mg}</script><p>Thus means</p>
+<script type="math/tex; mode=display">
+X_{10} = y_0 = \frac{V_0^2}{R^2 Mg}\\
+X_{20} = \frac{dy(t)}{dt} |_{y(t) = y_0} = 0\\
+X_{30} = i_0 = \frac{V_0}{R}</script><p>Now define $\delta X \equiv X - X_0, \delta V = V - V_0$</p>
+<script type="math/tex; mode=display">
+\dot{\delta} X_1= \delta X_2\\
+\dot{\delta} X_2= \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_1}|_{X=X_0} \delta X_1 + \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_3}|_{X=X_0} \delta X_3\\
+= [\frac{X_3^2}{MX_1^2}]|_{X=X_0} \delta X_1 + [-\frac{2X_3}{MX_1}]|_{X=X_0} \delta X_3\\
+= \frac{R^2Mg^2}{V_0^2}\delta X_1 + [\frac{-2Rg}{V_0}] \delta X_3\\
+\dot{\delta} X_3 = - \frac{R}{L} \delta X_3 + \delta V(t)</script><p>Thus means</p>
+<script type="math/tex; mode=display">
+\dot{\delta} X = 
+\begin{bmatrix}
+0 & 1 & 0\\
+\frac{R^2Mg^2}{V_0^2} & 0 & \frac{-2Rg}{V_0}\\
+0 & 0 & - \frac{R}{L}
+\end{bmatrix}
+\delta X +
+\begin{bmatrix}
+0\\ 0\\ 1
+\end{bmatrix}
+\delta V</script><p>Then calculate the poles of linearized model:\<br>if poles are all in left plane &lt;=&gt; the model is stable!!!</p>
+<p>Then verify it is Controllable or Not?</p>
+<script type="math/tex; mode=display">
+|C_M| =[B \quad AB \quad A^2B]\
+
+=\begin{bmatrix}
+
+0 & 0 & \frac{-2Rg}{V_0}\\
+
+0 & \frac{-2Rg}{V0} & \frac{2R^2g}{LV0}\\
+
+1 & - \frac{R}{L} & \frac{R^2}{L^2}
+
+\end{bmatrix}
+
+\neq 0</script><p>If so, we could control it, to make the model stable</p>
+]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 12-Design Via State Space</title>
+    <url>/2020/05/14/control_system/Lecture%2012-Design%20Via%20State%20Space/</url>
+    <content><![CDATA[<h1 id="Design-Via-State-Space"><a href="#Design-Via-State-Space" class="headerlink" title="Design Via State Space"></a>Design Via State Space</h1><a id="more"></a>
+<p>formula often used</p>
+<script type="math/tex; mode=display">
+\zeta = \frac{-ln(\%)}{\sqrt{ln(\%)^2+\pi^2}}\\
+T_s = \frac{4}{\zeta \omega_n}\\
+T_p = \frac{\pi}{\sqrt{1-\zeta^2} \omega_n}</script><p>where T_s represent settling time; T_p represent peak time\<br>so for the polynomial:</p>
+<script type="math/tex; mode=display">
+s^2 + 2\zeta \omega_n s + \omega_n^2\\
+2\zeta \omega_n = \frac{8}{T_s} = \frac{-2 ln(\%)}{T_p}\\
+\omega_n^2 = \frac{16 (ln(\%)^2+\pi^2)}{ln(\%)^2 T_s^2}
+= \frac{ln(\%)^2+\pi^2}{T_p^2}</script><p><img src="/2020/05/14/control_system/Lecture%2012-Design%20Via%20State%20Space/controller_observer.png" alt="controller observer"></p>
+<h2 id="Controllability"><a href="#Controllability" class="headerlink" title="Controllability"></a>Controllability</h2><p>The basic equation set: (D alaways = 0)</p>
+<script type="math/tex; mode=display">
+\dot{X} = A X + B U\\
+Y = C X + D</script><p>Introduce the Controller K always 1xN, \<br>where U always 1x1</p>
+<script type="math/tex; mode=display">
+U = r - KX</script><p>So, we obtain</p>
+<script type="math/tex; mode=display">
+\dot{X} = AX + B(r - K U) = (A-BK)X + Br</script><p>if we could manipulate th poles of $|sI- (A-BK)|$<br>Thus means</p>
+<script type="math/tex; mode=display">
+Y = C \mathbb{L^{-1}}[(sI - (A-BK))^{-1}] * \mathbb{L^{-1}}[BR(s)]</script><h3 id="Transformation"><a href="#Transformation" class="headerlink" title="Transformation"></a>Transformation</h3><p>Here</p>
+<script type="math/tex; mode=display">Z = PX</script><p>We have</p>
+<script type="math/tex; mode=display">
+\dot{Z} = AZ + BU \\
+Y = C Z\\
+U = r - KZ</script><p>That means we have</p>
+<script type="math/tex; mode=display">
+\dot{X} = P^{-1}APX + P^{-1}BU\\
+Y = CPX\\
+U = r - KPX</script><p>Compare with</p>
+<script type="math/tex; mode=display">
+\dot{X} = A_x X + B_x U\\
+Y = C_x X\\
+U = r - K_x X</script><p>So we have:</p>
+<script type="math/tex; mode=display">
+A_x = P^{-1}AP\\
+B_x = P^{-1}B\\
+C_x = CP\\
+K_x = KP</script><p>Then we have</p>
+<script type="math/tex; mode=display">
+C_{Mx} = [B_x \space A_xB_x \cdots A_x^{N-1}B_x] = P^{-1}C_{Mz}</script><p>where X is observer canonical form\<br>Z is other form (like phase variable form, cascade form)</p>
+<script type="math/tex; mode=display">
+P = C_{Mz}C_{Mx}^{-1}\
+
+K_z = K_xP^{-1}</script><h2 id="Observability"><a href="#Observability" class="headerlink" title="Observability"></a>Observability</h2><p><img src="/2020/05/14/control_system/Lecture%2012-Design%20Via%20State%20Space/observer.png" alt="observer"></p>
+<script type="math/tex; mode=display">
+\dot{\hat{X}} = A \hat{X} + BU + L(Y - \hat{Y})\\
+\hat{Y} = C \hat{X}</script><p>so with</p>
+<script type="math/tex; mode=display">
+\dot{X} = A X + B U\\
+Y = C X</script><p>then obtain</p>
+<script type="math/tex; mode=display">
+\dot{X} - \dot{\hat{X}} = A(X - \hat{X}) - LC(X- \hat{X})\\
+=(A-LC) (X - \hat{X})</script><p>define $e_X \equiv (X - \hat{X})$, we have</p>
+<script type="math/tex; mode=display">
+\dot{e}_X = (A-LC) e_X</script><p>If all poles of (A-LC) in the left plane</p>
+<script type="math/tex; mode=display">
+\lim_{t\to \infty} e_X = (X - \hat{X}) = 0</script><p>Then we could use $\hat{X}$ to estimate $X$\<br>regardless the influence of initial value $\hat{X}(0)$ and $X(0)$</p>
+<h3 id="Transformation-1"><a href="#Transformation-1" class="headerlink" title="Transformation"></a>Transformation</h3><script type="math/tex; mode=display">Z = PX</script><p>where X is observer canonical form\<br>Z is other form (like phase variable form, cascade form)</p>
+<script type="math/tex; mode=display">
+(\dot{Z} - \dot{\hat{Z}}) = (A-LC)(Z - \hat{Z})</script><p>Then we have</p>
+<script type="math/tex; mode=display">
+(\dot{X} - \dot{\hat{X}}) = P^{-1}(A-LC)P(X - \hat{X})</script><p>So we have:</p>
+<script type="math/tex; mode=display">
+A_x = P^{-1}AP\\
+B_x = P^{-1}B\\
+C_x = CP\\
+L_x = P^{-1}L</script><p>Now calculate $O_{Mx}$</p>
+<script type="math/tex; mode=display">
+O_{Mx} = \begin{bmatrix}
+C_x\\ C_xA_x\\ \vdots\\ C_xA_x^{N-1}
+\end{bmatrix} = O_{Mz} P</script><p>So, in conclusion:</p>
+<script type="math/tex; mode=display">
+P = O_{Mz}^{-1}O_{Mx}\
+
+L_z = PL_x</script><h2 id="Integral-Control-with-0-Steady-State-Error"><a href="#Integral-Control-with-0-Steady-State-Error" class="headerlink" title="Integral Control with 0 Steady-State Error"></a>Integral Control with 0 Steady-State Error</h2><p><img src="/2020/05/14/control_system/Lecture%2012-Design%20Via%20State%20Space/integral_controller.png" alt="integral_controller"></p>
+<script type="math/tex; mode=display">
+U = V - KX\\
+\frac{(R-Y)}{s} K_e =X_N K_e =  V \equiv \frac{Y}{T(s)}</script><p>So</p>
+<script type="math/tex; mode=display">
+\frac{Y}{R} = \frac{K_e \frac{T(s)}{s}}{1+K_e \frac{T(s)}{s}}</script><p>Then</p>
+<script type="math/tex; mode=display">
+e_{ss} = \lim_{s\to 0+} sR(s) (1 - \frac{Y(s)}{R(s)})\\
+= \lim_{s\to 0+} \frac{1}{1+K_e \frac{T(s)}{s}}\\
+= \lim_{s\to 0+} \frac{s}{s+K_e T(s)} = 0</script><p>Because</p>
+<script type="math/tex; mode=display">
+\dot{x}_{N}=R- Y = R- CX = [-C \space 0]
+\begin{bmatrix}
+X \\ x_N
+\end{bmatrix} + R</script><p>so</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+\dot{X} \\ \dot{x}_N
+\end{bmatrix}=
+\begin{bmatrix}
+A & 0\\
+-C & 0
+\end{bmatrix}
+\begin{bmatrix}
+X \\ x_N
+\end{bmatrix}+
+\begin{bmatrix}
+B \\ 0
+\end{bmatrix}U+
+\begin{bmatrix}
+0 \\ 1
+\end{bmatrix}R</script><p>because</p>
+<script type="math/tex; mode=display">
+U = K_e x_N - K X=[-K\space K_e]
+
+\begin{bmatrix}
+
+X \\ x_N
+
+\end{bmatrix}</script><p>we have</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+\dot{X} \\ \dot{x}_N
+\end{bmatrix}=(
+\begin{bmatrix}
+A & 0\\
+-C & 0
+\end{bmatrix}+
+\begin{bmatrix}
+B \\ 0
+\end{bmatrix}
+[-K\space K_e]
+)
+\begin{bmatrix}
+X \\ x_N
+\end{bmatrix}+
+\begin{bmatrix}
+0 \\ 1
+\end{bmatrix}R\\
+
+=\begin{bmatrix}
+A-BK & BK_e\\
+-C & 0
+\end{bmatrix}
+\begin{bmatrix}
+X \\ x_N
+\end{bmatrix}+
+\begin{bmatrix}
+0 \\ 1
+\end{bmatrix}R</script><h2 id="Why-zero-of-T-s-Not-change-with-Controller"><a href="#Why-zero-of-T-s-Not-change-with-Controller" class="headerlink" title="Why zero of T(s) Not change with Controller"></a>Why zero of T(s) Not change with Controller</h2><p>we know</p>
+<script type="math/tex; mode=display">
+G(s) = \frac{C \text{adj}(sI - A)B}{|sI - A|}\\
+T(s) = \frac{C \text{adj}(sI - A + BK)B}{|sI - A + BK|}</script><p>why the numurator of G(S), T(s) is the same, because $\forall C$, so must prove</p>
+<script type="math/tex; mode=display">
+\text{adj}(sI - A)B = \text{adj}(sI - A + BK)B</script><p>that is mean $\forall A$ (replace sI-A with A)</p>
+<script type="math/tex; mode=display">
+\text{adj}(A)B = \text{adj}(A + BK)B</script><h3 id="lemma-Cramer’s-Rule"><a href="#lemma-Cramer’s-Rule" class="headerlink" title="lemma: Cramer’s Rule"></a>lemma: Cramer’s Rule</h3><p>for $AX = B$, where</p>
+<script type="math/tex; mode=display">
+X = \begin{bmatrix}
+x_1\\
+\vdots\\
+x_i\\
+\vdots\\
+x_N
+\end{bmatrix}</script><p>We have</p>
+<script type="math/tex; mode=display">
+X = A^{-1}B = \frac{\text{adj}(A)B}{|A|} = \frac{|A \stackrel{i}{\leftarrow} B|\text{for x_i}}{|A|}\\
+x_i |A| = \text{adj}(A)B \quad \text{ith element}= |A \stackrel{i}{\leftarrow} B|</script><p>Here</p>
+<script type="math/tex; mode=display">
+A =\left(\mathbf{a}_{1} \cdots \mathbf{a}_{n}\right)\\
+\left(A^{i} \leftarrow B\right) \stackrel{\text { def }}{=}\left(\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & B & {\mathbf{a}_{i+1}} & {\cdots} & {\left.\mathbf{a}_{n}\right)}\end{array}\right.</script><h3 id="proof"><a href="#proof" class="headerlink" title="proof"></a>proof</h3><script type="math/tex; mode=display">
+\text{adj}(A+BK)B \quad \text{ith element}
+= |(A+BK) \stackrel{i}{\leftarrow} B|\\
+= \left|\begin{array}{llllll}{\mathbf{a}_{1}}+k_1B & {\cdots} & {\mathbf{a}_{i-1}}+k_{i-1}B & B & {\cdots} & {\mathbf{a}_{N}+k_NB}|\end{array}\right.\\
+= \left|\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & B & {\cdots} & {\mathbf{a}_{N}}|\end{array}\right.\\
+= |A \stackrel{i}{\leftarrow} B| 
+= \text{adj}(A)B \quad \text{ith element}\\</script><h3 id="Another-rule-A-BK-A-Kadj-A-B"><a href="#Another-rule-A-BK-A-Kadj-A-B" class="headerlink" title="Another rule $|A+BK| = |A| + Kadj(A)B$"></a>Another rule $|A+BK| = |A| + Kadj(A)B$</h3><script type="math/tex; mode=display">
+|A+BK| = \left|\begin{array}{llllll}{\mathbf{a}_{1}}+k_1B & {\cdots} & {\mathbf{a}_{i}}+k_{i}B & {\cdots} & {\mathbf{a}_{N}+k_NB}|\end{array}\right.\\
+= \left|\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & {\cdots} & {\mathbf{a}_{N}}|\end{array}\right. \\
++ \sum_i k_i \left|\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & B & {\cdots} & {\mathbf{a}_{N}}|\end{array}\right.\\
+= |A| + \sum_i k_i \space [\text{adj}(A)B \quad \text{ith element}]\\
+= |A| + K \text{adj}(A)B</script><h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><script type="math/tex; mode=display">
+G(s) = \frac{C \text{adj}(sI - A)B}{|sI - A|}
+= \frac{N(s)}{D_1(s)}\\
+T(s) = \frac{C \text{adj}(sI - A + BK)B}{|sI - A + BK|}\\
+= \frac{C \text{adj}(sI - A)B}{|sI - A| + K \text{adj}(sI-A)B} = \frac{N(s)}{D_2(s)}</script><p>if we introduce K_e</p>
+<script type="math/tex; mode=display">
+\frac{Y(s)}{R(s)} \equiv T'(s) = \frac{K_e \frac{T(s)}{s}}{1+K_e \frac{T(s)}{s}}\\
+= \frac{K_e N(s)}{sD_2(s) + K_e N(s)}</script><p>So no matter introduce K and K_e, zeros of T(s) Not change</p>
+]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 2- State Space Representation</title>
+    <url>/2020/05/14/control_system/Lecture%202-%20State%20Space%20Representation/</url>
+    <content><![CDATA[<h1 id="Lecture-2"><a href="#Lecture-2" class="headerlink" title="Lecture 2"></a>Lecture 2</h1><p>Lecture 2- State Space Representation<br><a id="more"></a></p>
+<h2 id="symbols"><a href="#symbols" class="headerlink" title="symbols"></a>symbols</h2><script type="math/tex; mode=display">\dot{X}(t) = AX(t) + BU(t)</script><script type="math/tex; mode=display">Y(t) = CX(t) + DU(t)</script><p>$\dot{X}(t)$ derivative of state vector</p>
+<p>$X(t)$ state vector | nx1</p>
+<p>$Y(t)$ output vector | px1</p>
+<p>$U(t)$ input/control vector | mx1</p>
+<p>$A$ symstem matrix | nxn</p>
+<p>$B$ input matrix | nxm</p>
+<p>$C$ output matrix | pxn</p>
+<p>$D$ feedforward matrix | pxm</p>
+<p>set $X(t)|_{t=0} = 0​$, do Laplace Transfrom</p>
+<script type="math/tex; mode=display">sX(s) = AX(s) + BU(s)​</script><script type="math/tex; mode=display">Y(s) = CX(s) + DU(s)​</script><p>so,</p>
+<script type="math/tex; mode=display">X(s) = (sI-A)^{-1} BU(s) = \frac{adj(sI-A)B}{det(sI-A)} U(s)</script><script type="math/tex; mode=display">Y(s) = [\frac{Cadj(sI-A)B}{det(sI-A)} + D] U(s)</script><p>thus, transfer function $G(s)$</p>
+<script type="math/tex; mode=display">G(s) \equiv \frac{Y(s)}{U(s)} = \frac{Cadj(sI-A)B}{det(sI-A)} + D​</script><p>if $X(t)|_{t=0} = X(0)$</p>
+<script type="math/tex; mode=display">
+sX(s)-X(0) = AX(s) + BU(s)\\
+Y(s) = CX(s) + DU(s)</script><p>then</p>
+<script type="math/tex; mode=display">
+Y(s) = C(sI-A)^{-1}X(0) + C(sI-A)^{-1}BU(s) + DU(s)</script><p>Here set $\Phi(t) \equiv L[(sI-A)^{-1}] = e^{At} = \sum_{k=0}^{\infty} \frac{t^k A^k}{k!}​$</p>
+<p>in other way </p>
+<script type="math/tex; mode=display">
+(sI-A)^{-1} = \Bigg\{
+\begin{aligned}
+-A^{-1}(I-sA^{-1})^{-1} = -A^{-1}[\sum^{\infty}_{k=0}s^kA^{-k}]  && |s|< \lambda_{min}\\
+s^{-1}(I-\frac{A}{s})^{-1} = \frac{1}{s}[\sum^{\infty}_{k=0}s^{-k}A^{k}]  && |s|> \lambda_{max}\\
+
+\end{aligned}</script><p>Here $\frac{1}{s^{k+1}} = L^{-1}[\frac{t^k}{k!}]$</p>
+<p>So we can get $(sI-A)^{-1}|_{s=0} = -A^{-1}, \lim_{s\to \infty} s(sI-A)^{-1}=I​$</p>
+]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 3-Signal Flow Graph</title>
+    <url>/2020/05/14/control_system/Lecture%203-Signal%20Flow%20Graph/</url>
+    <content><![CDATA[<h1 id="5-6-Signal-Flow-Graphs-of-State-Equations"><a href="#5-6-Signal-Flow-Graphs-of-State-Equations" class="headerlink" title="5.6 Signal-Flow Graphs of State Equations"></a>5.6 Signal-Flow Graphs of State Equations</h1><a id="more"></a>
+<p>P254 of edition 7 book<br>Forms:</p>
+<ol>
+<li>Phase variable</li>
+<li>Cascade</li>
+<li>Parallel</li>
+<li>Controller canonical</li>
+<li>Observer canonical</li>
+</ol>
+<script type="math/tex; mode=display">
+G(s) = \frac{b_m s^m + ... + b_0}{s^n + a_{n-1} s^{n-1} + ... + a_0 }</script><h2 id="Phase-variable"><a href="#Phase-variable" class="headerlink" title="Phase variable"></a>Phase variable</h2><p><img src="/2020/05/14/control_system/Lecture%203-Signal%20Flow%20Graph/phase_variable.png" alt="phase variable"></p>
+<p>define $X_1(s) \equiv R(s)/(s^n + a_{n-1} s^{n-1} + … + a_0)$ \<br>Then define $X_2(s) = sX_1(s),\cdots, X_{n}(s)=sX_{n-1}(s)$\<br>So $X_{k}(s) = s^{k-1} X_1(s)$</p>
+<p>then</p>
+<script type="math/tex; mode=display">
+R(s) = (s^n + a_{n-1} s^{n-1} + ... + a_0)X_1(s)\\
+=sX_n(s) + (a_{n-1}X_n(s) + ... + a_0 X_1(s))</script><p>rearrange it</p>
+<script type="math/tex; mode=display">
+sX_{k}(s) = X_{k+1}(s)\\
+sX_n(s) = -(a_0X_1(s) + ... + a_{n-1} X_n(s)) + R(s)</script><p>Moreover</p>
+<script type="math/tex; mode=display">
+C(s) = (b_m s^m + ... + b_0)X_1(s)\\
+= b_m X_{m+1}(s) + ... + b_0 X_1(s)</script><p>So </p>
+<script type="math/tex; mode=display">
+A=
+\begin{bmatrix}
+0 & 1 &  0 & \cdots & 0\\
+0 & 0 &  1 & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots\\
+0 & 0 &  0 & \cdots & 1\\
+-a_0 & -a_1 & -a_2 & \cdots & -a_{n-1}
+\end{bmatrix}
+B = 
+\begin{bmatrix}
+0\\ 0\\ \vdots\\ 0\\ 1
+\end{bmatrix}
+\\
+C = 
+\begin{bmatrix}
+b_0 & \cdots & b_{m+1} & \cdots & 0
+\end{bmatrix}</script><p>and</p>
+<script type="math/tex; mode=display">\dot{X} = AX + Br\\
+Y = CX</script><h2 id="Cascade"><a href="#Cascade" class="headerlink" title="Cascade"></a>Cascade</h2><p><img src="/2020/05/14/control_system/Lecture%203-Signal%20Flow%20Graph/cascade.png" alt="cascade"></p>
+<script type="math/tex; mode=display">
+G(s) = \prod \frac{1}{s-s_k} \prod \frac{s-p_k}{s-s_k} * K</script><p>define $X_n(s) = R(s) \frac{1}{s-s_n}$, here $sX_n(s) = s_n X_n(s) + R(s)$</p>
+<p>define $A_k(s) = A_{k+1}(s) \frac{s-p_k}{s-s_k}$</p>
+<p>moreover</p>
+<script type="math/tex; mode=display">
+A_{k+1}(s) + s_k X_k(s) = sX_k(s)\\
+sX_k(s) - p_kX_k(s) = A_k(s)</script><p>so</p>
+<script type="math/tex; mode=display">
+sX_k(s) = p_kX_k(s) + A_k(s)\\
+= p_kX_k(s) + (s-s_{k-1})X_{k-1}(s)\\
+s[X_k(s)-X_{k-1}(s)] = p_kX_k(s) -s_{k-1}X_{k-1}(s)</script><h2 id="Parallel"><a href="#Parallel" class="headerlink" title="Parallel"></a>Parallel</h2><p><img src="/2020/05/14/control_system/Lecture%203-Signal%20Flow%20Graph/parallel.png" alt="parallel"></p>
+<script type="math/tex; mode=display">
+G(s) = \sum \frac{t_k}{s- s_k}</script><p>then define $X_k(s) \equiv R(s)\frac{t_k}{s- s_k}$</p>
+<p>so</p>
+<script type="math/tex; mode=display">
+sX_k(s) = s_kX_k(s) + t_kR(s)\\
+Y(s) = \sum X_k(s)</script><h2 id="Controller-canonical"><a href="#Controller-canonical" class="headerlink" title="Controller canonical"></a>Controller canonical</h2><p><img src="/2020/05/14/control_system/Lecture%203-Signal%20Flow%20Graph/controller_canonical.png" alt="controller canonical"></p>
+<p>reverse $X_1, …, X_n$ to $X_n,…, X_1$\<br>So 中心对称反射</p>
+<script type="math/tex; mode=display">
+A=
+\begin{bmatrix}
+-a_{n-1} & \cdots & -a_2 & -a_1  & -a_0\\
+1 & 0 & \cdots & 0 & 0\\
+0 & 1 & \cdots & 0 & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots\\
+0 & 0 &  \cdots & 1 & 0\\
+\end{bmatrix}
+B = 
+\begin{bmatrix}
+1\\ 0\\ \vdots\\ 0\\ 0
+\end{bmatrix}
+\\
+C = 
+\begin{bmatrix}
+0 & 0 & \cdots & b_{m+1} & \cdots& b_0
+\end{bmatrix}</script><p>and</p>
+<script type="math/tex; mode=display">\dot{X} = AX + Br\\
+Y = CX</script><h2 id="Observer-canonical"><a href="#Observer-canonical" class="headerlink" title="Observer canonical"></a>Observer canonical</h2><p><img src="/2020/05/14/control_system/Lecture%203-Signal%20Flow%20Graph/observer_canonical.png" alt="observer canonical"><br>reverse $C(s)&lt;=&gt;R(s)$\<br>reverse $X&lt;=&gt;\dot{X}$\<br>change direction of arrows</p>
+<script type="math/tex; mode=display">
+G(s) = C(sI-A)^{-1}B\\
+=G(s)^T = B^T(sI-A^T)^{-1}C^T</script><p>So here $A \Leftarrow A^T$\<br>$B \Leftarrow C^T$\<br>$C \Leftarrow B^T$\<br>So</p>
+<script type="math/tex; mode=display">
+A=
+\begin{bmatrix}
+-a_{n-1} & 1 & 0 & 0  & 0\\
+-a_{n-2} & 0 & 1 & 0 & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots\\
+-a_1 & 0 &  \cdots & 0 & 1\\
+-a_0 & 0 &  \cdots & 0 & 0\\
+\end{bmatrix}
+B = 
+\begin{bmatrix}
+0\\ 0\\ \vdots\\ b_{m+1}\\ \vdots\\b_0
+\end{bmatrix}
+\\
+C = 
+\begin{bmatrix}
+1& 0& \cdots& 0& 0
+\end{bmatrix}</script><p>and</p>
+<script type="math/tex; mode=display">
+\dot{X} = AX + Br\\
+
+Y = CX</script>]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 4-Stability and Steady Error</title>
+    <url>/2020/05/14/control_system/Lecture%204-Stability%20and%20Steady%20Error/</url>
+    <content><![CDATA[<h3 id="Routh-Hurwitz-Criterion"><a href="#Routh-Hurwitz-Criterion" class="headerlink" title="Routh-Hurwitz Criterion"></a>Routh-Hurwitz Criterion</h3><a id="more"></a>
+<p>系统稳定的充分必要条件是：劳斯表中第一列所有元素的计算值均大于零。</p>
+<ul>
+<li>如果第一列中出现一个小于零的值，系统就不稳定；</li>
+<li>如果第一列中有等于零的值，说明系统处于临界稳定状态；</li>
+<li>第一列中数据符号改变的次数等于系统特征方程正实部根的数目，即系统中不稳定根的个数。</li>
+</ul>
+<p>tell how many closed-loop system poles are </p>
+<p>in the left half-plane, in the right half-plane, and on the jω-axis.</p>
+<p>example 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	R(&quot;R(s)&quot;)--&gt;|input| G(&quot;G(s)&quot;)</span><br><span class="line">	G--&gt;|output| C(&quot;C(s)&quot;)</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+G(s) = \frac{N(s)}{a_{4} s^{4}+a_{3} s^{3}+a_{2} s^{2}+a_{1} s+a_{0}}</script><p>here is Routh table:</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+{s^{4} \quad a_{4} \quad a_{2} \quad a_{0}} \\ 
+{s^{3} \quad a_{3}} \quad {a_{1} \quad 0} \\ 
+{s^{2}} \quad \frac{-\left|\begin{array}{ll}{a_{4}} & {a_{2}} \\ {a_{3}} & {a_{1}}\end{array}\right|}{a_{3}}=b_{1} \quad \frac{-\left|\begin{array}{ll}{a_{4}} & {a_{0}} \\ {a_{3}} & {0}\end{array}\right|}{a_3}=b_{2} \quad \frac{-\left|\begin{array}{ll}{a_{4}} & {0} \\ {a_{3}} & {0}\end{array}\right|}{a_{3}}=0\\ 
+s^{1} \quad \frac{-\left|\begin{array}{ll}{a_{3}} & {a_{1}} \\ {b_{1}} & {b_{2}}\end{array}\right|}{b_{1}}=c_{1} \quad \quad \frac{-\left|\begin{array}{ll}{a_{3}} & {0} \\ {b_{1}} & {0}\end{array}\right|}{b_{1}}=0 \quad \frac{-\left|\begin{array}{ll}{a_{3}} & {0} \\ {b_{1}} & {0}\end{array}\right|}{b_{1}}=0 \\ 
+s^{0} \quad \frac{-\left|\begin{array}{cc}{b_{1}} & {b_{2}} \\ {c_{1}} & {0}\end{array}\right|}{c_1}=d_{1} \quad \frac{-\left|\begin{array}{cc}{b_{1}} & {0} \\ {c_{1}} & {0}\end{array}\right|}{c_{1}}=0 \quad \quad \frac{-\left|\begin{array}{cc}{b_{1}} & {0} \\ {c_{1}} & {0}\end{array}\right|}{c_{1}}=0
+\end{array}</script><h4 id="a-if-Zero-Only-in-the-First-Column"><a href="#a-if-Zero-Only-in-the-First-Column" class="headerlink" title="(a) if Zero Only in the First Column"></a>(a) if Zero Only in the First Column</h4><p>If the first element of a row is zero, division by zero would be required to form the next row. To avoid this phenomenon, an epsilon, ε, is assigned to replace the zero in the first column. </p>
+<p>The value ε is then allowed to approach zero from either the positive or the negative side, after which the signs of the entries in the first column can be determined.</p>
+<script type="math/tex; mode=display">
+T(s)=\frac{10}{s^{5}+2 s^{4}+3 s^{3}+6 s^{2}+5 s+3}</script><p>用一个小正数代替零元素继续列表</p>
+<p>Routh Table:</p>
+<script type="math/tex; mode=display">
+\begin{array}{llll}
+\hline
+{s^{5}} & {1} & {3} & {5} \\ 
+{s^{4}} & {2} & {6} & {3} \\ 
+{s^{3}} & {\epsilon} & {\frac{7}{2}} & {0} \\ 
+{s^{2}} & {\frac{6 \epsilon-7}{\epsilon}} & {3} & {0} \\ 
+{s^{1}} & {\frac{42 \epsilon-49-6 \epsilon^{2}}{12 \epsilon-14}} & {0} & {0} \\
+\hline
+\end{array}</script><p>So</p>
+<script type="math/tex; mode=display">
+\begin{array}{|c|c|c|}
+\hline \text { Label } & {\text { First column }} & {\epsilon=+} & {\epsilon=-} \\ 
+\hline s^{5} & {1} & {+} & {+} \\ 
+{s^{4}} & {2} & {+} & {+} \\ 
+{s^{3}} & {\epsilon} & {+} & {-} \\ 
+{s^{2}} & {\frac{6 \epsilon-7}{\epsilon}} & {-} & {+} \\
+{s^{1}} & {\frac{42 \epsilon-49-6 \epsilon^{2}}{12 \epsilon-14}}& {+} & {+} \\ 
+{s^{0}} & {3} & {+} & {+} \\ 
+\hline
+\end{array}</script><h4 id="b-Entire-Row-is-Zero"><a href="#b-Entire-Row-is-Zero" class="headerlink" title="(b) Entire Row is Zero"></a>(b) Entire Row is Zero</h4><p>We now look at the second special case. Sometimes while making a Routh table, we find<br>that an entire row consists of zeros</p>
+<p>出现全0行=&gt;方程中有</p>
+<p>一对大小相等、符号相反的实根，</p>
+<p>或一对纯虚根，</p>
+<p>或对称于s平面原点的共轭复根。</p>
+<p>This symmetry can occur under three conditions of root position:<br>(1) The roots are symmetrical and real, </p>
+<p>(2) the roots are symmetrical and imaginary, or </p>
+<p>(3) the roots are quadrantal. (四个共轭，对称的根)</p>
+<p>列表时先用全零行的上一行构成辅助方程，它的根就是原方程的特殊根。</p>
+<p>再将辅助方程求导，用求导后的方程代替全零行</p>
+<p>继续下去直到得到全部劳思表</p>
+<h3 id="MATLAB-code"><a href="#MATLAB-code" class="headerlink" title="MATLAB code"></a>MATLAB code</h3><p>to find the closed-loop transfer function, T(s), and the closed-loop poles.</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">numg = <span class="number">128</span>;</span><br><span class="line">deng = [<span class="number">1</span> <span class="number">3</span> <span class="number">10</span> <span class="number">24</span> ...</span><br><span class="line">		<span class="number">48</span> <span class="number">96</span> <span class="number">128</span> <span class="number">192</span> <span class="number">0</span>];</span><br><span class="line">G = tf(numg, deng);</span><br><span class="line">T = feedback(G, <span class="number">1</span>); <span class="comment">% T(s) = G(s) / [1 + G(s)]</span></span><br><span class="line">poles = pole(T)</span><br></pre></td></tr></table></figure>
+<h3 id="Steady-Error"><a href="#Steady-Error" class="headerlink" title="Steady Error"></a>Steady Error</h3><p>大前提：已经Routh-Hurwitz Criterion验证是稳定的</p>
+<p>if D = 0</p>
+<script type="math/tex; mode=display">
+e_{ss}
+
+= \mathop{\text{lim}} \limits_{t\to+\infty} [r(t) - c(t)]\\
+
+=  \mathop{\text{lim}} \limits_{s\to 0+} s[R(s) - C(s)]\\
+
+=  \mathop{\text{lim}} \limits_{s\to 0+} sR(s) [1 - T(s)]\\
+
+=  \mathop{\text{lim}} \limits_{s\to 0+} sR(s) [1 - C(sI-A)^{-1}B ]\\</script><p>if $r(t)=u(t)$, step function, $R(s) = \frac{1}{s}$</p>
+<script type="math/tex; mode=display">
+e_{ss} =  \mathop{\text{lim}} \limits_{s\to 0+}  [1 - C(sI-A)^{-1}B ]\\
+
+=   [1 - C(0*I-A)^{-1}B ]\\
+
+= [1+ C A^{-1}B]</script><p>if $r(t) = tu(t)$, here $R(s) = \frac{1}{s^2}$ only when $[1+ C A^{-1}B]=0$, Steady Error exist</p>
+<script type="math/tex; mode=display">
+e_{ss} =  \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 - C(sI-A)^{-1}B ]}{s}\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 - C(-A)^{-1}B ]}{s} - \frac{[C(sI-A)^{-1}B - C(-A)^{-1}B ]}{s}\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} - C\mathop{\text{lim}} \limits_{s\to 0+} \frac{[(sI-A)^{-1} - (-A)^{-1}]}{s} B\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} - C\mathop{\text{lim}} \limits_{s\to 0+} \frac{d(sI-A)^{-1}}{ds} B\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} + C\mathop{\text{lim}} \limits_{s\to 0+} (sI-A)^{-2} B\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} + CA^{-2} B\\</script>]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>DTFT</title>
-    <url>/2020/05/13/DTFT/</url>
+    <url>/2020/05/13/dsp/DTFT/</url>
     <content><![CDATA[<h2 id="DTFT"><a href="#DTFT" class="headerlink" title="DTFT"></a>DTFT</h2><script type="math/tex; mode=display">
 \begin{aligned}
 X(f) &= \int_{-\infty}^{\infty} x(t) e^{-j2\pi ft} dt\\
@@ -138,40 +3111,495 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
         <category>公式</category>
       </categories>
       <tags>
-        <tag>DSP</tag>
         <tag>math</tag>
+        <tag>DSP</tag>
       </tags>
   </entry>
   <entry>
-    <title>Hexo 的主题中渲染 MathJax 数学公式</title>
-    <url>/2020/05/13/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="Hexo-的主题中渲染-MathJax-数学公式"><a href="#Hexo-的主题中渲染-MathJax-数学公式" class="headerlink" title="Hexo 的主题中渲染 MathJax 数学公式"></a>Hexo 的主题中渲染 MathJax 数学公式</h2><p><a href="https://blog.csdn.net/wgshun616/article/details/81019687" target="_blank" rel="noopener">https://blog.csdn.net/wgshun616/article/details/81019687</a></p>
-<a id="more"></a>
-<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>Hexo 默认使用 hexo-renderer-marked 引擎渲染网页，该引擎会把一些特殊的 markdown 符号转换为相应的 html 标签，比如在 markdown 语法中，下划线<code>_</code>代表斜体，会被渲染引擎处理为<code>&lt;em&gt;</code>标签。</p>
-<p>因为类 Latex 格式书写的数学公式下划线<code>_</code>表示下标，有特殊的含义，如果被强制转换为<code>&lt;em&gt;</code>标签，那么 MathJax 引擎在渲染数学公式的时候就会出错。</p>
-<p>类似的语义冲突的符号还包括<code>*</code>, <code>{</code>, <code>}</code>, <code>\\</code>等。</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ul>
-<li>更换 Hexo 的 markdown 渲染引擎:</li>
-</ul>
-<p>hexo-renderer-kramed 引擎是在默认的渲染引擎 </p>
-<p>hexo-renderer-marked 的基础上修改了一些 bug ，两者比较接近，也比较轻量级。</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+    <title>Fourier变换</title>
+    <url>/2020/05/13/dsp/Fourier%20transform/</url>
+    <content><![CDATA[<h1 id="Fourier-Transform"><a href="#Fourier-Transform" class="headerlink" title="Fourier Transform"></a>Fourier Transform</h1><a id="more"></a>
+<h2 id="Proof-of-Fourier-Integral-Formula"><a href="#Proof-of-Fourier-Integral-Formula" class="headerlink" title="Proof of Fourier Integral Formula"></a>Proof of Fourier Integral Formula</h2><p><a href="https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/" target="_blank" rel="noopener">https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/</a></p>
+<p>If g(t) satisfy (I), (II) in $(-\infty, +\infty)$</p>
+<p>(I) $\forall [a, b] \subset (-\infty, +\infty)$\<br>g(t) satisfy <strong>Dirichlet</strong> conditions for [a, b]:</p>
+<ol>
+<li><p>g(t) is continous $\forall t \in (a, b)$;</p>
+<p>or finite <strong>First type of discontinuitis</strong> $\in (a, b)$</p>
+</li>
+<li><p>finite <strong>Peak</strong> values $\in (a, b)$</p>
 <ul>
-<li>行内公式的渲染还是有问题，因为 hexo-renderer-kramed 引擎也有语义冲突的问题。</li>
+<li>Cantor定理：f(x) 在[a, b]内定义且连续 =&gt; 在(a, b) 内一致连续</li>
+<li>$||f(2ay+x)-f(x)|| e^{-ay^2} \to 0, \text{as } a\to 0$ 对连续区间内成立</li>
+<li>有界变差在连续区间内: 可以表示成两个非负单调增函数之差f(t)=f1(t) - f2(t), \<br>而f1, f2均可应用Bonnet公式(微积分学教程第二卷P95)<br>$\int_{a}^{b} f_1(x) g(x) d x=f_1(b) \int_{\xi}^{b} g(x) d x$\<br>其中$a \leqslant \xi \leqslant b, g(x)$可积</li>
 </ul>
-<p>博客根目录下，找到node_modules\kramed\lib\rules\inline.js，</p>
-<p>第11行的 escape 变量的值做相应的修改：(在原基础上取消了对\,{,}的转义(escape)。)</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="built_in">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure>
-<p>第20行的em变量也要做相应的修改。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="comment">//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
-]]></content>
+</li>
+</ol>
+<p>(II) $\int_{-\infty}^{+\infty} g(t) dt &lt; M$</p>
+<hr>
+<p>Then $\Longrightarrow$</p>
+<script type="math/tex; mode=display">
+\mathbb{F}[g(t)] 
+\equiv \int_{-\infty}^{+\infty} g(t) e^{-j\omega t} dt 
+= G(\omega)\\</script><script type="math/tex; mode=display">
+\mathbb{F^{-1}}[G(\omega)] 
+\equiv \frac{1}{2\pi} \int_{-\infty}^{+\infty} G(\omega) e^{j\omega t} d\omega =g^{*}(t)</script><p>where, g*(t) &amp;&amp; g(t): </p>
+<script type="math/tex; mode=display">
+g^{*}(t) = \left\{
+\begin{aligned}
+g(t) && \text{continuous at t}\\
+\frac{g(t_{-}) + g(t_{+})}{2} && \text{Not continuous at t}
+\end{aligned}
+\right.</script><hr>
+<h2 id="Proof"><a href="#Proof" class="headerlink" title="Proof"></a>Proof</h2><h3 id="preparation"><a href="#preparation" class="headerlink" title="preparation"></a>preparation</h3><script type="math/tex; mode=display">
+f(x) = e^{-a x^2} \\
+\begin{aligned}
+G(\omega) &= \int^{+\infty}_{-\infty} f(x) e^{-j\omega x} dx\\
+&= \int^{+\infty}_{-\infty} e^{-a x^2} e^{-j\omega x} dx\\
+&= e^{-\frac{\omega^2}{4a}} \int^{+\infty}_{-\infty} e^{-a (x+j\frac{\omega}{2a})^2} dx\\
+&= e^{-\frac{\omega^2}{4a}} \int^{+\infty}_{-\infty} e^{-a x^2} dx \quad [\text{Cauchy's integral theorem}]\\
+&= \pi^{\frac{1}{2}} a^{-\frac{1}{2}} e^{-\frac{\omega^2}{4a}}
+\end{aligned}</script><p>where have</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+I^2 &\equiv \int^{+\infty}_{-\infty} e^{-a x^2} dx
+\int^{+\infty}_{-\infty} e^{-a y^2} dy\\
+&= \int^{2\pi}_{0} \int^{+\infty}_{0} e^{-a r^2} dr \cdot rd\theta\\
+&= 2\pi \cdot \frac{1}{2a} \int^{+\infty}_{0} e^{-a r^2} d(ar^2)\\
+&= \frac{\pi}{a}
+\end{aligned}\\
+
+I = \pi^{\frac{1}{2}} a^{-\frac{1}{2}}</script><h3 id="In-special-form"><a href="#In-special-form" class="headerlink" title="In special form"></a>In special form</h3><p>考虑</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\int_{-\infty}^{+\infty} G(\omega) e^{-a\omega^2} e^{j\omega x} d\omega
+&= \int_{-\infty}^{+\infty} \int^{+\infty}_{-\infty} f(y) e^{-j\omega y} dy e^{-a\omega^2} e^{j\omega x} d\omega\\
+
+&= \int_{-\infty}^{+\infty} f(y) [\int^{+\infty}_{-\infty} e^{-a\omega^2} e^{-j\omega (y-x)} d\omega] dy\\
+
+&= \pi^{\frac{1}{2}} a^{-\frac{1}{2}}
+\int_{-\infty}^{+\infty} f(y) e^{-\frac{(y-x)^2}{4a}} dy\\
+
+&= \pi^{\frac{1}{2}} a^{-\frac{1}{2}}
+\int_{-\infty}^{+\infty} f(y+x) e^{-\frac{y^2}{4a}} dy \quad [y = 2ay']\\
+
+&= \pi^{\frac{1}{2}} a^{-\frac{1}{2}} \cdot 2a
+\int_{-\infty}^{+\infty} f(2ay+x) e^{-ay^2} dy \\
+
+&= 2\pi^{\frac{1}{2}} a^{\frac{1}{2}} 
+\int_{-\infty}^{+\infty} f(2ay+x) e^{-ay^2} dy
+\end{aligned}</script><h3 id="In-1st-way"><a href="#In-1st-way" class="headerlink" title="In 1st way"></a>In 1st way</h3><script type="math/tex; mode=display">
+\int_{-\infty}^{+\infty}
+| \int_{-\infty}^{+\infty} G(\omega) e^{-a\omega^2} e^{j\omega x} d\omega - 2\pi  f(x)| dx\\
+\begin{aligned}
+&= \int_{-\infty}^{+\infty}
+| 2\pi^{\frac{1}{2}} a^{\frac{1}{2}} 
+\int_{-\infty}^{+\infty} f(2ay+x) e^{-ay^2} dy - 2\pi  f(x)| dx\\
+
+
+&= 2\pi^{\frac{1}{2}} a^{\frac{1}{2}} \int_{-\infty}^{+\infty}
+|\int_{-\infty}^{+\infty} f(2ay+x) e^{-ay^2} dy - \pi^{\frac{1}{2}} a^{-\frac{1}{2}}  f(x)| dx \quad [ \int_{-\infty}^{+\infty} e^{-ay^2} dy= \pi^{\frac{1}{2}} a^{-\frac{1}{2}}] \\
+
+&= 2\pi^{\frac{1}{2}} a^{\frac{1}{2}} \int_{-\infty}^{+\infty}
+|\int_{-\infty}^{+\infty} [f(2ay+x)-f(x)] e^{-ay^2} dy| dx\\
+
+&\leq 2\pi^{\frac{1}{2}} a^{\frac{1}{2}} \int_{-\infty}^{+\infty}
+[\int_{-\infty}^{+\infty} |f(2ay+x)-f(x)| dx] e^{-ay^2} dy\\
+
+&= 2\pi^{\frac{1}{2}} a^{\frac{1}{2}} \int_{-\infty}^{+\infty}
+||f(2ay+x)-f(x)|| e^{-ay^2} dy
+\end{aligned}</script><p>当$\lim_{a \to 0}$ 时</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\lim_{a\to 0} \int_{-\infty}^{+\infty}
+| \int_{-\infty}^{+\infty} G(\omega) e^{-a\omega^2} e^{j\omega x} d\omega - 2\pi  f(x)| dx\\
+
+&\leq 2\pi^{\frac{1}{2}} \lim_{a\to 0}a^{\frac{1}{2}} \cdot 
+\lim_{a\to 0} \int_{-\infty}^{+\infty}
+||f(2ay+x)-f(x)|| e^{-ay^2} dy\\
+
+&= 2\pi^{\frac{1}{2}} \cdot 0 \cdot 0
+\end{aligned}</script><p>考虑 $||f(2ay+x)-f(x)||$, 因为</p>
+<script type="math/tex; mode=display">
+||f(2ay+x)-f(x)|| e^{-ay^2} \leq 2 ||f(x)||e^{-ay^2}\\
+2 ||f(x)||e^{-ay^2} \text{is integrable function}\\
+||f(2ay+x)-f(x)|| e^{-ay^2} \to 0, \text{as } a\to 0\\</script><p>满足 <strong>Lebesgue’s Dominated Convergence Theorem</strong></p>
+<script type="math/tex; mode=display">
+\lim_{a\to 0} \int_{-\infty}^{+\infty}
+||f(2ay+x)-f(x)|| e^{-ay^2} dy\\
+
+= \int_{-\infty}^{+\infty}
+\lim_{a\to 0} ||f(2ay+x)-f(x)|| e^{-ay^2} dy\\
+
+= \int_{-\infty}^{+\infty} 0 dy \quad [\text{finite discontinuties}] = 0</script><h3 id="In-2nd-way"><a href="#In-2nd-way" class="headerlink" title="In 2nd way"></a>In 2nd way</h3><script type="math/tex; mode=display">
+\begin{aligned}
+&| \int_{-\infty}^{+\infty} G(\omega) e^{-a\omega^2} e^{j\omega x} d\omega - 
+\int_{-\infty}^{+\infty} G(\omega) e^{j\omega x} d\omega|\\
+
+&\leq \int_{-\infty}^{+\infty} |G(\omega) [1-e^{-a\omega^2}] e^{j\omega x}| d\omega
+
+\end{aligned}</script><p>考虑</p>
+<script type="math/tex; mode=display">
+|G(\omega) [1-e^{-a\omega^2}] e^{j\omega x}| \leq 2 |G(\omega)|\\
+2 |G(\omega)| \text{ is integrable function}\\
+|G(\omega) [1-e^{-a\omega^2}] e^{j\omega x}| \to 0, \text{as } a\to 0\\</script><p>满足 <strong>Lebesgue’s Dominated Convergence Theorem</strong><br><a href="https://en.wikipedia.org/wiki/Dominated_convergence_theorem" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Dominated_convergence_theorem</a></p>
+<script type="math/tex; mode=display">
+\lim_{a\to 0} | \int_{-\infty}^{+\infty} G(\omega) e^{-a\omega^2} e^{j\omega x} d\omega - 
+\int_{-\infty}^{+\infty} G(\omega) e^{j\omega x} d\omega|\\
+
+\leq \lim_{a\to 0} \int_{-\infty}^{+\infty} |G(\omega) [1-e^{-a\omega^2}] e^{j\omega x}| d\omega\\
+= \int_{-\infty}^{+\infty} \lim_{a\to 0}
+|G(\omega) [1-e^{-a\omega^2}] e^{j\omega x}| d\omega\\
+= \int_{-\infty}^{+\infty} 0 d\omega = 0</script><p>所以有</p>
+<script type="math/tex; mode=display">
+\lim_{a\to 0} \int_{-\infty}^{+\infty} G(\omega) e^{-a\omega^2} e^{j\omega x} d\omega
+= \int_{-\infty}^{+\infty} G(\omega) e^{j\omega x} d\omega</script><hr>
+<h3 id="Sum-Up"><a href="#Sum-Up" class="headerlink" title="Sum Up"></a>Sum Up</h3><p>我们知道</p>
+<script type="math/tex; mode=display">
+\lim_{a\to 0} \int_{-\infty}^{+\infty}|g(x, a) - 2\pi f(x)| dx = 0\\
+\lim_{a\to 0} g(x, a) = g(x)\\</script><p>此处 $a\to 0$, 一致收敛 $g(x, a) \to g(x)$\<br>&lt;=&gt; $\forall \epsilon$, 可以找到 $\delta$\<br>只要 $0&lt;a&lt;\delta$, 对 $\forall x, |g(x, a) - g(x)|&lt;\epsilon$</p>
+<p><strong>一致收敛short proof</strong>\<br>因为 $\int_{-\infty}^{+\infty} |G(\omega)|d\omega &lt; M$, 所以可以找到A\<br>$\int_{-\infty}^{-A} |G(\omega)|d\omega &lt; \frac{\epsilon}{6}, \int_{A}^{+\infty} |G(\omega)|d\omega &lt; \frac{\epsilon}{6}$\<br>把$|g(x, a) - g(x)|$分拆</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+|g(x, a) - g(x)|&\leq \int_{-\infty}^{-A}|G(\omega) [1-e^{-a\omega^2}] e^{j\omega x}| d\omega\\
+&+ \int_{A}^{+\infty} |G(\omega) [1-e^{-a\omega^2}] e^{j\omega x}| d\omega\\
+&+ \int_{-A}^{+A}|G(\omega) [1-e^{-a\omega^2}] e^{j\omega x}| d\omega\\
+
+&\leq 2 \int_{-\infty}^{-A} |G(\omega)|d\omega + 2 \int_{A}^{+\infty} |G(\omega)|d\omega \\
+&+ M \int_{-A}^{+A} [1-e^{-aA^2}] d\omega\\
+
+&\lt \frac{2\epsilon}{3} + 2MA[1-e^{-aA^2}] \lt \epsilon\\
+\end{aligned}</script><p>只需合适的选取A, 满足</p>
+<script type="math/tex; mode=display">
+[a \lt \frac{-\ln(1-\frac{\epsilon}{6MA})}{A^2} \Rightarrow 2MA[1-e^{-aA^2}] \lt \frac{\epsilon}{3}]</script><p><strong>END一致收敛short proof</strong></p>
+<p>因为此处 $a\to 0$, 一致收敛 $g(x, a) \to g(x)$\<br>所以成立</p>
+<script type="math/tex; mode=display">
+\lim_{a\to 0} \int_{-\infty}^{+\infty}|g(x, a) - g(x)| dx \\
+= \int_{-\infty}^{+\infty}|\lim_{a\to 0} g(x, a) - g(x)| dx \\
+= \int_{-\infty}^{+\infty}0dx = 0\\</script><p>进而有</p>
+<script type="math/tex; mode=display">
+\int_{-\infty}^{+\infty}|2\pi f(x) - g(x)| dx \\
+= \lim_{a\to 0}\int_{-\infty}^{+\infty}|2\pi f(x) - g(x)| dx \\
+\leq \lim_{a\to 0} \int_{-\infty}^{+\infty}|g(x, a) - 2\pi f(x)| dx \\+ \lim_{a\to 0} \int_{-\infty}^{+\infty}|g(x, a) - g(x)| dx\\
+= 0</script><p>而$2\pi f(x)$ 和 $g(x)$都是分段连续函数,\<br>$|2\pi f(x) - g(x)|$也是分段连续函数</p>
+<p>So, 每一段x连续区间都有</p>
+<script type="math/tex; mode=display">
+2\pi f(x) = g(x)</script><p><strong>定义g(x, a), g(x)</strong></p>
+<script type="math/tex; mode=display">
+g(x, a) \equiv
+\int_{-\infty}^{+\infty} G(\omega) e^{-a\omega^2} e^{j\omega x} d\omega\\
+
+g(x) \equiv
+\int_{-\infty}^{+\infty} G(\omega) e^{j\omega x} d\omega</script><p>也就是，每一段x连续区间都有</p>
+<script type="math/tex; mode=display">
+f(x) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} G(\omega) e^{j\omega x} d\omega</script><h2 id="END-Proof"><a href="#END-Proof" class="headerlink" title="END Proof"></a>END Proof</h2><h2 id="Appendix-G-w-的性质"><a href="#Appendix-G-w-的性质" class="headerlink" title="Appendix: G(w) 的性质"></a>Appendix: G(w) 的性质</h2><ul>
+<li><p>$G(\omega)$ is uniformly continuous<br><img src="/2020/05/13/dsp/Fourier%20transform/FT_uniform_continuous.PNG" alt="FT_uniform_continuous"></p>
+</li>
+<li><p>$\lim_{\omega\to \infty} G(\omega) = 0$ </p>
+<p>(Riemann-Lebesgue lemma)</p>
+<p>use Riemann–Lebesgue lemma($||f(x)||_{L1}&lt; M$)<br><a href="https://en.wikipedia.org/wiki/Riemann%E2%80%93Lebesgue_lemma" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Riemann%E2%80%93Lebesgue_lemma</a></p>
+<p><a href="https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/" target="_blank" rel="noopener">https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/</a></p>
+</li>
+</ul>
+<h2 id="补充说明：间断点处"><a href="#补充说明：间断点处" class="headerlink" title="补充说明：间断点处"></a>补充说明：间断点处</h2><p>必须满足Dirichlet 条件：</p>
+<p>$f(x+),f(x-)$存在</p>
+<p>此时有<br>$\frac{f(x+) + f(x-)}{2} = \frac{1}{2\pi} \int_{-\infty}^{+\infty} G(\omega) e^{j\omega x} d\omega$</p>
+<p>参见微积分学教程第三卷P353, 354, 358, 359</p>
+<h3 id="Proof-1"><a href="#Proof-1" class="headerlink" title="Proof"></a>Proof</h3><p>一方面</p>
+<script type="math/tex; mode=display">
+\frac{1}{2\pi} \int_{-\infty}^{+\infty} G(k) e^{jk x} d\omega
+= \lim_{K\to \infty} 
+\frac{1}{2\pi} \int_{-K}^{+K} G(k) e^{jk x} d\omega
+= \lim_{K\to \infty} S_{K}(x)</script><p>另一方面</p>
+<script type="math/tex; mode=display">
+\begin{aligned} S_{K}(x) 
+&=\int_{-\infty}^{\infty} d t f(t) \int_{-K}^{K} \frac{e^{i k(x-t)}}{2 \pi} d k \\ 
+&=\left.\int_{-\infty}^{\infty} d t f(t) \frac{e^{i k(x-t)}}{2 \pi i(x-t)}\right|_{-K} ^{K} \\ 
+&=\int_{-\infty}^{\infty} d t f(t) \frac{\sin K(x-t)}{\pi(x-t)}\\
+&=\underbrace{\int_{-\infty}^{x} f(t) \frac{\sin K(x-t)}{\pi(x-t)} d t}_{J_{K}(x)}+\underbrace{\int_{x}^{\infty} f(t) \frac{\sin K(x-t)}{\pi(x-t)} d t}_{I_{K}(x)}
+\end{aligned}</script><p>计算 $I_{K}(x)$</p>
+<script type="math/tex; mode=display">
+\begin{aligned} I_{K}(x) 
+&=\int_{0}^{\infty} f(x+u) \frac{\sin K u}{\pi u} d u \\ 
+&=\int_{0}^{\infty} \frac{f(x+u)-f\left(x^{+}\right)}{\pi u} \sin K u d u+\frac{f\left(x^{+}\right)}{\pi} \int_{0}^{\infty} \frac{\sin K u}{u} d u 
+\end{aligned}</script><p>后一部分是</p>
+<script type="math/tex; mode=display">
+\int_{0}^{\infty} \frac{\sin K u}{u} d u=\frac{\pi}{2}\\
+\frac{f\left(x^{+}\right)}{\pi} \int_{0}^{\infty} \frac{\sin K u}{u} d u = \frac{f\left(x^{+}\right)}{2}</script><p>前一部分，考虑$\frac{f(x+u)-f\left(x^{+}\right)}{\pi u} \equiv G(u)$</p>
+<p>将$\int_0^{\infty} G(u)\sin(Ku) du$拆成三部分<br>$\int_0^{\infty} = \int_0^{\delta} + \int_\delta^{A} + \int_A^{\infty}$</p>
+<ul>
+<li>第一部分, 因为f(t)有界变差，对f(t)=f1(t) - f2 (t), \<br> 而f1, f2均可应用Bonnet公式(微积分学教程第二卷P95)<br> $\int_{a}^{b} f_1(x) g(x) d x=f_1(b) \int_{\xi}^{b} g(x) d x$\<br> 其中$a \leqslant \xi \leqslant b, g(x)$可积\<br> 此处$a=0, b=\delta, g(x) = \frac{\sin(Ku)}{u}$<br> 可以有\<br> $\int_0^{\delta} =[f(x+\delta)-f\left(x^{+}\right)]\int_{\xi}^{\delta}\frac{\sin(Ku)}{u} du &lt; \epsilon L$</li>
+<li><p>第二部分$\int_\delta^{A}$, 对$G(u)$在$[\delta, A]$绝对可积\<br>$\int_\delta^{A}|G(u)|du \leq \int_\delta^{A}|\frac{f(x+u)}{\pi u}|du + \int_\delta^{A}|\frac{f\left(x^{+}\right)}{\pi u}|du<br>\leq<br>\int_{-\infty}^{+\infty}\frac{|f(x+u)|}{\pi \delta}du + \int_\delta^{A}|\frac{f\left(x^{+}\right)}{\pi u}|du &lt; M$</p>
+<p>应用Riemann–Lebesgue lemma<br>$\lim_{K\to\infty} \int_\delta^{A} G(u) \sin(Ku) du = 0$</p>
+</li>
+<li><p>第三部分与第二部分之和\<br>$\lim_{K\to\infty}\int_\delta^{\infty} = \lim_{A\to \infty}\lim_{K\to\infty}\int_\delta^{A} = 0$</p>
+</li>
+<li><p>综上，前一部分有\<br>$\lim_{K\to\infty} \int_{0}^{\infty} \frac{f(x+u)-f\left(x^{+}\right)}{\pi u} \sin K u d u = 0$</p>
+</li>
+</ul>
+<p>所以,</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\lim_{K\to\infty} I_{K}(x) &= 
+\lim_{K\to\infty} \int_{0}^{\infty} \frac{f(x+u)-f\left(x^{+}\right)}{\pi u} \sin K u d u+\frac{f\left(x^{+}\right)}{2}\\
+&= \frac{f\left(x^{+}\right)}{2} 
+\end{aligned}</script><p>同理</p>
+<script type="math/tex; mode=display">
+\lim_{K\to\infty} J_{K}(x) = \frac{f\left(x^{-}\right)}{2}</script><p>总之有</p>
+<script type="math/tex; mode=display">
+\lim_{K\to \infty} S_{K}(x)
+= \lim_{K\to \infty} [I_{K}(x) + J_{K}(x)]
+= \frac{f\left(x^{+}\right) + f\left(x^{-}\right)}{2}</script><p><strong>Conclusion</strong></p>
+<script type="math/tex; mode=display">
+\frac{1}{2\pi} \int_{-\infty}^{+\infty} G(k) e^{jk x} d\omega = \lim_{K\to \infty} S_{K}(x) = \frac{f\left(x^{+}\right) + f\left(x^{-}\right)}{2}</script><h3 id="END-Proof-1"><a href="#END-Proof-1" class="headerlink" title="END Proof"></a>END Proof</h3>]]></content>
       <categories>
-        <category>前端</category>
-        <category>博客</category>
+        <category>信号处理</category>
+        <category>公式</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-        <tag>MathJax</tag>
+        <tag>math</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Laplace变换</title>
+    <url>/2020/05/13/dsp/Laplace%20transform/</url>
+    <content><![CDATA[<h1 id="Laplace-Transform"><a href="#Laplace-Transform" class="headerlink" title="Laplace Transform"></a>Laplace Transform</h1><a id="more"></a>
+<h2 id="Fourier"><a href="#Fourier" class="headerlink" title="Fourier"></a>Fourier</h2><p>Proof: see “Harmonious Analysis” CHAPTER 3 P37 ~ P38\<br><a href="https://drive.google.com/file/d/0B7t_mQHDlsRsdnZkSE9LbndfOHM/view" target="_blank" rel="noopener">https://drive.google.com/file/d/0B7t_mQHDlsRsdnZkSE9LbndfOHM/view</a></p>
+<p><a href="https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/" target="_blank" rel="noopener">https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/</a></p>
+<p>Fourier tranform</p>
+<script type="math/tex; mode=display">
+\mathbb{F}[g(t)] 
+\equiv \int_{-\infty}^{+\infty} g(t) e^{-j\omega t} dt 
+= G(\omega)</script><p>Fourier Inversion</p>
+<script type="math/tex; mode=display">
+\mathbb{F^{-1}}[G(\omega)] 
+\equiv \frac{1}{2\pi} \int_{-\infty}^{+\infty} G(\omega) e^{j\omega t} d\omega =g^{*}(t)</script><p>Here is the Inversion of g(t)</p>
+<script type="math/tex; mode=display">
+g^{*}(t) = \left\{
+\begin{aligned}
+g(t) && \text{continuous at t}\\
+\frac{g(t_{-}) + g(t_{+})}{2} && \text{Not continuous at t}
+\end{aligned}
+\right.</script><h2 id="Laplace-and-Fourier"><a href="#Laplace-and-Fourier" class="headerlink" title="Laplace and Fourier"></a>Laplace and Fourier</h2><p>set $f(t) e^{-\beta t}u(t) \equiv g(t), \quad f^{\ast}(t) \equiv g^{\ast}(t) e^{\beta t}$\</p>
+<p>(I) $\forall [a, b] \subset (-\infty, +\infty)$\<br>g(t) satisfy <strong>Dirichlet</strong> conditions for [a, b]</p>
+<p>(II) $\int_{-\infty}^{+\infty} g(t) dt &lt; M$</p>
+<p>So, Fourier Transform, $s = \beta + j\omega$, we would have</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathbb{F}[g(t)] 
+&= \int_{-\infty}^{+\infty} g(t) e^{-j\omega t} dt
+= \int_{0_{-}}^{\infty} f(t) e^{-s t} dt\\
+&= G(\omega) = G(\frac{s-\beta}{j}) = F(s)\\
+\mathbb{F^{-1}}[G(\omega)] 
+&= \frac{1}{2\pi} \int_{-\infty}^{+\infty} G(\omega) e^{j\omega t} d\omega 
+= \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F(s) e^{(s-\beta) t} ds\\
+&=g^{*}(t) \equiv f^{*}(t) e^{-\beta t}
+\end{aligned}</script><p>Then we have Inversion</p>
+<script type="math/tex; mode=display">
+f^{*}(t) = \left\{
+\begin{aligned}
+f(t) && \text{continuous at t } (t 
+\geq 0)\\
+\frac{f(t_{-}) + f(t_{+})}{2} && \text{Not continuous at t } (t \geq 0)
+\end{aligned}
+\right.</script><h2 id="Define-Laplace-Transform"><a href="#Define-Laplace-Transform" class="headerlink" title="Define Laplace Transform"></a>Define <strong>Laplace Transform</strong></h2><p>Definition of LT</p>
+<script type="math/tex; mode=display">
+F(s) = \mathbb{L}[f(t)] 
+\equiv \int_{0_{-}}^{\infty} f(t) e^{-st} dt = G(\frac{s-\beta}{j})\\
+f^{*}(t) = \mathbb{L^{-1}}[F(s)] \equiv \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F(s) e^{s t} ds = g^{*}(t) e^{\beta t}  \quad [t \geq 0]</script><p>可以选择$\beta$, 使$Re\{\text{poles of }F(s)\} &lt; \beta$, 此时</p>
+<script type="math/tex; mode=display">
+f^{*}(t) = \mathbb{L^{-1}}[F(s)] \equiv \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F(s) e^{s t} ds \\
+= \sum \mathop{Res}\limits_{s=s_k}[F(s) e^{st}]</script>]]></content>
+      <categories>
+        <category>信号处理</category>
+        <category>公式</category>
+      </categories>
+      <tags>
+        <tag>math</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Z变换</title>
+    <url>/2020/05/13/dsp/Z%20transform/</url>
+    <content><![CDATA[<h1 id="Z-transform"><a href="#Z-transform" class="headerlink" title="Z transform"></a>Z transform</h1><a id="more"></a>
+<h2 id="Sampling"><a href="#Sampling" class="headerlink" title="Sampling"></a>Sampling</h2><p>sampling interval T</p>
+<script type="math/tex; mode=display">
+f_T(t) \equiv \sum_{k=0}^{\infty} f(kT) \delta(t-kT)</script><h2 id="Laplace-Transform"><a href="#Laplace-Transform" class="headerlink" title="Laplace Transform"></a>Laplace Transform</h2><p>LT </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+F_T(s) 
+&\equiv \int_{0_{-}}^{\infty} f_T(t) e^{-st} dt = \sum_{k=0}^{\infty} f(kT) \int_{0_{-}}^{\infty} \delta(t-kT) e^{-st} dt\\
+&= \sum_{k=0}^{\infty} f(kT) [e^{-Ts}]^k\\
+
+f_T^{*}(t) 
+&\equiv \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F_T(s) e^{s t} ds
+= \sum_{k=0}^{\infty} f(kT) \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} [e^{(t-kT)}]^s ds\\
+&= \sum_{k=0}^{\infty} e^{(t-kT)\beta} f(kT) \{ \frac{1}{2\pi} \int_{-\infty}^{+\infty} e^{-jkT\omega} e^{j\omega t} d\omega \}\\
+&= \sum_{k=0}^{\infty} e^{(t-kT)\beta} f(kT) \delta(t-kT)\\
+&= \sum_{k=0}^{\infty} f(kT) \delta(t-kT)
+\end{aligned}</script><p>考虑$\frac{1}{2\pi} \int_{-\infty}^{+\infty} e^{-jkT\omega} e^{j\omega t} d\omega$, 引入参量a</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{1}{2\pi} \int_{-\infty}^{+\infty} e^{-jkT\omega} e^{j\omega t} d\omega
+
+&= \lim_{a\to 0} \frac{1}{2\pi} \int_{-\infty}^{+\infty} e^{j(t-kT)\omega}  e^{-a\omega^2} d\omega\\
+
+&= \lim_{a\to 0} e^{-\frac{(t-kT)^2}{4a}}
+\frac{1}{2\pi} \int_{-\infty}^{+\infty} e^{-a[\omega - j\frac{(t-kT)}{2a}]^2} d\omega\\
+
+&= \lim_{a\to 0} e^{-\frac{(t-kT)^2}{4a}}
+\frac{1}{2\pi} \int_{-\infty}^{+\infty} e^{-a\omega^2} d\omega\\
+
+&= \lim_{a\to 0} e^{-\frac{(t-kT)^2}{4a}}
+\frac{1}{2\pi} \pi^{\frac{1}{2}} a^{-\frac{1}{2}}\\
+
+&= \lim_{a\to 0} \frac{\pi^{-\frac{1}{2}} a^{-\frac{1}{2}}}{2} e^{-\frac{(t-kT)^2}{4a}} 
+\quad 
+[\frac{\pi^{-\frac{1}{2}} a^{-\frac{1}{2}}}{2} \int^{+\infty}_{-\infty} e^{-\frac{(t-kT)^2}{4a}} dt
+= \frac{\pi^{-\frac{1}{2}} a^{-\frac{1}{2}}}{2} \pi^{\frac{1}{2}} 2 a^{\frac{1}{2}} = 1]\\
+
+&= \delta(t-kT)
+\end{aligned}</script><p>To sum up, 只需合理选择$\beta$, 保证$F_T(s) = \sum_{k=0}^{\infty} f(kT) [e^{-Ts}]^k$收敛即可</p>
+<script type="math/tex; mode=display">
+f_T(t) = f^{*}_T(t) = \sum_{k=0}^{\infty} f(kT) \delta(t-kT)\\
+F_T(s) = \sum_{k=0}^{\infty} f(kT) [e^{-Ts}]^k</script><h2 id="考虑信号保持"><a href="#考虑信号保持" class="headerlink" title="考虑信号保持"></a>考虑信号保持</h2><p>$\hat{f}_T(t)=f(kT)$保持$t \in [kT, (k+1)T)$</p>
+<p>则有</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\hat{f}_T(t) &\equiv \sum_{k=0}^{\infty} [f(kT) - f((k-1)T)] u(t-kT)\\
+
+\hat{F}_T(s) &\equiv \sum_{k=0}^{\infty} [f(kT) - f((k-1)T)] \int_{0_{-}}^{\infty} u(t-kT) e^{-st} dt\\
+&= \sum_{k=0}^{\infty} [f(kT) - f((k-1)T)] \int_{kT}^{\infty}e^{-st} dt\\
+&= \sum_{k=0}^{\infty} [f(kT) - f((k-1)T)] \frac{[e^{-Ts}]^k}{s}\\
+&= \Big\{ \sum_{k=0}^{\infty} f(kT) [e^{-Ts}]^k \Big\} \frac{[1 - e^{-Ts}]}{s}\\
+&= F_T(s) \frac{[1 - e^{-Ts}]}{s}\\
+
+\hat{f}^{*}_T(t) &\equiv \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} \hat{F}(s) e^{s t} ds\\
+&= \sum_{k=0}^{\infty} [f(kT) - f((k-1)T)] \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} \frac{[e^{(t-kT)}]^s}{s} ds\\
+&= \sum_{k=0}^{\infty} e^{(t-kT)\beta} [f(kT) - f((k-1)T)] \{ \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{ e^{-jkT\omega} e^{j\omega t} }{\beta + j\omega} d\omega \}\\
+&= \sum_{k=0}^{\infty} e^{(t-kT)\beta} [f(kT) - f((k-1)T)] \{ e^{-(t-kT)\beta} u(t-kT)\}\\
+&= \sum_{k=0}^{\infty} [f(kT) - f((k-1)T)] u(t-kT) \\
+& [u(t)|_{t=0} = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{1}{\beta + j\omega} d\omega = \frac{1}{2\pi j} \lim_{A\to \infty} \ln(\frac{A-j\beta}{-A-j\beta}) = \frac{1}{2}]
+\end{aligned}</script><p>一方面，减少间隔T</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(t) &= \lim_{T\to 0} \hat{f}_T(t)\\
+F(s) &= \lim_{T\to 0} \hat{F}_T(s)
+= \lim_{T\to 0} F_T(s) \lim_{T\to 0} \frac{[1 - e^{-Ts}]}{s}\\
+&= T \lim_{T\to 0} F_T(s)\\
+&= T \lim_{T\to 0} \Big\{ \sum_{k=0}^{\infty} f(kT) [e^{-Ts}]^k \Big\}\\
+&\equiv \int_{0_{-}}^{\infty} f(t) e^{-st} dt \quad [T=dt, kT=t]
+\end{aligned}</script><h2 id="考虑Fourier与Z"><a href="#考虑Fourier与Z" class="headerlink" title="考虑Fourier与Z"></a>考虑Fourier与Z</h2><p>反向思考, Z 和 Fourier的反变换：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+x(n) &= \frac{1}{2\pi j} \oint_C X(z) z^{n-1} dz \quad [C \text{ contains poles of } X(z)]\\
+X(z) &= \sum^\infty_{n=0} x(n) z^{-n}
+\end{aligned}</script><p>Here replace $z = e^{sT}$, we have</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(nT) = x(n) &= \frac{1}{2\pi j} \oint_C X(z) e^{s(n-1)T} de^{sT}\\
+&= \frac{1}{2\pi j} \int_{\beta-\frac{\pi}{T} j}^{\beta+\frac{\pi}{T} j} T X(z) e^{snT} ds\\
+
+X(z) &= \sum^\infty_{n=0} x(n) z^{-n}\\
+&= \sum^\infty_{n=0} f(nT) e^{-snT}\\
+\end{aligned}</script><p>如果思考有函数</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f_z(t)|_{t=nT} &= f(nT)\\
+F_z(s) &= TX(z) [u(\text{Im}(s)+\frac{\pi}{T}) - u(\text{Im}(s)-\frac{\pi}{T})]\\
+&= [\sum^\infty_{n=0} f(nT) e^{-snT}] \cdot T [u(\text{Im}(s)+\frac{\pi}{T}) - u(\text{Im}(s)-\frac{\pi}{T})]\\
+&= F_T(s) \cdot F_u(s)
+\end{aligned}</script><p>If we know $f_T(t) = \mathbf{L^{-1}}[F_T(s)], f_u(t) = \mathbf{L^{-1}}[F_u(s)]$\<br>Then we have $f_z(t) = f_T(t) * f_u(t)$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f_T(t) &= \sum_{n=0}^{\infty} f(nT) \delta(t-nT)\\
+f_u(t) &= \frac{1}{2\pi j} \int_{\beta-\infty}^{\beta+\infty} T[u(\text{Im}(s)+\frac{\pi}{T}) - u(\text{Im}(s)-\frac{\pi}{T})]  e^{st} ds\\
+&= \frac{1}{2\pi} e^{\beta t}T \int^{+\frac{\pi}{T}}_{-\frac{\pi}{T}} e^{j\omega t} d\omega\\
+&= e^{\beta t} \frac{\sin (\frac{\pi}{T}t)}{(\frac{\pi}{T}t)} \quad [t\in (-\infty, +\infty)]\\
+
+f_z(t) &= f_T(t) * f_u(t) = \sum_{n=0}^{\infty} f(nT) e^{\beta (t-nT)} \frac{\sin (\frac{\pi}{T}(t-nT))}{(\frac{\pi}{T}(t-nT))} \quad [t\in (-\infty, +\infty)]\\
+
+&= e^{\beta t} \sum_{n=0}^{\infty} f(nT) e^{-\beta nT} \frac{\sin (\frac{\pi}{T}(t-nT))}{(\frac{\pi}{T}(t-nT))} \quad [t\in (-\infty, +\infty)]\\
+
+F_z(s) &= \mathbf{L}(f_z(t)) = \mathbf{F}(f_z(t)e^{-\beta t})\\
+&= \mathbf{F}[\sum_{n=0}^{\infty} f(nT) e^{-\beta nT} \frac{\sin (\frac{\pi}{T}(t-nT))}{(\frac{\pi}{T}(t-nT))}]\\
+&= \sum_{n=0}^{\infty} f(nT) e^{-\beta nT} \mathbf{F}[\frac{\sin (\frac{\pi}{T}(t-nT))}{(\frac{\pi}{T}(t-nT))}]\\
+&=[\sum_{n=0}^{\infty} f(nT) e^{-(\beta+j\omega) nT}]
+\int^{+\infty}_{-\infty} \frac{\sin (\frac{\pi}{T}(t-nT))}{(\frac{\pi}{T}(t-nT))} e^{-j\omega (t-nT)} d(t-nT)\\
+&=[\sum_{n=0}^{\infty} f(nT) e^{-(\beta+j\omega) nT}]
+\int^{+\infty}_{-\infty} \frac{\sin (\frac{\pi}{T}x)}{(\frac{\pi}{T}x)} e^{-j\omega x} dx\\
+&=[\sum_{n=0}^{\infty} f(nT) e^{-(\beta+j\omega) nT}]
+\int^{+\infty}_{-\infty} \frac{\sin (\frac{\pi}{T}x)}{(\frac{\pi}{T}x)} e^{j\omega x} dx\\
+&=[\sum_{n=0}^{\infty} f(nT) e^{-(\beta+j\omega) nT}]
+\frac{T}{2\pi j}\int^{+\infty}_{-\infty} \frac{e^{j\frac{\pi}{T}x} - e^{-j\frac{\pi}{T}x}}{x} e^{j\omega x} dx\\
+&= [\sum_{n=0}^{\infty} f(nT) e^{-(\beta+j\omega) nT}] \cdot
+T[u(\omega+\frac{\pi}{T}) - u(\omega-\frac{\pi}{T})]\\
+&= [\sum^\infty_{n=0} f(nT) e^{-snT}] \cdot T [u(\text{Im}(s)+\frac{\pi}{T}) - u(\text{Im}(s)-\frac{\pi}{T})]
+\end{aligned}\\
+[\quad \int^{+\infty}_{-\infty} \frac{e^{j(\omega+a)x} - e^{j(\omega-a)x}}{x} dx = 2\pi j [u(\omega+a)-u(\omega-a)]\quad, a=\frac{\pi}{T} ]</script><p>Reason is</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\int^{+\infty}_{-\infty} \frac{e^{j(\omega+a)x} - e^{j(\omega-a)x}}{x} dx
+&= \lim_{\epsilon \to 0+} [\int^{+\infty}_{+\epsilon} + \int^{+\epsilon}_{-\epsilon} + \int^{-\epsilon}_{-\infty}]\\
+&= \lim_{\epsilon \to 0+} [\int^{+\infty}_{+\epsilon} + \int^{-\epsilon}_{-\infty}] + \lim_{\epsilon \to 0+} \int^{+\epsilon}_{-\epsilon} [j2a + o(1)] dx\\
+&= \lim_{\epsilon \to 0+} [\int^{+\infty}_{+\epsilon} + \int^{-\epsilon}_{-\infty}] + \lim_{\epsilon \to 0+} j4a\epsilon\\
+&= \lim_{\epsilon \to 0+} j2 \int^{+\infty}_{+\epsilon} \frac{\sin((\omega+a)x) - \sin((\omega+a)x)}{x} dx + 0\\
+&= j\pi [\text{sgn}(\omega+a) - \text{sgn}(\omega-a)]\\
+&= 2\pi j [u(\omega+a)-u(\omega-a)]
+\end{aligned}</script><p>we will find poles for $F_z(s)$, here</p>
+<script type="math/tex; mode=display">
+s_k = \beta_k + j \omega_k + j m \frac{2\pi}{T} \quad m \in Z</script><p>In other way</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f_z^{*}(t) &= \frac{1}{2\pi j} \int^{\beta + j\infty}_{\beta - j\infty} F_z(s) e^{st} ds\\
+&= \frac{1}{2\pi j} \int^{\beta + j\infty}_{\beta - j\infty} 
+[\sum^\infty_{n=0} f(nT) e^{-snT}] \cdot T [u(\text{Im}(s)+\frac{\pi}{T}) - u(\text{Im}(s)-\frac{\pi}{T})] e^{st} ds\\
+&= \sum^\infty_{n=0} f(nT) [\frac{T}{2\pi j} \int^{\beta + j\frac{\pi}{T}}_{\beta - j\frac{\pi}{T}} e^{s(t-nT)} ds]\\
+&= \sum^\infty_{n=0} f(nT) [\frac{T}{2\pi j} e^{\beta(t-nT)} 2j \frac{\sin(\frac{\pi}{T}(t-nT))}{(t-nT)}]\\
+&= \sum_{n=0}^{\infty} f(nT) e^{\beta (t-nT)} \frac{\sin (\frac{\pi}{T}(t-nT))}{(\frac{\pi}{T}(t-nT))}\\
+
+f_z^{*}(nT) &= f(nT)
+\end{aligned}</script><h2 id="Relationship-to-Z"><a href="#Relationship-to-Z" class="headerlink" title="Relationship to Z"></a>Relationship to Z</h2><p>define $x(n), X(z)$, with $e^{sT} = z, \text{Im}(s)\in (-\frac{\pi}{T}, +\frac{\pi}{T}), z\in C$, here we have</p>
+<script type="math/tex; mode=display">
+x(n) \equiv f_z(t)|_{t=nT} = f(nT)\\
+X(z) \equiv \frac{F_z(s)}{T} =[\sum^\infty_{n=0} f(nT) e^{-snT}] = [\sum^\infty_{n=0} f(nT) z^{-n}]</script><p>So inverse Z transformation</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+x(n) &\equiv f_z(t)|_{t=nT} = \mathbf{L^{-1}}[F_z(s)]|_{t=nT}\\
+&= [\frac{1}{2\pi j} \int^{\beta + j\infty}_{\beta - j\infty} F_z(s) e^{st} ds] |_{t=nT}\\
+&= [\frac{1}{2\pi j} \int^{\beta + j\frac{\pi}{T}}_{\beta - j\frac{\pi}{T}} F_z(s) e^{st} ds] |_{t=nT}\\
+&= \frac{1}{2\pi j} \oint_{|z| = e^{\beta}} TX(z) z^{n} d\frac{\ln(z)}{T}\\
+&= \frac{1}{2\pi j} \oint_{|z| = e^{\beta}} X(z) z^{n-1} dz
+\end{aligned}</script><h2 id="Relationship-to-离散时间傅里叶变换DTFT"><a href="#Relationship-to-离散时间傅里叶变换DTFT" class="headerlink" title="Relationship to 离散时间傅里叶变换DTFT"></a>Relationship to 离散时间傅里叶变换DTFT</h2><p>when $n \in (\infty, +\infty), \beta = 0$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f_{DTFT}(t) &= \sum_{n=-\infty}^{\infty} f(nT) \frac{\sin (\frac{\pi}{T}(t-nT))}{(\frac{\pi}{T}(t-nT))}\\
+
+F_{DTFT}(j\omega) &= F_z(s)|_{\text{Re}(s)=0} \\
+&= [\sum^\infty_{n=0} f(nT) e^{-snT}] \cdot T [u(\text{Im}(s)+\frac{\pi}{T}) - u(\text{Im}(s)-\frac{\pi}{T})]|_{\text{Re}(s)=0}\\
+&= [\sum^\infty_{n=0} f(nT) e^{-j\omega T n}] \cdot T [u(\omega+\frac{\pi}{T}) - u(\omega -\frac{\pi}{T})]\\
+&= [\sum^\infty_{n=0} f(nT) e^{-j\Omega n}] \cdot T [u(\Omega+\pi) - u(\Omega -\pi)] \quad [\Omega \equiv \omega T]
+
+\end{aligned}</script><p>Here we have $e^{sT} = e^{(\beta + j\omega)T} = e^{B} e^{j\Omega}$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+x(n) &\equiv f_{DTFT}(t)|_{t=nT} = f(nT)\\
+X(e^{j\Omega}) &\equiv \frac{F_{DTFT}(j\omega)}{T}\\
+&=[\sum^\infty_{n=0} f(nT) e^{-j\omega nT}] = [\sum^\infty_{n=0} x(n) e^{-j\Omega n}]\\
+
+x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\omega t} dj\omega] |_{t=nT}\\
+&= \frac{1}{2\pi} \int^{ + \pi/T}_{ - \pi/T} F_{DTFT}(j\omega) e^{j\omega T n} d\omega\\
+&= \frac{1}{2\pi} \int^{ + \pi}_{ - \pi} T X(e^{j\Omega}) e^{j\Omega n} d\frac{\Omega}{T}\\
+&= \frac{1}{2\pi} \int^{ + \pi}_{ - \pi} X(e^{j\Omega}) e^{j\Omega n} d\Omega
+\end{aligned}</script>]]></content>
+      <categories>
+        <category>信号处理</category>
+        <category>公式</category>
+      </categories>
+      <tags>
+        <tag>math</tag>
+        <tag>DSP</tag>
       </tags>
   </entry>
 </search>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dassein.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="中断8259">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ch8中断8259">
+<meta property="og:url" content="https://dassein.github.io/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/index.html">
+<meta property="og:site_name" content="dassein&#39;s blog">
+<meta property="og:description" content="中断8259">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/init.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/mult_chip.png">
+<meta property="article:published_time" content="2020-05-14T02:00:59.591Z">
+<meta property="article:modified_time" content="2020-05-14T03:19:11.370Z">
+<meta property="article:author" content="dassein">
+<meta property="article:tag" content="computer organization">
+<meta property="article:tag" content="assembly language">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dassein.github.io/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/init.png">
+
+<link rel="canonical" href="https://dassein.github.io/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>ch8中断8259 | dassein's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dassein's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">22</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dassein.github.io/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dassein">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dassein's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ch8中断8259
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-13 21:00:59 / Modified: 22:19:11" itemprop="dateCreated datePublished" datetime="2020-05-13T21:00:59-05:00">2020-05-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">计算机组成原理</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/BIT%E8%AF%BE%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">BIT课件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="中断8259"><a href="#中断8259" class="headerlink" title="中断8259"></a>中断8259</h2><a id="more"></a>
+<p>1.解释概念：中断，可屏蔽中断，非屏蔽中断，中断类型号，中断向量，中断向量表，</p>
+<ul>
+<li><p>中断：处理器暂停执行当前程序，转处理随机发生事件，后返回到断点处继续执行原来程序</p>
+<p>中断优先级依次降低:</p>
+<p>内部中断和异常</p>
+<p>软件中断</p>
+<p>外部非屏蔽中断</p>
+<p>外部可屏蔽中断</p>
+<p>单步中断</p>
+</li>
+<li><p>外部中断: (CPU通过8259A芯片管理外部中断)</p>
+<p>通过CPU的INTR管脚申请的中断请求，如：键盘中断、打印机中断、定时器中断等，是可屏蔽中断。</p>
+<p>通过CPU的NMI管脚申请的中断请求，是不可屏蔽中断。</p>
+<p>内部中断:</p>
+<p>内部硬件中断：由某些特殊指令触发的中断，如单步中断、除法出错中断、溢出中断</p>
+<p>软件中断：由指令INT n引起的非屏蔽中断，如DOS中断、BIOS中断和其他自由中断</p>
+</li>
+<li><p>中断响应信号输出：输出$\overline{INTA}$</p>
+</li>
+<li><p>中断类型码: 中断系统可处理256个中断类型(0H~0FFH号中断)，每种中断安排了1字节中断类型码，每种类型的中断都有相应的中断处理程序</p>
+<p>中断类型号乘以4就得到对应中断向量的地址 eg.21H×4＝84H</p>
+</li>
+<li><p>中断向量表: 中断类型码对应4个字节的中断服务程序入口地址, 系统所有中断服务程序的入口地址</p>
+<p>8086中断向量组成的中断向量表位于内存的0～3FFH区域 (4*256B)</p>
+</li>
+<li><p>中断向量：中断处理子程序的入口地址IP,CS</p>
+</li>
+</ul>
+<p>2.CPU在何时检测有无中断请求，中断响应过程是什么？</p>
+<p>(每条指令执行的最后一个时钟周期检测中断请求)</p>
+<p>出现以下之一，进入中断响应周期：</p>
+<p>有软件中断；有NMI中断信号；有INTR中断信号，而且CPU允许中断响应，即IF=1</p>
+<p>进入中断响应周期以后:</p>
+<p>若是INTR，则产生INTA信号，中断源通过数据总线的低8位将中断类型码传送给CPU；</p>
+<p>若是NMI，则类型码是2；</p>
+<p>若程序出错产生中断，则使用默认的类型码；</p>
+<p>若是中断指令，则指令中有类型码</p>
+<p>3.如何保护原有的中断向量？如向设置新的中断向量？</p>
+<p>保护断点:</p>
+<p>系统自动将标志寄存器FLAG压入堆栈</p>
+<p>清除TF和IF</p>
+<p>将断点处的CS和IP压入堆栈，先压CS后压IP</p>
+<p>设置新的中断向量:</p>
+<p>系统根据中断类型码形成中断服务程序的入口地址。</p>
+<p>转入中断服务程序执行</p>
+<p>4.什么叫中断嵌套？何谓普通全嵌套？何谓特殊全嵌套？</p>
+<p>一系列压栈指令进一步保护中断现场，即保护CPU各寄存器的值；</p>
+<p>[一般应设置中断允许标志IF开放中断，以允许高级别中断请求进入；]</p>
+<p>中断处理具体内容；</p>
+<p>恢复现场，通过弹出堆栈指令恢复各寄存器值；</p>
+<p>中断返回</p>
+<ul>
+<li><p>普通EOI方式</p>
+<p>用于全嵌套方式；8259A每得到一次EOI命令，将把当前中断服务寄存器ISR中最高的非零位清零</p>
+</li>
+</ul>
+<p>中断嵌套:</p>
+<p>有优先级更高的中断源发出请求，CPU将中止正在执行的中断服务程序而转入为新的中断源服务，等新的中断服务程序执行完后，再返回到被中止的中断服务程序</p>
+<p>普通全嵌套:</p>
+<p>中断优先级为0～7，0级中断优先级最高；</p>
+<p>中断类型码放到数据总线上，ISR中相应位置位并保持，直到被自动清除或被指令清除；</p>
+<p>新收到的中断和当前ISR中的位进行比较，判断是否进行中断嵌套；可响应更高级中断请求，屏蔽同级或低级中断</p>
+<p>特殊全嵌套: (8259级连系统中，设置主片工作于特殊全嵌套方式，从片工作于其它方式)</p>
+<p>区别是有同级中断请求，也给予响应</p>
+<h3 id="8259A-功能"><a href="#8259A-功能" class="headerlink" title="8259A 功能"></a>8259A 功能</h3><p>CPU响应中断时，为CPU提供中断类型码；</p>
+<p>一片Intel 8259可管理8个中断请求，并把当前优先级最高的中断请求送到CPU的INTR端；</p>
+<p>8个外部中断的优先级排列方式，可以通过对8259编程进行指定。也可以通过编程屏蔽某些中断请求;</p>
+<p>允许9片8259级联，构成64级中断系统</p>
+<h3 id="中断处理程序"><a href="#中断处理程序" class="headerlink" title="中断处理程序"></a>中断处理程序</h3><p>eg. 修改中断处理程序，需按下面的操作过程来完成：</p>
+<ol>
+<li>读取指定中断’s 中断处理程序入口地址==&gt;保存存储单元；</li>
+</ol>
+<ol>
+<li>用户编写的程序段设置==&gt;中断的新处理程序；</li>
+</ol>
+<ol>
+<li><p>在用户程序结束之前(或不需要新的处理程序时)，</p>
+<p>把步骤1保存的入口地址恢复==&gt;处理该中断的入口地址</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">INTNO  EQU  40H   ;将占用的中断号 </span><br><span class="line">OLDADDR  DD  ?</span><br><span class="line">…</span><br><span class="line">NEWPROG PROC  ;新中断处理程序</span><br><span class="line">NEWPROG …</span><br><span class="line">IRET 				</span><br><span class="line">ENDP </span><br><span class="line">;步骤1，获取并保存原入口地址（ES：BX）</span><br><span class="line">MOV AL, INTNO</span><br><span class="line">MOV AH,35H </span><br><span class="line">INT 21H</span><br><span class="line">MOV word ptr OLDADDR,  BX </span><br><span class="line">MOV word ptr OLDADDR+2, ES </span><br><span class="line"></span><br><span class="line">;步骤2，设置新的入口地址（DS：DX）</span><br><span class="line">MOV AX, SEG NEWPROG </span><br><span class="line">MOV DS, AX </span><br><span class="line">MOV DX, OFFSET NEWPROG </span><br><span class="line">MOV AL, INTNO</span><br><span class="line">MOV AH, 25H </span><br><span class="line">INT 21H</span><br><span class="line"></span><br><span class="line">…;用户主程序。。。。 </span><br><span class="line"></span><br><span class="line">;步骤3，恢复原入口地址</span><br><span class="line">MOV DX, word ptr OLDADDR</span><br><span class="line">MOV DS, word ptr OLDADDR+2</span><br><span class="line">MOV AL, INTNO</span><br><span class="line">MOV AH,25H</span><br><span class="line">INT  21H</span><br></pre></td></tr></table></figure>
+<p>eg. 同上，user 程序使show “the bell is ringing!”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">DATA  SEGMENT</span><br><span class="line">	MSG  DB  7,&#39;The bell is ring!&#39;,0ah,0dh,&#39;$&#39;</span><br><span class="line">	INTNO  EQU  40H   ;将占用的中断号 </span><br><span class="line">	OLDADDR  DD  ?</span><br><span class="line">DATA  ENDS</span><br><span class="line"></span><br><span class="line">CODE SEGMENT</span><br><span class="line">ASSUME  CS:CODE,DS:DATA,ES:DATA</span><br><span class="line">NEWPROG PROC  ;新中断处理程序</span><br><span class="line">	MOV  AX,DATA</span><br><span class="line">        	MOV  DS,AX</span><br><span class="line">          	LEA   DX,MSG</span><br><span class="line">	MOV   AH,9</span><br><span class="line">	INT 21H</span><br><span class="line">	IRET 				</span><br><span class="line">NEWPROG ENDP</span><br><span class="line"></span><br><span class="line">RING    PROC FAR</span><br><span class="line">          MOV  AX,DATA</span><br><span class="line">          MOV  DS,AX</span><br><span class="line">	 ;步骤1，获取并保存原入口地址</span><br><span class="line">	MOV AL, INTNO</span><br><span class="line">	MOV AH,35H </span><br><span class="line">	INT 21H</span><br><span class="line">	MOV word ptr OLDADDR,  BX </span><br><span class="line">	MOV word ptr OLDADDR+2, ES </span><br><span class="line">	;步骤2，设置新的入口地址</span><br><span class="line">	MOV AX, SEG NEWPROG </span><br><span class="line">	MOV DS, AX </span><br><span class="line">	MOV DX, OFFSET NEWPROG </span><br><span class="line">	MOV AL, INTNO</span><br><span class="line">	MOV AH, 25H </span><br><span class="line">	INT 21H</span><br><span class="line"></span><br><span class="line">	;用户主程序 </span><br><span class="line">	MOV CX,5</span><br><span class="line">AA:	INT INTNO</span><br><span class="line">	LOOP AA</span><br><span class="line">	;步骤3，恢复原入口地址</span><br><span class="line">	MOV DX, word ptr OLDADDR</span><br><span class="line">	MOV DS, word ptr OLDADDR+2</span><br><span class="line">	MOV AL, INTNO</span><br><span class="line">	MOV AH,25H</span><br><span class="line">	INT  21H</span><br><span class="line"></span><br><span class="line">	MOV  AX,4C00H</span><br><span class="line">	INT  21H</span><br><span class="line">RING	ENDP</span><br><span class="line">CODE	ENDS</span><br><span class="line">	END  RING</span><br></pre></td></tr></table></figure>
+<h3 id="8259初始化、操作命令"><a href="#8259初始化、操作命令" class="headerlink" title="8259初始化、操作命令"></a>8259初始化、操作命令</h3><p>8259A内部寄存器的选择依靠CS#、地址线A0、命令字特征位D4来选择不同的寄存器。</p>
+<p>初始化、操作命令in两个不同的阶段</p>
+<h4 id="8259A初始化命令"><a href="#8259A初始化命令" class="headerlink" title="8259A初始化命令"></a>8259A初始化命令</h4><ul>
+<li>对于8259A初始化一旦开始，就必须根据初始化要求，严格按流程逐一写入初始化命令</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/init.png" alt="init"></p>
+<ul>
+<li><p>ICW1  [A0=0]</p>
+<p>A0=0，D4=1 表示对ICW1编程；</p>
+<p>D0（IC4）D0=1需要ICW4；D0=0 不需要ICW4；</p>
+<p>D1（SNGL）D1=1为单片8259工作方式；D1=0 为级联工作方式，此时要用ICW3指明级联端；</p>
+<p>D2（ADI）指明8080/8085系统中地址间距，8086系统不用(==0)；</p>
+<p>D3（LTIM）D3=1 中断请求是电平触发方式；D3=0 上升沿触发方式</p>
+<p>eg. (8086=&gt;D2=0)设ICW1=&gt;D4=1，边沿触发=&gt;D3=0，单片=&gt;D1=0; D4~D0==10011=13H</p>
+</li>
+<li><p>ICW2  [A0=1]</p>
+<p>中断类型码高5位来自ICW2高5位，低3位D2D1D0=i对应IR0~IR7的IR_{i}</p>
+</li>
+<li><p>ICW3  [A0=1]</p>
+<p>包含多片8259时，ICW3才有意义&lt;=&gt;当SNGL=0时，才设置ICW3</p>
+<p>本片为主片时，对ICW3相应位置Di==1表示IR0~ IR7的IR_{i}连有从片；</p>
+<p>本片为从片时，ICW3低3位D2D1D0=i对应连接==&gt;主片IR0~IR7的IR_{i}中断输入引脚</p>
+</li>
+<li><p>ICW4   [A0=1] D7~D5==000</p>
+<p>D4（SFNM）D4=1  为特殊全嵌套方式，此时允许同级中断再次进入，一般用于多片级联方式；D4=0  为普通全嵌套方式，禁止同级中断再次进入。</p>
+<p>D3（BUF）D3=1为缓冲工作方式，即8259通过总线驱动器和数据总线相连，此时SP#/EN#为输出，用于缓冲器选通信号；D3=0为非缓冲工作方式</p>
+<p>D2（M/S）在缓冲方式下（BUF=1)，表示本片为主片或从片：M/S# = 1为主片， M/S#=0为从片。</p>
+<p>在非缓冲方式下，由SP#/EN#引脚设定主片和从片，本位不起作用</p>
+<p>D1（AEOI）D1=1自动结束中断方式，在第二个INTA#时，清中断服务寄存器ISR中的对应位；D1=0 非自动结束中断方式，中断结束时发EOI命令清ISR中的对应位；</p>
+<p>D0（mPM）D0=1为16位处理器体系；D0=0 为8085处理器体系；</p>
+<p>eg. (默认D3=0,从片=&gt;D2=0, EOI命令清ISR对应位D1=0)设ICW4，普通全嵌套=&gt;D4=0，8088系统=&gt;D0=1</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">…</span><br><span class="line">INTA00 EQU 20H</span><br><span class="line">INTA01 EQU 21H</span><br><span class="line">…</span><br><span class="line">MOV AL,13H	;设ICW1，边沿触发，单片</span><br><span class="line">OUT INTA00,AL	;要设置ICW4，00010011B</span><br><span class="line">;………………………………………..</span><br><span class="line">MOV AL,08H	;设ICW2起始中断类型号08H</span><br><span class="line">OUT INTA01,AL	</span><br><span class="line">;………………………………………..</span><br><span class="line">MOV AL,09H	;设ICW4，全嵌套，8088系统</span><br><span class="line">OUT INTA01,AL	; 00001001B   ??</span><br><span class="line">;………………………………………..</span><br></pre></td></tr></table></figure>
+<p> eg. 8259A以两片级联的方式管理15级向量中断。</p>
+<p>1.两片级联时，CAS2~CAS0互联，从片的INT端输出作为主片第二级中断请求的输入。</p>
+<p>2.端口地址，主片：020H~021H ，从片：0A0H~0A1H</p>
+<p>3.主从片的中断请求信号为边沿触发</p>
+<p>4.选择全嵌套方式，优先级排队顺序为0级最高。</p>
+<p>5.主从片数据线采用非缓冲方式连接到CPU，主片SP#/EN#接+5V，从片SP#/EN#接地。</p>
+<p>6.设定0~7级对应的中断号08~0FH，8~15级对应的中断号为70~77H。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">INTA00 	EQU 	20H		;8259A主片端口0</span><br><span class="line">INTA01 	EQU 	21H		;8259A主片端口1</span><br><span class="line">EOI		EQU  20H</span><br><span class="line">INTB00 	EQU 	0A0H		;8259A从片端口0</span><br><span class="line">INTB01 	EQU 	0A1H		;8259A从片端口1</span><br><span class="line">INT_TYPE	EQU	070H		;从片起始中断号</span><br><span class="line"></span><br><span class="line">;初始化8259A主片</span><br><span class="line">MOV AL, 11H	;ICW1:边沿触发，多片，设置ICW4</span><br><span class="line">OUT INTA00,AL	;0001 0001B</span><br><span class="line">JMP SHORT $+2	;CPU对I&#x2F;O端口的等待状态</span><br><span class="line">MOV AL, 8H	;ICW2:中断号从08H开始</span><br><span class="line">OUT INTA01,AL</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 04H	;ICW3：主片第二级接从片</span><br><span class="line">OUT INTA01,AL	;0000 0100B</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 01H	;ICW4非缓冲普通全嵌套，8086系统</span><br><span class="line">OUT INTA01,AL	;0000 0001B</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 0FFH	;屏蔽所有中断</span><br><span class="line">OUT INTA01,AL</span><br><span class="line"></span><br><span class="line">;初始化8259A从片</span><br><span class="line">MOV AL, 11H	;ICW1:边沿触发，多片，设置ICW4</span><br><span class="line">OUT INTB00,AL	;0001 0001B</span><br><span class="line">JMP SHORT $+2	;CPU对I&#x2F;O端口的等待状态</span><br><span class="line">MOV AL, INT_TYPE	;ICW2:中断号从70H开始</span><br><span class="line">OUT INTB01,AL</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 02H	;ICW3：从片接主片第二级</span><br><span class="line">OUT INTB01,AL</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 01H	;ICW4非缓冲普通全嵌套，8086系统</span><br><span class="line">OUT INTB01,AL</span><br><span class="line">JMP SHORT $+2</span><br><span class="line">MOV AL, 0FFH	;屏蔽所有中断</span><br><span class="line">OUT INTB01,AL</span><br><span class="line"></span><br><span class="line">MOV  AL, 13H	;边沿触发， 单片        00010011</span><br><span class="line">OUT  80H, AL    	;设置ICW1;</span><br><span class="line">MOV AL,  18H</span><br><span class="line">OUT  81H, AL	;设置ICW2,中断类型码00011＋IR;</span><br><span class="line">MOV AL,0DH	;00001101</span><br><span class="line">OUT 81H, AL	;设置ICW4</span><br></pre></td></tr></table></figure>
+<h4 id="地址："><a href="#地址：" class="headerlink" title="地址："></a>地址：</h4><p>主片的端口地址在020H～03FH范围内，实际使用20H～21H两个端口。</p>
+<p>从片的端口地址为0A0H～0BFH，实际使用0A0H～0A1H两个端口。</p>
+<p>从片的INT信号与主片的IR2端相连，这样共构成15个向量中断。</p>
+<p>主8259A的中断类型号08H～0FH；从8259A的中断类型号70H～7FH</p>
+<h4 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h4><ul>
+<li><p>对8259的操作命令字设置靠A0和命令字特征位D4区分</p>
+</li>
+<li><p>8259A共有三个操作控制字：OCW1，OCW2和OCW3。</p>
+<p>操作命令字可在任何时候写入8259A，且无顺序。</p>
+</li>
+<li><p>OCW1  [A0=1]</p>
+<p>OCW1为中断屏蔽操作命令字；</p>
+<p>A0=1 表示设置OCW1；</p>
+<p>Mi=1 表示屏蔽IRi输入中断请求；</p>
+<p>先读IMR，用逻辑或指令使对应屏蔽位置1（屏蔽该中断），用逻辑与指令使对应屏蔽位为0（开放该中断）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">;若开放IR2的中断：</span><br><span class="line">	IN AL, 21H</span><br><span class="line">	AND AL, 11111011B</span><br><span class="line">	OUT 21H,AL</span><br><span class="line">;若屏蔽IR2的中断：</span><br><span class="line">	IN AL, 21H</span><br><span class="line">	OR AL, 00000100B</span><br><span class="line">	OUT 21H,AL</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>OCW2    [A0=0]</p>
+<p>设置优先级循环方式和中断结束方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">;非特殊的EOI命令为</span><br><span class="line">    	MOV       AL，      20H</span><br><span class="line">     	OUT       PORT，     AL    ；PORT为8259A的端口地址。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>OCW3  [A0=0]</p>
+<p>A0=0，且D4D3=01，表示对OCW3编程</p>
+</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/mult_chip.png" alt="mult_chip"></p>
+<p> eg. 每片8259A只能管理8级中断，为了扩展系统的中断能力，</p>
+<p>可把若干个8259A按级联方式连接起来。一般一个系统中最多级联8片8259A中断控制器，即中断级数可达64级。</p>
+<ol>
+<li>级联方式</li>
+<li>特殊完全嵌套方式</li>
+<li>缓冲方式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">   INTA1CS   EQU   020H</span><br><span class="line">         </span><br><span class="line">   MOV AL，11H    ;ICW1边沿触发，多片ICW4</span><br><span class="line">   OUT    INTA1CS,AL</span><br><span class="line"></span><br><span class="line">    MOV   AL,8</span><br><span class="line">    OUT    INTA1CS+1,AL     ;ICW2中断向量</span><br><span class="line"></span><br><span class="line">  	MOV   AL,4               ;ICW3主片IR2上接从片</span><br><span class="line">   	OUT    INTA1CS+1,AL      ;S2&#x3D;1</span><br><span class="line">  	</span><br><span class="line">   	MOV   AL,01H  ;ICW4无缓冲，非自动结束中断</span><br><span class="line">   	OUT    INTA1CS</span><br><span class="line">;.................................................</span><br><span class="line">	INTA2CS     EQU   0A0H</span><br><span class="line"></span><br><span class="line">  	MOV   AL,11H ;ICW1边沿触发多片，需要ICW4</span><br><span class="line">  	OUT    INTA2CS,AL    </span><br><span class="line">  	</span><br><span class="line">  	MOV   AL,70H        ;ICW2中断号高5位</span><br><span class="line">  	OUT    INTA2CS+1,AL     </span><br><span class="line">	</span><br><span class="line">       MOV   AL,2       ;ICW3从片接主片的IR2</span><br><span class="line">       OUT    INTA2CS+1,AL</span><br><span class="line"></span><br><span class="line">       MOV   AL,01H     ;ICW4非缓冲，非自动结束中断</span><br><span class="line">       OUT     INTA2CS</span><br></pre></td></tr></table></figure>
+<p>eg. 日时钟中断设置55ms定时，通过修改日时钟中断向量来对用户打字实现计时，</p>
+<p>中断服务程序对中断次数进行统计，每18次后秒计数加1，然后逐一对分、时进行调整。</p>
+<p>主程序功能对计时进行初始化为0，并清除错误计数缓存区，</p>
+<p>等待键盘输入，判断键盘输入字符是否为命令，</p>
+<p>若“ESC”则结束打字测试，若“回车”则显示输入一行字符所花时间以及键入字符错误个数，</p>
+<p>此外均将键入字符与提示行字符进行逐一比较，以统计正确率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br></pre></td><td class="code"><pre><span class="line">TITLE      TYPE_ER ---TEST TIME FOR TYPING EXERXISE</span><br><span class="line">STACK     SEGMENT  STACK &#39;STACK&#39;</span><br><span class="line">                  DB      256 DUP (0)</span><br><span class="line">TOP          LABEL   WORD</span><br><span class="line">STACK    ENDS</span><br><span class="line">DATA       SEGMENT</span><br><span class="line">DEBUG    EQU     0</span><br><span class="line">BUFFER   DB      32 DUP(?)</span><br><span class="line">BUFPT1    DW      0</span><br><span class="line">BUFPT2    DW      0</span><br><span class="line">KBFLAG   DB      0</span><br><span class="line">PROMPT   DB      &#39; *PLEASE PRACTICE TYPEING*&#39;,0DH,0AH,&#39;$&#39;</span><br><span class="line">OLDCS9    DW      ?</span><br><span class="line">OLDIP9     DW      ?</span><br><span class="line">STR1   	DB  &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ. &#39; , 0DH,0AH,&#39;$&#39;</span><br><span class="line">STR2   	DB  &#39;CHRISTMAS IS A TIME OF JOY AND LOVE.&#39; , 0DH,0AH,&#39;$&#39;</span><br><span class="line">STR3   	DB  &#39;STORE WINDOWS HOLD TOGS AND GIFTS.&#39;, 0DH,0AH,&#39;$&#39;</span><br><span class="line">STR4	DB &#39;PEOPLE SEND CHRISTMAS CARDS AND GIFTS.&#39;,                 0DH,0AH,&#39;$&#39;</span><br><span class="line">STR5	      DB      &#39;SANTA WISH ALL PEOPLE PEACE ON EARTH.&#39;</span><br><span class="line">CRLF          DB      0DH,0AH,&#39;$&#39;</span><br><span class="line">COLON      DB      &#39;:&#39;,&#39;$&#39;</span><br><span class="line">SADDR       DW      STR1,STR2,STR3,STR4,STR5</span><br><span class="line">COUNT      DW      0</span><br><span class="line">HOURS1     DB      0DH,0AH</span><br><span class="line">HOURS       DB      30H</span><br><span class="line">            DB      30H</span><br><span class="line">            DB      &#39;: &#39;</span><br><span class="line">                     </span><br><span class="line">MIN    	DB      30H</span><br><span class="line">        DB      30H</span><br><span class="line">        DB      &#39;:&#39;</span><br><span class="line">SEC     DB      30H</span><br><span class="line">        DB      30H</span><br><span class="line">        DB      0DH,0AH</span><br><span class="line">ERR    	DB      &#39;ERROR&#39;</span><br><span class="line">ERR1  	DB      30H</span><br><span class="line">        DB      30H</span><br><span class="line">        DB      0DH,0AH,&#39;$&#39;</span><br><span class="line">SAVE_08    DW      2 DUP(?)</span><br><span class="line">MEM         DB      10</span><br><span class="line">MEM1        DB      ?</span><br><span class="line">DATA        ENDS</span><br><span class="line">CODE          SEGMENT</span><br><span class="line">ASSUME     CS:CODE,DS:DATA,SS:STACK,ES:DATA</span><br><span class="line">TYPE_ER    PROC     FAR</span><br><span class="line">START:</span><br><span class="line">          	MOV      AX,DATA</span><br><span class="line">           	MOV      ES,AX</span><br><span class="line">           	MOV      DS,AX</span><br><span class="line">           	CLI			        ;关闭中断</span><br><span class="line">           	MOV     AL,00110100B            ;置8253的0通道为模式2</span><br><span class="line">          	OUT      43H,AL</span><br><span class="line">          	MOV     AX,0</span><br><span class="line">              OUT       40H,AL                        ;装定时间常数</span><br><span class="line">          	MOV     AL,AH</span><br><span class="line">          	OUT      40H,AL</span><br><span class="line">          	PUSH    ES</span><br><span class="line">               MOV      AH,35H值                ;保护原类型号8的中断向量</span><br><span class="line">               MOV      AL,08H</span><br><span class="line">               INT         21H</span><br><span class="line">               MOV      SAVE_08,BX</span><br><span class="line">               MOV      SAVE_08+2,ES</span><br><span class="line">               POP        ES</span><br><span class="line">FIRST:  MOV      AH,0                    ;设置显示为文本模式</span><br><span class="line">               MOV      AL,3</span><br><span class="line">               INT         10H</span><br><span class="line">               MOV      DX,OFFSET PROMPT        ;屏幕提示输出</span><br><span class="line">               MOV      AH,9</span><br><span class="line">               INT         21H</span><br><span class="line">               MOV      SI,0</span><br><span class="line">NEXT:   MOV      DX, ES:SADDR[SI]         ;提示打印的字符</span><br><span class="line">               PUSH     DX</span><br><span class="line">           MOV      AH,9</span><br><span class="line">           INT         21H</span><br><span class="line">           MOV      COUNT,0                 ;初始化HH:MM:SS</span><br><span class="line">           MOV      AL,30H                     ;30H－’0’</span><br><span class="line">           MOV      ERR1+1,AL</span><br><span class="line">           MOV      ERR1,AL</span><br><span class="line">           MOV      SEC,AL</span><br><span class="line">           MOV      SEC+1,AL</span><br><span class="line">           MOV      MIN,AL</span><br><span class="line">           MOV      MIN+1,AL</span><br><span class="line">           MOV      HOURS,AL</span><br><span class="line">           MOV      HOURS+1,AL</span><br><span class="line">           IN           AL,21H                  ;</span><br><span class="line">           MOV      MEM1,AL</span><br><span class="line">           AND      AL,0FCH              ;允许时钟中断、键盘中断</span><br><span class="line">           		OUT      21H,AL</span><br><span class="line">			PUSH     DS</span><br><span class="line">           		MOV    DX,OFFSET CLINT ;设置类型号08新的中断向量</span><br><span class="line">			MOV      BX,SEG CLINT</span><br><span class="line">		              MOV      DS,BX</span><br><span class="line">          		MOV      AL,08H</span><br><span class="line">		              MOV      AH,25H</span><br><span class="line">           		INT         21H</span><br><span class="line">		              POP        DS</span><br><span class="line">			STI</span><br><span class="line">                             MOV    BX,0     ;增加红色2句</span><br><span class="line"> 			PUSH   BX</span><br><span class="line">	FOREVER:   POP      BX</span><br><span class="line">		FOR2:   MOV     AH,0;等待键盘输入字符</span><br><span class="line">              		INT      16H</span><br><span class="line">		      F7:  CLI</span><br><span class="line">             		CMP      AL,1BH</span><br><span class="line">	JNZ       F1</span><br><span class="line">            	JMP      ENDINT                  ;若ESC退回</span><br><span class="line">     F1:   	CMP     AL,0DH                  ;若回车则显示时间</span><br><span class="line">           	JZ          F5</span><br><span class="line">           	CMP     AL,ES:[BX]              ;比较输入字符是否正确</span><br><span class="line">           	JZ          FO1</span><br><span class="line">           	INC       ES:ERR1+1		;统计错误次数</span><br><span class="line">           	CMP     ES:ERR1+1,39H</span><br><span class="line">           	JLE       FOR2</span><br><span class="line">           	MOV     ES:ERR1+1,30H</span><br><span class="line">           	INC       ES:ERR1</span><br><span class="line">           	JMP     FOR2         ;错误则不显示，返回，继续等待输入；</span><br><span class="line">   FO1:   STI                       ;输入正确则显示</span><br><span class="line">           	INC      BX</span><br><span class="line">           	PUSH     BX</span><br><span class="line">           PUSH     AX</span><br><span class="line">           CALL     DISCHAR</span><br><span class="line">           POP        AX</span><br><span class="line">           JMP        FOREVER</span><br><span class="line">F5:      CALL    DISTIME               ;显示时间</span><br><span class="line">           MOV      AL,0AH                  ;换行</span><br><span class="line">           CALL     DISCHAR</span><br><span class="line">           CLI</span><br><span class="line">           MOV      AL,ES:MEM1        ;恢复中断设置；</span><br><span class="line">           OR         AL,1                         ;屏蔽定时中断</span><br><span class="line">           OUT      21H,AL</span><br><span class="line">           ADD      SI,2		;移动显示下一行字符指针</span><br><span class="line">           CMP      SI,5*2</span><br><span class="line">           JZ          F4</span><br><span class="line">           JMP      NEXT                     ;继续测试</span><br><span class="line">	      F4: 	MOV	AH,1</span><br><span class="line">		INT      	16H                     ;检查是否有键按下</span><br><span class="line">           		JZ         	F4                         ;无,等待</span><br><span class="line">	              JMP      	FIRST                 ;有</span><br><span class="line">         ENDINT:   CLI</span><br><span class="line">		PUSH   	DS</span><br><span class="line">           		MOV    	DX,SAVE_08</span><br><span class="line">           		MOV    	AX,SAVE_08+2</span><br><span class="line">           		MOV    	DS,AX</span><br><span class="line">           		MOV    	AL,08H</span><br><span class="line">           		MOV    	AH,25H</span><br><span class="line">           		INT       	21H</span><br><span class="line">          		POP      	DS</span><br><span class="line">		STI</span><br><span class="line">		MOV    	AL,MEM1</span><br><span class="line">		OUT   21H,AL</span><br><span class="line">               M1:	MOV  AH,4CH</span><br><span class="line">             		INT     21H</span><br><span class="line">	TYPE_ER    ENDP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CLINT      PROC     FAR                     ;中断服务程序</span><br><span class="line">            IN         AL,21H</span><br><span class="line">            OR        AL,1</span><br><span class="line">            OUT     21H,AL</span><br><span class="line">C2:      INC      COUNT</span><br><span class="line">            CMP     COUNT  18</span><br><span class="line">            JNE       ADJ</span><br><span class="line">            MOV     COUNT,0</span><br><span class="line">C1:      CALL    INCT</span><br><span class="line">ADJ:   MOV      AL,20H                  ;结束中断</span><br><span class="line">            OUT      20H,AL		;OCW2</span><br><span class="line">            IRET                             ;中断返回</span><br><span class="line"> CLINT      ENDP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INCT     PROC   NEAR</span><br><span class="line">           CMP      SEC+1,39H</span><br><span class="line">           JZ           INT1</span><br><span class="line">           INC    SEC+1                   ;加一秒</span><br><span class="line">           JMP      EXIT</span><br><span class="line">INT1: MOV      SEC+1,30H</span><br><span class="line">           INC      SEC                     ;加十秒</span><br><span class="line">           CMP      SEC,36H</span><br><span class="line">           JNZ      EXIT</span><br><span class="line">           MOV      SEC,30H</span><br><span class="line">           INC      MIN+1                   ;加一分</span><br><span class="line">           CMP      MIN+1,3AH</span><br><span class="line">           JNZ      EXIT</span><br><span class="line">           MOV      MIN+1,30H</span><br><span class="line">           INC      MIN                     ;加十分</span><br><span class="line">           CMP      MIN,36H</span><br><span class="line">           JNZ      EXIT</span><br><span class="line">           MOV      MIN,30H</span><br><span class="line">  	INC      HOURS+1                 ;加一小时</span><br><span class="line">           	CMP    HOURS+1,3AH</span><br><span class="line">           	JNZ      EXIT</span><br><span class="line">           	MOV    HOURS+1,0</span><br><span class="line">           	INC      HOURS                   ;加十小时</span><br><span class="line">EXIT:   RET</span><br><span class="line">	INCT       ENDP</span><br><span class="line"></span><br><span class="line">DISCHAR    PROC     NEAR                    ;送换行字符</span><br><span class="line">          	PUSH     DS</span><br><span class="line">           	PUSH     BX</span><br><span class="line">           	MOV      BX,0</span><br><span class="line">           	MOV      AH,0EH</span><br><span class="line">           	INT      	 10H</span><br><span class="line">           	POP	 BX</span><br><span class="line">           	POP      	 DS</span><br><span class="line">	       RET</span><br><span class="line">DISCHAR   ENDP</span><br><span class="line">DISTIME    PROC     NEAR    ;显示时、分、秒以及错误次数</span><br><span class="line">	       PUSH     DS</span><br><span class="line">           	       MOV      AX,DATA</span><br><span class="line">	       MOV      DS,AX</span><br><span class="line">           	       MOV      DX,OFFSET HOURS1</span><br><span class="line">           	       MOV      AH,9</span><br><span class="line">           	       INT        21H</span><br><span class="line">           	       POP      DS</span><br><span class="line">           	       RET</span><br><span class="line">CODE       ENDS</span><br><span class="line">           END      START</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/computer-organization/" rel="tag"># computer organization</a>
+              <a href="/tags/assembly-language/" rel="tag"># assembly language</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/" rel="prev" title="ch7可编程并行接口8255A_计数器8253">
+      <i class="fa fa-chevron-left"></i> ch7可编程并行接口8255A_计数器8253
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/13/computer_organization/9_ch9_DMA8237/" rel="next" title="ch9DMA8237">
+      ch9DMA8237 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#中断8259"><span class="nav-number">1.</span> <span class="nav-text">中断8259</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8259A-功能"><span class="nav-number">1.1.</span> <span class="nav-text">8259A 功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中断处理程序"><span class="nav-number">1.2.</span> <span class="nav-text">中断处理程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8259初始化、操作命令"><span class="nav-number">1.3.</span> <span class="nav-text">8259初始化、操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8259A初始化命令"><span class="nav-number">1.3.1.</span> <span class="nav-text">8259A初始化命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#地址："><span class="nav-number">1.3.2.</span> <span class="nav-text">地址：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作命令"><span class="nav-number">1.3.3.</span> <span class="nav-text">操作命令</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dassein"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dassein</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dassein" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dassein" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dassein75325@gmail.com" title="E-Mail → mailto:dassein75325@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/ju-ting-74-63" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;ju-ting-74-63" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dassein</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
