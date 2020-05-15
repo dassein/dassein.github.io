@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dassein.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Summary">
+<meta property="og:type" content="article">
+<meta property="og:title" content="总结Intro to Visualization">
+<meta property="og:url" content="https://dassein.github.io/2020/05/14/summary_intor_vis/index.html">
+<meta property="og:site_name" content="dassein&#39;s blog">
+<meta property="og:description" content="Summary">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-14T18:44:04.075Z">
+<meta property="article:modified_time" content="2020-05-14T18:47:30.788Z">
+<meta property="article:author" content="dassein">
+<meta property="article:tag" content="visualization">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://dassein.github.io/2020/05/14/summary_intor_vis/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>总结Intro to Visualization | dassein's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dassein's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">16</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">38</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dassein.github.io/2020/05/14/summary_intor_vis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dassein">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dassein's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          总结Intro to Visualization
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-14 13:44:04 / Modified: 13:47:30" itemprop="dateCreated datePublished" datetime="2020-05-14T13:44:04-05:00">2020-05-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A7%86%E8%A7%89%E7%90%86%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">视觉理论</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A7%86%E8%A7%89%E7%90%86%E8%AE%BA/PNW%E8%AF%BE%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">PNW课件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><a id="more"></a>
+<p>[TOC]</p>
+<h2 id="week-2"><a href="#week-2" class="headerlink" title="week 2"></a>week 2</h2><h3 id="basic-concept"><a href="#basic-concept" class="headerlink" title="basic concept"></a>basic concept</h3><ul>
+<li>Imaging:<br>visual representation of an objects </li>
+<li><p>Computer Graphics:<br>the process of creating pictures and films</p>
+</li>
+<li><p>Visualization:<br>the process of viewing, exploring, and transforming data as images<br>to gain understanding</p>
+</li>
+</ul>
+<blockquote>
+<p>A good visualization<br>abstract and explore the data effectively and efficiently</p>
+</blockquote>
+<h3 id="VR-visual-representation"><a href="#VR-visual-representation" class="headerlink" title="VR: visual representation"></a>VR: visual representation</h3><p>Data -&gt; Visualization -&gt; Human</p>
+<ul>
+<li>Effective<br>easy to read, obtain; not confusing</li>
+<li>Efficient<br>spend less time to count, understand</li>
+</ul>
+<h3 id="Human-Visual-Processing-System"><a href="#Human-Visual-Processing-System" class="headerlink" title="Human Visual Processing System"></a>Human Visual Processing System</h3><p>cornea 角膜 Light enters \<br>pupil  瞳孔 Control amount of light come through \<br>lens   Focus on either near or distant objects \<br>virteous body 玻璃体 \<br>retina 视网膜 act as sensors – convert light to signals </p>
+<p>photoreceptor cells (in retina)<br>Num: Rods &gt; Cones</p>
+<ul>
+<li>Rods: sensitive to low light condition</li>
+<li>Cones: medium and bright light, color vision</li>
+</ul>
+<p>retina blood vessels \<br>=&gt; optic nerve(signal) \<br>=&gt; visual cortex(images and visual perceptions) \<br>=&gt; 3D formed with 2 eyes</p>
+<p>eyes see in a high resolution only on a very small section \<br>of the field of view. \<br>This is because the high resolution is only in the fovea(中央凹). </p>
+<ul>
+<li>inattentional blindness \<br>attend to task \<br>=&gt; retain some portion of information (in brain)</li>
+</ul>
+<p>Eye \<br>=&gt; Low level Feature \<br>=&gt; Pattern (higher features formed) \<br>=&gt; Objects (limited info stored in memory) </p>
+<h3 id="Visual-Queries"><a href="#Visual-Queries" class="headerlink" title="Visual Queries"></a>Visual Queries</h3><p>Acts of attention to find information to accomplish a task. </p>
+<h3 id="VIS-guideline"><a href="#VIS-guideline" class="headerlink" title="VIS guideline"></a>VIS guideline</h3><ul>
+<li>Eyes beat memory</li>
+<li>Make task and visual queries explicit</li>
+<li>pre-attentive</li>
+</ul>
+<h2 id="week-3-amp-amp-4"><a href="#week-3-amp-amp-4" class="headerlink" title="week 3 &amp;&amp; 4"></a>week 3 &amp;&amp; 4</h2><h3 id="Visual-Channels"><a href="#Visual-Channels" class="headerlink" title="Visual Channels"></a>Visual Channels</h3><p><a href="./VisualChannel.png">Visual Channel</a><br>Sender encodes information in signs \<br>Receiver decodes information from signs</p>
+<p>Visual channels can be categorized to:</p>
+<ul>
+<li>Expressiveness: what can be expressed via VC</li>
+<li>Effectiveness: how well can be expressed via VC</li>
+</ul>
+<h3 id="Expressive"><a href="#Expressive" class="headerlink" title="Expressive"></a>Expressive</h3><p>types of information</p>
+<ul>
+<li>Quantitative information<br>position</li>
+<li>Sequential information<br>position</li>
+<li>Categorical information<br>color, shape</li>
+</ul>
+<h3 id="Effectiveness"><a href="#Effectiveness" class="headerlink" title="Effectiveness"></a>Effectiveness</h3><ul>
+<li>Accuracy: precision of quantitative information.\</li>
+<li>Discriminability: number of values can be<br>differentiated in a given visual channel.\</li>
+<li>Salience: stand out from the rest.\</li>
+<li>Separability: Interference btw. Channels.\</li>
+<li>Grouping: elements are grouped formed a group.</li>
+</ul>
+<h4 id="Accuracy"><a href="#Accuracy" class="headerlink" title="Accuracy"></a>Accuracy</h4><p>Position &gt; Length &amp; Angle &gt; Area</p>
+<ol>
+<li>Position along a common scale</li>
+<li>Position along unaligned scale (logarithm)</li>
+<li>Length, direction, angle (1 D)</li>
+<li>Area (2 D)</li>
+<li>Volume, curvature (3 D + curve)</li>
+<li>Shading, color saturation<br>Prioritize high-rank channels with reasons.</li>
+</ol>
+<h4 id="Discriminability"><a href="#Discriminability" class="headerlink" title="Discriminability"></a>Discriminability</h4><p>• Channel Properties (eg: line width)</p>
+<p>• Spatial Arrangement (eg: aligned circle)\<br>• Size (eg: add axis)\<br>• Cardinality \<br>Low cardinality prefered<br>Strategies to encode high cardinality data</p>
+<ul>
+<li>Grouping (less categories)</li>
+<li>Filtering (top 5)</li>
+<li>Faceting (seperate into diff plots)<ol>
+<li>Recreate the same type plots multiple times</li>
+<li>Each plot represents only one specific category</li>
+<li>All plots are aligned.</li>
+</ol>
+</li>
+</ul>
+<h4 id="Salience"><a href="#Salience" class="headerlink" title="Salience"></a>Salience</h4><ul>
+<li>How well a VC can attract attention of viewers</li>
+<li>Stand out from a scene<br>Preattentive Features<br>less than 200 to 250 milliseconds<br>• Preattentive Features \<br>color &gt; size</li>
+</ul>
+<ol>
+<li>line (blob) orientation</li>
+<li>Size and length</li>
+<li>Closure</li>
+<li>Curvature</li>
+<li>Intersection</li>
+<li>3D depth cues</li>
+<li>3D orientation<br>• Preattentive visual tasks \</li>
+<li>Target detection:<br>detect “target” element<br>unique visual feature</li>
+<li>Boundary detection:<br>detect boundary between two groups,<br>group common visual property</li>
+<li>Region/object tracking:<br>track with a unique visual feature<br>• Non- Preattentive \</li>
+<li>search serially</li>
+<li>parallel line</li>
+<li>Conjunctive Search (multiple channels)</li>
+<li>Visual search for hidden objects</li>
+</ol>
+<h4 id="Separability"><a href="#Separability" class="headerlink" title="Separability"></a>Separability</h4><p>Interference btw. Channels for tuning attention</p>
+<ul>
+<li>fully separable<br>position + hue</li>
+<li>some interference<br>size + hue</li>
+<li>significant interference<br>width + heigth + hue<br>width + height</li>
+</ul>
+<h4 id="Grouping"><a href="#Grouping" class="headerlink" title="Grouping"></a>Grouping</h4><p>How easy a given channel<br>to represent information about groups \</p>
+<ul>
+<li>similarity &lt; proximity &lt; connection &amp; enclosure</li>
+<li>similarity &lt; continuity<br>• Proximity (closer together, eg: kNN) \<br>• Similarity (similar features, eg: same color or shape) \<br>• Connection (connected objects, eg: connected with wires) \<br>• Enclosure (enclosed by a contour, eg: bubble set) \<br>• Closure (missing information/part as whole, eg: IBM, Apple) \<br>• Continuity (follow a line or a curve, eg: function gragh) \</li>
+</ul>
+<h2 id="week-5"><a href="#week-5" class="headerlink" title="week 5"></a>week 5</h2><h3 id="Color-Perception-amp-Color-Spaces"><a href="#Color-Perception-amp-Color-Spaces" class="headerlink" title="Color Perception &amp; Color Spaces"></a>Color Perception &amp; Color Spaces</h3><ul>
+<li>Common use<ol>
+<li>Encode quantities with colors to detect pattern </li>
+<li>Labelling – label data to distinguish categories</li>
+<li>Highlight – draw attention</li>
+<li>Color Brewer</li>
+<li>Color scale (wave length B -&gt; R)</li>
+<li>Range of Values<ul>
+<li>Gray Scale</li>
+<li>Intensity interpolation</li>
+<li>Saturation interpolation</li>
+<li>Two-color interpolation</li>
+<li>Rainbow Scale</li>
+<li>Heat Map interpolation</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Color Perception<br>  Photoreceptors cells<ol>
+<li>rods: night vision, 120m</li>
+<li>cones: color vision, 6m<br> L-cone: R 64%<br> M: G 32%<br> S: B 2~7%<br>Blid spot: no photoreceptors<br>optic nerve<h3 id="Color-Measurement"><a href="#Color-Measurement" class="headerlink" title="Color Measurement"></a>Color Measurement</h3></li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>Trichromatic Theory<br>(R,G,B). </li>
+<li>Opponent Color Theory<br>process color as a three-channel system </li>
+</ul>
+<ol>
+<li>Red-Green. </li>
+<li>Blue-Yellow. </li>
+<li>Black-White (luminance)<br> eg: stare R and then look at a neutral field, you see G<ul>
+<li>use red, yellow and white to help attract attention</li>
+<li>not combine opponent</li>
+</ul>
+</li>
+</ol>
+<h3 id="Color-Specification"><a href="#Color-Specification" class="headerlink" title="Color Specification"></a>Color Specification</h3><ul>
+<li><p>RGB space (hardware)<br>eg: colors change from green to blue \<br>more green, less blue</p>
+</li>
+<li><p>HSV(L) (human perception)<br>Hue: 0~360<br>Saturation: 0~100<br>Lightness/Value: 0~100<br>yellow: light, blue: dark<br>keep lightness then set saturation,<br>when L=100, any S =&gt; white</p>
+<p><strong>Is not perceptual uniform</strong></p>
+</li>
+<li><p>CIE Lab(uv)<br>L brightness; a,b are chrominance components<br>a: + R, - G<br>b: + Y, - B</p>
+</li>
+<li><p>CIE Lch/ HCL<br>Hue: 0~360<br>Chroma: relative saturation 0~140<br>Lightness: 0~100</p>
+</li>
+<li><p>CMY and CMYK (color printing)<br>cyan (C), G + B<br>magenta (M), B + R<br>yellow (Y), R + G<br>key (K, black)</p>
+</li>
+</ul>
+<h3 id="Color-in-Visualization"><a href="#Color-in-Visualization" class="headerlink" title="Color in Visualization"></a>Color in Visualization</h3><ul>
+<li>Quantitative Mapping (eg: Heat Map)<br>  Quantitative Color Scale<ul>
+<li>Uniformity<br>value diff == perceptually color diff<br>color used =&gt; not too light or dark(R, B attraction attention, need global perception)</li>
+<li>Discriminability<br>many distinct values</li>
+</ul>
+</li>
+<li>Labelling<br>eg: categorize</li>
+</ul>
+<h3 id="Strategies"><a href="#Strategies" class="headerlink" title="Strategies"></a>Strategies</h3><ul>
+<li>HCL space: human perception</li>
+<li>fix chroma, lightness=&gt; change other elements</li>
+<li>sample uniformly</li>
+</ul>
+<p>R, G, B, Y, White, Black easy to be distinguished</p>
+<p>Gray:<br>no color, uncategorized, background, not important</p>
+<h3 id="Diverging-Color-Scales"><a href="#Diverging-Color-Scales" class="headerlink" title="Diverging Color Scales"></a>Diverging Color Scales</h3><p>red -&gt; white -&gt; green\<br>example: crop &gt; medium height, &lt;  medium height\<br>some &gt; sea level , &lt; sea level\<br>some &gt; abovr threshold, &lt; below threshold</p>
+<p>Expressiveness:</p>
+<ol>
+<li>Quantative, Categorical</li>
+<li>luminance changes on both sizes:<br>low luminance red -&gt; white(high luminance) -&gt; low luminancw green</li>
+</ol>
+<h2 id="week-9"><a href="#week-9" class="headerlink" title="week 9"></a>week 9</h2><h3 id="Geographic-Data-Visualization"><a href="#Geographic-Data-Visualization" class="headerlink" title="Geographic Data Visualization"></a>Geographic Data Visualization</h3><h4 id="Geographic-Data"><a href="#Geographic-Data" class="headerlink" title="Geographic Data"></a>Geographic Data</h4><ul>
+<li>Region</li>
+<li>Geo-locations</li>
+<li>Identifier(zipcode, street name)</li>
+</ul>
+<h4 id="spatial-object"><a href="#spatial-object" class="headerlink" title="spatial object"></a>spatial object</h4><p>eg. Country, cities, lakes</p>
+<p>Attributes:</p>
+<ul>
+<li>Shape</li>
+<li>Spatial locations</li>
+</ul>
+<p>eg: states of USA, capital city of state in USA</p>
+<h4 id="object-tracking-amp-amp-geo-localiztion"><a href="#object-tracking-amp-amp-geo-localiztion" class="headerlink" title="object tracking &amp;&amp; geo-localiztion"></a>object tracking &amp;&amp; geo-localiztion</h4><p>eg. track of car in video sequences</p>
+<h4 id="pixel-level-georeferencing"><a href="#pixel-level-georeferencing" class="headerlink" title="pixel-level georeferencing"></a>pixel-level georeferencing</h4><p>from image pixel location =&gt; calculate the greography position \</p>
+<h4 id="when-to-use-Map-amp-amp-why-not-use"><a href="#when-to-use-Map-amp-amp-why-not-use" class="headerlink" title="when to use Map &amp;&amp; why not use"></a>when to use Map &amp;&amp; why not use</h4><p>Why</p>
+<ul>
+<li>To represent a spatial phenomenon</li>
+</ul>
+<p>Why Not</p>
+<ol>
+<li>information not endcoded into map</li>
+<li>quantity more inportant</li>
+</ol>
+<p>use map<br>eg: cholera map<br>find the source of heisibing(cholera)</p>
+<p>eg: too much infomation on map(many bank and city name)<br>the option: use matrix of 2 varaibles<br>city name\bank name  bank1 bank2 ….<br>Landon<br>Paris<br>…</p>
+<p>eg: area are small, hard to compare combination of whole regions<br>option: use stacked bar chart</p>
+<h3 id="Maps-for-visualiazation"><a href="#Maps-for-visualiazation" class="headerlink" title="Maps for visualiazation"></a>Maps for visualiazation</h3><ul>
+<li><p>Heat map</p>
+</li>
+<li><p>Dot map</p>
+</li>
+<li><p>Binned map</p>
+</li>
+<li><p>Choropleth map</p>
+</li>
+<li>Cartogram</li>
+<li>Graduated symbol map</li>
+</ul>
+<h4 id="Heat-map"><a href="#Heat-map" class="headerlink" title="Heat map"></a>Heat map</h4><ol>
+<li>depict continuous</li>
+<li>density estimation method from discrete data</li>
+<li>color to convey information (notice less rainbow map)</li>
+</ol>
+<p>the method to estimate the kernel density function</p>
+<script type="math/tex; mode=display">
+p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: kernel density estimation</p>
+<h4 id="Dot-map"><a href="#Dot-map" class="headerlink" title="Dot map"></a>Dot map</h4><p>Dots represent geographical located specific objects<br>note: hard to see quantity (becuase each dot shape same)<br>easy to see density<br>Drawback:<br>Can’t see the amount of dots in the area</p>
+<h4 id="Hexbin-Maps"><a href="#Hexbin-Maps" class="headerlink" title="Hexbin Maps"></a>Hexbin Maps</h4><p>fengchao(home of bees) 6 bianxing(hexagon)</p>
+<p>dark: high quantity<br>light: low quantity</p>
+<h4 id="2D-histogram-map"><a href="#2D-histogram-map" class="headerlink" title="2D histogram map"></a>2D histogram map</h4><p>use square instead of hexagon<br>Drawback:<br>hard to see clearly the shape<br>While hexgon easily representing shape, combination</p>
+<p>Hexbin represent:</p>
+<ol>
+<li>quantity</li>
+<li>category (eg: map of UK)</li>
+</ol>
+<p>Comparison of Square &amp;&amp; Circle and Hexagon</p>
+<ol>
+<li>circle could not fill the intervals among them; hexagon could </li>
+<li>square:4 sides &gt; hexagon: 6 sides:<br>flexibility of border:(90, 180, 270, 0 &lt;=&gt; 0, 60, 120, 180, 240…)</li>
+<li>square has 8  neighbors: distance 1 or sqrt(2) \<br>hexagon has 6 neighbors: distance all the same 1</li>
+<li>border is Not emphasized, while squares so</li>
+</ol>
+<h4 id="Choropleth-map"><a href="#Choropleth-map" class="headerlink" title="Choropleth map"></a>Choropleth map</h4><ol>
+<li>shape are geographical region</li>
+<li>regions are colored, patterned in relation of data variable</li>
+</ol>
+<p>eg: map of France<br>types of data</p>
+<ol>
+<li>data is spatial related</li>
+<li>data is not raw (processed with stat)</li>
+<li>unrestricted cover</li>
+</ol>
+<p>points to notice using Cholo map</p>
+<ol>
+<li>color uses</li>
+<li>level of details</li>
+<li>use nonlinear color map to express effectively</li>
+</ol>
+<p>Categorical issue of Choro map:<br>drawback: quantative data is missing<br>can’t represent quantity in categorica based cholopleth map</p>
+<p>note:<br>recommend diverging scale: eg: brewer \</p>
+<p>perceptual uniform is important,</p>
+<ol>
+<li>not choose colors randomly</li>
+<li>not make boundary of 2 values: hard to see, huge difference</li>
+</ol>
+<p>nonlinealy mapping Ok</p>
+<ol>
+<li>contrast among colors</li>
+<li>not all data =&gt; single hue sequential<br>=&gt; diverging dynamic color</li>
+</ol>
+<p>2 ways of mapping: choro map:</p>
+<ol>
+<li>unclassed: mess up</li>
+<li>classed: 0~10 the same color<br>Drawback: boudary is highlighted, when it is devided into big parts(it should be as background)</li>
+</ol>
+<h4 id="Cartogram"><a href="#Cartogram" class="headerlink" title="Cartogram"></a>Cartogram</h4><p>geometry of regions are distorted to convey info</p>
+<ol>
+<li>dialation/shrink</li>
+<li>erosion</li>
+</ol>
+<p>for example, some properties of small region is extremely high =&gt; use circle area to reprensent properties =&gt; circle of it will overlap with others</p>
+<h4 id="Graduated-Symbol-map"><a href="#Graduated-Symbol-map" class="headerlink" title="Graduated Symbol map"></a>Graduated Symbol map</h4><ol>
+<li>size of symbol =&gt; represent quantity</li>
+<li>not related to the size of regions</li>
+</ol>
+<p>exmaple:<br>cities should not use it, dot map instead<br>so many cities, hard to see defference</p>
+<p>eg. use pie chart(express percentages) as symbol</p>
+<ul>
+<li>size</li>
+<li>color</li>
+<li>angle</li>
+<li>temporal variable (1980~2000)</li>
+<li>symbol (not shape)</li>
+</ul>
+<h4 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h4><ol>
+<li>Object:<ul>
+<li>Dot map</li>
+</ul>
+</li>
+<li>Density:<ul>
+<li>Heat map</li>
+<li>Binned map</li>
+</ul>
+</li>
+<li>Value:<ul>
+<li>Choro map</li>
+<li>symbol map</li>
+<li>Cartogram map</li>
+</ul>
+</li>
+</ol>
+<h3 id="Issue-in-maps"><a href="#Issue-in-maps" class="headerlink" title="Issue in maps"></a>Issue in maps</h3><h4 id="Base-Rate-Bias"><a href="#Base-Rate-Bias" class="headerlink" title="Base Rate Bias"></a>Base Rate Bias</h4><p>more people =&gt; more library \<br>education level !=&gt; more library</p>
+<h4 id="Sample-size-effect"><a href="#Sample-size-effect" class="headerlink" title="Sample size effect"></a>Sample size effect</h4><ul>
+<li>Smaller size =&gt; higher variance</li>
+<li>Bigger size =&gt; converge to the average of input data</li>
+</ul>
+<h4 id="skewed-spatial-distribution"><a href="#skewed-spatial-distribution" class="headerlink" title="skewed spatial distribution"></a>skewed spatial distribution</h4><p>eg: symbols are clustered in a small region (population shape in European countries)</p>
+<h4 id="Dorling-Cartogram"><a href="#Dorling-Cartogram" class="headerlink" title="Dorling Cartogram"></a>Dorling Cartogram</h4><p>shapes are repositioned</p>
+<ul>
+<li>not maintain shape</li>
+<li>Not maintain centroid</li>
+</ul>
+<h4 id="Perceptual-Bias"><a href="#Perceptual-Bias" class="headerlink" title="Perceptual Bias"></a>Perceptual Bias</h4><p>eg: which area is highest value<br>When pallete is not designed well<br>(some objects share the “same” color for eyes)</p>
+<p>eg: Context affect preception<br>background influence(contrast)<br>different background, same colored objects<br>=&gt; seen different</p>
+<p>different size of background objects, same size objects<br>=&gt; seen different</p>
+<h4 id="interface-in-map-features"><a href="#interface-in-map-features" class="headerlink" title="interface in map features"></a>interface in map features</h4><ul>
+<li>use “few” visual channel to convey info via map</li>
+<li>low color saturation</li>
+<li>No strong lines/borders(or other info will be dismissed)</li>
+</ul>
+<h2 id="week-11"><a href="#week-11" class="headerlink" title="week 11"></a>week 11</h2><h3 id="Visualizing-Temporal-Data"><a href="#Visualizing-Temporal-Data" class="headerlink" title="Visualizing Temporal Data"></a>Visualizing Temporal Data</h3><ul>
+<li>faceting</li>
+<li>animation</li>
+<li>slide: change a variable, the graph changes</li>
+<li>line chart || bar chart || heat map</li>
+</ul>
+<h4 id="main-temporal-data"><a href="#main-temporal-data" class="headerlink" title="main temporal data"></a>main temporal data</h4><ul>
+<li>event data \<br>time + object</li>
+<li>measurement data \<br>time + measure</li>
+</ul>
+<h4 id="category"><a href="#category" class="headerlink" title="category"></a>category</h4><ul>
+<li>sequential time \<br>2019, 2020, 2021</li>
+<li>cyclic time \<br>Jan -&gt; Nov</li>
+</ul>
+<p>sometimes:<br>sequential + cyclic time: 2019/Oct\<br>row: 2019\<br>col: Oct<br>or reshape it into one axis</p>
+<p>Time resolution - Hierarchical\<br>Year/Month/week/day</p>
+<p>Use different Visual Channel:\<br>one category use yellow line chart\<br>the other use gray bar chart</p>
+<p>eg. Inflation rate by Year and Decade:\<br>Use gray and white backgrounds to distinguish decades</p>
+<p>eg. use subfigure\<br>first up subfigure: line chart\<br>second down subigure: bar chart\<br>share the same temporal axis</p>
+<p>eg. data with years, week\<br>week: col\<br>data quantity: row\<br>year: use different colors to categorize it\<br>Draw back:\</p>
+<ol>
+<li>use color to represent years “carefully”</li>
+<li>weeks in col are crowded, put vertically, ard to read</li>
+</ol>
+<h4 id="line-chart"><a href="#line-chart" class="headerlink" title="line chart"></a>line chart</h4><p>improved cluttered lines: \<br>highlighting:</p>
+<ol>
+<li>choose red to draw line</li>
+<li>circle certain point with boundary</li>
+</ol>
+<p>stack area charts:<br>show x1, x1+x2, x1+x2+x3, …</p>
+<p>Aspect Ratio = Width/Height\<br>Average line slope should = 45’ degree</p>
+<h4 id="Heat-map-1"><a href="#Heat-map-1" class="headerlink" title="Heat map"></a>Heat map</h4><h3 id="Visualization-for-Event-data"><a href="#Visualization-for-Event-data" class="headerlink" title="Visualization for Event data"></a>Visualization for Event data</h3><h4 id="Gantt-chart"><a href="#Gantt-chart" class="headerlink" title="Gantt chart"></a>Gantt chart</h4><p>timestamp + event properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">gantt</span><br><span class="line">dateFormat  YYYY-MM-DD</span><br><span class="line">title Adding GANTT diagram to mermaid</span><br><span class="line">excludes weekdays 2014-01-10</span><br><span class="line"></span><br><span class="line">section A section</span><br><span class="line">Completed task            :done,    des1, 2014-01-06,2014-01-08</span><br><span class="line">Active task               :active,  des2, 2014-01-09, 3d</span><br><span class="line">Future task               :         des3, after des2, 5d</span><br><span class="line">Future task2               :         des4, after des3, 5d</span><br></pre></td></tr></table></figure>
+<p>Another instance<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">gantt</span><br><span class="line">    title A Gantt Diagram</span><br><span class="line">    dateFormat  YYYY-MM-DD</span><br><span class="line">    section Section</span><br><span class="line">    A task           :a1, 2014-01-01, 30d</span><br><span class="line">    Another task     :after a1  , 20d</span><br><span class="line">    section Another</span><br><span class="line">    Task in sec      :2014-01-12  , 12d</span><br><span class="line">    another task      : 24d</span><br></pre></td></tr></table></figure></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/visualization/" rel="tag"># visualization</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/14/%E6%91%98%E8%A6%81%E6%80%8E%E4%B9%88%E5%86%99_PARI/" rel="prev" title="总结Intro to Visualization">
+      <i class="fa fa-chevron-left"></i> 总结Intro to Visualization
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/14/information_theory/Chap_1/" rel="next" title="Chap 1 - 信息论框架">
+      Chap 1 - 信息论框架 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Summary"><span class="nav-number">1.</span> <span class="nav-text">Summary</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#week-2"><span class="nav-number">1.1.</span> <span class="nav-text">week 2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#basic-concept"><span class="nav-number">1.1.1.</span> <span class="nav-text">basic concept</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VR-visual-representation"><span class="nav-number">1.1.2.</span> <span class="nav-text">VR: visual representation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Human-Visual-Processing-System"><span class="nav-number">1.1.3.</span> <span class="nav-text">Human Visual Processing System</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual-Queries"><span class="nav-number">1.1.4.</span> <span class="nav-text">Visual Queries</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VIS-guideline"><span class="nav-number">1.1.5.</span> <span class="nav-text">VIS guideline</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#week-3-amp-amp-4"><span class="nav-number">1.2.</span> <span class="nav-text">week 3 &amp;&amp; 4</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual-Channels"><span class="nav-number">1.2.1.</span> <span class="nav-text">Visual Channels</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Expressive"><span class="nav-number">1.2.2.</span> <span class="nav-text">Expressive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Effectiveness"><span class="nav-number">1.2.3.</span> <span class="nav-text">Effectiveness</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Accuracy"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Accuracy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Discriminability"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">Discriminability</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Salience"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">Salience</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Separability"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">Separability</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Grouping"><span class="nav-number">1.2.3.5.</span> <span class="nav-text">Grouping</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#week-5"><span class="nav-number">1.3.</span> <span class="nav-text">week 5</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Color-Perception-amp-Color-Spaces"><span class="nav-number">1.3.1.</span> <span class="nav-text">Color Perception &amp; Color Spaces</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Color-Measurement"><span class="nav-number">1.3.2.</span> <span class="nav-text">Color Measurement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Color-Specification"><span class="nav-number">1.3.3.</span> <span class="nav-text">Color Specification</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Color-in-Visualization"><span class="nav-number">1.3.4.</span> <span class="nav-text">Color in Visualization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Strategies"><span class="nav-number">1.3.5.</span> <span class="nav-text">Strategies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Diverging-Color-Scales"><span class="nav-number">1.3.6.</span> <span class="nav-text">Diverging Color Scales</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#week-9"><span class="nav-number">1.4.</span> <span class="nav-text">week 9</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Geographic-Data-Visualization"><span class="nav-number">1.4.1.</span> <span class="nav-text">Geographic Data Visualization</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Geographic-Data"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">Geographic Data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#spatial-object"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">spatial object</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#object-tracking-amp-amp-geo-localiztion"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">object tracking &amp;&amp; geo-localiztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pixel-level-georeferencing"><span class="nav-number">1.4.1.4.</span> <span class="nav-text">pixel-level georeferencing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#when-to-use-Map-amp-amp-why-not-use"><span class="nav-number">1.4.1.5.</span> <span class="nav-text">when to use Map &amp;&amp; why not use</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Maps-for-visualiazation"><span class="nav-number">1.4.2.</span> <span class="nav-text">Maps for visualiazation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Heat-map"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">Heat map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dot-map"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">Dot map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hexbin-Maps"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">Hexbin Maps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2D-histogram-map"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">2D histogram map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Choropleth-map"><span class="nav-number">1.4.2.5.</span> <span class="nav-text">Choropleth map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cartogram"><span class="nav-number">1.4.2.6.</span> <span class="nav-text">Cartogram</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Graduated-Symbol-map"><span class="nav-number">1.4.2.7.</span> <span class="nav-text">Graduated Symbol map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Summary-1"><span class="nav-number">1.4.2.8.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Issue-in-maps"><span class="nav-number">1.4.3.</span> <span class="nav-text">Issue in maps</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Base-Rate-Bias"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">Base Rate Bias</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sample-size-effect"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">Sample size effect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#skewed-spatial-distribution"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">skewed spatial distribution</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dorling-Cartogram"><span class="nav-number">1.4.3.4.</span> <span class="nav-text">Dorling Cartogram</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Perceptual-Bias"><span class="nav-number">1.4.3.5.</span> <span class="nav-text">Perceptual Bias</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#interface-in-map-features"><span class="nav-number">1.4.3.6.</span> <span class="nav-text">interface in map features</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#week-11"><span class="nav-number">1.5.</span> <span class="nav-text">week 11</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Visualizing-Temporal-Data"><span class="nav-number">1.5.1.</span> <span class="nav-text">Visualizing Temporal Data</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#main-temporal-data"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">main temporal data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#category"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">category</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#line-chart"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">line chart</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Heat-map-1"><span class="nav-number">1.5.1.4.</span> <span class="nav-text">Heat map</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visualization-for-Event-data"><span class="nav-number">1.5.2.</span> <span class="nav-text">Visualization for Event data</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Gantt-chart"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">Gantt chart</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dassein"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dassein</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dassein" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dassein" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dassein75325@gmail.com" title="E-Mail → mailto:dassein75325@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/ju-ting-74-63" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;ju-ting-74-63" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dassein</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
