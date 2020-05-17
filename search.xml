@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CNN的matlab实现</title>
-    <url>/2020/05/15/CNN_matlab/</url>
-    <content><![CDATA[<h2 id="CNN的matlab实现"><a href="#CNN的matlab实现" class="headerlink" title="CNN的matlab实现"></a>CNN的matlab实现</h2><p><a href="http://blog.csdn.net/zouxy09/article/details/9993371/" target="_blank" rel="noopener">http://blog.csdn.net/zouxy09/article/details/9993371/</a>  CNN卷积神经网络推导和实现 (math)</p>
-<p><a href="http://blog.csdn.net/zouxy09/article/details/9993743" target="_blank" rel="noopener">http://blog.csdn.net/zouxy09/article/details/9993743</a>  CNN卷积神经网络代码理解 (matlab)</p>
-<p><a href="https://github.com/rasmusbergpalm/DeepLearnToolbox" target="_blank" rel="noopener">https://github.com/rasmusbergpalm/DeepLearnToolbox</a>  DeepLearnToolbox (matlab)</p>
-]]></content>
-      <categories>
-        <category>深度学习</category>
-        <category>CV</category>
-      </categories>
-      <tags>
-        <tag>matlab</tag>
-        <tag>CNN</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C语句</title>
     <url>/2020/05/16/C%E8%AF%AD%E5%8F%A5/</url>
     <content><![CDATA[<h2 id="C语句"><a href="#C语句" class="headerlink" title="C语句"></a>C语句</h2><a id="more"></a>
@@ -55,6 +39,22 @@
       </tags>
   </entry>
   <entry>
+    <title>CNN的matlab实现</title>
+    <url>/2020/05/15/CNN_matlab/</url>
+    <content><![CDATA[<h2 id="CNN的matlab实现"><a href="#CNN的matlab实现" class="headerlink" title="CNN的matlab实现"></a>CNN的matlab实现</h2><p><a href="http://blog.csdn.net/zouxy09/article/details/9993371/" target="_blank" rel="noopener">http://blog.csdn.net/zouxy09/article/details/9993371/</a>  CNN卷积神经网络推导和实现 (math)</p>
+<p><a href="http://blog.csdn.net/zouxy09/article/details/9993743" target="_blank" rel="noopener">http://blog.csdn.net/zouxy09/article/details/9993743</a>  CNN卷积神经网络代码理解 (matlab)</p>
+<p><a href="https://github.com/rasmusbergpalm/DeepLearnToolbox" target="_blank" rel="noopener">https://github.com/rasmusbergpalm/DeepLearnToolbox</a>  DeepLearnToolbox (matlab)</p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+        <category>CV</category>
+      </categories>
+      <tags>
+        <tag>matlab</tag>
+        <tag>CNN</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo 的主题中渲染 MathJax 数学公式</title>
     <url>/2020/05/13/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="Hexo-的主题中渲染-MathJax-数学公式"><a href="#Hexo-的主题中渲染-MathJax-数学公式" class="headerlink" title="Hexo 的主题中渲染 MathJax 数学公式"></a>Hexo 的主题中渲染 MathJax 数学公式</h2><p><a href="https://blog.csdn.net/wgshun616/article/details/81019687" target="_blank" rel="noopener">https://blog.csdn.net/wgshun616/article/details/81019687</a></p>
@@ -84,45 +84,6 @@
       <tags>
         <tag>Hexo</tag>
         <tag>MathJax</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MATLAB动画显示</title>
-    <url>/2020/05/17/MATLAB%E5%9D%90%E6%A0%87%E5%9B%BE%E7%9A%84%E5%8A%A8%E7%94%BB%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<h2 id="MATLAB动画显示"><a href="#MATLAB动画显示" class="headerlink" title="MATLAB动画显示"></a>MATLAB动画显示</h2><a id="more"></a>
-<p>数据采集或者数据回放时，用matlab的plot画图一般是静态的，画完不动<br>但是有时，实时数据采集然后通过串口或pci在matlab画出数据变化图并同步动态显示<br>以及在一些想用matlab绘图回放大块的数据模拟随时间变化的情景<br>需要坐标图动画显示。功能实现起来多种方法，介绍一种最简单也是matlab中推荐使用  </p>
-<p>此功能的实现依赖animatedline对象，配合drawnow函数使用，具体使用可看帮助</p>
-<ol>
-<li>基本实现</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animateline;&lt;br&gt;axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>，<span class="number">-1</span>,<span class="number">1</span>])&lt;br&gt;x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">1000</span>);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="built_in">length</span>(x)</span><br><span class="line">    addpoints(h,x(k),y(k));</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果有另一个函数想从当前图形中获得数据，用animateline的getpoints方法</p>
-</blockquote>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">[xdata,ydata] = getpoints(h);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>如果想实现贪吃蛇那样的效果，动态的图像中只显示一部分，不是每次都从头就开始显示<br>可以设置画图的最大点数，通过设置MaximumNumPoints这个属性的值来实现</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline(<span class="string">'MaximumNumPoints'</span>,<span class="number">100</span>);</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">1000</span>);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="built_in">length</span>(x)</span><br><span class="line">    addpoints(h,x(k),y(k));</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>加快刷新的技巧，以上每次循环中都只向结构体中增加一个点，实时显示的话有可能刷新速度跟不上，所以可以考虑一次循环中向里面添加多个点，这样就可以加快刷新了</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">numpoints = <span class="number">100000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="number">100</span>:numpoints<span class="number">-100</span></span><br><span class="line">    xvec = x(k:k+<span class="number">99</span>);</span><br><span class="line">    yvec = y(k:k+<span class="number">99</span>);</span><br><span class="line">    addpoints(h,xvec,yvec)</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>也可以用drawnow update加快动画速度</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">numpoints = <span class="number">100000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numpoints</span><br><span class="line">    addpoints(h,x(k),y(k))</span><br><span class="line">    drawnow update</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>控制动画的速度，有时候，希望动画显示的慢一点，上面介绍的都是加快动画的，如果要想控制动画速度，可以配合tic函数与toc函数，相当于一个记录程序运行的秒表，调用tic表示按一下开始计时，调用toc表示按一下结束及时，两个之间的时间差就是这一段程序运行的时间，下面这段代码表示控制帧速度在30</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line">numpoints = <span class="number">10000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line">a = tic; <span class="comment">% start timer</span></span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numpoints</span><br><span class="line">    addpoints(h,x(k),y(k))</span><br><span class="line">    b = toc(a); <span class="comment">% check timer</span></span><br><span class="line">    <span class="keyword">if</span> b &gt; (<span class="number">1</span>/<span class="number">30</span>)</span><br><span class="line">        drawnow <span class="comment">% update screen every 1/30 seconds</span></span><br><span class="line">        a = tic; <span class="comment">% reset timer after updating</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">drawnow <span class="comment">% draw final frame</span></span><br></pre></td></tr></table></figure>
-<p>其它的还有一些细节的属性，比如设置线条属性等，具体可看看帮助文档</p>
-]]></content>
-      <categories>
-        <category>matlab</category>
-      </categories>
-      <tags>
-        <tag>matlab</tag>
       </tags>
   </entry>
   <entry>
@@ -195,10 +156,48 @@
       </tags>
   </entry>
   <entry>
+    <title>MATLAB动画显示</title>
+    <url>/2020/05/17/MATLAB%E5%9D%90%E6%A0%87%E5%9B%BE%E7%9A%84%E5%8A%A8%E7%94%BB%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<h2 id="MATLAB动画显示"><a href="#MATLAB动画显示" class="headerlink" title="MATLAB动画显示"></a>MATLAB动画显示</h2><a id="more"></a>
+<p>数据采集或者数据回放时，用matlab的plot画图一般是静态的，画完不动<br>但是有时，实时数据采集然后通过串口或pci在matlab画出数据变化图并同步动态显示<br>以及在一些想用matlab绘图回放大块的数据模拟随时间变化的情景<br>需要坐标图动画显示。功能实现起来多种方法，介绍一种最简单也是matlab中推荐使用  </p>
+<p>此功能的实现依赖animatedline对象，配合drawnow函数使用，具体使用可看帮助</p>
+<ol>
+<li>基本实现</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animateline;&lt;br&gt;axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>，<span class="number">-1</span>,<span class="number">1</span>])&lt;br&gt;x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">1000</span>);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="built_in">length</span>(x)</span><br><span class="line">    addpoints(h,x(k),y(k));</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果有另一个函数想从当前图形中获得数据，用animateline的getpoints方法</p>
+</blockquote>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">[xdata,ydata] = getpoints(h);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>如果想实现贪吃蛇那样的效果，动态的图像中只显示一部分，不是每次都从头就开始显示<br>可以设置画图的最大点数，通过设置MaximumNumPoints这个属性的值来实现</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline(<span class="string">'MaximumNumPoints'</span>,<span class="number">100</span>);</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">1000</span>);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="built_in">length</span>(x)</span><br><span class="line">    addpoints(h,x(k),y(k));</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>加快刷新的技巧，以上每次循环中都只向结构体中增加一个点，实时显示的话有可能刷新速度跟不上，所以可以考虑一次循环中向里面添加多个点，这样就可以加快刷新了</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">numpoints = <span class="number">100000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="number">100</span>:numpoints<span class="number">-100</span></span><br><span class="line">    xvec = x(k:k+<span class="number">99</span>);</span><br><span class="line">    yvec = y(k:k+<span class="number">99</span>);</span><br><span class="line">    addpoints(h,xvec,yvec)</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>也可以用drawnow update加快动画速度</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">numpoints = <span class="number">100000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numpoints</span><br><span class="line">    addpoints(h,x(k),y(k))</span><br><span class="line">    drawnow update</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>控制动画的速度，有时候，希望动画显示的慢一点，上面介绍的都是加快动画的，如果要想控制动画速度，可以配合tic函数与toc函数，相当于一个记录程序运行的秒表，调用tic表示按一下开始计时，调用toc表示按一下结束及时，两个之间的时间差就是这一段程序运行的时间，下面这段代码表示控制帧速度在30</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line">numpoints = <span class="number">10000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line">a = tic; <span class="comment">% start timer</span></span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numpoints</span><br><span class="line">    addpoints(h,x(k),y(k))</span><br><span class="line">    b = toc(a); <span class="comment">% check timer</span></span><br><span class="line">    <span class="keyword">if</span> b &gt; (<span class="number">1</span>/<span class="number">30</span>)</span><br><span class="line">        drawnow <span class="comment">% update screen every 1/30 seconds</span></span><br><span class="line">        a = tic; <span class="comment">% reset timer after updating</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">drawnow <span class="comment">% draw final frame</span></span><br></pre></td></tr></table></figure>
+<p>其它的还有一些细节的属性，比如设置线条属性等，具体可看看帮助文档</p>
+]]></content>
+      <categories>
+        <category>matlab</category>
+      </categories>
+      <tags>
+        <tag>matlab</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>cuda例子</title>
     <url>/2020/05/17/cuda%E4%BE%8B%E5%AD%90/</url>
-    <content><![CDATA[<h2 id="cuda例子"><a href="#cuda例子" class="headerlink" title="cuda例子"></a>cuda例子</h2><p>因为我们装cuda到linux机器后, 会附带cuda工具nsight  (并且之前装好了jdk 8)<br>首先用命令行启动nsight, 建立项目  </p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~$ <span class="title">nsight</span></span></span><br><span class="line"><span class="function"><span class="title">Java</span> <span class="title">HotSpot</span>(<span class="title">TM</span>) 64-<span class="title">Bit</span> <span class="title">Server</span> <span class="title">VM</span> <span class="title">warning</span>: <span class="title">ignoring</span> <span class="title">option</span> <span class="title">MaxPermSize</span>=256<span class="title">m</span>; <span class="title">support</span> <span class="title">was</span> <span class="title">removed</span> <span class="title">in</span> 8.0</span></span><br><span class="line"><span class="function"><span class="title">CompilerOracle</span>: <span class="title">exclude</span> <span class="title">java</span>/<span class="title">lang</span>/<span class="title">reflect</span>/<span class="title">Array.newInstance</span></span></span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="cuda例子"><a href="#cuda例子" class="headerlink" title="cuda例子"></a>cuda例子</h2><p>因为我们装cuda到linux机器后, 会附带cuda工具nsight  (并且之前装好了jdk 8)<br>首先用命令行启动nsight, 建立项目<br><a id="more"></a><br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~$ <span class="title">nsight</span></span></span><br><span class="line"><span class="function"><span class="title">Java</span> <span class="title">HotSpot</span>(<span class="title">TM</span>) 64-<span class="title">Bit</span> <span class="title">Server</span> <span class="title">VM</span> <span class="title">warning</span>: <span class="title">ignoring</span> <span class="title">option</span> <span class="title">MaxPermSize</span>=256<span class="title">m</span>; <span class="title">support</span> <span class="title">was</span> <span class="title">removed</span> <span class="title">in</span> 8.0</span></span><br><span class="line"><span class="function"><span class="title">CompilerOracle</span>: <span class="title">exclude</span> <span class="title">java</span>/<span class="title">lang</span>/<span class="title">reflect</span>/<span class="title">Array.newInstance</span></span></span><br></pre></td></tr></table></figure></p>
 <p>粘贴例子代码如下<br><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">矢量求和运算</span></span><br><span class="line"><span class="comment">a[i]+b[i]=c[i];</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//CUDA的头文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"cuda_runtime.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"device_launch_parameters.h"</span></span></span><br><span class="line"><span class="comment">//C语言的头文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"time.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//宏定义 N为数组的长度 thread_num表示每个块中的线程数</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 60000</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> thread_num  1024</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//GPU函数申明</span></span><br><span class="line"><span class="function">__global__ <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> *a, <span class="keyword">int</span> *b, <span class="keyword">int</span> *c)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//CPU函数申明</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add_CPU</span><span class="params">(<span class="keyword">int</span> *a, <span class="keyword">int</span> *b, <span class="keyword">int</span> *c)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//GPU方法计时申明</span></span><br><span class="line">    <span class="keyword">float</span> time_CPU, time_GPU;</span><br><span class="line">    cudaEvent_t start_GPU, stop_GPU, start_CPU, stop_CPU;</span><br><span class="line">    <span class="comment">//CPU方法计时申明</span></span><br><span class="line">    <span class="keyword">float</span> time_cpu, time_gpu;</span><br><span class="line">    <span class="keyword">clock_t</span> start_cpu, stop_cpu, start_gpu, stop_gpu;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a[N], b[N], c[N],c_CPU[N];</span><br><span class="line">    <span class="keyword">int</span> *dev_a, *dev_b, *dev_c;</span><br><span class="line">    <span class="comment">//知道了每个块中所开的线程数量，那么我们就要知道我们需要开启多少个块</span></span><br><span class="line">    <span class="keyword">int</span> block_num;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//线程块中的数量需要向上取整，下面两个操作有可以/*********/</span></span><br><span class="line">    <span class="comment">//block_num = (N % thread_num == 0) ? (N / thread_num) : (N / thread_num + 1);</span></span><br><span class="line">    block_num = (N + thread_num - <span class="number">1</span>) / thread_num;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在GPU上分配内存</span></span><br><span class="line">    cudaMalloc((<span class="keyword">void</span>**)&amp;dev_a, N*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    cudaMalloc((<span class="keyword">void</span>**)&amp;dev_b, N*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    cudaMalloc((<span class="keyword">void</span>**)&amp;dev_c, N*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在CPU上为a和b进行赋值操作</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i] = -i;</span><br><span class="line">        b[i] = i*i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建Event</span></span><br><span class="line">    cudaEventCreate(&amp;start_CPU);</span><br><span class="line">    cudaEventCreate(&amp;stop_CPU);</span><br><span class="line">    <span class="comment">//记录当前时间</span></span><br><span class="line">    cudaEventRecord(start_CPU, <span class="number">0</span>);</span><br><span class="line">    start_cpu = clock();</span><br><span class="line">    <span class="comment">//CPU计算/*******************************************************/</span></span><br><span class="line">    add_CPU(a, b, c_CPU);</span><br><span class="line">    stop_cpu = clock();</span><br><span class="line">    <span class="comment">//记录当前时间</span></span><br><span class="line">    cudaEventRecord(stop_CPU, <span class="number">0</span>);</span><br><span class="line">    cudaEventSynchronize(start_CPU);    <span class="comment">//等待事件完成。</span></span><br><span class="line">    cudaEventSynchronize(stop_CPU);    <span class="comment">//等待事件完成。记录之前的任务</span></span><br><span class="line">    cudaEventElapsedTime(&amp;time_CPU, start_CPU, stop_CPU);    <span class="comment">//计算时间差</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The time for CPU:\t%f(ms)\n"</span>, time_CPU);</span><br><span class="line"></span><br><span class="line">    cudaEventDestroy(start_CPU);    <span class="comment">//消除Event</span></span><br><span class="line">    cudaEventDestroy(stop_CPU);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出CPU结果</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\nResult from CPU:\n"</span>); </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"CPU:\t%d+%d=%d\n"</span>,a[i],b[i],c_CPU[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//GPU计算/*******************************************************/</span></span><br><span class="line">    <span class="comment">//内存拷贝CPU-TO-GPU</span></span><br><span class="line">    cudaMemcpy(dev_a, a, N*<span class="keyword">sizeof</span>(<span class="keyword">int</span>), cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(dev_b, b, N*<span class="keyword">sizeof</span>(<span class="keyword">int</span>), cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建Event</span></span><br><span class="line">    cudaEventCreate(&amp;start_GPU);</span><br><span class="line">    cudaEventCreate(&amp;stop_GPU);</span><br><span class="line">    <span class="comment">//记录当前时间</span></span><br><span class="line">    cudaEventRecord(start_GPU, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    start_gpu = clock();</span><br><span class="line">    <span class="comment">//调用cuda的核函数</span></span><br><span class="line">    <span class="comment">//printf("block_num=%d\tthread_num=%d\n", block_num, thread_num);</span></span><br><span class="line">    add &lt;&lt; &lt;block_num, thread_num &gt;&gt; &gt;(dev_a, dev_b, dev_c);</span><br><span class="line"></span><br><span class="line">    stop_gpu = clock();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//记录当前时间</span></span><br><span class="line">    cudaEventRecord(stop_GPU, <span class="number">0</span>);</span><br><span class="line">    cudaEventSynchronize(start_GPU);    <span class="comment">//等待事件完成。</span></span><br><span class="line">    cudaEventSynchronize(stop_GPU);    <span class="comment">//等待事件完成。记录之前的任务</span></span><br><span class="line">    cudaEventElapsedTime(&amp;time_GPU, start_GPU, stop_GPU);    <span class="comment">//计算时间差</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\nThe time for GPU:\t%f(ms)\n"</span>, time_GPU);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将GPU中的结果拷贝出来</span></span><br><span class="line">    cudaMemcpy(c, dev_c, N*<span class="keyword">sizeof</span>(<span class="keyword">int</span>), cudaMemcpyDeviceToHost);    </span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出GPU结果</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\nResult from GPU:\n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"GPU:\t%d+%d=%d\n"</span>,a[i],b[i],c[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cudaEventDestroy(start_GPU);    <span class="comment">//消除Event</span></span><br><span class="line">    cudaEventDestroy(stop_GPU);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//释放GPU上的内存</span></span><br><span class="line">    cudaFree(dev_a);</span><br><span class="line">    cudaFree(dev_b);</span><br><span class="line">    cudaFree(dev_c);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\nThe time for CPU by event:\t%f(ms)\n"</span>, time_CPU);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The time for GPU by event:\t%f(ms)\n"</span>, time_GPU);</span><br><span class="line"></span><br><span class="line">    time_cpu = (<span class="keyword">float</span>)(stop_cpu - start_cpu) / CLOCKS_PER_SEC;</span><br><span class="line">    time_gpu = (<span class="keyword">float</span>)(stop_gpu - start_gpu) / CLOCKS_PER_SEC;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\nThe time for CPU by host:\t%f(ms)\n"</span>, time_cpu);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The time for GPU by host:\t%f(ms)\n"</span>, time_gpu);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//GPU函数</span></span><br><span class="line"><span class="function">__global__ <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> *a, <span class="keyword">int</span> *b, <span class="keyword">int</span> *c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tid = blockIdx.x*blockDim.x+threadIdx.x;<span class="comment">//计算该索引处的数据</span></span><br><span class="line">    <span class="keyword">if</span> (tid &lt; N)</span><br><span class="line">    &#123;</span><br><span class="line">        c[tid] = a[tid] + b[tid];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//CPU函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add_CPU</span><span class="params">(<span class="keyword">int</span> *a, <span class="keyword">int</span> *b, <span class="keyword">int</span> *c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        c[i] = a[i] + b[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>即可如类似eclipse一样build, debug</p>
 ]]></content>
@@ -717,35 +716,6 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </tags>
   </entry>
   <entry>
-    <title>摘要怎么写 [PARI法]</title>
-    <url>/2020/05/15/%E6%91%98%E8%A6%81%E6%80%8E%E4%B9%88%E5%86%99_PARI/</url>
-    <content><![CDATA[<h2 id="摘要怎么写-PARI法"><a href="#摘要怎么写-PARI法" class="headerlink" title="摘要怎么写 [PARI法]"></a>摘要怎么写 [PARI法]</h2><p>P = Problem: 文章要解决什么问题</p>
-<p>A = Approach: 文章用得是什么方法解决提出的问题</p>
-<p>R = Results: 解决了问题得到了些什么结果</p>
-<p>I = Impacts: 这些结果有什么具体理论或者实际的影响<br><a id="more"></a></p>
-<p>先按照以下四个句式写四句话，概括研究成果：</p>
-<p>The problem I am trying to solve in thispaper is …</p>
-<p>The approach I adopt to solve the problemis …</p>
-<p>The results obtained in this researchinclude …</p>
-<p>The impacts of our obtained results are …</p>
-<p>更详细些，加上前面:  简短做啥的 + background</p>
-<ol>
-<li>what is the subject matter/area the research is dealing with?</li>
-<li>what background information?总结现状的基础上提出问题</li>
-<li>what is the purpose of the present study?   P</li>
-<li>how is the research to be done?   A</li>
-<li>what are some of the important findings?   R</li>
-<li>what are some of the implications of the study?  I</li>
-</ol>
-]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>paper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>怎样做presentation</title>
     <url>/2020/05/16/%E6%80%8E%E6%A0%B7%E5%81%9Apresentaion/</url>
     <content><![CDATA[<h2 id="怎样做presentation"><a href="#怎样做presentation" class="headerlink" title="怎样做presentation"></a>怎样做presentation</h2><a id="more"></a>
@@ -841,6 +811,35 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
 ]]></content>
   </entry>
   <entry>
+    <title>摘要怎么写 [PARI法]</title>
+    <url>/2020/05/15/%E6%91%98%E8%A6%81%E6%80%8E%E4%B9%88%E5%86%99_PARI/</url>
+    <content><![CDATA[<h2 id="摘要怎么写-PARI法"><a href="#摘要怎么写-PARI法" class="headerlink" title="摘要怎么写 [PARI法]"></a>摘要怎么写 [PARI法]</h2><p>P = Problem: 文章要解决什么问题</p>
+<p>A = Approach: 文章用得是什么方法解决提出的问题</p>
+<p>R = Results: 解决了问题得到了些什么结果</p>
+<p>I = Impacts: 这些结果有什么具体理论或者实际的影响<br><a id="more"></a></p>
+<p>先按照以下四个句式写四句话，概括研究成果：</p>
+<p>The problem I am trying to solve in thispaper is …</p>
+<p>The approach I adopt to solve the problemis …</p>
+<p>The results obtained in this researchinclude …</p>
+<p>The impacts of our obtained results are …</p>
+<p>更详细些，加上前面:  简短做啥的 + background</p>
+<ol>
+<li>what is the subject matter/area the research is dealing with?</li>
+<li>what background information?总结现状的基础上提出问题</li>
+<li>what is the purpose of the present study?   P</li>
+<li>how is the research to be done?   A</li>
+<li>what are some of the important findings?   R</li>
+<li>what are some of the implications of the study?  I</li>
+</ol>
+]]></content>
+      <categories>
+        <category>论文</category>
+      </categories>
+      <tags>
+        <tag>paper</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>特征检测单目红外</title>
     <url>/2020/05/17/3d_recons/Infrared%20Single-Shot%20Structured%20Light%20System/</url>
     <content><![CDATA[<h2 id="特征检测单目红外"><a href="#特征检测单目红外" class="headerlink" title="特征检测单目红外"></a>特征检测单目红外</h2><a id="more"></a>
@@ -851,167 +850,6 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       <categories>
         <category>3D重建</category>
         <category>paper</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>前赤壁赋</title>
-    <url>/2020/05/15/classics/%E5%89%8D%E8%B5%A4%E5%A3%81%E8%B5%8B/</url>
-    <content><![CDATA[<h2 id="前赤壁赋"><a href="#前赤壁赋" class="headerlink" title="前赤壁赋"></a>前赤壁赋</h2><a id="more"></a>
-<p>壬戌之秋，七月既望，</p>
-<p>苏子与客泛舟游于赤壁之下。</p>
-<p>清风徐来，水波不兴。</p>
-<p>举酒属客，</p>
-<p>诵明月之诗，歌窈窕之章。</p>
-<p>少焉，</p>
-<p>月出于东山之上，徘徊于斗牛之间。</p>
-<p>白露横江，水光接天。</p>
-<p>纵一苇之所如，凌万顷之茫然。</p>
-<p>浩浩乎如冯虚御风，而不知其所止；</p>
-<p>飘飘乎如遗世独立，羽化而登仙。</p>
-<p>于是饮酒乐甚，扣舷而歌之。</p>
-<p>歌曰：</p>
-<p>“桂棹兮兰桨，击空明兮溯流光。</p>
-<p>渺渺兮予怀，望美人兮天一方。”，</p>
-<p>客有吹洞箫者，倚歌而和之。</p>
-<p>其声呜呜然，</p>
-<p>如怨如慕，如泣如诉，</p>
-<p>余音袅袅，不绝如缕。</p>
-<p>舞幽壑之潜蛟，泣孤舟之嫠妇。</p>
-<p>苏子愀然，正襟危坐而问客曰：“何为其然也？”，</p>
-<p>客曰：</p>
-<p>“月明星稀，乌鹊南飞，</p>
-<p>此非曹孟德之诗乎？</p>
-<p>西望夏口，东望武昌，</p>
-<p>山川相缪，郁乎苍苍，</p>
-<p>此非孟德之困于周郎者乎？</p>
-<p>方其破荆州，下江陵，顺流而东也，</p>
-<p>舳舻千里，旌旗蔽空，</p>
-<p>酾酒临江，横槊赋诗，</p>
-<p>固一世之雄也，而今安在哉？</p>
-<p>况吾与子</p>
-<p>渔樵于江渚之上，侣鱼虾而友麋鹿，</p>
-<p>驾一叶之扁舟，举匏樽以相属。</p>
-<p>寄蜉蝣与天地，渺沧海之一粟。</p>
-<p>哀吾生之须臾，羡长江之无穷。</p>
-<p>挟飞仙以遨游，抱明月而长终。</p>
-<p>知不可乎骤得，托遗响于悲风。”，</p>
-<p>苏子曰：</p>
-<p>“客亦知夫水与月乎？</p>
-<p>逝者如斯，而未尝往也；</p>
-<p>盈虚者如彼，而卒莫消长也。</p>
-<p>盖将</p>
-<p>自其变者而观之，而天地曾不能一瞬；</p>
-<p>自其不变者而观之，则物与我皆无尽也，</p>
-<p>而又何羡乎!</p>
-<p>且夫</p>
-<p>天地之间，物各有主,</p>
-<p>苟非吾之所有，虽一毫而莫取。</p>
-<p>惟江上之清风，与山间之明月，</p>
-<p>耳得之而为声，目遇之而成色，</p>
-<p>取之无禁，用之不竭，</p>
-<p>是造物者之无尽藏也，而吾与子之所共适。”</p>
-<p>客喜而笑，洗盏更酌。</p>
-<p>肴核既尽，杯盘狼藉。</p>
-<p>相与枕藉乎舟中，不知东方之既白。</p>
-]]></content>
-      <categories>
-        <category>古典</category>
-        <category>赋文</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>归去来兮辞</title>
-    <url>/2020/05/15/classics/%E5%BD%92%E5%8E%BB%E6%9D%A5%E5%85%AE%E8%BE%9E%E5%B9%B6%E5%BA%8F/</url>
-    <content><![CDATA[<h3 id="归去来兮辞并序1"><a href="#归去来兮辞并序1" class="headerlink" title="归去来兮辞并序1"></a>归去来兮辞并序<a href="#sdfootnote1sym">1</a></h3><a id="more"></a>
-<p>陶渊明</p>
-<blockquote>
-<p>余家贫，耕植<a href="#sdfootnote2sym">2</a>不足以自给<a href="#sdfootnote3sym">3</a>。幼稚盈室<a href="#sdfootnote4sym">4</a>，瓶无储粟<a href="#sdfootnote5sym">5</a>，生生所资<a href="#sdfootnote6sym">6</a>，未见其术<a href="#sdfootnote7sym">7</a>。亲故多劝余为长吏<a href="#sdfootnote8sym">8</a>，脱然<a href="#sdfootnote9sym">9</a>有怀<a href="#sdfootnote10sym">10</a>，求之靡途<a href="#sdfootnote11sym">11</a>。会有四方之事<a href="#sdfootnote12sym">12</a>，诸侯以惠爱为德<a href="#sdfootnote13sym">13</a>，家叔<a href="#sdfootnote14sym">14</a>以余贫苦，遂见<a href="#sdfootnote15sym">15</a>用于小邑。于时风波未静<a href="#sdfootnote16sym">16</a>，心惮远役<a href="#sdfootnote17sym">17</a>，彭泽<a href="#sdfootnote18sym">18</a>去家百里，公田<a href="#sdfootnote19sym">19</a>之利，足以为酒。故便求之。及少日，眷然有归欤之情<a href="#sdfootnote20sym">20</a>。何则<a href="#sdfootnote21sym">21</a>？质性<a href="#sdfootnote22sym">22</a>自然，非矫厉<a href="#sdfootnote23sym">23</a>所得。饥冻虽切<a href="#sdfootnote24sym">24</a>，违己<a href="#sdfootnote25sym">25</a>交病<a href="#sdfootnote26sym">26</a>。尝从人事<a href="#sdfootnote27sym">27</a>，皆口腹自役<a href="#sdfootnote28sym">28</a>。于是怅然<a href="#sdfootnote29sym">29</a>慷慨，深愧平生之志。犹望一稔<a href="#sdfootnote30sym">30</a>，当敛裳宵逝<a href="#sdfootnote31sym">31</a>。寻<a href="#sdfootnote32sym">32</a>程氏妹<a href="#sdfootnote33sym">33</a>丧于武昌，情在骏奔<a href="#sdfootnote34sym">34</a>，自免去职。仲秋至冬，在官八十余日。因事顺心<a href="#sdfootnote35sym">35</a>，命篇曰《归去来兮》。乙巳<a href="#sdfootnote36sym">36</a>岁十一月也。</p>
-</blockquote>
-<p>归去来兮，田园将芜<a href="#sdfootnote37sym">37</a>胡<a href="#sdfootnote38sym">38</a>不归！既目以心为形役<a href="#sdfootnote39sym">39</a>，奚<a href="#sdfootnote40sym">40</a>惆怅而独悲？悟已往之不谏，知来者之可追<a href="#sdfootnote41sym">41</a>。实迷途其未远<a href="#sdfootnote42sym">42</a>，觉今是而昨非。舟遥遥以轻飏<a href="#sdfootnote43sym">43</a>，风飘飘而吹衣。问征夫以前路<a href="#sdfootnote44sym">44</a>，恨晨光之熹微<a href="#sdfootnote45sym">45</a>。</p>
-<p>乃瞻衡宇<a href="#sdfootnote46sym">46</a>，载欣载奔<a href="#sdfootnote47sym">47</a>。僮仆欢迎，稚子候门。三径就荒<a href="#sdfootnote48sym">48</a>，松菊犹存。携幼入室，有酒盈樽。引壶觞以自酌，眄庭柯以怡颜<a href="#sdfootnote49sym">49</a>。倚南窗以寄傲<a href="#sdfootnote50sym">50</a>，审容膝之易安<a href="#sdfootnote51sym">51</a>。园日涉以成趣<a href="#sdfootnote52sym">52</a>，门虽设而常关。策扶老以流憩<a href="#sdfootnote53sym">53</a>，时矫首而遐观<a href="#sdfootnote54sym">54</a>。云无心以出岫<a href="#sdfootnote55sym">55</a>，鸟倦飞而知还。景翳翳以将入<a href="#sdfootnote56sym">56</a>，抚孤松而盘桓<a href="#sdfootnote57sym">57</a>。</p>
-<p>归去来兮，请息交以绝遊<a href="#sdfootnote58sym">58</a>。世与我而相违，复驾言兮焉求<a href="#sdfootnote59sym">59</a>？悦亲戚之情话<a href="#sdfootnote60sym">60</a>，乐琴书以消忧。农人告余以春及<a href="#sdfootnote61sym">61</a>，将有事于西畴<a href="#sdfootnote62sym">62</a>。或命巾车<a href="#sdfootnote63sym">63</a>，或棹孤舟<a href="#sdfootnote64sym">64</a>。既窈窕以寻壑<a href="#sdfootnote65sym">65</a>，亦崎岖而经邱。木欣欣以向荣，泉涓涓而始流。善万物之得时<a href="#sdfootnote66sym">66</a>，感吾生之行休<a href="#sdfootnote67sym">67</a>。</p>
-<p>已矣乎<a href="#sdfootnote68sym">68</a>！寓形宇内复几时<a href="#sdfootnote69sym">69</a>！曷不委心任去留<a href="#sdfootnote70sym">70</a>？胡为乎遑遑欲何之<a href="#sdfootnote71sym">71</a>？富贵非吾愿，帝乡不可期<a href="#sdfootnote72sym">72</a>。怀良辰以孤往<a href="#sdfootnote73sym">73</a>，或植杖而耘耔<a href="#sdfootnote74sym">74</a>。登东皋以舒啸<a href="#sdfootnote75sym">75</a>，临清流而赋诗。聊乘化以归尽<a href="#sdfootnote76sym">76</a>，乐天天命复奚疑<a href="#sdfootnote77sym">77</a>！</p>
-<p>​    <a href="#sdfootnote1anc">1</a>选自逯钦立《陶渊明集》（中华书局1979年版）。来，助词，无义。辞，赋的一种，一般要押韵。陶渊明从29岁开始出仕，向往田园，一直厌恶官场于东晋义熙元年（405）十一月辞去彭泽令。这篇赋就是其回归田园之初激动欣喜之情的自然流露。</p>
-<p>​    <a href="#sdfootnote2anc">2</a>耕植：耕田植桑</p>
-<p>​    <a href="#sdfootnote3anc">3</a>自给：供给自己的生活</p>
-<p>​    <a href="#sdfootnote4anc">4</a>幼稚盈室：指孩子多。幼稚，小孩。盈室，满屋</p>
-<p>​    <a href="#sdfootnote5anc">5</a>瓶无储粟：指家无余粮。瓶，盛粮食的器皿。粟，本指谷子，脱壳后称为小米，这里指粮食。</p>
-<p>​    <a href="#sdfootnote6anc">6</a>生生所资：所赖以维持生活的。生生，维持生活。资，凭借。</p>
-<p>​    <a href="#sdfootnote7anc">7</a>术：这是指经营生计的本领</p>
-<p>​    <a href="#sdfootnote8anc">8</a>长吏：指职位较高的官吏。《汉书·百官公卿表》：“秩四百石至二百石,是为长吏。”</p>
-<p>​    <a href="#sdfootnote9anc">9</a>脱然：轻快的样子</p>
-<p>​    <a href="#sdfootnote10anc">10</a>有怀：有所思念</p>
-<p>​    <a href="#sdfootnote11anc">11</a>靡途：没有门路</p>
-<p>​    <a href="#sdfootnote12anc">12</a>四方之事：指他接受建威将军江州刺史刘敬宣的任命出使的事情。会：恰逢</p>
-<p>​    <a href="#sdfootnote13anc">13</a>诸侯以惠爱为德：地方大吏以爱惜人才为美德。</p>
-<p>​    <a href="#sdfootnote14anc">14</a>家叔：作者的叔父陶夔,当时任太常卿（掌管国家祭祀礼乐医药的官）</p>
-<p>​    <a href="#sdfootnote15anc">15</a>见：被</p>
-<p>​    <a href="#sdfootnote16anc">16</a>风波未静：指战乱未停息。</p>
-<p>​    <a href="#sdfootnote17anc">17</a>心惮远役：心里害怕到远方服役。</p>
-<p>​    <a href="#sdfootnote18anc">18</a>彭泽：县名，在近江西湖口东。</p>
-<p>​    <a href="#sdfootnote19anc">19</a>公田：供俸禄的田</p>
-<p>​    <a href="#sdfootnote20anc">20</a>眷然有归欤之情：有辞官回家的想法。眷然，思念的样子。欤，语气词</p>
-<p>​    <a href="#sdfootnote21anc">21</a>何则：什么道理呢？</p>
-<p>​    <a href="#sdfootnote22anc">22</a>质性：本性。</p>
-<p>​    <a href="#sdfootnote23anc">23</a>矫厉：造作勉强</p>
-<p>​    <a href="#sdfootnote24anc">24</a>切：急迫</p>
-<p>​    <a href="#sdfootnote25anc">25</a>违己：违反自己的意志。</p>
-<p>​    <a href="#sdfootnote26anc">26</a>交病：身心都感动痛苦。</p>
-<p>​    <a href="#sdfootnote27anc">27</a>尝从人事：曾经出仕。从，顺随。人事，指做官</p>
-<p>​    <a href="#sdfootnote28anc">28</a>皆口腹自役：都是为了谋生糊口而役使自己。</p>
-<p>​    <a href="#sdfootnote29anc">29</a>怅然：失意的样子。</p>
-<p>​    <a href="#sdfootnote30anc">30</a>稔(rěn)：庄稼成熟         </p>
-<p>​    <a href="#sdfootnote31anc">31</a>敛裳宵逝：收拾衣装，星夜离去</p>
-<p>​    <a href="#sdfootnote32anc">32</a>寻：不久</p>
-<p>​    <a href="#sdfootnote33anc">33</a>程氏妹：嫁到程家的妹妹。</p>
-<p>​    <a href="#sdfootnote34anc">34</a>情在骏奔：去吊丧的心情像骏马奔驰一样急迫。</p>
-<p>​    <a href="#sdfootnote35anc">35</a>因事顺心：因辞官而顺遂心愿。</p>
-<p>​    <a href="#sdfootnote36anc">36</a>乙巳：晋安帝义熙元年（405）。</p>
-<p>​    <a href="#sdfootnote37anc">37</a>芜：田地荒芜        </p>
-<p>​    <a href="#sdfootnote38anc">38</a>胡：何，为什么。</p>
-<p>​    <a href="#sdfootnote39anc">39</a>以心为形役：让内心被形体役使。形，形体，指身体。役，奴役。</p>
-<p>​    <a href="#sdfootnote40anc">40</a>奚：何，为什么。</p>
-<p>​    <a href="#sdfootnote41anc">41</a>勿以往之不谏，知来者之可追：认识到过去的错误已经不可挽回，知道未来的事还来得及补救。谏，劝止、挽回。追，补救。</p>
-<p>​    <a href="#sdfootnote42anc">42</a>实迷途其未远：确实走入了迷途大概还不远。迷途，指出来做官。</p>
-<p>​    <a href="#sdfootnote43anc">43</a>舟遥遥以轻飏（yáng）：船在水面上轻轻得飘荡着前进。遥遥，飘摇放流的样子。以，表修饰。飏，飞扬，形容船行驶轻快。</p>
-<p>​    <a href="#sdfootnote44anc">44</a>问征夫以前路：向行人问前面的路程。征夫，行人。</p>
-<p>​    <a href="#sdfootnote45anc">45</a>恨晨光之熹微：遗憾的是天刚刚放亮。熹微，天色微明。</p>
-<p>​    <a href="#sdfootnote46anc">46</a>乃瞻衡宇：刚刚看见了自家的房子。乃，于是、然后。衡，通“横”。宇，屋檐，这里指居处</p>
-<p>​    <a href="#sdfootnote47anc">47</a>载欣载奔：一边高兴，一边奔跑。</p>
-<p>​    <a href="#sdfootnote48anc">48</a>三径就荒，松菊犹存：院子里的小路快要荒芜了，松菊还长在那里。三径，院中小路。汉朝蒋诩（xǔ）隐居之后，在院里竹下开辟三径，只与求仲、羊仲来往。后来，三径变成了隐士住处的代称。就，接近。</p>
-<p>​    <a href="#sdfootnote49anc">49</a>眄（miǎn）庭柯以怡颜：看看院子里的树木，觉得很愉快。眄，斜看。这里是“随便看看”的意思。柯，树枝。怡颜，使面容现出愉快神色。怡，愉快，这里是使动用法，使愉快。</p>
-<p>​    <a href="#sdfootnote50anc">50</a>寄傲：寄托傲然自得的心情。</p>
-<p>​    <a href="#sdfootnote51anc">51</a>审容膝之易安：深知住在小屋里反而容易安适。审，明白，知道。    容膝，仅能容纳双膝的小屋，极言居室狭小。易安，容易使人安乐。</p>
-<p>​    <a href="#sdfootnote52anc">52</a>园日涉以成趣：每天到园中散步，成为乐趣。园日涉，指每日在园中散步。涉，走</p>
-<p>​    <a href="#sdfootnote53anc">53</a>策扶老以流憩（qì）：拄着拐杖出去，到处走走，随时随地休息。策，拄着。扶老，拐杖。流憩，指无目的的漫步和随时地休息。流，周游。憩：休息。</p>
-<p>​    <a href="#sdfootnote54anc">54</a>时矫首而遐观：常常抬起头向远处望望。矫首，抬起头。矫，举。遐观，远望         </p>
-<p>​    <a href="#sdfootnote55anc">55</a>云无心以出岫（xiù）：云气自然而然地冒出山头。无心，无意。岫，有洞穴的山，这里泛指山峰</p>
-<p>​    <a href="#sdfootnote56anc">56</a>景翳翳以将入：阳光黯淡，太阳快要下山了。景，日光。翳翳，阴暗的样子。将入，指太阳快下山。</p>
-<p>​    <a href="#sdfootnote57anc">57</a>盘桓：徘徊</p>
-<p>​    <a href="#sdfootnote58anc">58</a>请息交以绝游：让我同外界断绝交游。</p>
-<p>​    <a href="#sdfootnote59anc">59</a>复驾言兮焉求：还要驾车出去追求什么？驾言，《诗经·邶风·泉水》“驾言出游”的简省，是“驾车出游”的意思。言，助词。焉求，追求什么。求，指求官。</p>
-<p>​    <a href="#sdfootnote60anc">60</a>情话：知心话</p>
-<p>​    <a href="#sdfootnote61anc">61</a>春及：春天到了。</p>
-<p>​    <a href="#sdfootnote62anc">62</a>将有事于西畴（chóu）：将要到西边的田里去春耕。事，指耕种之事。畴，田地</p>
-<p>​    <a href="#sdfootnote63anc">63</a>或命巾车：或，有时。巾车，有布蓬的小车。</p>
-<p>​    <a href="#sdfootnote64anc">64</a>    或棹（zhào）孤舟：有时划着一只小船。棹，桨，这里用作动词用桨划。</p>
-<p>​    <a href="#sdfootnote65anc">65</a>既窈窕以寻壑：既探寻幽深曲折的山沟。窈窕，深远曲折的样子。壑，山沟</p>
-<p>​    <a href="#sdfootnote66anc">66</a>善万物之得时：羡慕万物恰逢繁荣滋长的季节。善，喜好、羡慕。得时，顺应天时、适合时令。</p>
-<p>​    <a href="#sdfootnote67anc">67</a>感吾生之行休：感叹我的一生行将结束。行休，将要结束</p>
-<p>​    <a href="#sdfootnote68anc">68</a>已矣乎：算了吧!助词    “乎”“矣”连用，加强感叹语气。</p>
-<p>​    <a href="#sdfootnote69anc">69</a>寓形宇内复几时：身体寄托在天地间还能有多少时候？意思是说，活在世上还能有多久？寓形，寄托身体。宇内，天地间。</p>
-<p>​    <a href="#sdfootnote70anc">70</a>曷不委心任去留：为什么不随心所欲，听凭自然地生死？曷，何、为什么。委心，随心。委，随从、顺从。去留，指生死。</p>
-<p>​    <a href="#sdfootnote71anc">71</a>胡为乎惶惶欲何之：为什么心神不定啊，想要到哪里去？胡为，为什么。遑遑，心神不定的样子。何之，到哪里去。</p>
-<p>​    <a href="#sdfootnote72anc">72</a>帝乡不可期：修仙成神是没有希望的。帝乡，天帝居住的地方，也就是所谓仙境。期，期望、期求。</p>
-<p>​    <a href="#sdfootnote73anc">73</a>怀良辰以孤往：爱惜美好的时光，独自外出。怀，留恋、爱惜。良辰，指上文所说万物得时的春天。孤往，独自外出。</p>
-<p>​    <a href="#sdfootnote74anc">74</a>或植杖而耘籽（zǐ）：有时扶着拐杖除草培苗。植，立，扶着。耘，除草。籽，培苗。</p>
-<p>​    <a href="#sdfootnote75anc">75</a>登东皋以呼啸：登上东边的高冈，放声呼啸。皋，高地。舒，放。啸，高声叫。</p>
-<p>​    <a href="#sdfootnote76anc">76</a>聊乘化以归尽：姑且顺随自然的变化，度到生命的尽头。聊，姑且。乘化，顺随自然。化，造化，指自然。归尽，到死。尽，指死。</p>
-<p>​    <a href="#sdfootnote77anc">77</a>乐夫天命复奚疑：乐安天命，还有什么可疑虑的呢？</p>
-]]></content>
-      <categories>
-        <category>古典</category>
-        <category>赋文</category>
       </categories>
   </entry>
   <entry>
@@ -1190,28 +1028,160 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </categories>
   </entry>
   <entry>
-    <title>思旧赋</title>
-    <url>/2020/05/15/classics/%E6%80%9D%E6%97%A7%E8%B5%8B%E5%B9%B6%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="思旧赋"><a href="#思旧赋" class="headerlink" title="思旧赋"></a>思旧赋</h2><a id="more"></a>
-<p>余与嵇康、吕安居止接近，其人有不羁之才</p>
-<p>然嵇志远而疏，吕心旷而放，其后各以事见法</p>
-<p>嵇博综技艺，于丝竹特妙，临当就命，顾视日影，索琴而弹之</p>
-<p>余逝将西迈，经其旧庐</p>
-<p>于时日薄虞渊，寒冰凄然</p>
-<p>邻人有吹笛者，发声寥亮</p>
-<p>追思曩昔游宴之好，感音而叹，故作赋云：</p>
-<p>将命适于远京兮，遂旋反而北徂</p>
-<p>济黄河以泛舟兮，经山阳之旧居</p>
-<p>瞻旷野之萧条兮，息余驾乎城隅</p>
-<p>践二子之遗迹兮，历穷巷之空庐</p>
-<p>叹黍离之愍周兮，悲麦秀于殷墟</p>
-<p>惟古昔以怀人兮，心徘徊以踌躇</p>
-<p>栋宇存而弗毁兮，形神逝其焉如</p>
-<p>昔李斯之受罪兮，叹黄犬而长吟</p>
-<p>悼嵇生之永辞兮，顾日影而弹琴</p>
-<p>托运遇于领会兮，寄馀命于寸阴</p>
-<p>听鸣笛之慷慨兮，妙声绝而复寻</p>
-<p>停驾言其将迈兮，遂援翰而写心</p>
+    <title>前赤壁赋</title>
+    <url>/2020/05/15/classics/%E5%89%8D%E8%B5%A4%E5%A3%81%E8%B5%8B/</url>
+    <content><![CDATA[<h2 id="前赤壁赋"><a href="#前赤壁赋" class="headerlink" title="前赤壁赋"></a>前赤壁赋</h2><a id="more"></a>
+<p>壬戌之秋，七月既望，</p>
+<p>苏子与客泛舟游于赤壁之下。</p>
+<p>清风徐来，水波不兴。</p>
+<p>举酒属客，</p>
+<p>诵明月之诗，歌窈窕之章。</p>
+<p>少焉，</p>
+<p>月出于东山之上，徘徊于斗牛之间。</p>
+<p>白露横江，水光接天。</p>
+<p>纵一苇之所如，凌万顷之茫然。</p>
+<p>浩浩乎如冯虚御风，而不知其所止；</p>
+<p>飘飘乎如遗世独立，羽化而登仙。</p>
+<p>于是饮酒乐甚，扣舷而歌之。</p>
+<p>歌曰：</p>
+<p>“桂棹兮兰桨，击空明兮溯流光。</p>
+<p>渺渺兮予怀，望美人兮天一方。”，</p>
+<p>客有吹洞箫者，倚歌而和之。</p>
+<p>其声呜呜然，</p>
+<p>如怨如慕，如泣如诉，</p>
+<p>余音袅袅，不绝如缕。</p>
+<p>舞幽壑之潜蛟，泣孤舟之嫠妇。</p>
+<p>苏子愀然，正襟危坐而问客曰：“何为其然也？”，</p>
+<p>客曰：</p>
+<p>“月明星稀，乌鹊南飞，</p>
+<p>此非曹孟德之诗乎？</p>
+<p>西望夏口，东望武昌，</p>
+<p>山川相缪，郁乎苍苍，</p>
+<p>此非孟德之困于周郎者乎？</p>
+<p>方其破荆州，下江陵，顺流而东也，</p>
+<p>舳舻千里，旌旗蔽空，</p>
+<p>酾酒临江，横槊赋诗，</p>
+<p>固一世之雄也，而今安在哉？</p>
+<p>况吾与子</p>
+<p>渔樵于江渚之上，侣鱼虾而友麋鹿，</p>
+<p>驾一叶之扁舟，举匏樽以相属。</p>
+<p>寄蜉蝣与天地，渺沧海之一粟。</p>
+<p>哀吾生之须臾，羡长江之无穷。</p>
+<p>挟飞仙以遨游，抱明月而长终。</p>
+<p>知不可乎骤得，托遗响于悲风。”，</p>
+<p>苏子曰：</p>
+<p>“客亦知夫水与月乎？</p>
+<p>逝者如斯，而未尝往也；</p>
+<p>盈虚者如彼，而卒莫消长也。</p>
+<p>盖将</p>
+<p>自其变者而观之，而天地曾不能一瞬；</p>
+<p>自其不变者而观之，则物与我皆无尽也，</p>
+<p>而又何羡乎!</p>
+<p>且夫</p>
+<p>天地之间，物各有主,</p>
+<p>苟非吾之所有，虽一毫而莫取。</p>
+<p>惟江上之清风，与山间之明月，</p>
+<p>耳得之而为声，目遇之而成色，</p>
+<p>取之无禁，用之不竭，</p>
+<p>是造物者之无尽藏也，而吾与子之所共适。”</p>
+<p>客喜而笑，洗盏更酌。</p>
+<p>肴核既尽，杯盘狼藉。</p>
+<p>相与枕藉乎舟中，不知东方之既白。</p>
+]]></content>
+      <categories>
+        <category>古典</category>
+        <category>赋文</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>归去来兮辞</title>
+    <url>/2020/05/15/classics/%E5%BD%92%E5%8E%BB%E6%9D%A5%E5%85%AE%E8%BE%9E%E5%B9%B6%E5%BA%8F/</url>
+    <content><![CDATA[<h3 id="归去来兮辞并序1"><a href="#归去来兮辞并序1" class="headerlink" title="归去来兮辞并序1"></a>归去来兮辞并序<a href="#sdfootnote1sym">1</a></h3><a id="more"></a>
+<p>陶渊明</p>
+<blockquote>
+<p>余家贫，耕植<a href="#sdfootnote2sym">2</a>不足以自给<a href="#sdfootnote3sym">3</a>。幼稚盈室<a href="#sdfootnote4sym">4</a>，瓶无储粟<a href="#sdfootnote5sym">5</a>，生生所资<a href="#sdfootnote6sym">6</a>，未见其术<a href="#sdfootnote7sym">7</a>。亲故多劝余为长吏<a href="#sdfootnote8sym">8</a>，脱然<a href="#sdfootnote9sym">9</a>有怀<a href="#sdfootnote10sym">10</a>，求之靡途<a href="#sdfootnote11sym">11</a>。会有四方之事<a href="#sdfootnote12sym">12</a>，诸侯以惠爱为德<a href="#sdfootnote13sym">13</a>，家叔<a href="#sdfootnote14sym">14</a>以余贫苦，遂见<a href="#sdfootnote15sym">15</a>用于小邑。于时风波未静<a href="#sdfootnote16sym">16</a>，心惮远役<a href="#sdfootnote17sym">17</a>，彭泽<a href="#sdfootnote18sym">18</a>去家百里，公田<a href="#sdfootnote19sym">19</a>之利，足以为酒。故便求之。及少日，眷然有归欤之情<a href="#sdfootnote20sym">20</a>。何则<a href="#sdfootnote21sym">21</a>？质性<a href="#sdfootnote22sym">22</a>自然，非矫厉<a href="#sdfootnote23sym">23</a>所得。饥冻虽切<a href="#sdfootnote24sym">24</a>，违己<a href="#sdfootnote25sym">25</a>交病<a href="#sdfootnote26sym">26</a>。尝从人事<a href="#sdfootnote27sym">27</a>，皆口腹自役<a href="#sdfootnote28sym">28</a>。于是怅然<a href="#sdfootnote29sym">29</a>慷慨，深愧平生之志。犹望一稔<a href="#sdfootnote30sym">30</a>，当敛裳宵逝<a href="#sdfootnote31sym">31</a>。寻<a href="#sdfootnote32sym">32</a>程氏妹<a href="#sdfootnote33sym">33</a>丧于武昌，情在骏奔<a href="#sdfootnote34sym">34</a>，自免去职。仲秋至冬，在官八十余日。因事顺心<a href="#sdfootnote35sym">35</a>，命篇曰《归去来兮》。乙巳<a href="#sdfootnote36sym">36</a>岁十一月也。</p>
+</blockquote>
+<p>归去来兮，田园将芜<a href="#sdfootnote37sym">37</a>胡<a href="#sdfootnote38sym">38</a>不归！既目以心为形役<a href="#sdfootnote39sym">39</a>，奚<a href="#sdfootnote40sym">40</a>惆怅而独悲？悟已往之不谏，知来者之可追<a href="#sdfootnote41sym">41</a>。实迷途其未远<a href="#sdfootnote42sym">42</a>，觉今是而昨非。舟遥遥以轻飏<a href="#sdfootnote43sym">43</a>，风飘飘而吹衣。问征夫以前路<a href="#sdfootnote44sym">44</a>，恨晨光之熹微<a href="#sdfootnote45sym">45</a>。</p>
+<p>乃瞻衡宇<a href="#sdfootnote46sym">46</a>，载欣载奔<a href="#sdfootnote47sym">47</a>。僮仆欢迎，稚子候门。三径就荒<a href="#sdfootnote48sym">48</a>，松菊犹存。携幼入室，有酒盈樽。引壶觞以自酌，眄庭柯以怡颜<a href="#sdfootnote49sym">49</a>。倚南窗以寄傲<a href="#sdfootnote50sym">50</a>，审容膝之易安<a href="#sdfootnote51sym">51</a>。园日涉以成趣<a href="#sdfootnote52sym">52</a>，门虽设而常关。策扶老以流憩<a href="#sdfootnote53sym">53</a>，时矫首而遐观<a href="#sdfootnote54sym">54</a>。云无心以出岫<a href="#sdfootnote55sym">55</a>，鸟倦飞而知还。景翳翳以将入<a href="#sdfootnote56sym">56</a>，抚孤松而盘桓<a href="#sdfootnote57sym">57</a>。</p>
+<p>归去来兮，请息交以绝遊<a href="#sdfootnote58sym">58</a>。世与我而相违，复驾言兮焉求<a href="#sdfootnote59sym">59</a>？悦亲戚之情话<a href="#sdfootnote60sym">60</a>，乐琴书以消忧。农人告余以春及<a href="#sdfootnote61sym">61</a>，将有事于西畴<a href="#sdfootnote62sym">62</a>。或命巾车<a href="#sdfootnote63sym">63</a>，或棹孤舟<a href="#sdfootnote64sym">64</a>。既窈窕以寻壑<a href="#sdfootnote65sym">65</a>，亦崎岖而经邱。木欣欣以向荣，泉涓涓而始流。善万物之得时<a href="#sdfootnote66sym">66</a>，感吾生之行休<a href="#sdfootnote67sym">67</a>。</p>
+<p>已矣乎<a href="#sdfootnote68sym">68</a>！寓形宇内复几时<a href="#sdfootnote69sym">69</a>！曷不委心任去留<a href="#sdfootnote70sym">70</a>？胡为乎遑遑欲何之<a href="#sdfootnote71sym">71</a>？富贵非吾愿，帝乡不可期<a href="#sdfootnote72sym">72</a>。怀良辰以孤往<a href="#sdfootnote73sym">73</a>，或植杖而耘耔<a href="#sdfootnote74sym">74</a>。登东皋以舒啸<a href="#sdfootnote75sym">75</a>，临清流而赋诗。聊乘化以归尽<a href="#sdfootnote76sym">76</a>，乐天天命复奚疑<a href="#sdfootnote77sym">77</a>！</p>
+<p>​    <a href="#sdfootnote1anc">1</a>选自逯钦立《陶渊明集》（中华书局1979年版）。来，助词，无义。辞，赋的一种，一般要押韵。陶渊明从29岁开始出仕，向往田园，一直厌恶官场于东晋义熙元年（405）十一月辞去彭泽令。这篇赋就是其回归田园之初激动欣喜之情的自然流露。</p>
+<p>​    <a href="#sdfootnote2anc">2</a>耕植：耕田植桑</p>
+<p>​    <a href="#sdfootnote3anc">3</a>自给：供给自己的生活</p>
+<p>​    <a href="#sdfootnote4anc">4</a>幼稚盈室：指孩子多。幼稚，小孩。盈室，满屋</p>
+<p>​    <a href="#sdfootnote5anc">5</a>瓶无储粟：指家无余粮。瓶，盛粮食的器皿。粟，本指谷子，脱壳后称为小米，这里指粮食。</p>
+<p>​    <a href="#sdfootnote6anc">6</a>生生所资：所赖以维持生活的。生生，维持生活。资，凭借。</p>
+<p>​    <a href="#sdfootnote7anc">7</a>术：这是指经营生计的本领</p>
+<p>​    <a href="#sdfootnote8anc">8</a>长吏：指职位较高的官吏。《汉书·百官公卿表》：“秩四百石至二百石,是为长吏。”</p>
+<p>​    <a href="#sdfootnote9anc">9</a>脱然：轻快的样子</p>
+<p>​    <a href="#sdfootnote10anc">10</a>有怀：有所思念</p>
+<p>​    <a href="#sdfootnote11anc">11</a>靡途：没有门路</p>
+<p>​    <a href="#sdfootnote12anc">12</a>四方之事：指他接受建威将军江州刺史刘敬宣的任命出使的事情。会：恰逢</p>
+<p>​    <a href="#sdfootnote13anc">13</a>诸侯以惠爱为德：地方大吏以爱惜人才为美德。</p>
+<p>​    <a href="#sdfootnote14anc">14</a>家叔：作者的叔父陶夔,当时任太常卿（掌管国家祭祀礼乐医药的官）</p>
+<p>​    <a href="#sdfootnote15anc">15</a>见：被</p>
+<p>​    <a href="#sdfootnote16anc">16</a>风波未静：指战乱未停息。</p>
+<p>​    <a href="#sdfootnote17anc">17</a>心惮远役：心里害怕到远方服役。</p>
+<p>​    <a href="#sdfootnote18anc">18</a>彭泽：县名，在近江西湖口东。</p>
+<p>​    <a href="#sdfootnote19anc">19</a>公田：供俸禄的田</p>
+<p>​    <a href="#sdfootnote20anc">20</a>眷然有归欤之情：有辞官回家的想法。眷然，思念的样子。欤，语气词</p>
+<p>​    <a href="#sdfootnote21anc">21</a>何则：什么道理呢？</p>
+<p>​    <a href="#sdfootnote22anc">22</a>质性：本性。</p>
+<p>​    <a href="#sdfootnote23anc">23</a>矫厉：造作勉强</p>
+<p>​    <a href="#sdfootnote24anc">24</a>切：急迫</p>
+<p>​    <a href="#sdfootnote25anc">25</a>违己：违反自己的意志。</p>
+<p>​    <a href="#sdfootnote26anc">26</a>交病：身心都感动痛苦。</p>
+<p>​    <a href="#sdfootnote27anc">27</a>尝从人事：曾经出仕。从，顺随。人事，指做官</p>
+<p>​    <a href="#sdfootnote28anc">28</a>皆口腹自役：都是为了谋生糊口而役使自己。</p>
+<p>​    <a href="#sdfootnote29anc">29</a>怅然：失意的样子。</p>
+<p>​    <a href="#sdfootnote30anc">30</a>稔(rěn)：庄稼成熟         </p>
+<p>​    <a href="#sdfootnote31anc">31</a>敛裳宵逝：收拾衣装，星夜离去</p>
+<p>​    <a href="#sdfootnote32anc">32</a>寻：不久</p>
+<p>​    <a href="#sdfootnote33anc">33</a>程氏妹：嫁到程家的妹妹。</p>
+<p>​    <a href="#sdfootnote34anc">34</a>情在骏奔：去吊丧的心情像骏马奔驰一样急迫。</p>
+<p>​    <a href="#sdfootnote35anc">35</a>因事顺心：因辞官而顺遂心愿。</p>
+<p>​    <a href="#sdfootnote36anc">36</a>乙巳：晋安帝义熙元年（405）。</p>
+<p>​    <a href="#sdfootnote37anc">37</a>芜：田地荒芜        </p>
+<p>​    <a href="#sdfootnote38anc">38</a>胡：何，为什么。</p>
+<p>​    <a href="#sdfootnote39anc">39</a>以心为形役：让内心被形体役使。形，形体，指身体。役，奴役。</p>
+<p>​    <a href="#sdfootnote40anc">40</a>奚：何，为什么。</p>
+<p>​    <a href="#sdfootnote41anc">41</a>勿以往之不谏，知来者之可追：认识到过去的错误已经不可挽回，知道未来的事还来得及补救。谏，劝止、挽回。追，补救。</p>
+<p>​    <a href="#sdfootnote42anc">42</a>实迷途其未远：确实走入了迷途大概还不远。迷途，指出来做官。</p>
+<p>​    <a href="#sdfootnote43anc">43</a>舟遥遥以轻飏（yáng）：船在水面上轻轻得飘荡着前进。遥遥，飘摇放流的样子。以，表修饰。飏，飞扬，形容船行驶轻快。</p>
+<p>​    <a href="#sdfootnote44anc">44</a>问征夫以前路：向行人问前面的路程。征夫，行人。</p>
+<p>​    <a href="#sdfootnote45anc">45</a>恨晨光之熹微：遗憾的是天刚刚放亮。熹微，天色微明。</p>
+<p>​    <a href="#sdfootnote46anc">46</a>乃瞻衡宇：刚刚看见了自家的房子。乃，于是、然后。衡，通“横”。宇，屋檐，这里指居处</p>
+<p>​    <a href="#sdfootnote47anc">47</a>载欣载奔：一边高兴，一边奔跑。</p>
+<p>​    <a href="#sdfootnote48anc">48</a>三径就荒，松菊犹存：院子里的小路快要荒芜了，松菊还长在那里。三径，院中小路。汉朝蒋诩（xǔ）隐居之后，在院里竹下开辟三径，只与求仲、羊仲来往。后来，三径变成了隐士住处的代称。就，接近。</p>
+<p>​    <a href="#sdfootnote49anc">49</a>眄（miǎn）庭柯以怡颜：看看院子里的树木，觉得很愉快。眄，斜看。这里是“随便看看”的意思。柯，树枝。怡颜，使面容现出愉快神色。怡，愉快，这里是使动用法，使愉快。</p>
+<p>​    <a href="#sdfootnote50anc">50</a>寄傲：寄托傲然自得的心情。</p>
+<p>​    <a href="#sdfootnote51anc">51</a>审容膝之易安：深知住在小屋里反而容易安适。审，明白，知道。    容膝，仅能容纳双膝的小屋，极言居室狭小。易安，容易使人安乐。</p>
+<p>​    <a href="#sdfootnote52anc">52</a>园日涉以成趣：每天到园中散步，成为乐趣。园日涉，指每日在园中散步。涉，走</p>
+<p>​    <a href="#sdfootnote53anc">53</a>策扶老以流憩（qì）：拄着拐杖出去，到处走走，随时随地休息。策，拄着。扶老，拐杖。流憩，指无目的的漫步和随时地休息。流，周游。憩：休息。</p>
+<p>​    <a href="#sdfootnote54anc">54</a>时矫首而遐观：常常抬起头向远处望望。矫首，抬起头。矫，举。遐观，远望         </p>
+<p>​    <a href="#sdfootnote55anc">55</a>云无心以出岫（xiù）：云气自然而然地冒出山头。无心，无意。岫，有洞穴的山，这里泛指山峰</p>
+<p>​    <a href="#sdfootnote56anc">56</a>景翳翳以将入：阳光黯淡，太阳快要下山了。景，日光。翳翳，阴暗的样子。将入，指太阳快下山。</p>
+<p>​    <a href="#sdfootnote57anc">57</a>盘桓：徘徊</p>
+<p>​    <a href="#sdfootnote58anc">58</a>请息交以绝游：让我同外界断绝交游。</p>
+<p>​    <a href="#sdfootnote59anc">59</a>复驾言兮焉求：还要驾车出去追求什么？驾言，《诗经·邶风·泉水》“驾言出游”的简省，是“驾车出游”的意思。言，助词。焉求，追求什么。求，指求官。</p>
+<p>​    <a href="#sdfootnote60anc">60</a>情话：知心话</p>
+<p>​    <a href="#sdfootnote61anc">61</a>春及：春天到了。</p>
+<p>​    <a href="#sdfootnote62anc">62</a>将有事于西畴（chóu）：将要到西边的田里去春耕。事，指耕种之事。畴，田地</p>
+<p>​    <a href="#sdfootnote63anc">63</a>或命巾车：或，有时。巾车，有布蓬的小车。</p>
+<p>​    <a href="#sdfootnote64anc">64</a>    或棹（zhào）孤舟：有时划着一只小船。棹，桨，这里用作动词用桨划。</p>
+<p>​    <a href="#sdfootnote65anc">65</a>既窈窕以寻壑：既探寻幽深曲折的山沟。窈窕，深远曲折的样子。壑，山沟</p>
+<p>​    <a href="#sdfootnote66anc">66</a>善万物之得时：羡慕万物恰逢繁荣滋长的季节。善，喜好、羡慕。得时，顺应天时、适合时令。</p>
+<p>​    <a href="#sdfootnote67anc">67</a>感吾生之行休：感叹我的一生行将结束。行休，将要结束</p>
+<p>​    <a href="#sdfootnote68anc">68</a>已矣乎：算了吧!助词    “乎”“矣”连用，加强感叹语气。</p>
+<p>​    <a href="#sdfootnote69anc">69</a>寓形宇内复几时：身体寄托在天地间还能有多少时候？意思是说，活在世上还能有多久？寓形，寄托身体。宇内，天地间。</p>
+<p>​    <a href="#sdfootnote70anc">70</a>曷不委心任去留：为什么不随心所欲，听凭自然地生死？曷，何、为什么。委心，随心。委，随从、顺从。去留，指生死。</p>
+<p>​    <a href="#sdfootnote71anc">71</a>胡为乎惶惶欲何之：为什么心神不定啊，想要到哪里去？胡为，为什么。遑遑，心神不定的样子。何之，到哪里去。</p>
+<p>​    <a href="#sdfootnote72anc">72</a>帝乡不可期：修仙成神是没有希望的。帝乡，天帝居住的地方，也就是所谓仙境。期，期望、期求。</p>
+<p>​    <a href="#sdfootnote73anc">73</a>怀良辰以孤往：爱惜美好的时光，独自外出。怀，留恋、爱惜。良辰，指上文所说万物得时的春天。孤往，独自外出。</p>
+<p>​    <a href="#sdfootnote74anc">74</a>或植杖而耘籽（zǐ）：有时扶着拐杖除草培苗。植，立，扶着。耘，除草。籽，培苗。</p>
+<p>​    <a href="#sdfootnote75anc">75</a>登东皋以呼啸：登上东边的高冈，放声呼啸。皋，高地。舒，放。啸，高声叫。</p>
+<p>​    <a href="#sdfootnote76anc">76</a>聊乘化以归尽：姑且顺随自然的变化，度到生命的尽头。聊，姑且。乘化，顺随自然。化，造化，指自然。归尽，到死。尽，指死。</p>
+<p>​    <a href="#sdfootnote77anc">77</a>乐夫天命复奚疑：乐安天命，还有什么可疑虑的呢？</p>
 ]]></content>
       <categories>
         <category>古典</category>
@@ -1244,6 +1214,35 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
 <p>别君去兮何时还？</p>
 <p>且放白鹿青崖间，须行即骑访名山。</p>
 <p>安能摧眉折腰事权贵，使我不得开心颜！</p>
+]]></content>
+      <categories>
+        <category>古典</category>
+        <category>赋文</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>思旧赋</title>
+    <url>/2020/05/15/classics/%E6%80%9D%E6%97%A7%E8%B5%8B%E5%B9%B6%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="思旧赋"><a href="#思旧赋" class="headerlink" title="思旧赋"></a>思旧赋</h2><a id="more"></a>
+<p>余与嵇康、吕安居止接近，其人有不羁之才</p>
+<p>然嵇志远而疏，吕心旷而放，其后各以事见法</p>
+<p>嵇博综技艺，于丝竹特妙，临当就命，顾视日影，索琴而弹之</p>
+<p>余逝将西迈，经其旧庐</p>
+<p>于时日薄虞渊，寒冰凄然</p>
+<p>邻人有吹笛者，发声寥亮</p>
+<p>追思曩昔游宴之好，感音而叹，故作赋云：</p>
+<p>将命适于远京兮，遂旋反而北徂</p>
+<p>济黄河以泛舟兮，经山阳之旧居</p>
+<p>瞻旷野之萧条兮，息余驾乎城隅</p>
+<p>践二子之遗迹兮，历穷巷之空庐</p>
+<p>叹黍离之愍周兮，悲麦秀于殷墟</p>
+<p>惟古昔以怀人兮，心徘徊以踌躇</p>
+<p>栋宇存而弗毁兮，形神逝其焉如</p>
+<p>昔李斯之受罪兮，叹黄犬而长吟</p>
+<p>悼嵇生之永辞兮，顾日影而弹琴</p>
+<p>托运遇于领会兮，寄馀命于寸阴</p>
+<p>听鸣笛之慷慨兮，妙声绝而复寻</p>
+<p>停驾言其将迈兮，遂援翰而写心</p>
 ]]></content>
       <categories>
         <category>古典</category>
@@ -2095,654 +2094,226 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </categories>
   </entry>
   <entry>
-    <title>Appendix-Jury&#39;s Criterion</title>
-    <url>/2020/05/15/control_system/Appendix-Jury&#39;s%20Criterion/</url>
-    <content><![CDATA[<h1 id="Jury’s-Criterion"><a href="#Jury’s-Criterion" class="headerlink" title="Jury’s Criterion"></a>Jury’s Criterion</h1><a id="more"></a>
-<p><img src="/2020/05/15/control_system/Appendix-Jury's%20Criterion/Jury_criterion.png" alt="criteraion"></p>
-<p><img src="/2020/05/15/control_system/Appendix-Jury's%20Criterion/Jury_calculate.png" alt="calculate"></p>
-<p><img src="/2020/05/15/control_system/Appendix-Jury's%20Criterion/Jury_criterion02.png" alt="criterion02"></p>
-<p><img src="/2020/05/15/control_system/Appendix-Jury's%20Criterion/Jury_example.png" alt="example"></p>
-]]></content>
-      <categories>
-        <category>控制原理</category>
-        <category>PNW课件</category>
-      </categories>
-      <tags>
-        <tag>control system</tag>
-        <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Appendix-settling and peak time</title>
-    <url>/2020/05/15/control_system/Appendix-T_s%20and%20T_p/</url>
-    <content><![CDATA[<h1 id="T-s-and-T-p"><a href="#T-s-and-T-p" class="headerlink" title="T_s and T_p"></a>T_s and T_p</h1><a id="more"></a>
-<script type="math/tex; mode=display">
-G(s) = \frac{\omega_n^2}{s^2 + 2 \zeta \omega_n s + \omega_n^2} \\ 
-= \frac{\omega_n^2}{(s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)(s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)}\\
-= \frac{A}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
-- \frac{A}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}</script><p>here</p>
-<script type="math/tex; mode=display">
--2A j \sqrt{1-\zeta^2}\omega_n = \omega_n^2 \\
-A = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}</script><p>So</p>
-<script type="math/tex; mode=display">
-G(s) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}} 
-[\frac{1}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
-- \frac{1}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}]\\
-g(t) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}
-[e^{-(\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)t}
--e^{-(\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)t}]\\
-= \frac{j\omega_n}{2\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t} 
-[-2j\sin(\sqrt{1-\zeta^2}\omega_n t)]\\
-= \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
-\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>So the output:</p>
-<script type="math/tex; mode=display">
-Y(s) = \frac{1}{s} G(s)\\
-y(t) = u(t) * g(t) = \int^t_{0_-} g(\tau) d\tau\\
-\mathbb{L}[y'(t)] = sY(s) - y(0_-) = sY(s) = G(s)</script><p>So we have</p>
-<script type="math/tex; mode=display">
-y'(t) = g(t) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
-\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>Now we want to calculate y(t), consider</p>
-<script type="math/tex; mode=display">
-\int^t_0 e^{-a\tau}\sin(b\tau) d\tau\\
-= \int^t_0 \text{Im}[e^{(-a+jb)\tau}] d\tau\\
-= \text{Im}[ \int^t_0 e^{(-a+jb)\tau} d\tau ]\\
-= \text{Im}[ \frac{1}{a-jb} [1 - e^{(-a+jb)t}] ]\\
-= \text{Im}[ \frac{a+jb}{a^2 + b^2} [1-e^{-at}\cos(bt)
--je^{-at}\sin(bt)]  ]\\
-= \frac{1}{a^2+b^2} [-ae^{-at}\sin(bt) + b - be^{-at}\cos(bt)]\\
-= \frac{b}{a^2+b^2} - \frac{e^{-at}}{a^2+b^2} \sqrt{a^2+b^2}\sin(bt+\phi)</script><p>Here</p>
-<script type="math/tex; mode=display">
-\tan(\phi) = \frac{b}{a}</script><p>in all</p>
-<script type="math/tex; mode=display">
-y(t) = \int^t_{0_-} g(\tau) d\tau\\
-= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
-\int^t_{0_-} e^{-\zeta\omega_n \tau}
-\sin(\sqrt{1-\zeta^2}\omega_n \tau) d\tau\\
-= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
-[ \frac{\sqrt{1-\zeta^2}\omega_n}{\omega_n^2} - 
-\frac{e^{-\zeta\omega_n t}}{\omega_n}
-\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)]\\
-= 1 - \frac{e^{-\zeta\omega_n t}}{\sqrt{1-\zeta^2}}
-\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)</script><p>Here</p>
-<script type="math/tex; mode=display">
-\tan(\phi) = \frac{\sqrt{1-\zeta^2}}{\zeta}\\
-\sin(\phi) = \sqrt{1-\zeta^2}\\
-\cos(\phi) = \zeta</script><h2 id="Calculate-T-s"><a href="#Calculate-T-s" class="headerlink" title="Calculate T_s"></a>Calculate T_s</h2><p>For T_s</p>
-<script type="math/tex; mode=display">
-T_s = \frac{4}{\zeta \omega_n}\\
-e^{-\zeta\omega_n T_s} = e^{-4} \approx 0.02</script><h2 id="Calculate-overshoot-and-T-p"><a href="#Calculate-overshoot-and-T-p" class="headerlink" title="Calculate overshoot and T_p"></a>Calculate overshoot and T_p</h2><p>set y’(T_p) = 0</p>
-<script type="math/tex; mode=display">
-y'(t=T_p) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n T_p}
-\sin(\sqrt{1-\zeta^2}\omega_n T_p) = 0\\
-\sqrt{1-\zeta^2}\omega_n T_p = \pi\\
-T_p = \frac{\pi}{\sqrt{1-\zeta^2}\omega_n}</script><p>here we have</p>
-<script type="math/tex; mode=display">
-1 + \% = y(t=T_p) \\
-= 1 - \frac{e^{-\zeta\omega_n T_p}}
-{\sqrt{1-\zeta^2}}
-\sin(\sqrt{1-\zeta^2}\omega_n T_p + \phi)\\
-= 1 - \frac{e^{-\zeta\omega_n T_p}}
-{\sqrt{1-\zeta^2}}
-\sin(\pi + \phi)\\
-= 1 + \frac{e^{-\zeta\omega_n T_p}}
-{\sqrt{1-\zeta^2}} \sqrt{1-\zeta^2}\\
-= 1 + e^{-\zeta\omega_n T_p}
-= 1 + e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}</script><p>So, we have</p>
-<script type="math/tex; mode=display">
-\% = e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}\\
--\frac{\ln(\%)}{\pi} = \frac{\zeta}{\sqrt{1-\zeta^2}}\\
-\frac{-\ln(\%)}{\sqrt{\pi^2 + \ln^2(\%)}} = \zeta</script>]]></content>
-      <categories>
-        <category>控制原理</category>
-        <category>PNW课件</category>
-      </categories>
-      <tags>
-        <tag>control system</tag>
-        <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Lecture 12-Design Via State Space</title>
-    <url>/2020/05/15/control_system/Lecture%2012-Design%20Via%20State%20Space/</url>
-    <content><![CDATA[<h1 id="Design-Via-State-Space"><a href="#Design-Via-State-Space" class="headerlink" title="Design Via State Space"></a>Design Via State Space</h1><a id="more"></a>
-<p>formula often used</p>
-<script type="math/tex; mode=display">
-\zeta = \frac{-ln(\%)}{\sqrt{ln(\%)^2+\pi^2}}\\
-T_s = \frac{4}{\zeta \omega_n}\\
-T_p = \frac{\pi}{\sqrt{1-\zeta^2} \omega_n}</script><p>where T_s represent settling time; T_p represent peak time\<br>so for the polynomial:</p>
-<script type="math/tex; mode=display">
-s^2 + 2\zeta \omega_n s + \omega_n^2\\
-2\zeta \omega_n = \frac{8}{T_s} = \frac{-2 ln(\%)}{T_p}\\
-\omega_n^2 = \frac{16 (ln(\%)^2+\pi^2)}{ln(\%)^2 T_s^2}
-= \frac{ln(\%)^2+\pi^2}{T_p^2}</script><p><img src="/2020/05/15/control_system/Lecture%2012-Design%20Via%20State%20Space/controller_observer.png" alt="controller observer"></p>
-<h2 id="Controllability"><a href="#Controllability" class="headerlink" title="Controllability"></a>Controllability</h2><p>The basic equation set: (D alaways = 0)</p>
-<script type="math/tex; mode=display">
-\dot{X} = A X + B U\\
-Y = C X + D</script><p>Introduce the Controller K always 1xN, \<br>where U always 1x1</p>
-<script type="math/tex; mode=display">
-U = r - KX</script><p>So, we obtain</p>
-<script type="math/tex; mode=display">
-\dot{X} = AX + B(r - K U) = (A-BK)X + Br</script><p>if we could manipulate th poles of $|sI- (A-BK)|$<br>Thus means</p>
-<script type="math/tex; mode=display">
-Y = C \mathbb{L^{-1}}[(sI - (A-BK))^{-1}] * \mathbb{L^{-1}}[BR(s)]</script><h3 id="Transformation"><a href="#Transformation" class="headerlink" title="Transformation"></a>Transformation</h3><p>Here</p>
-<script type="math/tex; mode=display">Z = PX</script><p>We have</p>
-<script type="math/tex; mode=display">
-\dot{Z} = AZ + BU \\
-Y = C Z\\
-U = r - KZ</script><p>That means we have</p>
-<script type="math/tex; mode=display">
-\dot{X} = P^{-1}APX + P^{-1}BU\\
-Y = CPX\\
-U = r - KPX</script><p>Compare with</p>
-<script type="math/tex; mode=display">
-\dot{X} = A_x X + B_x U\\
-Y = C_x X\\
-U = r - K_x X</script><p>So we have:</p>
-<script type="math/tex; mode=display">
-A_x = P^{-1}AP\\
-B_x = P^{-1}B\\
-C_x = CP\\
-K_x = KP</script><p>Then we have</p>
-<script type="math/tex; mode=display">
-C_{Mx} = [B_x \space A_xB_x \cdots A_x^{N-1}B_x] = P^{-1}C_{Mz}</script><p>where X is observer canonical form\<br>Z is other form (like phase variable form, cascade form)</p>
-<script type="math/tex; mode=display">
-P = C_{Mz}C_{Mx}^{-1}\
-
-K_z = K_xP^{-1}</script><h2 id="Observability"><a href="#Observability" class="headerlink" title="Observability"></a>Observability</h2><p><img src="/2020/05/15/control_system/Lecture%2012-Design%20Via%20State%20Space/observer.png" alt="observer"></p>
-<script type="math/tex; mode=display">
-\dot{\hat{X}} = A \hat{X} + BU + L(Y - \hat{Y})\\
-\hat{Y} = C \hat{X}</script><p>so with</p>
-<script type="math/tex; mode=display">
-\dot{X} = A X + B U\\
-Y = C X</script><p>then obtain</p>
-<script type="math/tex; mode=display">
-\dot{X} - \dot{\hat{X}} = A(X - \hat{X}) - LC(X- \hat{X})\\
-=(A-LC) (X - \hat{X})</script><p>define $e_X \equiv (X - \hat{X})$, we have</p>
-<script type="math/tex; mode=display">
-\dot{e}_X = (A-LC) e_X</script><p>If all poles of (A-LC) in the left plane</p>
-<script type="math/tex; mode=display">
-\lim_{t\to \infty} e_X = (X - \hat{X}) = 0</script><p>Then we could use $\hat{X}$ to estimate $X$\<br>regardless the influence of initial value $\hat{X}(0)$ and $X(0)$</p>
-<h3 id="Transformation-1"><a href="#Transformation-1" class="headerlink" title="Transformation"></a>Transformation</h3><script type="math/tex; mode=display">Z = PX</script><p>where X is observer canonical form\<br>Z is other form (like phase variable form, cascade form)</p>
-<script type="math/tex; mode=display">
-(\dot{Z} - \dot{\hat{Z}}) = (A-LC)(Z - \hat{Z})</script><p>Then we have</p>
-<script type="math/tex; mode=display">
-(\dot{X} - \dot{\hat{X}}) = P^{-1}(A-LC)P(X - \hat{X})</script><p>So we have:</p>
-<script type="math/tex; mode=display">
-A_x = P^{-1}AP\\
-B_x = P^{-1}B\\
-C_x = CP\\
-L_x = P^{-1}L</script><p>Now calculate $O_{Mx}$</p>
-<script type="math/tex; mode=display">
-O_{Mx} = \begin{bmatrix}
-C_x\\ C_xA_x\\ \vdots\\ C_xA_x^{N-1}
-\end{bmatrix} = O_{Mz} P</script><p>So, in conclusion:</p>
-<script type="math/tex; mode=display">
-P = O_{Mz}^{-1}O_{Mx}\
-
-L_z = PL_x</script><h2 id="Integral-Control-with-0-Steady-State-Error"><a href="#Integral-Control-with-0-Steady-State-Error" class="headerlink" title="Integral Control with 0 Steady-State Error"></a>Integral Control with 0 Steady-State Error</h2><p><img src="/2020/05/15/control_system/Lecture%2012-Design%20Via%20State%20Space/integral_controller.png" alt="integral_controller"></p>
-<script type="math/tex; mode=display">
-U = V - KX\\
-\frac{(R-Y)}{s} K_e =X_N K_e =  V \equiv \frac{Y}{T(s)}</script><p>So</p>
-<script type="math/tex; mode=display">
-\frac{Y}{R} = \frac{K_e \frac{T(s)}{s}}{1+K_e \frac{T(s)}{s}}</script><p>Then</p>
-<script type="math/tex; mode=display">
-e_{ss} = \lim_{s\to 0+} sR(s) (1 - \frac{Y(s)}{R(s)})\\
-= \lim_{s\to 0+} \frac{1}{1+K_e \frac{T(s)}{s}}\\
-= \lim_{s\to 0+} \frac{s}{s+K_e T(s)} = 0</script><p>Because</p>
-<script type="math/tex; mode=display">
-\dot{x}_{N}=R- Y = R- CX = [-C \space 0]
-\begin{bmatrix}
-X \\ x_N
-\end{bmatrix} + R</script><p>so</p>
-<script type="math/tex; mode=display">
-\begin{bmatrix}
-\dot{X} \\ \dot{x}_N
-\end{bmatrix}=
-\begin{bmatrix}
-A & 0\\
--C & 0
-\end{bmatrix}
-\begin{bmatrix}
-X \\ x_N
-\end{bmatrix}+
-\begin{bmatrix}
-B \\ 0
-\end{bmatrix}U+
-\begin{bmatrix}
-0 \\ 1
-\end{bmatrix}R</script><p>because</p>
-<script type="math/tex; mode=display">
-U = K_e x_N - K X=[-K\space K_e]
-
-\begin{bmatrix}
-
-X \\ x_N
-
-\end{bmatrix}</script><p>we have</p>
-<script type="math/tex; mode=display">
-\begin{bmatrix}
-\dot{X} \\ \dot{x}_N
-\end{bmatrix}=(
-\begin{bmatrix}
-A & 0\\
--C & 0
-\end{bmatrix}+
-\begin{bmatrix}
-B \\ 0
-\end{bmatrix}
-[-K\space K_e]
-)
-\begin{bmatrix}
-X \\ x_N
-\end{bmatrix}+
-\begin{bmatrix}
-0 \\ 1
-\end{bmatrix}R\\
-
-=\begin{bmatrix}
-A-BK & BK_e\\
--C & 0
-\end{bmatrix}
-\begin{bmatrix}
-X \\ x_N
-\end{bmatrix}+
-\begin{bmatrix}
-0 \\ 1
-\end{bmatrix}R</script><h2 id="Why-zero-of-T-s-Not-change-with-Controller"><a href="#Why-zero-of-T-s-Not-change-with-Controller" class="headerlink" title="Why zero of T(s) Not change with Controller"></a>Why zero of T(s) Not change with Controller</h2><p>we know</p>
-<script type="math/tex; mode=display">
-G(s) = \frac{C \text{adj}(sI - A)B}{|sI - A|}\\
-T(s) = \frac{C \text{adj}(sI - A + BK)B}{|sI - A + BK|}</script><p>why the numurator of G(S), T(s) is the same, because $\forall C$, so must prove</p>
-<script type="math/tex; mode=display">
-\text{adj}(sI - A)B = \text{adj}(sI - A + BK)B</script><p>that is mean $\forall A$ (replace sI-A with A)</p>
-<script type="math/tex; mode=display">
-\text{adj}(A)B = \text{adj}(A + BK)B</script><h3 id="lemma-Cramer’s-Rule"><a href="#lemma-Cramer’s-Rule" class="headerlink" title="lemma: Cramer’s Rule"></a>lemma: Cramer’s Rule</h3><p>for $AX = B$, where</p>
-<script type="math/tex; mode=display">
-X = \begin{bmatrix}
-x_1\\
-\vdots\\
-x_i\\
-\vdots\\
-x_N
-\end{bmatrix}</script><p>We have</p>
-<script type="math/tex; mode=display">
-X = A^{-1}B = \frac{\text{adj}(A)B}{|A|} = \frac{|A \stackrel{i}{\leftarrow} B|\text{for x_i}}{|A|}\\
-x_i |A| = \text{adj}(A)B \quad \text{ith element}= |A \stackrel{i}{\leftarrow} B|</script><p>Here</p>
-<script type="math/tex; mode=display">
-A =\left(\mathbf{a}_{1} \cdots \mathbf{a}_{n}\right)\\
-\left(A^{i} \leftarrow B\right) \stackrel{\text { def }}{=}\left(\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & B & {\mathbf{a}_{i+1}} & {\cdots} & {\left.\mathbf{a}_{n}\right)}\end{array}\right.</script><h3 id="proof"><a href="#proof" class="headerlink" title="proof"></a>proof</h3><script type="math/tex; mode=display">
-\text{adj}(A+BK)B \quad \text{ith element}
-= |(A+BK) \stackrel{i}{\leftarrow} B|\\
-= \left|\begin{array}{llllll}{\mathbf{a}_{1}}+k_1B & {\cdots} & {\mathbf{a}_{i-1}}+k_{i-1}B & B & {\cdots} & {\mathbf{a}_{N}+k_NB}|\end{array}\right.\\
-= \left|\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & B & {\cdots} & {\mathbf{a}_{N}}|\end{array}\right.\\
-= |A \stackrel{i}{\leftarrow} B| 
-= \text{adj}(A)B \quad \text{ith element}\\</script><h3 id="Another-rule-A-BK-A-Kadj-A-B"><a href="#Another-rule-A-BK-A-Kadj-A-B" class="headerlink" title="Another rule $|A+BK| = |A| + Kadj(A)B$"></a>Another rule $|A+BK| = |A| + Kadj(A)B$</h3><script type="math/tex; mode=display">
-|A+BK| = \left|\begin{array}{llllll}{\mathbf{a}_{1}}+k_1B & {\cdots} & {\mathbf{a}_{i}}+k_{i}B & {\cdots} & {\mathbf{a}_{N}+k_NB}|\end{array}\right.\\
-= \left|\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & {\cdots} & {\mathbf{a}_{N}}|\end{array}\right. \\
-+ \sum_i k_i \left|\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & B & {\cdots} & {\mathbf{a}_{N}}|\end{array}\right.\\
-= |A| + \sum_i k_i \space [\text{adj}(A)B \quad \text{ith element}]\\
-= |A| + K \text{adj}(A)B</script><h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><script type="math/tex; mode=display">
-G(s) = \frac{C \text{adj}(sI - A)B}{|sI - A|}
-= \frac{N(s)}{D_1(s)}\\
-T(s) = \frac{C \text{adj}(sI - A + BK)B}{|sI - A + BK|}\\
-= \frac{C \text{adj}(sI - A)B}{|sI - A| + K \text{adj}(sI-A)B} = \frac{N(s)}{D_2(s)}</script><p>if we introduce K_e</p>
-<script type="math/tex; mode=display">
-\frac{Y(s)}{R(s)} \equiv T'(s) = \frac{K_e \frac{T(s)}{s}}{1+K_e \frac{T(s)}{s}}\\
-= \frac{K_e N(s)}{sD_2(s) + K_e N(s)}</script><p>So no matter introduce K and K_e, zeros of T(s) Not change</p>
-]]></content>
-      <categories>
-        <category>控制原理</category>
-        <category>PNW课件</category>
-      </categories>
-      <tags>
-        <tag>control system</tag>
-        <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Lecture 2- State Space Representation</title>
-    <url>/2020/05/15/control_system/Lecture%202-%20State%20Space%20Representation/</url>
-    <content><![CDATA[<h1 id="Lecture-2"><a href="#Lecture-2" class="headerlink" title="Lecture 2"></a>Lecture 2</h1><p>Lecture 2- State Space Representation<br><a id="more"></a></p>
-<h2 id="symbols"><a href="#symbols" class="headerlink" title="symbols"></a>symbols</h2><script type="math/tex; mode=display">\dot{X}(t) = AX(t) + BU(t)</script><script type="math/tex; mode=display">Y(t) = CX(t) + DU(t)</script><p>$\dot{X}(t)$ derivative of state vector</p>
-<p>$X(t)$ state vector | nx1</p>
-<p>$Y(t)$ output vector | px1</p>
-<p>$U(t)$ input/control vector | mx1</p>
-<p>$A$ symstem matrix | nxn</p>
-<p>$B$ input matrix | nxm</p>
-<p>$C$ output matrix | pxn</p>
-<p>$D$ feedforward matrix | pxm</p>
-<p>set $X(t)|_{t=0} = 0​$, do Laplace Transfrom</p>
-<script type="math/tex; mode=display">sX(s) = AX(s) + BU(s)​</script><script type="math/tex; mode=display">Y(s) = CX(s) + DU(s)​</script><p>so,</p>
-<script type="math/tex; mode=display">X(s) = (sI-A)^{-1} BU(s) = \frac{adj(sI-A)B}{det(sI-A)} U(s)</script><script type="math/tex; mode=display">Y(s) = [\frac{Cadj(sI-A)B}{det(sI-A)} + D] U(s)</script><p>thus, transfer function $G(s)$</p>
-<script type="math/tex; mode=display">G(s) \equiv \frac{Y(s)}{U(s)} = \frac{Cadj(sI-A)B}{det(sI-A)} + D​</script><p>if $X(t)|_{t=0} = X(0)$</p>
-<script type="math/tex; mode=display">
-sX(s)-X(0) = AX(s) + BU(s)\\
-Y(s) = CX(s) + DU(s)</script><p>then</p>
-<script type="math/tex; mode=display">
-Y(s) = C(sI-A)^{-1}X(0) + C(sI-A)^{-1}BU(s) + DU(s)</script><p>Here set $\Phi(t) \equiv L[(sI-A)^{-1}] = e^{At} = \sum_{k=0}^{\infty} \frac{t^k A^k}{k!}​$</p>
-<p>in other way </p>
-<script type="math/tex; mode=display">
-(sI-A)^{-1} = \Bigg\{
-\begin{aligned}
--A^{-1}(I-sA^{-1})^{-1} = -A^{-1}[\sum^{\infty}_{k=0}s^kA^{-k}]  && |s|< \lambda_{min}\\
-s^{-1}(I-\frac{A}{s})^{-1} = \frac{1}{s}[\sum^{\infty}_{k=0}s^{-k}A^{k}]  && |s|> \lambda_{max}\\
-
-\end{aligned}</script><p>Here $\frac{1}{s^{k+1}} = L^{-1}[\frac{t^k}{k!}]$</p>
-<p>So we can get $(sI-A)^{-1}|_{s=0} = -A^{-1}, \lim_{s\to \infty} s(sI-A)^{-1}=I​$</p>
-]]></content>
-      <categories>
-        <category>控制原理</category>
-        <category>PNW课件</category>
-      </categories>
-      <tags>
-        <tag>control system</tag>
-        <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Lecture 13-Linearization</title>
-    <url>/2020/05/15/control_system/Lecture%2013-Linearization/</url>
-    <content><![CDATA[<h1 id="Chap-2-Linearizatin"><a href="#Chap-2-Linearizatin" class="headerlink" title="Chap 2: Linearizatin"></a>Chap 2: Linearizatin</h1><a id="more"></a>
-<script type="math/tex; mode=display">
-y-y_0 = y_0'(x-x_0)</script><h2 id="example-1"><a href="#example-1" class="headerlink" title="example 1"></a>example 1</h2><p>nonlinear r: $i_r = e^{V_r}$<br>so</p>
-<script type="math/tex; mode=display">
-C \frac{dV}{dt} + i_r -i(t) - 2 = 0</script><p>replace</p>
-<script type="math/tex; mode=display">
-V = V_0 + \delta V\\
-i_r = e^{V_r} = e^{V_0 + \delta V}</script><p>So we obtain, here C = 1</p>
-<script type="math/tex; mode=display">
-\frac{d\delta V}{dt} + e^{V_0 + \delta V} - 2 = i(t)</script><p>replace $e^{V_0 + \delta V} \approx e^{V_0} + e^{V_0} \delta V$\<br>So we havee</p>
-<script type="math/tex; mode=display">
-\frac{d\delta V}{dt} + e^{V_0} + e^{V_0} \delta V - 2 = i(t)</script><p>Thus means</p>
-<script type="math/tex; mode=display">
-\frac{d\delta V}{dt} + e^{V_0} \delta V = i(t) + 2 - e^{V_0}</script><p>Because $i_r|_{V_r = V_0} = e^{V_0} = 2, V_0 = ln(2) = 0.693$<br>so, simplyfied equation:</p>
-<script type="math/tex; mode=display">
-\frac{d\delta V}{dt} + 2 \delta V = i(t)</script><p>Then do laplace transform $\mathbb{L}$</p>
-<script type="math/tex; mode=display">
-(s+2)\delta V(s) - \delta V(0_-) = I(s)</script><p>because</p>
-<script type="math/tex; mode=display">
-\int_{0_-}^{\infty} \frac{df(t)}{dt}e^{-st}dt
-= e^{-st} f(t)|_{0_-}^{\infty} + s \int_{0_-}^{\infty} f(t)e^{-st}dt\\
-\mathbb{L}[\frac{df(t)}{dt}] = s\mathbb{L}[f(t)] - f(0_-)</script><h2 id="example-2"><a href="#example-2" class="headerlink" title="example 2"></a>example 2</h2><script type="math/tex; mode=display">
-M \frac{d^2 y(t)}{dt^2} = Mg - \frac{i^2(t)}{y(t)}\\
-
-V(t) = R i(t) + L \frac{d i(t)}{dt}</script><p>V(t) is input, now select varaible</p>
-<script type="math/tex; mode=display">
-X_1 = y(t)\\
-X_2 = \frac{dy(t)}{dt}\\
-X_3 = i(t)</script><p>So we obtain</p>
-<script type="math/tex; mode=display">
-\dot{X_1} = X_2\\
-\dot{X_2} = -\frac{X_3^2}{MX_1} + g\\
-\dot{X_3} = - \frac{R}{L} X_3 + V(t)</script><p>Find balanced point, suppose input $V(t) = V_0 + \Delta V(t), i(t) = i_0 + \Delta i(t), y(t) = y_0 + \Delta y(t)$\<br>Then we have, by set $\dot{X} = 0$</p>
-<script type="math/tex; mode=display">
-0 = \frac{dy(t)}{dt} |_{y(t) = y_0}\\
-0 = Mg- \frac{i_0^2}{y_0}\\
-V_0 = R i_0</script><p>now express Phase variable balanced poit with input balanced point $V_0$</p>
-<script type="math/tex; mode=display">
-i_0 = \frac{V_0}{R}\\
-y_0 = \frac{i_0^2}{Mg} = \frac{V_0^2}{R^2 Mg}</script><p>Thus means</p>
-<script type="math/tex; mode=display">
-X_{10} = y_0 = \frac{V_0^2}{R^2 Mg}\\
-X_{20} = \frac{dy(t)}{dt} |_{y(t) = y_0} = 0\\
-X_{30} = i_0 = \frac{V_0}{R}</script><p>Now define $\delta X \equiv X - X_0, \delta V = V - V_0$</p>
-<script type="math/tex; mode=display">
-\dot{\delta} X_1= \delta X_2\\
-\dot{\delta} X_2= \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_1}|_{X=X_0} \delta X_1 + \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_3}|_{X=X_0} \delta X_3\\
-= [\frac{X_3^2}{MX_1^2}]|_{X=X_0} \delta X_1 + [-\frac{2X_3}{MX_1}]|_{X=X_0} \delta X_3\\
-= \frac{R^2Mg^2}{V_0^2}\delta X_1 + [\frac{-2Rg}{V_0}] \delta X_3\\
-\dot{\delta} X_3 = - \frac{R}{L} \delta X_3 + \delta V(t)</script><p>Thus means</p>
-<script type="math/tex; mode=display">
-\dot{\delta} X = 
-\begin{bmatrix}
-0 & 1 & 0\\
-\frac{R^2Mg^2}{V_0^2} & 0 & \frac{-2Rg}{V_0}\\
-0 & 0 & - \frac{R}{L}
-\end{bmatrix}
-\delta X +
-\begin{bmatrix}
-0\\ 0\\ 1
-\end{bmatrix}
-\delta V</script><p>Then calculate the poles of linearized model:\<br>if poles are all in left plane &lt;=&gt; the model is stable!!!</p>
-<p>Then verify it is Controllable or Not?</p>
-<script type="math/tex; mode=display">
-|C_M| =[B \quad AB \quad A^2B]\
-
-=\begin{bmatrix}
-
-0 & 0 & \frac{-2Rg}{V_0}\\
-
-0 & \frac{-2Rg}{V0} & \frac{2R^2g}{LV0}\\
-
-1 & - \frac{R}{L} & \frac{R^2}{L^2}
-
-\end{bmatrix}
-
-\neq 0</script><p>If so, we could control it, to make the model stable</p>
-]]></content>
-      <categories>
-        <category>控制原理</category>
-        <category>PNW课件</category>
-      </categories>
-      <tags>
-        <tag>control system</tag>
-        <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Lecture 3-Signal Flow Graph</title>
-    <url>/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/</url>
-    <content><![CDATA[<h1 id="5-6-Signal-Flow-Graphs-of-State-Equations"><a href="#5-6-Signal-Flow-Graphs-of-State-Equations" class="headerlink" title="5.6 Signal-Flow Graphs of State Equations"></a>5.6 Signal-Flow Graphs of State Equations</h1><a id="more"></a>
-<p>P254 of edition 7 book<br>Forms:</p>
-<ol>
-<li>Phase variable</li>
-<li>Cascade</li>
-<li>Parallel</li>
-<li>Controller canonical</li>
-<li>Observer canonical</li>
-</ol>
-<script type="math/tex; mode=display">
-G(s) = \frac{b_m s^m + ... + b_0}{s^n + a_{n-1} s^{n-1} + ... + a_0 }</script><h2 id="Phase-variable"><a href="#Phase-variable" class="headerlink" title="Phase variable"></a>Phase variable</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/phase_variable.png" alt="phase variable"></p>
-<p>define $X_1(s) \equiv R(s)/(s^n + a_{n-1} s^{n-1} + … + a_0)$ \<br>Then define $X_2(s) = sX_1(s),\cdots, X_{n}(s)=sX_{n-1}(s)$\<br>So $X_{k}(s) = s^{k-1} X_1(s)$</p>
-<p>then</p>
-<script type="math/tex; mode=display">
-R(s) = (s^n + a_{n-1} s^{n-1} + ... + a_0)X_1(s)\\
-=sX_n(s) + (a_{n-1}X_n(s) + ... + a_0 X_1(s))</script><p>rearrange it</p>
-<script type="math/tex; mode=display">
-sX_{k}(s) = X_{k+1}(s)\\
-sX_n(s) = -(a_0X_1(s) + ... + a_{n-1} X_n(s)) + R(s)</script><p>Moreover</p>
-<script type="math/tex; mode=display">
-C(s) = (b_m s^m + ... + b_0)X_1(s)\\
-= b_m X_{m+1}(s) + ... + b_0 X_1(s)</script><p>So </p>
-<script type="math/tex; mode=display">
-A=
-\begin{bmatrix}
-0 & 1 &  0 & \cdots & 0\\
-0 & 0 &  1 & \cdots & 0\\
-\vdots & \vdots & \vdots & \vdots & \vdots\\
-0 & 0 &  0 & \cdots & 1\\
--a_0 & -a_1 & -a_2 & \cdots & -a_{n-1}
-\end{bmatrix}
-B = 
-\begin{bmatrix}
-0\\ 0\\ \vdots\\ 0\\ 1
-\end{bmatrix}
-\\
-C = 
-\begin{bmatrix}
-b_0 & \cdots & b_{m+1} & \cdots & 0
-\end{bmatrix}</script><p>and</p>
-<script type="math/tex; mode=display">\dot{X} = AX + Br\\
-Y = CX</script><h2 id="Cascade"><a href="#Cascade" class="headerlink" title="Cascade"></a>Cascade</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/cascade.png" alt="cascade"></p>
-<script type="math/tex; mode=display">
-G(s) = \prod \frac{1}{s-s_k} \prod \frac{s-p_k}{s-s_k} * K</script><p>define $X_n(s) = R(s) \frac{1}{s-s_n}$, here $sX_n(s) = s_n X_n(s) + R(s)$</p>
-<p>define $A_k(s) = A_{k+1}(s) \frac{s-p_k}{s-s_k}$</p>
-<p>moreover</p>
-<script type="math/tex; mode=display">
-A_{k+1}(s) + s_k X_k(s) = sX_k(s)\\
-sX_k(s) - p_kX_k(s) = A_k(s)</script><p>so</p>
-<script type="math/tex; mode=display">
-sX_k(s) = p_kX_k(s) + A_k(s)\\
-= p_kX_k(s) + (s-s_{k-1})X_{k-1}(s)\\
-s[X_k(s)-X_{k-1}(s)] = p_kX_k(s) -s_{k-1}X_{k-1}(s)</script><h2 id="Parallel"><a href="#Parallel" class="headerlink" title="Parallel"></a>Parallel</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/parallel.png" alt="parallel"></p>
-<script type="math/tex; mode=display">
-G(s) = \sum \frac{t_k}{s- s_k}</script><p>then define $X_k(s) \equiv R(s)\frac{t_k}{s- s_k}$</p>
-<p>so</p>
-<script type="math/tex; mode=display">
-sX_k(s) = s_kX_k(s) + t_kR(s)\\
-Y(s) = \sum X_k(s)</script><h2 id="Controller-canonical"><a href="#Controller-canonical" class="headerlink" title="Controller canonical"></a>Controller canonical</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/controller_canonical.png" alt="controller canonical"></p>
-<p>reverse $X_1, …, X_n$ to $X_n,…, X_1$\<br>So 中心对称反射</p>
-<script type="math/tex; mode=display">
-A=
-\begin{bmatrix}
--a_{n-1} & \cdots & -a_2 & -a_1  & -a_0\\
-1 & 0 & \cdots & 0 & 0\\
-0 & 1 & \cdots & 0 & 0\\
-\vdots & \vdots & \vdots & \vdots & \vdots\\
-0 & 0 &  \cdots & 1 & 0\\
-\end{bmatrix}
-B = 
-\begin{bmatrix}
-1\\ 0\\ \vdots\\ 0\\ 0
-\end{bmatrix}
-\\
-C = 
-\begin{bmatrix}
-0 & 0 & \cdots & b_{m+1} & \cdots& b_0
-\end{bmatrix}</script><p>and</p>
-<script type="math/tex; mode=display">\dot{X} = AX + Br\\
-Y = CX</script><h2 id="Observer-canonical"><a href="#Observer-canonical" class="headerlink" title="Observer canonical"></a>Observer canonical</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/observer_canonical.png" alt="observer canonical"><br>reverse $C(s)&lt;=&gt;R(s)$\<br>reverse $X&lt;=&gt;\dot{X}$\<br>change direction of arrows</p>
-<script type="math/tex; mode=display">
-G(s) = C(sI-A)^{-1}B\\
-=G(s)^T = B^T(sI-A^T)^{-1}C^T</script><p>So here $A \Leftarrow A^T$\<br>$B \Leftarrow C^T$\<br>$C \Leftarrow B^T$\<br>So</p>
-<script type="math/tex; mode=display">
-A=
-\begin{bmatrix}
--a_{n-1} & 1 & 0 & 0  & 0\\
--a_{n-2} & 0 & 1 & 0 & 0\\
-\vdots & \vdots & \vdots & \vdots & \vdots\\
--a_1 & 0 &  \cdots & 0 & 1\\
--a_0 & 0 &  \cdots & 0 & 0\\
-\end{bmatrix}
-B = 
-\begin{bmatrix}
-0\\ 0\\ \vdots\\ b_{m+1}\\ \vdots\\b_0
-\end{bmatrix}
-\\
-C = 
-\begin{bmatrix}
-1& 0& \cdots& 0& 0
-\end{bmatrix}</script><p>and</p>
-<script type="math/tex; mode=display">
-\dot{X} = AX + Br\\
-
-Y = CX</script>]]></content>
-      <categories>
-        <category>控制原理</category>
-        <category>PNW课件</category>
-      </categories>
-      <tags>
-        <tag>control system</tag>
-        <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Lecture 4-Stability and Steady Error</title>
-    <url>/2020/05/15/control_system/Lecture%204-Stability%20and%20Steady%20Error/</url>
-    <content><![CDATA[<h3 id="Routh-Hurwitz-Criterion"><a href="#Routh-Hurwitz-Criterion" class="headerlink" title="Routh-Hurwitz Criterion"></a>Routh-Hurwitz Criterion</h3><a id="more"></a>
-<p>系统稳定的充分必要条件是：劳斯表中第一列所有元素的计算值均大于零。</p>
+    <title>ch11微型计算机总线</title>
+    <url>/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/</url>
+    <content><![CDATA[<h2 id="微型计算机总线"><a href="#微型计算机总线" class="headerlink" title="微型计算机总线"></a>微型计算机总线</h2><a id="more"></a>
+<h3 id="总线概述"><a href="#总线概述" class="headerlink" title="总线概述"></a>总线概述</h3><ul>
+<li><p>总线结构的优点：</p>
+<p>便于采用模块化结构设计方法，简化系统设计；</p>
+<p>便于开发相互兼容的硬件板卡和软件，标准总线得到各厂商的支持；</p>
+<p>便于系统的扩充和升级，灵活性好；</p>
+<p>便于故障诊断和维修</p>
+</li>
+<li><p>总线指标</p>
+<p>总线宽度：指一次可以同时传输的数据位数</p>
+<p>总线频率：指总线工作时每秒钟内能传输数据的次数</p>
+<p>传输速率：指每秒钟能够传输的字节数 = 总线宽度 X 总线频率</p>
+<p>eg. PCI总线的宽度为32位=4 B，总线频率为33MHz，所以，PCI的数据传输率为132MB/s(33*4)</p>
+</li>
+<li><p>总线功能分成</p>
+<p>控制总线 [控制其他部件的部件称为总线主控 (master)，被控部件称为从控(slave)]</p>
+<p>地址总线 [地址总线是单向的，即地址信号只能由总线主控至从控。地址总线也是三态的]</p>
+<p>数据总线 [数据总线是双向的。数据总线是三态的]</p>
+<p>(数据总线的根数==总线的宽度)</p>
+</li>
+<li><p>总线的层次结构（内—&gt;外）</p>
+<p>片内总线：CPU或IO芯片内部，用于各功能部件之间</p>
+<p>CPU总线：CPU、RAM、ROM、控制芯片组等芯片之间的信号连接[包括控制总线、地址总线和数据总线]</p>
+<p>局部总线：主机板上的信息通道，连接主机板上各主要部件，通过扩展槽连接各种适配器</p>
 <ul>
-<li>如果第一列中出现一个小于零的值，系统就不稳定；</li>
-<li>如果第一列中有等于零的值，说明系统处于临界稳定状态；</li>
-<li>第一列中数据符号改变的次数等于系统特征方程正实部根的数目，即系统中不稳定根的个数。</li>
+<li>ISA, EISA :(Extended) Industry Standard Architecture 16,32位标准总线，数据传输率16,33MB/s</li>
+<li>MCA : Micro Channel Architecture  32位标准总线，数据传输率40MB/s</li>
+<li>PCI : Peripheral Component Interconnect  32/64位标准总线，数据传输率132MB/s</li>
+<li>VESA : Video Electronic Standard Association  32位标准总线，数据传输率133MB/s</li>
+<li>AGP :  Accelerated Graphics Port 是一种接口标准</li>
 </ul>
-<p>tell how many closed-loop system poles are </p>
-<p>in the left half-plane, in the right half-plane, and on the jω-axis.</p>
-<p>example 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	R(&quot;R(s)&quot;)--&gt;|input| G(&quot;G(s)&quot;)</span><br><span class="line">	G--&gt;|output| C(&quot;C(s)&quot;)</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">
-G(s) = \frac{N(s)}{a_{4} s^{4}+a_{3} s^{3}+a_{2} s^{2}+a_{1} s+a_{0}}</script><p>here is Routh table:</p>
-<script type="math/tex; mode=display">
-\begin{array}{l}
-{s^{4} \quad a_{4} \quad a_{2} \quad a_{0}} \\ 
-{s^{3} \quad a_{3}} \quad {a_{1} \quad 0} \\ 
-{s^{2}} \quad \frac{-\left|\begin{array}{ll}{a_{4}} & {a_{2}} \\ {a_{3}} & {a_{1}}\end{array}\right|}{a_{3}}=b_{1} \quad \frac{-\left|\begin{array}{ll}{a_{4}} & {a_{0}} \\ {a_{3}} & {0}\end{array}\right|}{a_3}=b_{2} \quad \frac{-\left|\begin{array}{ll}{a_{4}} & {0} \\ {a_{3}} & {0}\end{array}\right|}{a_{3}}=0\\ 
-s^{1} \quad \frac{-\left|\begin{array}{ll}{a_{3}} & {a_{1}} \\ {b_{1}} & {b_{2}}\end{array}\right|}{b_{1}}=c_{1} \quad \quad \frac{-\left|\begin{array}{ll}{a_{3}} & {0} \\ {b_{1}} & {0}\end{array}\right|}{b_{1}}=0 \quad \frac{-\left|\begin{array}{ll}{a_{3}} & {0} \\ {b_{1}} & {0}\end{array}\right|}{b_{1}}=0 \\ 
-s^{0} \quad \frac{-\left|\begin{array}{cc}{b_{1}} & {b_{2}} \\ {c_{1}} & {0}\end{array}\right|}{c_1}=d_{1} \quad \frac{-\left|\begin{array}{cc}{b_{1}} & {0} \\ {c_{1}} & {0}\end{array}\right|}{c_{1}}=0 \quad \quad \frac{-\left|\begin{array}{cc}{b_{1}} & {0} \\ {c_{1}} & {0}\end{array}\right|}{c_{1}}=0
-\end{array}</script><h4 id="a-if-Zero-Only-in-the-First-Column"><a href="#a-if-Zero-Only-in-the-First-Column" class="headerlink" title="(a) if Zero Only in the First Column"></a>(a) if Zero Only in the First Column</h4><p>If the first element of a row is zero, division by zero would be required to form the next row. To avoid this phenomenon, an epsilon, ε, is assigned to replace the zero in the first column. </p>
-<p>The value ε is then allowed to approach zero from either the positive or the negative side, after which the signs of the entries in the first column can be determined.</p>
-<script type="math/tex; mode=display">
-T(s)=\frac{10}{s^{5}+2 s^{4}+3 s^{3}+6 s^{2}+5 s+3}</script><p>用一个小正数代替零元素继续列表</p>
-<p>Routh Table:</p>
-<script type="math/tex; mode=display">
-\begin{array}{llll}
-\hline
-{s^{5}} & {1} & {3} & {5} \\ 
-{s^{4}} & {2} & {6} & {3} \\ 
-{s^{3}} & {\epsilon} & {\frac{7}{2}} & {0} \\ 
-{s^{2}} & {\frac{6 \epsilon-7}{\epsilon}} & {3} & {0} \\ 
-{s^{1}} & {\frac{42 \epsilon-49-6 \epsilon^{2}}{12 \epsilon-14}} & {0} & {0} \\
-\hline
-\end{array}</script><p>So</p>
-<script type="math/tex; mode=display">
-\begin{array}{|c|c|c|}
-\hline \text { Label } & {\text { First column }} & {\epsilon=+} & {\epsilon=-} \\ 
-\hline s^{5} & {1} & {+} & {+} \\ 
-{s^{4}} & {2} & {+} & {+} \\ 
-{s^{3}} & {\epsilon} & {+} & {-} \\ 
-{s^{2}} & {\frac{6 \epsilon-7}{\epsilon}} & {-} & {+} \\
-{s^{1}} & {\frac{42 \epsilon-49-6 \epsilon^{2}}{12 \epsilon-14}}& {+} & {+} \\ 
-{s^{0}} & {3} & {+} & {+} \\ 
-\hline
-\end{array}</script><h4 id="b-Entire-Row-is-Zero"><a href="#b-Entire-Row-is-Zero" class="headerlink" title="(b) Entire Row is Zero"></a>(b) Entire Row is Zero</h4><p>We now look at the second special case. Sometimes while making a Routh table, we find<br>that an entire row consists of zeros</p>
-<p>出现全0行=&gt;方程中有</p>
-<p>一对大小相等、符号相反的实根，</p>
-<p>或一对纯虚根，</p>
-<p>或对称于s平面原点的共轭复根。</p>
-<p>This symmetry can occur under three conditions of root position:<br>(1) The roots are symmetrical and real, </p>
-<p>(2) the roots are symmetrical and imaginary, or </p>
-<p>(3) the roots are quadrantal. (四个共轭，对称的根)</p>
-<p>列表时先用全零行的上一行构成辅助方程，它的根就是原方程的特殊根。</p>
-<p>再将辅助方程求导，用求导后的方程代替全零行</p>
-<p>继续下去直到得到全部劳思表</p>
-<h3 id="MATLAB-code"><a href="#MATLAB-code" class="headerlink" title="MATLAB code"></a>MATLAB code</h3><p>to find the closed-loop transfer function, T(s), and the closed-loop poles.</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">numg = <span class="number">128</span>;</span><br><span class="line">deng = [<span class="number">1</span> <span class="number">3</span> <span class="number">10</span> <span class="number">24</span> ...</span><br><span class="line">		<span class="number">48</span> <span class="number">96</span> <span class="number">128</span> <span class="number">192</span> <span class="number">0</span>];</span><br><span class="line">G = tf(numg, deng);</span><br><span class="line">T = feedback(G, <span class="number">1</span>); <span class="comment">% T(s) = G(s) / [1 + G(s)]</span></span><br><span class="line">poles = pole(T)</span><br></pre></td></tr></table></figure>
-<h3 id="Steady-Error"><a href="#Steady-Error" class="headerlink" title="Steady Error"></a>Steady Error</h3><p>大前提：已经Routh-Hurwitz Criterion验证是稳定的</p>
-<p>if D = 0</p>
-<script type="math/tex; mode=display">
-e_{ss}
-
-= \mathop{\text{lim}} \limits_{t\to+\infty} [r(t) - c(t)]\\
-
-=  \mathop{\text{lim}} \limits_{s\to 0+} s[R(s) - C(s)]\\
-
-=  \mathop{\text{lim}} \limits_{s\to 0+} sR(s) [1 - T(s)]\\
-
-=  \mathop{\text{lim}} \limits_{s\to 0+} sR(s) [1 - C(sI-A)^{-1}B ]\\</script><p>if $r(t)=u(t)$, step function, $R(s) = \frac{1}{s}$</p>
-<script type="math/tex; mode=display">
-e_{ss} =  \mathop{\text{lim}} \limits_{s\to 0+}  [1 - C(sI-A)^{-1}B ]\\
-
-=   [1 - C(0*I-A)^{-1}B ]\\
-
-= [1+ C A^{-1}B]</script><p>if $r(t) = tu(t)$, here $R(s) = \frac{1}{s^2}$ only when $[1+ C A^{-1}B]=0$, Steady Error exist</p>
-<script type="math/tex; mode=display">
-e_{ss} =  \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 - C(sI-A)^{-1}B ]}{s}\\
-
-= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 - C(-A)^{-1}B ]}{s} - \frac{[C(sI-A)^{-1}B - C(-A)^{-1}B ]}{s}\\
-
-= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} - C\mathop{\text{lim}} \limits_{s\to 0+} \frac{[(sI-A)^{-1} - (-A)^{-1}]}{s} B\\
-
-= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} - C\mathop{\text{lim}} \limits_{s\to 0+} \frac{d(sI-A)^{-1}}{ds} B\\
-
-= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} + C\mathop{\text{lim}} \limits_{s\to 0+} (sI-A)^{-2} B\\
-
-= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} + CA^{-2} B\\</script>]]></content>
+<p>系统总线：多处理器系统连接各CPU插件板的信息通道；系统机箱底板上；</p>
+<p>外部总线：I/O设备（外设）与系统中其他部件（主机）间的公共通信通路</p>
+<ul>
+<li>SCSI－小型计算机系统互连；</li>
+<li>USB－通用串行总线</li>
+</ul>
+</li>
+</ul>
+<h3 id="ISA总线"><a href="#ISA总线" class="headerlink" title="ISA总线"></a>ISA总线</h3><p>Industry Standard Architecture 16位标准总线，数据传输率16MB/s</p>
+<p>数据线扩展为16位；</p>
+<p>地址线扩展为24位，直接寻址2^24=16MB；</p>
+<p>总线时钟为8MHZ，传输率8M*（16位/8bit）= 16MB/S</p>
+<p>15个外部中断输入和7个DMA通道</p>
+<p>62+36 =98 条信号线</p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/ISA.png" alt="ISA"></p>
+<p>SBHE：System Byte High Enable, when==1 数据总线SD8-SD15—-&gt;高位字节—-&gt;数据总线缓冲器</p>
+<p>$\overline{MEM CS16}$：Memory 16 Bit Chip Select ==1  8位数据传输; ==0  16位数据传输</p>
+<p>$\overline{I/O CS16}$：I/O 16-Bit Chip Select ==1  8位数据传输; ==0  16位数据传输</p>
+<p>$\overline{MASTER}$[总线主模块信号] when扩展卡上有CPU或DMA控制器, ==0  获得总线控制权，并访问系统资源</p>
+<p>OWS：Zero Wait State ==1 完成当前的总线周期，无插入Tw等待周期</p>
+<p>$\overline{SMEMR}\   \overline{SMEMW}$   对系统16MB存储器read,write[$\overline{MEMR}\   \overline{MEMW}$ 1MB范围内的存储器]</p>
+<p>IRQ0-IRQ15：中断请求，主片的IRQ2—&gt;从片(2片8259A)中断请求端INT</p>
+<p>DRQ0、DRQ5-DRQ7：DMA请求，主片的DRQ0—&gt;从片(2片主从式8237A)DMA 请求端</p>
+<p>DACK0、DACK5-DACK7 ：DMA应答信号</p>
+<h3 id="EISA总线"><a href="#EISA总线" class="headerlink" title="EISA总线"></a>EISA总线</h3><p>Extended Industry Standard Architecture 32位标准总线，数据传输率33MB/s</p>
+<p>提高寻址能力(addr)、增加总线宽度(data)、增加控制信号 than ISA：</p>
+<p>地址线为32条，直接寻址范围可达2^32=4GB</p>
+<p>数据宽度为32位，自动进行8位、16位、32位数据转换</p>
+<p>共有198条信号线，其中，98条是ISA原有的</p>
+<p>时钟频率为8.3MHz，传输率为8.3MHz×32b/8b=33.2MB/s</p>
+<h3 id="PCI总线"><a href="#PCI总线" class="headerlink" title="PCI总线"></a>PCI总线</h3><p>Peripheral Component Interconnect  32/64位标准总线，数据传输率132MB/s</p>
+<p>四个主要的标准规格：</p>
+<p>分别支持32位与64位,其下又分成3.3V与5V两种信号</p>
+<p>运行在33MHz或66MHz：数据传输率最大可达66M*(64位/8bit)=528MB/s</p>
+<h4 id="PCI总线特点"><a href="#PCI总线特点" class="headerlink" title="PCI总线特点"></a>PCI总线特点</h4><p>高传输率: PCI频率限于66MHz，最高传输率528MB/s</p>
+<p>高效率: 集成高速缓冲器=&gt;缓冲CPU数据, 支持突发数据传输模式</p>
+<p>即插即用功能</p>
+<ul>
+<li><p>系统和适配器两方面: </p>
+<p>适配器中设EEPROM存按PCI规范的配置信息 </p>
+<p>PCI总线控制器测、调配置信息各参数，每PCI设备配256字节存放配置信息</p>
+</li>
+</ul>
+<p>独立于CPU</p>
+<ul>
+<li>中间连接件机制：PCI控制器 &amp;&amp; CPU  结构无关</li>
+<li>CPU不直接控制外设；</li>
+<li>支持当前、未来CPU</li>
+</ul>
+<p>负载能力强、易于扩展</p>
+<ul>
+<li>负载能力比较强，而且PCI总线—&gt;PCI控制器—&gt;form多级PCI总线—&gt;多个设备</li>
+</ul>
+<h4 id="PCI-总线信号"><a href="#PCI-总线信号" class="headerlink" title="PCI 总线信号"></a>PCI 总线信号</h4><p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI.png" alt="PCI"></p>
+<ul>
+<li><p>1 系统信号</p>
+<p>CLK：总线时钟输入信号0HZ～66MHz,除$\overline{RST}$，$\overline{INTA～D}$外，余信号在CLK 上升沿同步</p>
+<p>$\overline{RST}$: PCI 专用寄存器、定时器相关的信号恢复到规定的初始状态</p>
+</li>
+<li><p>2 地址和数据信号</p>
+<p>AD[31:00]地址/数据复用信号：双向（输入/输出）三态信号</p>
+<p>$C/\overline{BE[3:0]}$总线命令&amp;&amp;字节使能信号:地址期，定义总线命令；数据期，作字节使能</p>
+<ul>
+<li><p>总线命令的作用</p>
+<p>规定主从设备之间传输信息的类型</p>
+<p>0000   中断确认 中断识别命令 </p>
+<p>0001   特殊周期 提供在PCI上的简单广播机制 </p>
+<p>0010   I/O读 从I/O口地址中读数据 </p>
+<p>0011   I/O写 向I/O地址空间写数据</p>
+<p>0110   存储器读 从内存空间中读出数据 </p>
+<p>0111   存储器写 向内存空间写入数据 </p>
+<p>1100   多重存储器读 只要$\overline{FRAME}$==0,保持存取管道连续,以大量传输数据 </p>
+</li>
+</ul>
+<p>PAR奇偶校验信号: 进行偶校验AD[31:00]、$C/\overline{BE[3:0]}$双向</p>
+</li>
+<li><p>3 接口控制信号</p>
+<p>$\overline{FRAME}$：帧同步信号，由启动方驱动，==0 数据帧访问开始&amp;&amp; 数据传输keep</p>
+<p>$\overline{IRDY}$: （Initiator Ready）：启动方准备好信号</p>
+<p>$\overline{TRDY}$:（Target Ready）目标方准备好信号</p>
+<p>$\overline{STOP}$:停止数据传送信号，从设备要求主设备</p>
+<p>$\overline{LOCK}$: 总线锁定信号， ==0时阻其他设备 中断当前的总线周期</p>
+<p>IDSEL: 初始化设备选择信号</p>
+<p>$\overline{DEVSEL}$:  设备选择信号，此信号==0时，通知主设备，从设备被选中</p>
+</li>
+<li><p>4 总线仲裁信号</p>
+<p>$\overline{REQ}$: 总线请求信号，==0 表示驱动它的设备要求使用总线</p>
+<p>$\overline{GNT}$: 总线允许信号，==0仲裁器同意(请求总线的设备)使用总线</p>
+<p>PCI使用同步集中式隐含仲裁。</p>
+<ul>
+<li>对于每个主设备都有唯一的请求($\overline{REQ}$)和允许信号($\overline{GNT}$)连接到仲裁器，利用请求－允许方式完成总线的切换，仲裁过程在上一次访问期间隐性完成。</li>
+</ul>
+<p>仲裁器可以使用先来先服务法、循环轮流法和其他一些优先权排列法</p>
+<p>eg. 设备B的优先级高于设备A。</p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_judge.png" alt="PCI_judge"></p>
+<p>PCI主设备必对它要执行每次传输 请求总线仲裁</p>
+</li>
+</ul>
+<ul>
+<li><p>5 错误报告信号</p>
+<p>$\overline{PERR}$: 数据奇偶校验parity错误报告信号</p>
+<p>$\overline{SERR}$: 系统错误报告信号, PCI的任一设备来驱动</p>
+</li>
+<li><p>6 中断信号</p>
+<p>$\overline{INTA-D}$: 四条中断请求线, 单功能设备只能用$\overline{INTA}$，后三个信号用于多功能设备</p>
+</li>
+<li><p>7 Cache 支持信号</p>
+<p>$\overline{SBO}$: PCI  Cache /bridge的输出信号, PCI总线上高速缓冲存储器子系统的输入信号</p>
+<p>$\overline{SDONE}$:  侦听完成信号。是PCI Cache / bridge 输出信号，在PCI总线上高速缓冲存储器子系统的输入信</p>
+</li>
+<li><p>8 64位总线扩展信号</p>
+<p>AD[63:32] : 扩展的32位地址和数据多路复用线</p>
+<p>$C/\overline{BE[7:4]}$: 总线命令&amp;&amp;字节使能多路复用信号</p>
+<p>$\overline{REQ64}$: 64位传输请求, 本设备要求采用64位传送数据</p>
+<p>$\overline{ACK64}$: 64位传输确认信号，表示目标方同意执行64位传输</p>
+<p>PAR64: 奇偶校验信号，是AD[64:32]和C/BE[7:4]的校验位</p>
+</li>
+<li><p>9 边界扫描信号JTAG</p>
+<p>TCK：边界扫描的测试时钟，用于记录状态信息，测试设备的输入输出数据</p>
+<p>TDI： 测试输入信号，通过串行移位将测试数据和指令送入设备中</p>
+<p>TDO： 测试输出信号，串行移位设备中的输出数据和指令</p>
+<p>TMS： 测试模式选择，用于初始化“测试访问口控制器”的状态</p>
+<p>$\overline{TEST}$: 测试复位，用于初始化“测试访问口控制器”</p>
+</li>
+</ul>
+<h4 id="PCI-数据传输"><a href="#PCI-数据传输" class="headerlink" title="PCI 数据传输"></a>PCI 数据传输</h4><p>由一个地址期和一个或多个数据期所组成</p>
+<p>[地址期为一个时钟周期，数据期可插入Tw，等待由于主or从设备未准备好造成]</p>
+<p>事件在时钟下降沿同步,  在每个时钟周期中间部位发生</p>
+<p>总线设备在总线周期开始的上升沿,  采样总线上的各信号</p>
+<p>信号变化在时钟下降沿  +  信号采样在时钟上升沿</p>
+<p>传输过程: 主设备-&gt;$\overline{FRAME}$==0开始;  $\overline{FRAME}$==1后最后一个数据传输</p>
+<h4 id="PCI编码"><a href="#PCI编码" class="headerlink" title="PCI编码"></a>PCI编码</h4><ul>
+<li><p>I/O空间：位于主机系统</p>
+<p>正向译码：</p>
+<p>负向译码：其他设备未被选中时，由总线扩展桥发$\overline{DEVSEL}$来响应</p>
+</li>
+<li><p>内存空间：位于主机系统</p>
+</li>
+<li><p>配置空间：分布于各个设备中</p>
+<ul>
+<li><p>基本配置空间为256字节。</p>
+<p>头标区(0~3FH)64字节，描述与系统相关的信息</p>
+<p>设备相关区(40H~FFH)192字节，描述设备本身功能细节</p>
+<p>配置寄存器如下</p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set1.png" alt="PCI_set1"></p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set2.png" alt="PCI_set2"></p>
+<p>三种头标类型[头标区(0~3FH)] (前16字节（0～0FH）定义是统一的，后48字节的定义不同)</p>
+<ul>
+<li><p>2类：专用于PCI-CardBus桥</p>
+</li>
+<li><p>1类：专用于PCI-CPI桥</p>
+</li>
+<li><p>0类：适用于普通的PCI设备和CPI扩展桥</p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_head0.png" alt="PCI_head0"></p>
+<p>10H～27H共16+8=24个字节，组成：</p>
+<p>6个32位(4B)寄存器，可申请6个32位寻址存储区，or</p>
+<p>3个64位(8B)寄存器，可申请3个64位寻址存储区，or</p>
+<p>6个32位(4B)寄存器，可申请6个32位寻址IO端口；</p>
+<p>基于映射机制:基址寄存器第0位决定</p>
+<p>0－存储器空间；  1－IO空间</p>
+<p>基址寄存器第1、2位==&gt;存储空间基址寄存器长度32 or 64位&amp;&amp;存储空间大小</p>
+</li>
+</ul>
+</li>
+<li><p>提供设备的各种寄存器地址(映射到统一的空间，用来支持即插即用功能)、设备及其类型、设备运行时需要存储空间和IO接口</p>
+</li>
+<li><p>设备所需存储器和IO端口统一编址，使互不冲突</p>
+</li>
+<li><p>为需要的设备分配中断类型号</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="外部总线"><a href="#外部总线" class="headerlink" title="外部总线"></a>外部总线</h3><p>RS232；</p>
+<p>IDE(IntegratedDrive Electronics)：原指把控制器和盘体集中在一起的硬盘驱动器，主要用于主机和硬盘、光驱、软驱之间的连接</p>
+<p>[ATA（Advanced Technology Attachment）：IDE技术规范归纳成为全球硬盘标准]</p>
+<p>SATA(SerialATA)：SATA规范将硬盘的外部传输速率理论值提高到了150MB/s，比标准ATA/100高出50%。</p>
+<p>SCSI(SmallComputer System Interface)：用于小型机、工作站、服务器或其他多任务、高性能、智能外设。</p>
+<p>USB：通用串行总线</p>
+]]></content>
       <categories>
-        <category>控制原理</category>
-        <category>PNW课件</category>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
       </categories>
       <tags>
-        <tag>control system</tag>
-        <tag>math</tag>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
       </tags>
   </entry>
   <entry>
@@ -3171,229 +2742,6 @@ e_{ss} =  \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 - C(sI-A)^{-1}B ]}{s}\
 <p>设端口地址：208H，209H，波特率因子16，</p>
 <p>1起始位，1停止位，无奇偶校验，每字符8位</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;接收程序</span><br><span class="line">Data segment</span><br><span class="line">buf DB 256 dup(?)</span><br><span class="line">Data ends</span><br><span class="line">...</span><br><span class="line">MOV    DX, 209H</span><br><span class="line">MOV    AL, 40H;复位</span><br><span class="line">OUT     DX, AL</span><br><span class="line">MOV    AL, 01001110B;模式字</span><br><span class="line">OUT     DX, AL</span><br><span class="line">MOV    AL, 00110111B;控制字</span><br><span class="line">OUT     DX, AL</span><br><span class="line">MOV   CX, 256	;接收256字节</span><br><span class="line">MOV   SI, 0</span><br><span class="line">NEXT:MOV DX,209H</span><br><span class="line">     IN   AL,DX    ;状态字</span><br><span class="line">	AND   AL,02H  ;RXRDY？</span><br><span class="line">	JZ   NEXT</span><br><span class="line">	MOV  DX,208H</span><br><span class="line">	IN   AL,DX   ;接收1字符</span><br><span class="line">	MOV buf[SI],AL</span><br><span class="line">	INC SI</span><br><span class="line">	LOOP NEXT</span><br><span class="line">;发送程序</span><br><span class="line">	MOV  DX,  209H</span><br><span class="line">	MOV  AL,  40H		;复位命令。</span><br><span class="line">	OUT  DX,  AL</span><br><span class="line">	MOV  AL,  01001110B	;模式字</span><br><span class="line">	MOV  DX,  AL</span><br><span class="line">	MOV  AL,  00110111B	;控制字</span><br><span class="line">	OUT  DX,  AL</span><br><span class="line">	MOV  CX,  256		;发送256字节</span><br><span class="line">NEXT:MOV  DX, 209H</span><br><span class="line">	IN   AL,  DX		;状态字</span><br><span class="line">	AND  AL,  01H		;TXRDY？</span><br><span class="line">	JZ NEXT</span><br><span class="line">	MOV  AL,  CL</span><br><span class="line"> 	MOV  DX, 208H</span><br><span class="line">	OUT  DX, AL		;发送</span><br><span class="line">	LOOP NEXT</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>计算机组成原理</category>
-        <category>BIT课件</category>
-      </categories>
-      <tags>
-        <tag>computer organization</tag>
-        <tag>assembly language</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ch11微型计算机总线</title>
-    <url>/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/</url>
-    <content><![CDATA[<h2 id="微型计算机总线"><a href="#微型计算机总线" class="headerlink" title="微型计算机总线"></a>微型计算机总线</h2><a id="more"></a>
-<h3 id="总线概述"><a href="#总线概述" class="headerlink" title="总线概述"></a>总线概述</h3><ul>
-<li><p>总线结构的优点：</p>
-<p>便于采用模块化结构设计方法，简化系统设计；</p>
-<p>便于开发相互兼容的硬件板卡和软件，标准总线得到各厂商的支持；</p>
-<p>便于系统的扩充和升级，灵活性好；</p>
-<p>便于故障诊断和维修</p>
-</li>
-<li><p>总线指标</p>
-<p>总线宽度：指一次可以同时传输的数据位数</p>
-<p>总线频率：指总线工作时每秒钟内能传输数据的次数</p>
-<p>传输速率：指每秒钟能够传输的字节数 = 总线宽度 X 总线频率</p>
-<p>eg. PCI总线的宽度为32位=4 B，总线频率为33MHz，所以，PCI的数据传输率为132MB/s(33*4)</p>
-</li>
-<li><p>总线功能分成</p>
-<p>控制总线 [控制其他部件的部件称为总线主控 (master)，被控部件称为从控(slave)]</p>
-<p>地址总线 [地址总线是单向的，即地址信号只能由总线主控至从控。地址总线也是三态的]</p>
-<p>数据总线 [数据总线是双向的。数据总线是三态的]</p>
-<p>(数据总线的根数==总线的宽度)</p>
-</li>
-<li><p>总线的层次结构（内—&gt;外）</p>
-<p>片内总线：CPU或IO芯片内部，用于各功能部件之间</p>
-<p>CPU总线：CPU、RAM、ROM、控制芯片组等芯片之间的信号连接[包括控制总线、地址总线和数据总线]</p>
-<p>局部总线：主机板上的信息通道，连接主机板上各主要部件，通过扩展槽连接各种适配器</p>
-<ul>
-<li>ISA, EISA :(Extended) Industry Standard Architecture 16,32位标准总线，数据传输率16,33MB/s</li>
-<li>MCA : Micro Channel Architecture  32位标准总线，数据传输率40MB/s</li>
-<li>PCI : Peripheral Component Interconnect  32/64位标准总线，数据传输率132MB/s</li>
-<li>VESA : Video Electronic Standard Association  32位标准总线，数据传输率133MB/s</li>
-<li>AGP :  Accelerated Graphics Port 是一种接口标准</li>
-</ul>
-<p>系统总线：多处理器系统连接各CPU插件板的信息通道；系统机箱底板上；</p>
-<p>外部总线：I/O设备（外设）与系统中其他部件（主机）间的公共通信通路</p>
-<ul>
-<li>SCSI－小型计算机系统互连；</li>
-<li>USB－通用串行总线</li>
-</ul>
-</li>
-</ul>
-<h3 id="ISA总线"><a href="#ISA总线" class="headerlink" title="ISA总线"></a>ISA总线</h3><p>Industry Standard Architecture 16位标准总线，数据传输率16MB/s</p>
-<p>数据线扩展为16位；</p>
-<p>地址线扩展为24位，直接寻址2^24=16MB；</p>
-<p>总线时钟为8MHZ，传输率8M*（16位/8bit）= 16MB/S</p>
-<p>15个外部中断输入和7个DMA通道</p>
-<p>62+36 =98 条信号线</p>
-<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/ISA.png" alt="ISA"></p>
-<p>SBHE：System Byte High Enable, when==1 数据总线SD8-SD15—-&gt;高位字节—-&gt;数据总线缓冲器</p>
-<p>$\overline{MEM CS16}$：Memory 16 Bit Chip Select ==1  8位数据传输; ==0  16位数据传输</p>
-<p>$\overline{I/O CS16}$：I/O 16-Bit Chip Select ==1  8位数据传输; ==0  16位数据传输</p>
-<p>$\overline{MASTER}$[总线主模块信号] when扩展卡上有CPU或DMA控制器, ==0  获得总线控制权，并访问系统资源</p>
-<p>OWS：Zero Wait State ==1 完成当前的总线周期，无插入Tw等待周期</p>
-<p>$\overline{SMEMR}\   \overline{SMEMW}$   对系统16MB存储器read,write[$\overline{MEMR}\   \overline{MEMW}$ 1MB范围内的存储器]</p>
-<p>IRQ0-IRQ15：中断请求，主片的IRQ2—&gt;从片(2片8259A)中断请求端INT</p>
-<p>DRQ0、DRQ5-DRQ7：DMA请求，主片的DRQ0—&gt;从片(2片主从式8237A)DMA 请求端</p>
-<p>DACK0、DACK5-DACK7 ：DMA应答信号</p>
-<h3 id="EISA总线"><a href="#EISA总线" class="headerlink" title="EISA总线"></a>EISA总线</h3><p>Extended Industry Standard Architecture 32位标准总线，数据传输率33MB/s</p>
-<p>提高寻址能力(addr)、增加总线宽度(data)、增加控制信号 than ISA：</p>
-<p>地址线为32条，直接寻址范围可达2^32=4GB</p>
-<p>数据宽度为32位，自动进行8位、16位、32位数据转换</p>
-<p>共有198条信号线，其中，98条是ISA原有的</p>
-<p>时钟频率为8.3MHz，传输率为8.3MHz×32b/8b=33.2MB/s</p>
-<h3 id="PCI总线"><a href="#PCI总线" class="headerlink" title="PCI总线"></a>PCI总线</h3><p>Peripheral Component Interconnect  32/64位标准总线，数据传输率132MB/s</p>
-<p>四个主要的标准规格：</p>
-<p>分别支持32位与64位,其下又分成3.3V与5V两种信号</p>
-<p>运行在33MHz或66MHz：数据传输率最大可达66M*(64位/8bit)=528MB/s</p>
-<h4 id="PCI总线特点"><a href="#PCI总线特点" class="headerlink" title="PCI总线特点"></a>PCI总线特点</h4><p>高传输率: PCI频率限于66MHz，最高传输率528MB/s</p>
-<p>高效率: 集成高速缓冲器=&gt;缓冲CPU数据, 支持突发数据传输模式</p>
-<p>即插即用功能</p>
-<ul>
-<li><p>系统和适配器两方面: </p>
-<p>适配器中设EEPROM存按PCI规范的配置信息 </p>
-<p>PCI总线控制器测、调配置信息各参数，每PCI设备配256字节存放配置信息</p>
-</li>
-</ul>
-<p>独立于CPU</p>
-<ul>
-<li>中间连接件机制：PCI控制器 &amp;&amp; CPU  结构无关</li>
-<li>CPU不直接控制外设；</li>
-<li>支持当前、未来CPU</li>
-</ul>
-<p>负载能力强、易于扩展</p>
-<ul>
-<li>负载能力比较强，而且PCI总线—&gt;PCI控制器—&gt;form多级PCI总线—&gt;多个设备</li>
-</ul>
-<h4 id="PCI-总线信号"><a href="#PCI-总线信号" class="headerlink" title="PCI 总线信号"></a>PCI 总线信号</h4><p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI.png" alt="PCI"></p>
-<ul>
-<li><p>1 系统信号</p>
-<p>CLK：总线时钟输入信号0HZ～66MHz,除$\overline{RST}$，$\overline{INTA～D}$外，余信号在CLK 上升沿同步</p>
-<p>$\overline{RST}$: PCI 专用寄存器、定时器相关的信号恢复到规定的初始状态</p>
-</li>
-<li><p>2 地址和数据信号</p>
-<p>AD[31:00]地址/数据复用信号：双向（输入/输出）三态信号</p>
-<p>$C/\overline{BE[3:0]}$总线命令&amp;&amp;字节使能信号:地址期，定义总线命令；数据期，作字节使能</p>
-<ul>
-<li><p>总线命令的作用</p>
-<p>规定主从设备之间传输信息的类型</p>
-<p>0000   中断确认 中断识别命令 </p>
-<p>0001   特殊周期 提供在PCI上的简单广播机制 </p>
-<p>0010   I/O读 从I/O口地址中读数据 </p>
-<p>0011   I/O写 向I/O地址空间写数据</p>
-<p>0110   存储器读 从内存空间中读出数据 </p>
-<p>0111   存储器写 向内存空间写入数据 </p>
-<p>1100   多重存储器读 只要$\overline{FRAME}$==0,保持存取管道连续,以大量传输数据 </p>
-</li>
-</ul>
-<p>PAR奇偶校验信号: 进行偶校验AD[31:00]、$C/\overline{BE[3:0]}$双向</p>
-</li>
-<li><p>3 接口控制信号</p>
-<p>$\overline{FRAME}$：帧同步信号，由启动方驱动，==0 数据帧访问开始&amp;&amp; 数据传输keep</p>
-<p>$\overline{IRDY}$: （Initiator Ready）：启动方准备好信号</p>
-<p>$\overline{TRDY}$:（Target Ready）目标方准备好信号</p>
-<p>$\overline{STOP}$:停止数据传送信号，从设备要求主设备</p>
-<p>$\overline{LOCK}$: 总线锁定信号， ==0时阻其他设备 中断当前的总线周期</p>
-<p>IDSEL: 初始化设备选择信号</p>
-<p>$\overline{DEVSEL}$:  设备选择信号，此信号==0时，通知主设备，从设备被选中</p>
-</li>
-<li><p>4 总线仲裁信号</p>
-<p>$\overline{REQ}$: 总线请求信号，==0 表示驱动它的设备要求使用总线</p>
-<p>$\overline{GNT}$: 总线允许信号，==0仲裁器同意(请求总线的设备)使用总线</p>
-<p>PCI使用同步集中式隐含仲裁。</p>
-<ul>
-<li>对于每个主设备都有唯一的请求($\overline{REQ}$)和允许信号($\overline{GNT}$)连接到仲裁器，利用请求－允许方式完成总线的切换，仲裁过程在上一次访问期间隐性完成。</li>
-</ul>
-<p>仲裁器可以使用先来先服务法、循环轮流法和其他一些优先权排列法</p>
-<p>eg. 设备B的优先级高于设备A。</p>
-<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_judge.png" alt="PCI_judge"></p>
-<p>PCI主设备必对它要执行每次传输 请求总线仲裁</p>
-</li>
-</ul>
-<ul>
-<li><p>5 错误报告信号</p>
-<p>$\overline{PERR}$: 数据奇偶校验parity错误报告信号</p>
-<p>$\overline{SERR}$: 系统错误报告信号, PCI的任一设备来驱动</p>
-</li>
-<li><p>6 中断信号</p>
-<p>$\overline{INTA-D}$: 四条中断请求线, 单功能设备只能用$\overline{INTA}$，后三个信号用于多功能设备</p>
-</li>
-<li><p>7 Cache 支持信号</p>
-<p>$\overline{SBO}$: PCI  Cache /bridge的输出信号, PCI总线上高速缓冲存储器子系统的输入信号</p>
-<p>$\overline{SDONE}$:  侦听完成信号。是PCI Cache / bridge 输出信号，在PCI总线上高速缓冲存储器子系统的输入信</p>
-</li>
-<li><p>8 64位总线扩展信号</p>
-<p>AD[63:32] : 扩展的32位地址和数据多路复用线</p>
-<p>$C/\overline{BE[7:4]}$: 总线命令&amp;&amp;字节使能多路复用信号</p>
-<p>$\overline{REQ64}$: 64位传输请求, 本设备要求采用64位传送数据</p>
-<p>$\overline{ACK64}$: 64位传输确认信号，表示目标方同意执行64位传输</p>
-<p>PAR64: 奇偶校验信号，是AD[64:32]和C/BE[7:4]的校验位</p>
-</li>
-<li><p>9 边界扫描信号JTAG</p>
-<p>TCK：边界扫描的测试时钟，用于记录状态信息，测试设备的输入输出数据</p>
-<p>TDI： 测试输入信号，通过串行移位将测试数据和指令送入设备中</p>
-<p>TDO： 测试输出信号，串行移位设备中的输出数据和指令</p>
-<p>TMS： 测试模式选择，用于初始化“测试访问口控制器”的状态</p>
-<p>$\overline{TEST}$: 测试复位，用于初始化“测试访问口控制器”</p>
-</li>
-</ul>
-<h4 id="PCI-数据传输"><a href="#PCI-数据传输" class="headerlink" title="PCI 数据传输"></a>PCI 数据传输</h4><p>由一个地址期和一个或多个数据期所组成</p>
-<p>[地址期为一个时钟周期，数据期可插入Tw，等待由于主or从设备未准备好造成]</p>
-<p>事件在时钟下降沿同步,  在每个时钟周期中间部位发生</p>
-<p>总线设备在总线周期开始的上升沿,  采样总线上的各信号</p>
-<p>信号变化在时钟下降沿  +  信号采样在时钟上升沿</p>
-<p>传输过程: 主设备-&gt;$\overline{FRAME}$==0开始;  $\overline{FRAME}$==1后最后一个数据传输</p>
-<h4 id="PCI编码"><a href="#PCI编码" class="headerlink" title="PCI编码"></a>PCI编码</h4><ul>
-<li><p>I/O空间：位于主机系统</p>
-<p>正向译码：</p>
-<p>负向译码：其他设备未被选中时，由总线扩展桥发$\overline{DEVSEL}$来响应</p>
-</li>
-<li><p>内存空间：位于主机系统</p>
-</li>
-<li><p>配置空间：分布于各个设备中</p>
-<ul>
-<li><p>基本配置空间为256字节。</p>
-<p>头标区(0~3FH)64字节，描述与系统相关的信息</p>
-<p>设备相关区(40H~FFH)192字节，描述设备本身功能细节</p>
-<p>配置寄存器如下</p>
-<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set1.png" alt="PCI_set1"></p>
-<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set2.png" alt="PCI_set2"></p>
-<p>三种头标类型[头标区(0~3FH)] (前16字节（0～0FH）定义是统一的，后48字节的定义不同)</p>
-<ul>
-<li><p>2类：专用于PCI-CardBus桥</p>
-</li>
-<li><p>1类：专用于PCI-CPI桥</p>
-</li>
-<li><p>0类：适用于普通的PCI设备和CPI扩展桥</p>
-<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_head0.png" alt="PCI_head0"></p>
-<p>10H～27H共16+8=24个字节，组成：</p>
-<p>6个32位(4B)寄存器，可申请6个32位寻址存储区，or</p>
-<p>3个64位(8B)寄存器，可申请3个64位寻址存储区，or</p>
-<p>6个32位(4B)寄存器，可申请6个32位寻址IO端口；</p>
-<p>基于映射机制:基址寄存器第0位决定</p>
-<p>0－存储器空间；  1－IO空间</p>
-<p>基址寄存器第1、2位==&gt;存储空间基址寄存器长度32 or 64位&amp;&amp;存储空间大小</p>
-</li>
-</ul>
-</li>
-<li><p>提供设备的各种寄存器地址(映射到统一的空间，用来支持即插即用功能)、设备及其类型、设备运行时需要存储空间和IO接口</p>
-</li>
-<li><p>设备所需存储器和IO端口统一编址，使互不冲突</p>
-</li>
-<li><p>为需要的设备分配中断类型号</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="外部总线"><a href="#外部总线" class="headerlink" title="外部总线"></a>外部总线</h3><p>RS232；</p>
-<p>IDE(IntegratedDrive Electronics)：原指把控制器和盘体集中在一起的硬盘驱动器，主要用于主机和硬盘、光驱、软驱之间的连接</p>
-<p>[ATA（Advanced Technology Attachment）：IDE技术规范归纳成为全球硬盘标准]</p>
-<p>SATA(SerialATA)：SATA规范将硬盘的外部传输速率理论值提高到了150MB/s，比标准ATA/100高出50%。</p>
-<p>SCSI(SmallComputer System Interface)：用于小型机、工作站、服务器或其他多任务、高性能、智能外设。</p>
-<p>USB：通用串行总线</p>
 ]]></content>
       <categories>
         <category>计算机组成原理</category>
@@ -5036,6 +4384,557 @@ QS0，QS1                                                                  (指�
       </tags>
   </entry>
   <entry>
+    <title>Appendix-settling and peak time</title>
+    <url>/2020/05/15/control_system/Appendix-T_s%20and%20T_p/</url>
+    <content><![CDATA[<h1 id="T-s-and-T-p"><a href="#T-s-and-T-p" class="headerlink" title="T_s and T_p"></a>T_s and T_p</h1><a id="more"></a>
+<script type="math/tex; mode=display">
+G(s) = \frac{\omega_n^2}{s^2 + 2 \zeta \omega_n s + \omega_n^2} \\ 
+= \frac{\omega_n^2}{(s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)(s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)}\\
+= \frac{A}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
+- \frac{A}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}</script><p>here</p>
+<script type="math/tex; mode=display">
+-2A j \sqrt{1-\zeta^2}\omega_n = \omega_n^2 \\
+A = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}</script><p>So</p>
+<script type="math/tex; mode=display">
+G(s) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}} 
+[\frac{1}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
+- \frac{1}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}]\\
+g(t) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}
+[e^{-(\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)t}
+-e^{-(\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)t}]\\
+= \frac{j\omega_n}{2\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t} 
+[-2j\sin(\sqrt{1-\zeta^2}\omega_n t)]\\
+= \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
+\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>So the output:</p>
+<script type="math/tex; mode=display">
+Y(s) = \frac{1}{s} G(s)\\
+y(t) = u(t) * g(t) = \int^t_{0_-} g(\tau) d\tau\\
+\mathbb{L}[y'(t)] = sY(s) - y(0_-) = sY(s) = G(s)</script><p>So we have</p>
+<script type="math/tex; mode=display">
+y'(t) = g(t) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
+\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>Now we want to calculate y(t), consider</p>
+<script type="math/tex; mode=display">
+\int^t_0 e^{-a\tau}\sin(b\tau) d\tau\\
+= \int^t_0 \text{Im}[e^{(-a+jb)\tau}] d\tau\\
+= \text{Im}[ \int^t_0 e^{(-a+jb)\tau} d\tau ]\\
+= \text{Im}[ \frac{1}{a-jb} [1 - e^{(-a+jb)t}] ]\\
+= \text{Im}[ \frac{a+jb}{a^2 + b^2} [1-e^{-at}\cos(bt)
+-je^{-at}\sin(bt)]  ]\\
+= \frac{1}{a^2+b^2} [-ae^{-at}\sin(bt) + b - be^{-at}\cos(bt)]\\
+= \frac{b}{a^2+b^2} - \frac{e^{-at}}{a^2+b^2} \sqrt{a^2+b^2}\sin(bt+\phi)</script><p>Here</p>
+<script type="math/tex; mode=display">
+\tan(\phi) = \frac{b}{a}</script><p>in all</p>
+<script type="math/tex; mode=display">
+y(t) = \int^t_{0_-} g(\tau) d\tau\\
+= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
+\int^t_{0_-} e^{-\zeta\omega_n \tau}
+\sin(\sqrt{1-\zeta^2}\omega_n \tau) d\tau\\
+= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
+[ \frac{\sqrt{1-\zeta^2}\omega_n}{\omega_n^2} - 
+\frac{e^{-\zeta\omega_n t}}{\omega_n}
+\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)]\\
+= 1 - \frac{e^{-\zeta\omega_n t}}{\sqrt{1-\zeta^2}}
+\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)</script><p>Here</p>
+<script type="math/tex; mode=display">
+\tan(\phi) = \frac{\sqrt{1-\zeta^2}}{\zeta}\\
+\sin(\phi) = \sqrt{1-\zeta^2}\\
+\cos(\phi) = \zeta</script><h2 id="Calculate-T-s"><a href="#Calculate-T-s" class="headerlink" title="Calculate T_s"></a>Calculate T_s</h2><p>For T_s</p>
+<script type="math/tex; mode=display">
+T_s = \frac{4}{\zeta \omega_n}\\
+e^{-\zeta\omega_n T_s} = e^{-4} \approx 0.02</script><h2 id="Calculate-overshoot-and-T-p"><a href="#Calculate-overshoot-and-T-p" class="headerlink" title="Calculate overshoot and T_p"></a>Calculate overshoot and T_p</h2><p>set y’(T_p) = 0</p>
+<script type="math/tex; mode=display">
+y'(t=T_p) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n T_p}
+\sin(\sqrt{1-\zeta^2}\omega_n T_p) = 0\\
+\sqrt{1-\zeta^2}\omega_n T_p = \pi\\
+T_p = \frac{\pi}{\sqrt{1-\zeta^2}\omega_n}</script><p>here we have</p>
+<script type="math/tex; mode=display">
+1 + \% = y(t=T_p) \\
+= 1 - \frac{e^{-\zeta\omega_n T_p}}
+{\sqrt{1-\zeta^2}}
+\sin(\sqrt{1-\zeta^2}\omega_n T_p + \phi)\\
+= 1 - \frac{e^{-\zeta\omega_n T_p}}
+{\sqrt{1-\zeta^2}}
+\sin(\pi + \phi)\\
+= 1 + \frac{e^{-\zeta\omega_n T_p}}
+{\sqrt{1-\zeta^2}} \sqrt{1-\zeta^2}\\
+= 1 + e^{-\zeta\omega_n T_p}
+= 1 + e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}</script><p>So, we have</p>
+<script type="math/tex; mode=display">
+\% = e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}\\
+-\frac{\ln(\%)}{\pi} = \frac{\zeta}{\sqrt{1-\zeta^2}}\\
+\frac{-\ln(\%)}{\sqrt{\pi^2 + \ln^2(\%)}} = \zeta</script>]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Appendix-Jury&#39;s Criterion</title>
+    <url>/2020/05/15/control_system/Appendix-Jury&#39;s%20Criterion/</url>
+    <content><![CDATA[<h1 id="Jury’s-Criterion"><a href="#Jury’s-Criterion" class="headerlink" title="Jury’s Criterion"></a>Jury’s Criterion</h1><a id="more"></a>
+<p><img src="/2020/05/15/control_system/Appendix-Jury's%20Criterion/Jury_criterion.png" alt="criteraion"></p>
+<p><img src="/2020/05/15/control_system/Appendix-Jury's%20Criterion/Jury_calculate.png" alt="calculate"></p>
+<p><img src="/2020/05/15/control_system/Appendix-Jury's%20Criterion/Jury_criterion02.png" alt="criterion02"></p>
+<p><img src="/2020/05/15/control_system/Appendix-Jury's%20Criterion/Jury_example.png" alt="example"></p>
+]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 12-Design Via State Space</title>
+    <url>/2020/05/15/control_system/Lecture%2012-Design%20Via%20State%20Space/</url>
+    <content><![CDATA[<h1 id="Design-Via-State-Space"><a href="#Design-Via-State-Space" class="headerlink" title="Design Via State Space"></a>Design Via State Space</h1><a id="more"></a>
+<p>formula often used</p>
+<script type="math/tex; mode=display">
+\zeta = \frac{-ln(\%)}{\sqrt{ln(\%)^2+\pi^2}}\\
+T_s = \frac{4}{\zeta \omega_n}\\
+T_p = \frac{\pi}{\sqrt{1-\zeta^2} \omega_n}</script><p>where T_s represent settling time; T_p represent peak time\<br>so for the polynomial:</p>
+<script type="math/tex; mode=display">
+s^2 + 2\zeta \omega_n s + \omega_n^2\\
+2\zeta \omega_n = \frac{8}{T_s} = \frac{-2 ln(\%)}{T_p}\\
+\omega_n^2 = \frac{16 (ln(\%)^2+\pi^2)}{ln(\%)^2 T_s^2}
+= \frac{ln(\%)^2+\pi^2}{T_p^2}</script><p><img src="/2020/05/15/control_system/Lecture%2012-Design%20Via%20State%20Space/controller_observer.png" alt="controller observer"></p>
+<h2 id="Controllability"><a href="#Controllability" class="headerlink" title="Controllability"></a>Controllability</h2><p>The basic equation set: (D alaways = 0)</p>
+<script type="math/tex; mode=display">
+\dot{X} = A X + B U\\
+Y = C X + D</script><p>Introduce the Controller K always 1xN, \<br>where U always 1x1</p>
+<script type="math/tex; mode=display">
+U = r - KX</script><p>So, we obtain</p>
+<script type="math/tex; mode=display">
+\dot{X} = AX + B(r - K U) = (A-BK)X + Br</script><p>if we could manipulate th poles of $|sI- (A-BK)|$<br>Thus means</p>
+<script type="math/tex; mode=display">
+Y = C \mathbb{L^{-1}}[(sI - (A-BK))^{-1}] * \mathbb{L^{-1}}[BR(s)]</script><h3 id="Transformation"><a href="#Transformation" class="headerlink" title="Transformation"></a>Transformation</h3><p>Here</p>
+<script type="math/tex; mode=display">Z = PX</script><p>We have</p>
+<script type="math/tex; mode=display">
+\dot{Z} = AZ + BU \\
+Y = C Z\\
+U = r - KZ</script><p>That means we have</p>
+<script type="math/tex; mode=display">
+\dot{X} = P^{-1}APX + P^{-1}BU\\
+Y = CPX\\
+U = r - KPX</script><p>Compare with</p>
+<script type="math/tex; mode=display">
+\dot{X} = A_x X + B_x U\\
+Y = C_x X\\
+U = r - K_x X</script><p>So we have:</p>
+<script type="math/tex; mode=display">
+A_x = P^{-1}AP\\
+B_x = P^{-1}B\\
+C_x = CP\\
+K_x = KP</script><p>Then we have</p>
+<script type="math/tex; mode=display">
+C_{Mx} = [B_x \space A_xB_x \cdots A_x^{N-1}B_x] = P^{-1}C_{Mz}</script><p>where X is observer canonical form\<br>Z is other form (like phase variable form, cascade form)</p>
+<script type="math/tex; mode=display">
+P = C_{Mz}C_{Mx}^{-1}\
+
+K_z = K_xP^{-1}</script><h2 id="Observability"><a href="#Observability" class="headerlink" title="Observability"></a>Observability</h2><p><img src="/2020/05/15/control_system/Lecture%2012-Design%20Via%20State%20Space/observer.png" alt="observer"></p>
+<script type="math/tex; mode=display">
+\dot{\hat{X}} = A \hat{X} + BU + L(Y - \hat{Y})\\
+\hat{Y} = C \hat{X}</script><p>so with</p>
+<script type="math/tex; mode=display">
+\dot{X} = A X + B U\\
+Y = C X</script><p>then obtain</p>
+<script type="math/tex; mode=display">
+\dot{X} - \dot{\hat{X}} = A(X - \hat{X}) - LC(X- \hat{X})\\
+=(A-LC) (X - \hat{X})</script><p>define $e_X \equiv (X - \hat{X})$, we have</p>
+<script type="math/tex; mode=display">
+\dot{e}_X = (A-LC) e_X</script><p>If all poles of (A-LC) in the left plane</p>
+<script type="math/tex; mode=display">
+\lim_{t\to \infty} e_X = (X - \hat{X}) = 0</script><p>Then we could use $\hat{X}$ to estimate $X$\<br>regardless the influence of initial value $\hat{X}(0)$ and $X(0)$</p>
+<h3 id="Transformation-1"><a href="#Transformation-1" class="headerlink" title="Transformation"></a>Transformation</h3><script type="math/tex; mode=display">Z = PX</script><p>where X is observer canonical form\<br>Z is other form (like phase variable form, cascade form)</p>
+<script type="math/tex; mode=display">
+(\dot{Z} - \dot{\hat{Z}}) = (A-LC)(Z - \hat{Z})</script><p>Then we have</p>
+<script type="math/tex; mode=display">
+(\dot{X} - \dot{\hat{X}}) = P^{-1}(A-LC)P(X - \hat{X})</script><p>So we have:</p>
+<script type="math/tex; mode=display">
+A_x = P^{-1}AP\\
+B_x = P^{-1}B\\
+C_x = CP\\
+L_x = P^{-1}L</script><p>Now calculate $O_{Mx}$</p>
+<script type="math/tex; mode=display">
+O_{Mx} = \begin{bmatrix}
+C_x\\ C_xA_x\\ \vdots\\ C_xA_x^{N-1}
+\end{bmatrix} = O_{Mz} P</script><p>So, in conclusion:</p>
+<script type="math/tex; mode=display">
+P = O_{Mz}^{-1}O_{Mx}\
+
+L_z = PL_x</script><h2 id="Integral-Control-with-0-Steady-State-Error"><a href="#Integral-Control-with-0-Steady-State-Error" class="headerlink" title="Integral Control with 0 Steady-State Error"></a>Integral Control with 0 Steady-State Error</h2><p><img src="/2020/05/15/control_system/Lecture%2012-Design%20Via%20State%20Space/integral_controller.png" alt="integral_controller"></p>
+<script type="math/tex; mode=display">
+U = V - KX\\
+\frac{(R-Y)}{s} K_e =X_N K_e =  V \equiv \frac{Y}{T(s)}</script><p>So</p>
+<script type="math/tex; mode=display">
+\frac{Y}{R} = \frac{K_e \frac{T(s)}{s}}{1+K_e \frac{T(s)}{s}}</script><p>Then</p>
+<script type="math/tex; mode=display">
+e_{ss} = \lim_{s\to 0+} sR(s) (1 - \frac{Y(s)}{R(s)})\\
+= \lim_{s\to 0+} \frac{1}{1+K_e \frac{T(s)}{s}}\\
+= \lim_{s\to 0+} \frac{s}{s+K_e T(s)} = 0</script><p>Because</p>
+<script type="math/tex; mode=display">
+\dot{x}_{N}=R- Y = R- CX = [-C \space 0]
+\begin{bmatrix}
+X \\ x_N
+\end{bmatrix} + R</script><p>so</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+\dot{X} \\ \dot{x}_N
+\end{bmatrix}=
+\begin{bmatrix}
+A & 0\\
+-C & 0
+\end{bmatrix}
+\begin{bmatrix}
+X \\ x_N
+\end{bmatrix}+
+\begin{bmatrix}
+B \\ 0
+\end{bmatrix}U+
+\begin{bmatrix}
+0 \\ 1
+\end{bmatrix}R</script><p>because</p>
+<script type="math/tex; mode=display">
+U = K_e x_N - K X=[-K\space K_e]
+
+\begin{bmatrix}
+
+X \\ x_N
+
+\end{bmatrix}</script><p>we have</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+\dot{X} \\ \dot{x}_N
+\end{bmatrix}=(
+\begin{bmatrix}
+A & 0\\
+-C & 0
+\end{bmatrix}+
+\begin{bmatrix}
+B \\ 0
+\end{bmatrix}
+[-K\space K_e]
+)
+\begin{bmatrix}
+X \\ x_N
+\end{bmatrix}+
+\begin{bmatrix}
+0 \\ 1
+\end{bmatrix}R\\
+
+=\begin{bmatrix}
+A-BK & BK_e\\
+-C & 0
+\end{bmatrix}
+\begin{bmatrix}
+X \\ x_N
+\end{bmatrix}+
+\begin{bmatrix}
+0 \\ 1
+\end{bmatrix}R</script><h2 id="Why-zero-of-T-s-Not-change-with-Controller"><a href="#Why-zero-of-T-s-Not-change-with-Controller" class="headerlink" title="Why zero of T(s) Not change with Controller"></a>Why zero of T(s) Not change with Controller</h2><p>we know</p>
+<script type="math/tex; mode=display">
+G(s) = \frac{C \text{adj}(sI - A)B}{|sI - A|}\\
+T(s) = \frac{C \text{adj}(sI - A + BK)B}{|sI - A + BK|}</script><p>why the numurator of G(S), T(s) is the same, because $\forall C$, so must prove</p>
+<script type="math/tex; mode=display">
+\text{adj}(sI - A)B = \text{adj}(sI - A + BK)B</script><p>that is mean $\forall A$ (replace sI-A with A)</p>
+<script type="math/tex; mode=display">
+\text{adj}(A)B = \text{adj}(A + BK)B</script><h3 id="lemma-Cramer’s-Rule"><a href="#lemma-Cramer’s-Rule" class="headerlink" title="lemma: Cramer’s Rule"></a>lemma: Cramer’s Rule</h3><p>for $AX = B$, where</p>
+<script type="math/tex; mode=display">
+X = \begin{bmatrix}
+x_1\\
+\vdots\\
+x_i\\
+\vdots\\
+x_N
+\end{bmatrix}</script><p>We have</p>
+<script type="math/tex; mode=display">
+X = A^{-1}B = \frac{\text{adj}(A)B}{|A|} = \frac{|A \stackrel{i}{\leftarrow} B|\text{for x_i}}{|A|}\\
+x_i |A| = \text{adj}(A)B \quad \text{ith element}= |A \stackrel{i}{\leftarrow} B|</script><p>Here</p>
+<script type="math/tex; mode=display">
+A =\left(\mathbf{a}_{1} \cdots \mathbf{a}_{n}\right)\\
+\left(A^{i} \leftarrow B\right) \stackrel{\text { def }}{=}\left(\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & B & {\mathbf{a}_{i+1}} & {\cdots} & {\left.\mathbf{a}_{n}\right)}\end{array}\right.</script><h3 id="proof"><a href="#proof" class="headerlink" title="proof"></a>proof</h3><script type="math/tex; mode=display">
+\text{adj}(A+BK)B \quad \text{ith element}
+= |(A+BK) \stackrel{i}{\leftarrow} B|\\
+= \left|\begin{array}{llllll}{\mathbf{a}_{1}}+k_1B & {\cdots} & {\mathbf{a}_{i-1}}+k_{i-1}B & B & {\cdots} & {\mathbf{a}_{N}+k_NB}|\end{array}\right.\\
+= \left|\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & B & {\cdots} & {\mathbf{a}_{N}}|\end{array}\right.\\
+= |A \stackrel{i}{\leftarrow} B| 
+= \text{adj}(A)B \quad \text{ith element}\\</script><h3 id="Another-rule-A-BK-A-Kadj-A-B"><a href="#Another-rule-A-BK-A-Kadj-A-B" class="headerlink" title="Another rule $|A+BK| = |A| + Kadj(A)B$"></a>Another rule $|A+BK| = |A| + Kadj(A)B$</h3><script type="math/tex; mode=display">
+|A+BK| = \left|\begin{array}{llllll}{\mathbf{a}_{1}}+k_1B & {\cdots} & {\mathbf{a}_{i}}+k_{i}B & {\cdots} & {\mathbf{a}_{N}+k_NB}|\end{array}\right.\\
+= \left|\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & {\cdots} & {\mathbf{a}_{N}}|\end{array}\right. \\
++ \sum_i k_i \left|\begin{array}{llllll}{\mathbf{a}_{1}} & {\cdots} & {\mathbf{a}_{i-1}} & B & {\cdots} & {\mathbf{a}_{N}}|\end{array}\right.\\
+= |A| + \sum_i k_i \space [\text{adj}(A)B \quad \text{ith element}]\\
+= |A| + K \text{adj}(A)B</script><h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><script type="math/tex; mode=display">
+G(s) = \frac{C \text{adj}(sI - A)B}{|sI - A|}
+= \frac{N(s)}{D_1(s)}\\
+T(s) = \frac{C \text{adj}(sI - A + BK)B}{|sI - A + BK|}\\
+= \frac{C \text{adj}(sI - A)B}{|sI - A| + K \text{adj}(sI-A)B} = \frac{N(s)}{D_2(s)}</script><p>if we introduce K_e</p>
+<script type="math/tex; mode=display">
+\frac{Y(s)}{R(s)} \equiv T'(s) = \frac{K_e \frac{T(s)}{s}}{1+K_e \frac{T(s)}{s}}\\
+= \frac{K_e N(s)}{sD_2(s) + K_e N(s)}</script><p>So no matter introduce K and K_e, zeros of T(s) Not change</p>
+]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 13-Linearization</title>
+    <url>/2020/05/15/control_system/Lecture%2013-Linearization/</url>
+    <content><![CDATA[<h1 id="Chap-2-Linearizatin"><a href="#Chap-2-Linearizatin" class="headerlink" title="Chap 2: Linearizatin"></a>Chap 2: Linearizatin</h1><a id="more"></a>
+<script type="math/tex; mode=display">
+y-y_0 = y_0'(x-x_0)</script><h2 id="example-1"><a href="#example-1" class="headerlink" title="example 1"></a>example 1</h2><p>nonlinear r: $i_r = e^{V_r}$<br>so</p>
+<script type="math/tex; mode=display">
+C \frac{dV}{dt} + i_r -i(t) - 2 = 0</script><p>replace</p>
+<script type="math/tex; mode=display">
+V = V_0 + \delta V\\
+i_r = e^{V_r} = e^{V_0 + \delta V}</script><p>So we obtain, here C = 1</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + e^{V_0 + \delta V} - 2 = i(t)</script><p>replace $e^{V_0 + \delta V} \approx e^{V_0} + e^{V_0} \delta V$\<br>So we havee</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + e^{V_0} + e^{V_0} \delta V - 2 = i(t)</script><p>Thus means</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + e^{V_0} \delta V = i(t) + 2 - e^{V_0}</script><p>Because $i_r|_{V_r = V_0} = e^{V_0} = 2, V_0 = ln(2) = 0.693$<br>so, simplyfied equation:</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + 2 \delta V = i(t)</script><p>Then do laplace transform $\mathbb{L}$</p>
+<script type="math/tex; mode=display">
+(s+2)\delta V(s) - \delta V(0_-) = I(s)</script><p>because</p>
+<script type="math/tex; mode=display">
+\int_{0_-}^{\infty} \frac{df(t)}{dt}e^{-st}dt
+= e^{-st} f(t)|_{0_-}^{\infty} + s \int_{0_-}^{\infty} f(t)e^{-st}dt\\
+\mathbb{L}[\frac{df(t)}{dt}] = s\mathbb{L}[f(t)] - f(0_-)</script><h2 id="example-2"><a href="#example-2" class="headerlink" title="example 2"></a>example 2</h2><script type="math/tex; mode=display">
+M \frac{d^2 y(t)}{dt^2} = Mg - \frac{i^2(t)}{y(t)}\\
+
+V(t) = R i(t) + L \frac{d i(t)}{dt}</script><p>V(t) is input, now select varaible</p>
+<script type="math/tex; mode=display">
+X_1 = y(t)\\
+X_2 = \frac{dy(t)}{dt}\\
+X_3 = i(t)</script><p>So we obtain</p>
+<script type="math/tex; mode=display">
+\dot{X_1} = X_2\\
+\dot{X_2} = -\frac{X_3^2}{MX_1} + g\\
+\dot{X_3} = - \frac{R}{L} X_3 + V(t)</script><p>Find balanced point, suppose input $V(t) = V_0 + \Delta V(t), i(t) = i_0 + \Delta i(t), y(t) = y_0 + \Delta y(t)$\<br>Then we have, by set $\dot{X} = 0$</p>
+<script type="math/tex; mode=display">
+0 = \frac{dy(t)}{dt} |_{y(t) = y_0}\\
+0 = Mg- \frac{i_0^2}{y_0}\\
+V_0 = R i_0</script><p>now express Phase variable balanced poit with input balanced point $V_0$</p>
+<script type="math/tex; mode=display">
+i_0 = \frac{V_0}{R}\\
+y_0 = \frac{i_0^2}{Mg} = \frac{V_0^2}{R^2 Mg}</script><p>Thus means</p>
+<script type="math/tex; mode=display">
+X_{10} = y_0 = \frac{V_0^2}{R^2 Mg}\\
+X_{20} = \frac{dy(t)}{dt} |_{y(t) = y_0} = 0\\
+X_{30} = i_0 = \frac{V_0}{R}</script><p>Now define $\delta X \equiv X - X_0, \delta V = V - V_0$</p>
+<script type="math/tex; mode=display">
+\dot{\delta} X_1= \delta X_2\\
+\dot{\delta} X_2= \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_1}|_{X=X_0} \delta X_1 + \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_3}|_{X=X_0} \delta X_3\\
+= [\frac{X_3^2}{MX_1^2}]|_{X=X_0} \delta X_1 + [-\frac{2X_3}{MX_1}]|_{X=X_0} \delta X_3\\
+= \frac{R^2Mg^2}{V_0^2}\delta X_1 + [\frac{-2Rg}{V_0}] \delta X_3\\
+\dot{\delta} X_3 = - \frac{R}{L} \delta X_3 + \delta V(t)</script><p>Thus means</p>
+<script type="math/tex; mode=display">
+\dot{\delta} X = 
+\begin{bmatrix}
+0 & 1 & 0\\
+\frac{R^2Mg^2}{V_0^2} & 0 & \frac{-2Rg}{V_0}\\
+0 & 0 & - \frac{R}{L}
+\end{bmatrix}
+\delta X +
+\begin{bmatrix}
+0\\ 0\\ 1
+\end{bmatrix}
+\delta V</script><p>Then calculate the poles of linearized model:\<br>if poles are all in left plane &lt;=&gt; the model is stable!!!</p>
+<p>Then verify it is Controllable or Not?</p>
+<script type="math/tex; mode=display">
+|C_M| =[B \quad AB \quad A^2B]\
+
+=\begin{bmatrix}
+
+0 & 0 & \frac{-2Rg}{V_0}\\
+
+0 & \frac{-2Rg}{V0} & \frac{2R^2g}{LV0}\\
+
+1 & - \frac{R}{L} & \frac{R^2}{L^2}
+
+\end{bmatrix}
+
+\neq 0</script><p>If so, we could control it, to make the model stable</p>
+]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 2- State Space Representation</title>
+    <url>/2020/05/15/control_system/Lecture%202-%20State%20Space%20Representation/</url>
+    <content><![CDATA[<h1 id="Lecture-2"><a href="#Lecture-2" class="headerlink" title="Lecture 2"></a>Lecture 2</h1><p>Lecture 2- State Space Representation<br><a id="more"></a></p>
+<h2 id="symbols"><a href="#symbols" class="headerlink" title="symbols"></a>symbols</h2><script type="math/tex; mode=display">\dot{X}(t) = AX(t) + BU(t)</script><script type="math/tex; mode=display">Y(t) = CX(t) + DU(t)</script><p>$\dot{X}(t)$ derivative of state vector</p>
+<p>$X(t)$ state vector | nx1</p>
+<p>$Y(t)$ output vector | px1</p>
+<p>$U(t)$ input/control vector | mx1</p>
+<p>$A$ symstem matrix | nxn</p>
+<p>$B$ input matrix | nxm</p>
+<p>$C$ output matrix | pxn</p>
+<p>$D$ feedforward matrix | pxm</p>
+<p>set $X(t)|_{t=0} = 0​$, do Laplace Transfrom</p>
+<script type="math/tex; mode=display">sX(s) = AX(s) + BU(s)​</script><script type="math/tex; mode=display">Y(s) = CX(s) + DU(s)​</script><p>so,</p>
+<script type="math/tex; mode=display">X(s) = (sI-A)^{-1} BU(s) = \frac{adj(sI-A)B}{det(sI-A)} U(s)</script><script type="math/tex; mode=display">Y(s) = [\frac{Cadj(sI-A)B}{det(sI-A)} + D] U(s)</script><p>thus, transfer function $G(s)$</p>
+<script type="math/tex; mode=display">G(s) \equiv \frac{Y(s)}{U(s)} = \frac{Cadj(sI-A)B}{det(sI-A)} + D​</script><p>if $X(t)|_{t=0} = X(0)$</p>
+<script type="math/tex; mode=display">
+sX(s)-X(0) = AX(s) + BU(s)\\
+Y(s) = CX(s) + DU(s)</script><p>then</p>
+<script type="math/tex; mode=display">
+Y(s) = C(sI-A)^{-1}X(0) + C(sI-A)^{-1}BU(s) + DU(s)</script><p>Here set $\Phi(t) \equiv L[(sI-A)^{-1}] = e^{At} = \sum_{k=0}^{\infty} \frac{t^k A^k}{k!}​$</p>
+<p>in other way </p>
+<script type="math/tex; mode=display">
+(sI-A)^{-1} = \Bigg\{
+\begin{aligned}
+-A^{-1}(I-sA^{-1})^{-1} = -A^{-1}[\sum^{\infty}_{k=0}s^kA^{-k}]  && |s|< \lambda_{min}\\
+s^{-1}(I-\frac{A}{s})^{-1} = \frac{1}{s}[\sum^{\infty}_{k=0}s^{-k}A^{k}]  && |s|> \lambda_{max}\\
+
+\end{aligned}</script><p>Here $\frac{1}{s^{k+1}} = L^{-1}[\frac{t^k}{k!}]$</p>
+<p>So we can get $(sI-A)^{-1}|_{s=0} = -A^{-1}, \lim_{s\to \infty} s(sI-A)^{-1}=I​$</p>
+]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 3-Signal Flow Graph</title>
+    <url>/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/</url>
+    <content><![CDATA[<h1 id="5-6-Signal-Flow-Graphs-of-State-Equations"><a href="#5-6-Signal-Flow-Graphs-of-State-Equations" class="headerlink" title="5.6 Signal-Flow Graphs of State Equations"></a>5.6 Signal-Flow Graphs of State Equations</h1><a id="more"></a>
+<p>P254 of edition 7 book<br>Forms:</p>
+<ol>
+<li>Phase variable</li>
+<li>Cascade</li>
+<li>Parallel</li>
+<li>Controller canonical</li>
+<li>Observer canonical</li>
+</ol>
+<script type="math/tex; mode=display">
+G(s) = \frac{b_m s^m + ... + b_0}{s^n + a_{n-1} s^{n-1} + ... + a_0 }</script><h2 id="Phase-variable"><a href="#Phase-variable" class="headerlink" title="Phase variable"></a>Phase variable</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/phase_variable.png" alt="phase variable"></p>
+<p>define $X_1(s) \equiv R(s)/(s^n + a_{n-1} s^{n-1} + … + a_0)$ \<br>Then define $X_2(s) = sX_1(s),\cdots, X_{n}(s)=sX_{n-1}(s)$\<br>So $X_{k}(s) = s^{k-1} X_1(s)$</p>
+<p>then</p>
+<script type="math/tex; mode=display">
+R(s) = (s^n + a_{n-1} s^{n-1} + ... + a_0)X_1(s)\\
+=sX_n(s) + (a_{n-1}X_n(s) + ... + a_0 X_1(s))</script><p>rearrange it</p>
+<script type="math/tex; mode=display">
+sX_{k}(s) = X_{k+1}(s)\\
+sX_n(s) = -(a_0X_1(s) + ... + a_{n-1} X_n(s)) + R(s)</script><p>Moreover</p>
+<script type="math/tex; mode=display">
+C(s) = (b_m s^m + ... + b_0)X_1(s)\\
+= b_m X_{m+1}(s) + ... + b_0 X_1(s)</script><p>So </p>
+<script type="math/tex; mode=display">
+A=
+\begin{bmatrix}
+0 & 1 &  0 & \cdots & 0\\
+0 & 0 &  1 & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots\\
+0 & 0 &  0 & \cdots & 1\\
+-a_0 & -a_1 & -a_2 & \cdots & -a_{n-1}
+\end{bmatrix}
+B = 
+\begin{bmatrix}
+0\\ 0\\ \vdots\\ 0\\ 1
+\end{bmatrix}
+\\
+C = 
+\begin{bmatrix}
+b_0 & \cdots & b_{m+1} & \cdots & 0
+\end{bmatrix}</script><p>and</p>
+<script type="math/tex; mode=display">\dot{X} = AX + Br\\
+Y = CX</script><h2 id="Cascade"><a href="#Cascade" class="headerlink" title="Cascade"></a>Cascade</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/cascade.png" alt="cascade"></p>
+<script type="math/tex; mode=display">
+G(s) = \prod \frac{1}{s-s_k} \prod \frac{s-p_k}{s-s_k} * K</script><p>define $X_n(s) = R(s) \frac{1}{s-s_n}$, here $sX_n(s) = s_n X_n(s) + R(s)$</p>
+<p>define $A_k(s) = A_{k+1}(s) \frac{s-p_k}{s-s_k}$</p>
+<p>moreover</p>
+<script type="math/tex; mode=display">
+A_{k+1}(s) + s_k X_k(s) = sX_k(s)\\
+sX_k(s) - p_kX_k(s) = A_k(s)</script><p>so</p>
+<script type="math/tex; mode=display">
+sX_k(s) = p_kX_k(s) + A_k(s)\\
+= p_kX_k(s) + (s-s_{k-1})X_{k-1}(s)\\
+s[X_k(s)-X_{k-1}(s)] = p_kX_k(s) -s_{k-1}X_{k-1}(s)</script><h2 id="Parallel"><a href="#Parallel" class="headerlink" title="Parallel"></a>Parallel</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/parallel.png" alt="parallel"></p>
+<script type="math/tex; mode=display">
+G(s) = \sum \frac{t_k}{s- s_k}</script><p>then define $X_k(s) \equiv R(s)\frac{t_k}{s- s_k}$</p>
+<p>so</p>
+<script type="math/tex; mode=display">
+sX_k(s) = s_kX_k(s) + t_kR(s)\\
+Y(s) = \sum X_k(s)</script><h2 id="Controller-canonical"><a href="#Controller-canonical" class="headerlink" title="Controller canonical"></a>Controller canonical</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/controller_canonical.png" alt="controller canonical"></p>
+<p>reverse $X_1, …, X_n$ to $X_n,…, X_1$\<br>So 中心对称反射</p>
+<script type="math/tex; mode=display">
+A=
+\begin{bmatrix}
+-a_{n-1} & \cdots & -a_2 & -a_1  & -a_0\\
+1 & 0 & \cdots & 0 & 0\\
+0 & 1 & \cdots & 0 & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots\\
+0 & 0 &  \cdots & 1 & 0\\
+\end{bmatrix}
+B = 
+\begin{bmatrix}
+1\\ 0\\ \vdots\\ 0\\ 0
+\end{bmatrix}
+\\
+C = 
+\begin{bmatrix}
+0 & 0 & \cdots & b_{m+1} & \cdots& b_0
+\end{bmatrix}</script><p>and</p>
+<script type="math/tex; mode=display">\dot{X} = AX + Br\\
+Y = CX</script><h2 id="Observer-canonical"><a href="#Observer-canonical" class="headerlink" title="Observer canonical"></a>Observer canonical</h2><p><img src="/2020/05/15/control_system/Lecture%203-Signal%20Flow%20Graph/observer_canonical.png" alt="observer canonical"><br>reverse $C(s)&lt;=&gt;R(s)$\<br>reverse $X&lt;=&gt;\dot{X}$\<br>change direction of arrows</p>
+<script type="math/tex; mode=display">
+G(s) = C(sI-A)^{-1}B\\
+=G(s)^T = B^T(sI-A^T)^{-1}C^T</script><p>So here $A \Leftarrow A^T$\<br>$B \Leftarrow C^T$\<br>$C \Leftarrow B^T$\<br>So</p>
+<script type="math/tex; mode=display">
+A=
+\begin{bmatrix}
+-a_{n-1} & 1 & 0 & 0  & 0\\
+-a_{n-2} & 0 & 1 & 0 & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots\\
+-a_1 & 0 &  \cdots & 0 & 1\\
+-a_0 & 0 &  \cdots & 0 & 0\\
+\end{bmatrix}
+B = 
+\begin{bmatrix}
+0\\ 0\\ \vdots\\ b_{m+1}\\ \vdots\\b_0
+\end{bmatrix}
+\\
+C = 
+\begin{bmatrix}
+1& 0& \cdots& 0& 0
+\end{bmatrix}</script><p>and</p>
+<script type="math/tex; mode=display">
+\dot{X} = AX + Br\\
+
+Y = CX</script>]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>DTFT</title>
     <url>/2020/05/15/dsp/DTFT/</url>
     <content><![CDATA[<h2 id="DTFT"><a href="#DTFT" class="headerlink" title="DTFT"></a>DTFT</h2><script type="math/tex; mode=display">
@@ -5175,6 +5074,106 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
       <tags>
         <tag>math</tag>
         <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 4-Stability and Steady Error</title>
+    <url>/2020/05/15/control_system/Lecture%204-Stability%20and%20Steady%20Error/</url>
+    <content><![CDATA[<h3 id="Routh-Hurwitz-Criterion"><a href="#Routh-Hurwitz-Criterion" class="headerlink" title="Routh-Hurwitz Criterion"></a>Routh-Hurwitz Criterion</h3><a id="more"></a>
+<p>系统稳定的充分必要条件是：劳斯表中第一列所有元素的计算值均大于零。</p>
+<ul>
+<li>如果第一列中出现一个小于零的值，系统就不稳定；</li>
+<li>如果第一列中有等于零的值，说明系统处于临界稳定状态；</li>
+<li>第一列中数据符号改变的次数等于系统特征方程正实部根的数目，即系统中不稳定根的个数。</li>
+</ul>
+<p>tell how many closed-loop system poles are </p>
+<p>in the left half-plane, in the right half-plane, and on the jω-axis.</p>
+<p>example 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	R(&quot;R(s)&quot;)--&gt;|input| G(&quot;G(s)&quot;)</span><br><span class="line">	G--&gt;|output| C(&quot;C(s)&quot;)</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+G(s) = \frac{N(s)}{a_{4} s^{4}+a_{3} s^{3}+a_{2} s^{2}+a_{1} s+a_{0}}</script><p>here is Routh table:</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+{s^{4} \quad a_{4} \quad a_{2} \quad a_{0}} \\ 
+{s^{3} \quad a_{3}} \quad {a_{1} \quad 0} \\ 
+{s^{2}} \quad \frac{-\left|\begin{array}{ll}{a_{4}} & {a_{2}} \\ {a_{3}} & {a_{1}}\end{array}\right|}{a_{3}}=b_{1} \quad \frac{-\left|\begin{array}{ll}{a_{4}} & {a_{0}} \\ {a_{3}} & {0}\end{array}\right|}{a_3}=b_{2} \quad \frac{-\left|\begin{array}{ll}{a_{4}} & {0} \\ {a_{3}} & {0}\end{array}\right|}{a_{3}}=0\\ 
+s^{1} \quad \frac{-\left|\begin{array}{ll}{a_{3}} & {a_{1}} \\ {b_{1}} & {b_{2}}\end{array}\right|}{b_{1}}=c_{1} \quad \quad \frac{-\left|\begin{array}{ll}{a_{3}} & {0} \\ {b_{1}} & {0}\end{array}\right|}{b_{1}}=0 \quad \frac{-\left|\begin{array}{ll}{a_{3}} & {0} \\ {b_{1}} & {0}\end{array}\right|}{b_{1}}=0 \\ 
+s^{0} \quad \frac{-\left|\begin{array}{cc}{b_{1}} & {b_{2}} \\ {c_{1}} & {0}\end{array}\right|}{c_1}=d_{1} \quad \frac{-\left|\begin{array}{cc}{b_{1}} & {0} \\ {c_{1}} & {0}\end{array}\right|}{c_{1}}=0 \quad \quad \frac{-\left|\begin{array}{cc}{b_{1}} & {0} \\ {c_{1}} & {0}\end{array}\right|}{c_{1}}=0
+\end{array}</script><h4 id="a-if-Zero-Only-in-the-First-Column"><a href="#a-if-Zero-Only-in-the-First-Column" class="headerlink" title="(a) if Zero Only in the First Column"></a>(a) if Zero Only in the First Column</h4><p>If the first element of a row is zero, division by zero would be required to form the next row. To avoid this phenomenon, an epsilon, ε, is assigned to replace the zero in the first column. </p>
+<p>The value ε is then allowed to approach zero from either the positive or the negative side, after which the signs of the entries in the first column can be determined.</p>
+<script type="math/tex; mode=display">
+T(s)=\frac{10}{s^{5}+2 s^{4}+3 s^{3}+6 s^{2}+5 s+3}</script><p>用一个小正数代替零元素继续列表</p>
+<p>Routh Table:</p>
+<script type="math/tex; mode=display">
+\begin{array}{llll}
+\hline
+{s^{5}} & {1} & {3} & {5} \\ 
+{s^{4}} & {2} & {6} & {3} \\ 
+{s^{3}} & {\epsilon} & {\frac{7}{2}} & {0} \\ 
+{s^{2}} & {\frac{6 \epsilon-7}{\epsilon}} & {3} & {0} \\ 
+{s^{1}} & {\frac{42 \epsilon-49-6 \epsilon^{2}}{12 \epsilon-14}} & {0} & {0} \\
+\hline
+\end{array}</script><p>So</p>
+<script type="math/tex; mode=display">
+\begin{array}{|c|c|c|}
+\hline \text { Label } & {\text { First column }} & {\epsilon=+} & {\epsilon=-} \\ 
+\hline s^{5} & {1} & {+} & {+} \\ 
+{s^{4}} & {2} & {+} & {+} \\ 
+{s^{3}} & {\epsilon} & {+} & {-} \\ 
+{s^{2}} & {\frac{6 \epsilon-7}{\epsilon}} & {-} & {+} \\
+{s^{1}} & {\frac{42 \epsilon-49-6 \epsilon^{2}}{12 \epsilon-14}}& {+} & {+} \\ 
+{s^{0}} & {3} & {+} & {+} \\ 
+\hline
+\end{array}</script><h4 id="b-Entire-Row-is-Zero"><a href="#b-Entire-Row-is-Zero" class="headerlink" title="(b) Entire Row is Zero"></a>(b) Entire Row is Zero</h4><p>We now look at the second special case. Sometimes while making a Routh table, we find<br>that an entire row consists of zeros</p>
+<p>出现全0行=&gt;方程中有</p>
+<p>一对大小相等、符号相反的实根，</p>
+<p>或一对纯虚根，</p>
+<p>或对称于s平面原点的共轭复根。</p>
+<p>This symmetry can occur under three conditions of root position:<br>(1) The roots are symmetrical and real, </p>
+<p>(2) the roots are symmetrical and imaginary, or </p>
+<p>(3) the roots are quadrantal. (四个共轭，对称的根)</p>
+<p>列表时先用全零行的上一行构成辅助方程，它的根就是原方程的特殊根。</p>
+<p>再将辅助方程求导，用求导后的方程代替全零行</p>
+<p>继续下去直到得到全部劳思表</p>
+<h3 id="MATLAB-code"><a href="#MATLAB-code" class="headerlink" title="MATLAB code"></a>MATLAB code</h3><p>to find the closed-loop transfer function, T(s), and the closed-loop poles.</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">numg = <span class="number">128</span>;</span><br><span class="line">deng = [<span class="number">1</span> <span class="number">3</span> <span class="number">10</span> <span class="number">24</span> ...</span><br><span class="line">		<span class="number">48</span> <span class="number">96</span> <span class="number">128</span> <span class="number">192</span> <span class="number">0</span>];</span><br><span class="line">G = tf(numg, deng);</span><br><span class="line">T = feedback(G, <span class="number">1</span>); <span class="comment">% T(s) = G(s) / [1 + G(s)]</span></span><br><span class="line">poles = pole(T)</span><br></pre></td></tr></table></figure>
+<h3 id="Steady-Error"><a href="#Steady-Error" class="headerlink" title="Steady Error"></a>Steady Error</h3><p>大前提：已经Routh-Hurwitz Criterion验证是稳定的</p>
+<p>if D = 0</p>
+<script type="math/tex; mode=display">
+e_{ss}
+
+= \mathop{\text{lim}} \limits_{t\to+\infty} [r(t) - c(t)]\\
+
+=  \mathop{\text{lim}} \limits_{s\to 0+} s[R(s) - C(s)]\\
+
+=  \mathop{\text{lim}} \limits_{s\to 0+} sR(s) [1 - T(s)]\\
+
+=  \mathop{\text{lim}} \limits_{s\to 0+} sR(s) [1 - C(sI-A)^{-1}B ]\\</script><p>if $r(t)=u(t)$, step function, $R(s) = \frac{1}{s}$</p>
+<script type="math/tex; mode=display">
+e_{ss} =  \mathop{\text{lim}} \limits_{s\to 0+}  [1 - C(sI-A)^{-1}B ]\\
+
+=   [1 - C(0*I-A)^{-1}B ]\\
+
+= [1+ C A^{-1}B]</script><p>if $r(t) = tu(t)$, here $R(s) = \frac{1}{s^2}$ only when $[1+ C A^{-1}B]=0$, Steady Error exist</p>
+<script type="math/tex; mode=display">
+e_{ss} =  \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 - C(sI-A)^{-1}B ]}{s}\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 - C(-A)^{-1}B ]}{s} - \frac{[C(sI-A)^{-1}B - C(-A)^{-1}B ]}{s}\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} - C\mathop{\text{lim}} \limits_{s\to 0+} \frac{[(sI-A)^{-1} - (-A)^{-1}]}{s} B\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} - C\mathop{\text{lim}} \limits_{s\to 0+} \frac{d(sI-A)^{-1}}{ds} B\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} + C\mathop{\text{lim}} \limits_{s\to 0+} (sI-A)^{-2} B\\
+
+= \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 + CA^{-1}B ]}{s} + CA^{-2} B\\</script>]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
       </tags>
   </entry>
   <entry>
@@ -6064,6 +6063,25 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
+    <title>linux安装MATLAB</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85MATLAB/</url>
+    <content><![CDATA[<h2 id="linux安装MATLAB"><a href="#linux安装MATLAB" class="headerlink" title="linux安装MATLAB"></a>linux安装MATLAB</h2><a id="more"></a>
+<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><p>下载安装包rar后, 解压为iso</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Downloads$ rar x MATHWORKS_R2014A.part1.rar</span><br><span class="line">RAR <span class="number">5</span>.<span class="number">30</span> beta <span class="number">2</span>   Copyright (c) <span class="number">1993</span>-<span class="number">2015</span> Alexander Roshal   <span class="number">4</span> Aug <span class="number">2015</span></span><br><span class="line">Trial version             <span class="built_in">Type</span> RAR -? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">Extracting from MATHWORKS_R2014A.part1.rar</span><br><span class="line">Extracting  MATHWORKS_R2014A.iso                                      <span class="number">58</span>%</span><br><span class="line">Extracting from MATHWORKS_R2014A.part2.rar</span><br><span class="line">...         MATHWORKS_R2014A.iso                                      OK </span><br><span class="line">All OK</span><br></pre></td></tr></table></figure>
+<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>安装matlab<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">mkdir</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">mount</span> -<span class="title">o</span> <span class="title">loop</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">MATHWORKS_R2014A.iso</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">mount</span>: /<span class="title">dev</span>/<span class="title">loop0</span> <span class="title">is</span> <span class="title">write</span>-<span class="title">protected</span>, <span class="title">mounting</span> <span class="title">read</span>-<span class="title">only</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cd</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">sudo</span> ./<span class="title">install</span></span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">installation</span> <span class="title">files</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Installing</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Finished</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><p>破解matlab</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">cd</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">cp</span> <span class="title">libmwservices.so</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">matlab</span></span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>matlab</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux安装LaTeX工具</title>
     <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85LaTeX%E5%B7%A5%E5%85%B7/</url>
     <content><![CDATA[<h2 id="linux安装LaTeX工具"><a href="#linux安装LaTeX工具" class="headerlink" title="linux安装LaTeX工具"></a>linux安装LaTeX工具</h2><a id="more"></a>
@@ -6091,21 +6109,22 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>linux安装MATLAB</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85MATLAB/</url>
-    <content><![CDATA[<h2 id="linux安装MATLAB"><a href="#linux安装MATLAB" class="headerlink" title="linux安装MATLAB"></a>linux安装MATLAB</h2><a id="more"></a>
-<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><p>下载安装包rar后, 解压为iso</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Downloads$ rar x MATHWORKS_R2014A.part1.rar</span><br><span class="line">RAR <span class="number">5</span>.<span class="number">30</span> beta <span class="number">2</span>   Copyright (c) <span class="number">1993</span>-<span class="number">2015</span> Alexander Roshal   <span class="number">4</span> Aug <span class="number">2015</span></span><br><span class="line">Trial version             <span class="built_in">Type</span> RAR -? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">Extracting from MATHWORKS_R2014A.part1.rar</span><br><span class="line">Extracting  MATHWORKS_R2014A.iso                                      <span class="number">58</span>%</span><br><span class="line">Extracting from MATHWORKS_R2014A.part2.rar</span><br><span class="line">...         MATHWORKS_R2014A.iso                                      OK </span><br><span class="line">All OK</span><br></pre></td></tr></table></figure>
-<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>安装matlab<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">mkdir</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">mount</span> -<span class="title">o</span> <span class="title">loop</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">MATHWORKS_R2014A.iso</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">mount</span>: /<span class="title">dev</span>/<span class="title">loop0</span> <span class="title">is</span> <span class="title">write</span>-<span class="title">protected</span>, <span class="title">mounting</span> <span class="title">read</span>-<span class="title">only</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cd</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">sudo</span> ./<span class="title">install</span></span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">installation</span> <span class="title">files</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Installing</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Finished</span></span></span><br></pre></td></tr></table></figure></p>
-<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><p>破解matlab</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">cd</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">cp</span> <span class="title">libmwservices.so</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">matlab</span></span></span><br></pre></td></tr></table></figure>
+    <title>linux安装Quartus软件FPGA部分</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85Quartus%E8%BD%AF%E4%BB%B6FPGA%E9%83%A8%E5%88%86/</url>
+    <content><![CDATA[<h2 id="linux安装Quartus软件FPGA部分"><a href="#linux安装Quartus软件FPGA部分" class="headerlink" title="linux安装Quartus软件FPGA部分"></a>linux安装Quartus软件FPGA部分</h2><a id="more"></a>
+<p>问题解决+启动方式</p>
+<p>比如, 安装Quartus16后</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">Crack_Quartus_Prime_Standard_Pro_16</span>.1<span class="title">_Linux</span># <span class="title">cp</span> <span class="title">libgcl_afcq.so</span> /<span class="title">opt</span>/<span class="title">intelFPGA</span>/16.1/<span class="title">quartus</span>/<span class="title">linux64</span>/</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">Crack_Quartus_Prime_Standard_Pro_16</span>.1<span class="title">_Linux</span># <span class="title">cp</span> <span class="title">libsys_cpt.so</span> /<span class="title">opt</span>/<span class="title">intelFPGA</span>/16.1/<span class="title">quartus</span>/<span class="title">linux64</span>/</span></span><br></pre></td></tr></table></figure>
+<p>然后启动Quartus16验证<br><figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">root<span class="variable">@pad</span><span class="symbol">:/home/dassein/Downloads/Crack_Quartus_Prime_Standard_Pro_16</span>.<span class="number">1_</span>Linux<span class="comment"># /opt/intelFPGA/16.1/quartus/bin/quartus</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="option"><a href="#option" class="headerlink" title="option"></a>option</h3><p>对于Quartus13, Quartus15网络web版，类似操作后<br>然后启动Quartus15网络web版验证</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">Crack_Quartus_Prime_Standard_Pro_16</span>.1<span class="title">_Linux</span># /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span>   //15.0 <span class="title">web</span> 版</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>linux</category>
         <category>软件安装</category>
       </categories>
       <tags>
-        <tag>matlab</tag>
+        <tag>Quartus</tag>
         <tag>linux</tag>
       </tags>
   </entry>
@@ -6129,26 +6148,6 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
 <figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:/<span class="title">mnt</span>/<span class="title">Quartus</span>-<span class="title">web</span>-15.0.0.145$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">Quartus</span>-<span class="title">web</span>-15.0.0.145# ./<span class="title">setup.sh</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">GConf</span>-<span class="title">WARNING</span> **: <span class="title">Client</span> <span class="title">failed</span> <span class="title">to</span> <span class="title">connect</span> <span class="title">to</span> <span class="title">the</span> <span class="title">D</span>-<span class="title">BUS</span> <span class="title">daemon</span>:</span></span><br><span class="line"><span class="function"><span class="title">Did</span> <span class="title">not</span> <span class="title">receive</span> <span class="title">a</span> <span class="title">reply</span>. <span class="title">Possible</span> <span class="title">causes</span> <span class="title">include</span>: <span class="title">the</span> <span class="title">remote</span> <span class="title">application</span> <span class="title">did</span> <span class="title">not</span> <span class="title">send</span> <span class="title">a</span> <span class="title">reply</span>, <span class="title">the</span> <span class="title">message</span> <span class="title">bus</span> <span class="title">security</span> <span class="title">policy</span> <span class="title">blocked</span> <span class="title">the</span> <span class="title">reply</span>, <span class="title">the</span> <span class="title">reply</span> <span class="title">timeout</span> <span class="title">expired</span>, <span class="title">or</span> <span class="title">the</span> <span class="title">network</span> <span class="title">connection</span> <span class="title">was</span> <span class="title">broken</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">GLib</span>-<span class="title">GIO</span>-<span class="title">CRITICAL</span> **: <span class="title">g_dbus_connection_register_object</span>: <span class="title">assertion</span> '<span class="title">G_IS_DBUS_CONNECTION</span> (<span class="title">connection</span>)' <span class="title">failed</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Qt</span>: <span class="title">Session</span> <span class="title">management</span> <span class="title">error</span>: <span class="title">None</span> <span class="title">of</span> <span class="title">the</span> <span class="title">authentication</span> <span class="title">protocols</span> <span class="title">specified</span> <span class="title">are</span> <span class="title">supported</span></span></span><br><span class="line"><span class="function"><span class="title">Inconsistency</span> <span class="title">detected</span> <span class="title">by</span> <span class="title">ld.so</span>: <span class="title">dl</span>-<span class="title">close.c</span>: 811: <span class="title">_dl_close</span>: <span class="title">Assertion</span> `<span class="title">map</span>-&gt;<span class="title">l_init_called</span>' <span class="title">failed</span>!</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">Gtk</span>-<span class="title">WARNING</span> **: <span class="title">Error</span> <span class="title">loading</span> <span class="title">theme</span> <span class="title">icon</span> '<span class="title">window</span>-<span class="title">close</span>' <span class="title">for</span> <span class="title">stock</span>: <span class="title">Unable</span> <span class="title">to</span> <span class="title">load</span> <span class="title">image</span>-<span class="title">loading</span> <span class="title">module</span>: /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">gdk</span>-<span class="title">pixbuf</span>-2.0/2.10.0/<span class="title">loaders</span>/<span class="title">libpixbufloader</span>-<span class="title">svg.so</span>: /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">linux64</span>/<span class="title">libstdc</span>++.<span class="title">so</span>.6: <span class="title">version</span> `<span class="title">CXXABI_1</span>.3.8' <span class="title">not</span> <span class="title">found</span> (<span class="title">required</span> <span class="title">by</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libicuuc.so</span>.57)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">Gtk</span>-<span class="title">WARNING</span> **: <span class="title">Error</span> <span class="title">loading</span> <span class="title">theme</span> <span class="title">icon</span> '<span class="title">dialog</span>-<span class="title">information</span>' <span class="title">for</span> <span class="title">stock</span>: <span class="title">Unable</span> <span class="title">to</span> <span class="title">load</span> <span class="title">image</span>-<span class="title">loading</span> <span class="title">module</span>: /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">gdk</span>-<span class="title">pixbuf</span>-2.0/2.10.0/<span class="title">loaders</span>/<span class="title">libpixbufloader</span>-<span class="title">svg.so</span>: /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">linux64</span>/<span class="title">libstdc</span>++.<span class="title">so</span>.6: <span class="title">version</span> `<span class="title">CXXABI_1</span>.3.8' <span class="title">not</span> <span class="title">found</span> (<span class="title">required</span> <span class="title">by</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libicuuc.so</span>.57)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">GConf</span>-<span class="title">WARNING</span> **: <span class="title">Client</span> <span class="title">failed</span> <span class="title">to</span> <span class="title">connect</span> <span class="title">to</span> <span class="title">the</span> <span class="title">D</span>-<span class="title">BUS</span> <span class="title">daemon</span>:</span></span><br><span class="line"><span class="function"><span class="title">Did</span> <span class="title">not</span> <span class="title">receive</span> <span class="title">a</span> <span class="title">reply</span>. <span class="title">Possible</span> <span class="title">causes</span> <span class="title">include</span>: <span class="title">the</span> <span class="title">remote</span> <span class="title">application</span> <span class="title">did</span> <span class="title">not</span> <span class="title">send</span> <span class="title">a</span> <span class="title">reply</span>, <span class="title">the</span> <span class="title">message</span> <span class="title">bus</span> <span class="title">security</span> <span class="title">policy</span> <span class="title">blocked</span> <span class="title">the</span> <span class="title">reply</span>, <span class="title">the</span> <span class="title">reply</span> <span class="title">timeout</span> <span class="title">expired</span>, <span class="title">or</span> <span class="title">the</span> <span class="title">network</span> <span class="title">connection</span> <span class="title">was</span> <span class="title">broken</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">Gtk</span>-<span class="title">WARNING</span> **: <span class="title">Error</span> <span class="title">loading</span> <span class="title">theme</span> <span class="title">icon</span> '<span class="title">dialog</span>-<span class="title">information</span>' <span class="title">for</span> <span class="title">stock</span>: <span class="title">Unable</span> <span class="title">to</span> <span class="title">load</span> <span class="title">image</span>-<span class="title">loading</span> <span class="title">module</span>: /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">gdk</span>-<span class="title">pixbuf</span>-2.0/2.10.0/<span class="title">loaders</span>/<span class="title">libpixbufloader</span>-<span class="title">svg.so</span>: /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">linux64</span>/<span class="title">libstdc</span>++.<span class="title">so</span>.6: <span class="title">version</span> `<span class="title">CXXABI_1</span>.3.8' <span class="title">not</span> <span class="title">found</span> (<span class="title">required</span> <span class="title">by</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libicuuc.so</span>.57)</span></span><br><span class="line"><span class="function">/<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">firefox</span>/<span class="title">firefox</span>: /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">linux64</span>/<span class="title">libstdc</span>++.<span class="title">so</span>.6: <span class="title">version</span> `<span class="title">GLIBCXX_3</span>.4.21' <span class="title">not</span> <span class="title">found</span> (<span class="title">required</span> <span class="title">by</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">firefox</span>/<span class="title">firefox</span>)</span></span><br></pre></td></tr></table></figure>
 <h2 id="安装Quartus16-optional"><a href="#安装Quartus16-optional" class="headerlink" title="安装Quartus16 [optional]"></a>安装Quartus16 [optional]</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">axel -n <span class="number">4</span> -o /home/dassein/Downloads http://download.altera.com/akdlm/software/acdsinst/<span class="number">16</span>.<span class="number">1</span>.<span class="number">2</span>/<span class="number">203</span>/ib_tar/Quartus-<span class="number">16</span>.<span class="number">1</span>.<span class="number">2</span>.<span class="number">203</span>-linux-complete.tar</span><br></pre></td></tr></table></figure>
 <p>之后, 同理运行setup.sh</p>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>Quartus</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux安装Quartus软件FPGA部分</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85Quartus%E8%BD%AF%E4%BB%B6FPGA%E9%83%A8%E5%88%86/</url>
-    <content><![CDATA[<h2 id="linux安装Quartus软件FPGA部分"><a href="#linux安装Quartus软件FPGA部分" class="headerlink" title="linux安装Quartus软件FPGA部分"></a>linux安装Quartus软件FPGA部分</h2><a id="more"></a>
-<p>问题解决+启动方式</p>
-<p>比如, 安装Quartus16后</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">Crack_Quartus_Prime_Standard_Pro_16</span>.1<span class="title">_Linux</span># <span class="title">cp</span> <span class="title">libgcl_afcq.so</span> /<span class="title">opt</span>/<span class="title">intelFPGA</span>/16.1/<span class="title">quartus</span>/<span class="title">linux64</span>/</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">Crack_Quartus_Prime_Standard_Pro_16</span>.1<span class="title">_Linux</span># <span class="title">cp</span> <span class="title">libsys_cpt.so</span> /<span class="title">opt</span>/<span class="title">intelFPGA</span>/16.1/<span class="title">quartus</span>/<span class="title">linux64</span>/</span></span><br></pre></td></tr></table></figure>
-<p>然后启动Quartus16验证<br><figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">root<span class="variable">@pad</span><span class="symbol">:/home/dassein/Downloads/Crack_Quartus_Prime_Standard_Pro_16</span>.<span class="number">1_</span>Linux<span class="comment"># /opt/intelFPGA/16.1/quartus/bin/quartus</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="option"><a href="#option" class="headerlink" title="option"></a>option</h3><p>对于Quartus13, Quartus15网络web版，类似操作后<br>然后启动Quartus15网络web版验证</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">Crack_Quartus_Prime_Standard_Pro_16</span>.1<span class="title">_Linux</span># /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span>   //15.0 <span class="title">web</span> 版</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -6203,6 +6202,32 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
+    <title>linux安装jdk</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85jdk/</url>
+    <content><![CDATA[<h2 id="linux安装jdk"><a href="#linux安装jdk" class="headerlink" title="linux安装jdk"></a>linux安装jdk</h2><a id="more"></a>
+<p><a href="http://www.linuxidc.com/Linux/2016-07/133482.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2016-07/133482.htm</a>   安装jdk和eclipse</p>
+<h3 id="准备jdk"><a href="#准备jdk" class="headerlink" title="准备jdk"></a>准备jdk</h3><p><a href="https://www.oracle.com/java/technologies/javase-jdk8-downloads.html" target="_blank" rel="noopener">https://www.oracle.com/java/technologies/javase-jdk8-downloads.html</a> oracle的jdk 8的下载页<br>访问oracle的jdk 8的下载页, 登录java帐号, 下载<code>jdk-8u121-linux-x64.tar.gz</code></p>
+<h3 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h3><p>jdk放置<code>/opt/jvm</code>, 并解压</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">mv</span>   /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">jdk</span>-8<span class="title">u121</span>-<span class="title">linux</span>-<span class="title">x64.tar.gz</span> /<span class="title">opt</span>/<span class="title">jvm</span>/</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">sudo</span> <span class="title">tar</span> <span class="title">zxvf</span> /<span class="title">opt</span>/<span class="title">jvm</span>/<span class="title">jdk</span>-8<span class="title">u121</span>-<span class="title">linux</span>-<span class="title">x64.tar.gz</span> -<span class="title">C</span> /<span class="title">opt</span>/<span class="title">jvm</span></span></span><br><span class="line"><span class="function"><span class="title">jdk1</span>.8.0<span class="title">_121</span>/</span></span><br><span class="line"><span class="function"><span class="title">jdk1</span>.8.0<span class="title">_121</span>/<span class="title">THIRDPARTYLICENSEREADME</span>-<span class="title">JAVAFX.txt</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="配置jdk的环境变量"><a href="#配置jdk的环境变量" class="headerlink" title="配置jdk的环境变量"></a>配置jdk的环境变量</h3><p>打开 <code>/etc/profile</code> 即(<code>sudo vim /etc/profile</code>), 在文件末尾添加语句</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/opt/jvm/jdk1.8.0_121</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<p>保存后退出</p>
+<p>使其立即生效：<code>sudo source /etc/profile</code></p>
+<p>查看是否安装成功：<code>java -version</code> 出现 <code>java version &quot;1.8.0_121&quot;</code></p>
+<p>说明jdk安装成功</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">sudo</span> <span class="title">vim</span> /<span class="title">etc</span>/<span class="title">profile</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">source</span> /<span class="title">etc</span>/<span class="title">profile</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~$ <span class="title">java</span> -<span class="title">version</span></span></span><br><span class="line"><span class="function"><span class="title">java</span> <span class="title">version</span> "1.8.0<span class="title">_121</span>"</span></span><br><span class="line"><span class="function"><span class="title">Java</span>(<span class="title">TM</span>) <span class="title">SE</span> <span class="title">Runtime</span> <span class="title">Environment</span> (<span class="title">build</span> 1.8.0<span class="title">_121</span>-<span class="title">b13</span>)</span></span><br><span class="line"><span class="function"><span class="title">Java</span> <span class="title">HotSpot</span>(<span class="title">TM</span>) 64-<span class="title">Bit</span> <span class="title">Server</span> <span class="title">VM</span> (<span class="title">build</span> 25.121-<span class="title">b13</span>, <span class="title">mixed</span> <span class="title">mode</span>)</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>jdk</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux安装eclipse</title>
     <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85eclipse/</url>
     <content><![CDATA[<h2 id="linux安装eclipse"><a href="#linux安装eclipse" class="headerlink" title="linux安装eclipse"></a>linux安装eclipse</h2><a id="more"></a>
@@ -6231,34 +6256,8 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </categories>
       <tags>
         <tag>linux</tag>
+        <tag>java</tag>
         <tag>eclipse</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux安装jdk</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85jdk/</url>
-    <content><![CDATA[<h2 id="linux安装jdk"><a href="#linux安装jdk" class="headerlink" title="linux安装jdk"></a>linux安装jdk</h2><a id="more"></a>
-<p><a href="http://www.linuxidc.com/Linux/2016-07/133482.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2016-07/133482.htm</a>   安装jdk和eclipse</p>
-<h3 id="准备jdk"><a href="#准备jdk" class="headerlink" title="准备jdk"></a>准备jdk</h3><p><a href="https://www.oracle.com/java/technologies/javase-jdk8-downloads.html" target="_blank" rel="noopener">https://www.oracle.com/java/technologies/javase-jdk8-downloads.html</a> oracle的jdk 8的下载页<br>访问oracle的jdk 8的下载页, 登录java帐号, 下载<code>jdk-8u121-linux-x64.tar.gz</code></p>
-<h3 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h3><p>jdk放置<code>/opt/jvm</code>, 并解压</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">mv</span>   /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">jdk</span>-8<span class="title">u121</span>-<span class="title">linux</span>-<span class="title">x64.tar.gz</span> /<span class="title">opt</span>/<span class="title">jvm</span>/</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">sudo</span> <span class="title">tar</span> <span class="title">zxvf</span> /<span class="title">opt</span>/<span class="title">jvm</span>/<span class="title">jdk</span>-8<span class="title">u121</span>-<span class="title">linux</span>-<span class="title">x64.tar.gz</span> -<span class="title">C</span> /<span class="title">opt</span>/<span class="title">jvm</span></span></span><br><span class="line"><span class="function"><span class="title">jdk1</span>.8.0<span class="title">_121</span>/</span></span><br><span class="line"><span class="function"><span class="title">jdk1</span>.8.0<span class="title">_121</span>/<span class="title">THIRDPARTYLICENSEREADME</span>-<span class="title">JAVAFX.txt</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="配置jdk的环境变量"><a href="#配置jdk的环境变量" class="headerlink" title="配置jdk的环境变量"></a>配置jdk的环境变量</h3><p>打开 <code>/etc/profile</code> 即(<code>sudo vim /etc/profile</code>), 在文件末尾添加语句</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/opt/jvm/jdk1.8.0_121</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
-<p>保存后退出</p>
-<p>使其立即生效：<code>sudo source /etc/profile</code></p>
-<p>查看是否安装成功：<code>java -version</code> 出现 <code>java version &quot;1.8.0_121&quot;</code></p>
-<p>说明jdk安装成功</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">sudo</span> <span class="title">vim</span> /<span class="title">etc</span>/<span class="title">profile</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">source</span> /<span class="title">etc</span>/<span class="title">profile</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~$ <span class="title">java</span> -<span class="title">version</span></span></span><br><span class="line"><span class="function"><span class="title">java</span> <span class="title">version</span> "1.8.0<span class="title">_121</span>"</span></span><br><span class="line"><span class="function"><span class="title">Java</span>(<span class="title">TM</span>) <span class="title">SE</span> <span class="title">Runtime</span> <span class="title">Environment</span> (<span class="title">build</span> 1.8.0<span class="title">_121</span>-<span class="title">b13</span>)</span></span><br><span class="line"><span class="function"><span class="title">Java</span> <span class="title">HotSpot</span>(<span class="title">TM</span>) 64-<span class="title">Bit</span> <span class="title">Server</span> <span class="title">VM</span> (<span class="title">build</span> 25.121-<span class="title">b13</span>, <span class="title">mixed</span> <span class="title">mode</span>)</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
-        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>
@@ -6275,32 +6274,6 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
         <tag>linux</tag>
         <tag>typora</tag>
         <tag>markdown</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux安装understand</title>
-    <url>/2020/05/17/linux_install/linux%E5%AE%89%E8%A3%85understand/</url>
-    <content><![CDATA[<h2 id="linux安装understand"><a href="#linux安装understand" class="headerlink" title="linux安装understand"></a>linux安装understand</h2><a id="more"></a>
-<p><a href="https://www.macxin.com/archives/10419.html" target="_blank" rel="noopener">https://www.macxin.com/archives/10419.html</a>  understand下载+破解器</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>提前官网下载 Understand-5.1.1023-Linux-64bit.tgz<br>解压：tar -xvzf Understand-*.tgz</p>
-<h4 id="法1"><a href="#法1" class="headerlink" title="法1"></a>法1</h4><p>把解压出来的understand可执行文件添加到环境变量：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> "export <span class="built_in">PATH</span>=$<span class="built_in">PATH</span>:/home/dassein/scitools/bin/linux64" &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">echo</span> "export STIHOME=/home/dassein/scitools" &gt;&gt; /etc/profile</span><br><span class="line"></span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
-<h4 id="法2"><a href="#法2" class="headerlink" title="法2"></a>法2</h4><p>或者 用vscode编辑, 手动添加<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">code /etc/profile</span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
-<p>添加/etc/profile文件内容:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/home/dassein/scitools/bin/linux64</span><br><span class="line"><span class="built_in">export</span> STIHOME=/home/dassein/scitools</span><br></pre></td></tr></table></figure>
-<p>然后, 重启则所有用户生效<br>(使用修改.bashrc文件（在用户的家目录下）进行环境变量的编辑，只对当前用户有用。<br>使用修改 /etc/profile 文件进行环境变量的编辑，是对所有用户有用。大家一定要注意区别。)</p>
-<h3 id="破解"><a href="#破解" class="headerlink" title="破解"></a>破解</h3><p>提前准备好破解文件夹Scientific Toolworks Understand 5.1.1023 x86</p>
-<p>运行understand<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/dassein/scitools/bin/linux64</span><br><span class="line">./understand</span><br></pre></td></tr></table></figure></p>
-<p>Enter License Code -&gt; Options -&gt; Use Legacy Licensing -&gt; Add Eval or SDL (RegCode) -&gt; use keygen AMPED and any e-mail</p>
-<p>此处keygen AMPED由破解文件夹Scientific Toolworks Understand 5.1.1023 x86内<br>/Keygen-AMPED/keygen.exe运行给出</p>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>understand</tag>
-        <tag>code analysis</tag>
       </tags>
   </entry>
   <entry>
@@ -6447,6 +6420,32 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       <tags>
         <tag>linux</tag>
         <tag>GPT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux安装understand</title>
+    <url>/2020/05/17/linux_install/linux%E5%AE%89%E8%A3%85understand/</url>
+    <content><![CDATA[<h2 id="linux安装understand"><a href="#linux安装understand" class="headerlink" title="linux安装understand"></a>linux安装understand</h2><a id="more"></a>
+<p><a href="https://www.macxin.com/archives/10419.html" target="_blank" rel="noopener">https://www.macxin.com/archives/10419.html</a>  understand下载+破解器</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>提前官网下载 Understand-5.1.1023-Linux-64bit.tgz<br>解压：tar -xvzf Understand-*.tgz</p>
+<h4 id="法1"><a href="#法1" class="headerlink" title="法1"></a>法1</h4><p>把解压出来的understand可执行文件添加到环境变量：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> "export <span class="built_in">PATH</span>=$<span class="built_in">PATH</span>:/home/dassein/scitools/bin/linux64" &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">echo</span> "export STIHOME=/home/dassein/scitools" &gt;&gt; /etc/profile</span><br><span class="line"></span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
+<h4 id="法2"><a href="#法2" class="headerlink" title="法2"></a>法2</h4><p>或者 用vscode编辑, 手动添加<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">code /etc/profile</span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
+<p>添加/etc/profile文件内容:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/home/dassein/scitools/bin/linux64</span><br><span class="line"><span class="built_in">export</span> STIHOME=/home/dassein/scitools</span><br></pre></td></tr></table></figure>
+<p>然后, 重启则所有用户生效<br>(使用修改.bashrc文件（在用户的家目录下）进行环境变量的编辑，只对当前用户有用。<br>使用修改 /etc/profile 文件进行环境变量的编辑，是对所有用户有用。大家一定要注意区别。)</p>
+<h3 id="破解"><a href="#破解" class="headerlink" title="破解"></a>破解</h3><p>提前准备好破解文件夹Scientific Toolworks Understand 5.1.1023 x86</p>
+<p>运行understand<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/dassein/scitools/bin/linux64</span><br><span class="line">./understand</span><br></pre></td></tr></table></figure></p>
+<p>Enter License Code -&gt; Options -&gt; Use Legacy Licensing -&gt; Add Eval or SDL (RegCode) -&gt; use keygen AMPED and any e-mail</p>
+<p>此处keygen AMPED由破解文件夹Scientific Toolworks Understand 5.1.1023 x86内<br>/Keygen-AMPED/keygen.exe运行给出</p>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>understand</tag>
+        <tag>code analysis</tag>
       </tags>
   </entry>
   <entry>
