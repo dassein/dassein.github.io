@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CNN的matlab实现</title>
+    <url>/2020/05/15/CNN_matlab/</url>
+    <content><![CDATA[<h2 id="CNN的matlab实现"><a href="#CNN的matlab实现" class="headerlink" title="CNN的matlab实现"></a>CNN的matlab实现</h2><p><a href="http://blog.csdn.net/zouxy09/article/details/9993371/" target="_blank" rel="noopener">http://blog.csdn.net/zouxy09/article/details/9993371/</a>  CNN卷积神经网络推导和实现 (math)</p>
+<p><a href="http://blog.csdn.net/zouxy09/article/details/9993743" target="_blank" rel="noopener">http://blog.csdn.net/zouxy09/article/details/9993743</a>  CNN卷积神经网络代码理解 (matlab)</p>
+<p><a href="https://github.com/rasmusbergpalm/DeepLearnToolbox" target="_blank" rel="noopener">https://github.com/rasmusbergpalm/DeepLearnToolbox</a>  DeepLearnToolbox (matlab)</p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+        <category>CV</category>
+      </categories>
+      <tags>
+        <tag>matlab</tag>
+        <tag>CNN</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C语句</title>
     <url>/2020/05/16/C%E8%AF%AD%E5%8F%A5/</url>
     <content><![CDATA[<h2 id="C语句"><a href="#C语句" class="headerlink" title="C语句"></a>C语句</h2><a id="more"></a>
@@ -39,19 +55,35 @@
       </tags>
   </entry>
   <entry>
-    <title>CNN的matlab实现</title>
-    <url>/2020/05/15/CNN_matlab/</url>
-    <content><![CDATA[<h2 id="CNN的matlab实现"><a href="#CNN的matlab实现" class="headerlink" title="CNN的matlab实现"></a>CNN的matlab实现</h2><p><a href="http://blog.csdn.net/zouxy09/article/details/9993371/" target="_blank" rel="noopener">http://blog.csdn.net/zouxy09/article/details/9993371/</a>  CNN卷积神经网络推导和实现 (math)</p>
-<p><a href="http://blog.csdn.net/zouxy09/article/details/9993743" target="_blank" rel="noopener">http://blog.csdn.net/zouxy09/article/details/9993743</a>  CNN卷积神经网络代码理解 (matlab)</p>
-<p><a href="https://github.com/rasmusbergpalm/DeepLearnToolbox" target="_blank" rel="noopener">https://github.com/rasmusbergpalm/DeepLearnToolbox</a>  DeepLearnToolbox (matlab)</p>
+    <title>Hexo 的主题中渲染 MathJax 数学公式</title>
+    <url>/2020/05/13/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="Hexo-的主题中渲染-MathJax-数学公式"><a href="#Hexo-的主题中渲染-MathJax-数学公式" class="headerlink" title="Hexo 的主题中渲染 MathJax 数学公式"></a>Hexo 的主题中渲染 MathJax 数学公式</h2><p><a href="https://blog.csdn.net/wgshun616/article/details/81019687" target="_blank" rel="noopener">https://blog.csdn.net/wgshun616/article/details/81019687</a></p>
+<a id="more"></a>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>Hexo 默认使用 hexo-renderer-marked 引擎渲染网页，该引擎会把一些特殊的 markdown 符号转换为相应的 html 标签，比如在 markdown 语法中，下划线<code>_</code>代表斜体，会被渲染引擎处理为<code>&lt;em&gt;</code>标签。</p>
+<p>因为类 Latex 格式书写的数学公式下划线<code>_</code>表示下标，有特殊的含义，如果被强制转换为<code>&lt;em&gt;</code>标签，那么 MathJax 引擎在渲染数学公式的时候就会出错。</p>
+<p>类似的语义冲突的符号还包括<code>*</code>, <code>{</code>, <code>}</code>, <code>\\</code>等。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ul>
+<li>更换 Hexo 的 markdown 渲染引擎:</li>
+</ul>
+<p>hexo-renderer-kramed 引擎是在默认的渲染引擎 </p>
+<p>hexo-renderer-marked 的基础上修改了一些 bug ，两者比较接近，也比较轻量级。</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+<ul>
+<li>行内公式的渲染还是有问题，因为 hexo-renderer-kramed 引擎也有语义冲突的问题。</li>
+</ul>
+<p>博客根目录下，找到node_modules\kramed\lib\rules\inline.js，</p>
+<p>第11行的 escape 变量的值做相应的修改：(在原基础上取消了对\,{,}的转义(escape)。)</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="built_in">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure>
+<p>第20行的em变量也要做相应的修改。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="comment">//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>深度学习</category>
-        <category>CV</category>
+        <category>前端</category>
+        <category>博客</category>
       </categories>
       <tags>
-        <tag>matlab</tag>
-        <tag>CNN</tag>
+        <tag>Hexo</tag>
+        <tag>MathJax</tag>
       </tags>
   </entry>
   <entry>
@@ -91,38 +123,6 @@
       </categories>
       <tags>
         <tag>matlab</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo 的主题中渲染 MathJax 数学公式</title>
-    <url>/2020/05/13/Hexo%20%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%AD%E6%B8%B2%E6%9F%93%20MathJax%20%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="Hexo-的主题中渲染-MathJax-数学公式"><a href="#Hexo-的主题中渲染-MathJax-数学公式" class="headerlink" title="Hexo 的主题中渲染 MathJax 数学公式"></a>Hexo 的主题中渲染 MathJax 数学公式</h2><p><a href="https://blog.csdn.net/wgshun616/article/details/81019687" target="_blank" rel="noopener">https://blog.csdn.net/wgshun616/article/details/81019687</a></p>
-<a id="more"></a>
-<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>Hexo 默认使用 hexo-renderer-marked 引擎渲染网页，该引擎会把一些特殊的 markdown 符号转换为相应的 html 标签，比如在 markdown 语法中，下划线<code>_</code>代表斜体，会被渲染引擎处理为<code>&lt;em&gt;</code>标签。</p>
-<p>因为类 Latex 格式书写的数学公式下划线<code>_</code>表示下标，有特殊的含义，如果被强制转换为<code>&lt;em&gt;</code>标签，那么 MathJax 引擎在渲染数学公式的时候就会出错。</p>
-<p>类似的语义冲突的符号还包括<code>*</code>, <code>{</code>, <code>}</code>, <code>\\</code>等。</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ul>
-<li>更换 Hexo 的 markdown 渲染引擎:</li>
-</ul>
-<p>hexo-renderer-kramed 引擎是在默认的渲染引擎 </p>
-<p>hexo-renderer-marked 的基础上修改了一些 bug ，两者比较接近，也比较轻量级。</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
-<ul>
-<li>行内公式的渲染还是有问题，因为 hexo-renderer-kramed 引擎也有语义冲突的问题。</li>
-</ul>
-<p>博客根目录下，找到node_modules\kramed\lib\rules\inline.js，</p>
-<p>第11行的 escape 变量的值做相应的修改：(在原基础上取消了对\,{,}的转义(escape)。)</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="built_in">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure>
-<p>第20行的em变量也要做相应的修改。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="comment">//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>前端</category>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>MathJax</tag>
       </tags>
   </entry>
   <entry>
@@ -227,44 +227,6 @@
       <tags>
         <tag>presentation</tag>
         <tag>ppt</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>volatile关键字</title>
-    <url>/2020/05/15/volatile%E5%85%B3%E9%94%AE%E5%AD%97/</url>
-    <content><![CDATA[<h2 id="volatile-易变的"><a href="#volatile-易变的" class="headerlink" title="volatile: 易变的"></a>volatile: 易变的</h2><p><a href="https://blog.csdn.net/huhuandk/article/details/92771038" target="_blank" rel="noopener">https://blog.csdn.net/huhuandk/article/details/92771038</a> C语言中volatile关键字的作用</p>
-<h3 id="volatile作用"><a href="#volatile作用" class="headerlink" title="volatile作用"></a>volatile作用</h3><p>访问寄存器要比访问内存单元快的多,所以编译器一般都会作减少存取内存的优化，但有可能会读脏数据</p>
-<ul>
-<li>当要求使用volatile声明变量值的时候，系统总是重新从它所在的内存读取数据，即使它前面的指令刚刚从该处读取过数据。</li>
-<li>遇到这个关键字声明的变量，编译器对访问该变量的代码就不再进行优化，从而可以提供对特殊地址的稳定访问；</li>
-<li>如果不使用valatile，则编译器将对所声明的语句进行优化。</li>
-</ul>
-<h3 id="使用volatile变量的几个场景"><a href="#使用volatile变量的几个场景" class="headerlink" title="使用volatile变量的几个场景"></a>使用volatile变量的几个场景</h3><ol>
-<li>中断服务程序中修改的供其它程序检测的变量需要加volatile</li>
-<li>多任务环境下各任务间共享的标志应该加volatile</li>
-<li>存储器映射的硬件寄存器通常也要加voliate，因为每次对它的读写都可能有不同意义</li>
-</ol>
-<h3 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h3><ol>
-<li>一个参数既可以是const还可以是volatile吗？</li>
-</ol>
-<blockquote>
-<p>可以的，例如只读的状态寄存器。它是volatile因为它可能被意想不到地改变。它是const因为程序不应该试图去修改它。</p>
-</blockquote>
-<ol>
-<li>一个指针可以是volatile 吗？</li>
-</ol>
-<blockquote>
-<p>可以，当一个中断服务子程序修该一个指向一个buffer的指针时 </p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>C</category>
-        <category>语法</category>
-      </categories>
-      <tags>
-        <tag>C</tag>
-        <tag>linux</tag>
-        <tag>compile</tag>
       </tags>
   </entry>
   <entry>
@@ -641,6 +603,44 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </tags>
   </entry>
   <entry>
+    <title>volatile关键字</title>
+    <url>/2020/05/15/volatile%E5%85%B3%E9%94%AE%E5%AD%97/</url>
+    <content><![CDATA[<h2 id="volatile-易变的"><a href="#volatile-易变的" class="headerlink" title="volatile: 易变的"></a>volatile: 易变的</h2><p><a href="https://blog.csdn.net/huhuandk/article/details/92771038" target="_blank" rel="noopener">https://blog.csdn.net/huhuandk/article/details/92771038</a> C语言中volatile关键字的作用</p>
+<h3 id="volatile作用"><a href="#volatile作用" class="headerlink" title="volatile作用"></a>volatile作用</h3><p>访问寄存器要比访问内存单元快的多,所以编译器一般都会作减少存取内存的优化，但有可能会读脏数据</p>
+<ul>
+<li>当要求使用volatile声明变量值的时候，系统总是重新从它所在的内存读取数据，即使它前面的指令刚刚从该处读取过数据。</li>
+<li>遇到这个关键字声明的变量，编译器对访问该变量的代码就不再进行优化，从而可以提供对特殊地址的稳定访问；</li>
+<li>如果不使用valatile，则编译器将对所声明的语句进行优化。</li>
+</ul>
+<h3 id="使用volatile变量的几个场景"><a href="#使用volatile变量的几个场景" class="headerlink" title="使用volatile变量的几个场景"></a>使用volatile变量的几个场景</h3><ol>
+<li>中断服务程序中修改的供其它程序检测的变量需要加volatile</li>
+<li>多任务环境下各任务间共享的标志应该加volatile</li>
+<li>存储器映射的硬件寄存器通常也要加voliate，因为每次对它的读写都可能有不同意义</li>
+</ol>
+<h3 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h3><ol>
+<li>一个参数既可以是const还可以是volatile吗？</li>
+</ol>
+<blockquote>
+<p>可以的，例如只读的状态寄存器。它是volatile因为它可能被意想不到地改变。它是const因为程序不应该试图去修改它。</p>
+</blockquote>
+<ol>
+<li>一个指针可以是volatile 吗？</li>
+</ol>
+<blockquote>
+<p>可以，当一个中断服务子程序修该一个指向一个buffer的指针时 </p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>C</category>
+        <category>语法</category>
+      </categories>
+      <tags>
+        <tag>C</tag>
+        <tag>linux</tag>
+        <tag>compile</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>不可替代性</title>
     <url>/2020/05/16/%E4%B8%8D%E5%8F%AF%E6%9B%BF%E4%BB%A3%E6%80%A7/</url>
     <content><![CDATA[<h2 id="不可替代性"><a href="#不可替代性" class="headerlink" title="不可替代性"></a>不可替代性</h2><a id="more"></a>
@@ -700,35 +700,6 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </tags>
   </entry>
   <entry>
-    <title>摘要怎么写 [PARI法]</title>
-    <url>/2020/05/15/%E6%91%98%E8%A6%81%E6%80%8E%E4%B9%88%E5%86%99_PARI/</url>
-    <content><![CDATA[<h2 id="摘要怎么写-PARI法"><a href="#摘要怎么写-PARI法" class="headerlink" title="摘要怎么写 [PARI法]"></a>摘要怎么写 [PARI法]</h2><p>P = Problem: 文章要解决什么问题</p>
-<p>A = Approach: 文章用得是什么方法解决提出的问题</p>
-<p>R = Results: 解决了问题得到了些什么结果</p>
-<p>I = Impacts: 这些结果有什么具体理论或者实际的影响<br><a id="more"></a></p>
-<p>先按照以下四个句式写四句话，概括研究成果：</p>
-<p>The problem I am trying to solve in thispaper is …</p>
-<p>The approach I adopt to solve the problemis …</p>
-<p>The results obtained in this researchinclude …</p>
-<p>The impacts of our obtained results are …</p>
-<p>更详细些，加上前面:  简短做啥的 + background</p>
-<ol>
-<li>what is the subject matter/area the research is dealing with?</li>
-<li>what background information?总结现状的基础上提出问题</li>
-<li>what is the purpose of the present study?   P</li>
-<li>how is the research to be done?   A</li>
-<li>what are some of the important findings?   R</li>
-<li>what are some of the implications of the study?  I</li>
-</ol>
-]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>paper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>怎样做presentation</title>
     <url>/2020/05/16/%E6%80%8E%E6%A0%B7%E5%81%9Apresentaion/</url>
     <content><![CDATA[<h2 id="怎样做presentation"><a href="#怎样做presentation" class="headerlink" title="怎样做presentation"></a>怎样做presentation</h2><a id="more"></a>
@@ -761,6 +732,35 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       <tags>
         <tag>presentation</tag>
         <tag>ppt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>摘要怎么写 [PARI法]</title>
+    <url>/2020/05/15/%E6%91%98%E8%A6%81%E6%80%8E%E4%B9%88%E5%86%99_PARI/</url>
+    <content><![CDATA[<h2 id="摘要怎么写-PARI法"><a href="#摘要怎么写-PARI法" class="headerlink" title="摘要怎么写 [PARI法]"></a>摘要怎么写 [PARI法]</h2><p>P = Problem: 文章要解决什么问题</p>
+<p>A = Approach: 文章用得是什么方法解决提出的问题</p>
+<p>R = Results: 解决了问题得到了些什么结果</p>
+<p>I = Impacts: 这些结果有什么具体理论或者实际的影响<br><a id="more"></a></p>
+<p>先按照以下四个句式写四句话，概括研究成果：</p>
+<p>The problem I am trying to solve in thispaper is …</p>
+<p>The approach I adopt to solve the problemis …</p>
+<p>The results obtained in this researchinclude …</p>
+<p>The impacts of our obtained results are …</p>
+<p>更详细些，加上前面:  简短做啥的 + background</p>
+<ol>
+<li>what is the subject matter/area the research is dealing with?</li>
+<li>what background information?总结现状的基础上提出问题</li>
+<li>what is the purpose of the present study?   P</li>
+<li>how is the research to be done?   A</li>
+<li>what are some of the important findings?   R</li>
+<li>what are some of the implications of the study?  I</li>
+</ol>
+]]></content>
+      <categories>
+        <category>论文</category>
+      </categories>
+      <tags>
+        <tag>paper</tag>
       </tags>
   </entry>
   <entry>
@@ -1097,130 +1097,6 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </categories>
   </entry>
   <entry>
-    <title>思旧赋</title>
-    <url>/2020/05/15/classics/%E6%80%9D%E6%97%A7%E8%B5%8B%E5%B9%B6%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="思旧赋"><a href="#思旧赋" class="headerlink" title="思旧赋"></a>思旧赋</h2><a id="more"></a>
-<p>余与嵇康、吕安居止接近，其人有不羁之才</p>
-<p>然嵇志远而疏，吕心旷而放，其后各以事见法</p>
-<p>嵇博综技艺，于丝竹特妙，临当就命，顾视日影，索琴而弹之</p>
-<p>余逝将西迈，经其旧庐</p>
-<p>于时日薄虞渊，寒冰凄然</p>
-<p>邻人有吹笛者，发声寥亮</p>
-<p>追思曩昔游宴之好，感音而叹，故作赋云：</p>
-<p>将命适于远京兮，遂旋反而北徂</p>
-<p>济黄河以泛舟兮，经山阳之旧居</p>
-<p>瞻旷野之萧条兮，息余驾乎城隅</p>
-<p>践二子之遗迹兮，历穷巷之空庐</p>
-<p>叹黍离之愍周兮，悲麦秀于殷墟</p>
-<p>惟古昔以怀人兮，心徘徊以踌躇</p>
-<p>栋宇存而弗毁兮，形神逝其焉如</p>
-<p>昔李斯之受罪兮，叹黄犬而长吟</p>
-<p>悼嵇生之永辞兮，顾日影而弹琴</p>
-<p>托运遇于领会兮，寄馀命于寸阴</p>
-<p>听鸣笛之慷慨兮，妙声绝而复寻</p>
-<p>停驾言其将迈兮，遂援翰而写心</p>
-]]></content>
-      <categories>
-        <category>古典</category>
-        <category>赋文</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>归去来兮辞</title>
-    <url>/2020/05/15/classics/%E5%BD%92%E5%8E%BB%E6%9D%A5%E5%85%AE%E8%BE%9E%E5%B9%B6%E5%BA%8F/</url>
-    <content><![CDATA[<h3 id="归去来兮辞并序1"><a href="#归去来兮辞并序1" class="headerlink" title="归去来兮辞并序1"></a>归去来兮辞并序<a href="#sdfootnote1sym">1</a></h3><a id="more"></a>
-<p>陶渊明</p>
-<blockquote>
-<p>余家贫，耕植<a href="#sdfootnote2sym">2</a>不足以自给<a href="#sdfootnote3sym">3</a>。幼稚盈室<a href="#sdfootnote4sym">4</a>，瓶无储粟<a href="#sdfootnote5sym">5</a>，生生所资<a href="#sdfootnote6sym">6</a>，未见其术<a href="#sdfootnote7sym">7</a>。亲故多劝余为长吏<a href="#sdfootnote8sym">8</a>，脱然<a href="#sdfootnote9sym">9</a>有怀<a href="#sdfootnote10sym">10</a>，求之靡途<a href="#sdfootnote11sym">11</a>。会有四方之事<a href="#sdfootnote12sym">12</a>，诸侯以惠爱为德<a href="#sdfootnote13sym">13</a>，家叔<a href="#sdfootnote14sym">14</a>以余贫苦，遂见<a href="#sdfootnote15sym">15</a>用于小邑。于时风波未静<a href="#sdfootnote16sym">16</a>，心惮远役<a href="#sdfootnote17sym">17</a>，彭泽<a href="#sdfootnote18sym">18</a>去家百里，公田<a href="#sdfootnote19sym">19</a>之利，足以为酒。故便求之。及少日，眷然有归欤之情<a href="#sdfootnote20sym">20</a>。何则<a href="#sdfootnote21sym">21</a>？质性<a href="#sdfootnote22sym">22</a>自然，非矫厉<a href="#sdfootnote23sym">23</a>所得。饥冻虽切<a href="#sdfootnote24sym">24</a>，违己<a href="#sdfootnote25sym">25</a>交病<a href="#sdfootnote26sym">26</a>。尝从人事<a href="#sdfootnote27sym">27</a>，皆口腹自役<a href="#sdfootnote28sym">28</a>。于是怅然<a href="#sdfootnote29sym">29</a>慷慨，深愧平生之志。犹望一稔<a href="#sdfootnote30sym">30</a>，当敛裳宵逝<a href="#sdfootnote31sym">31</a>。寻<a href="#sdfootnote32sym">32</a>程氏妹<a href="#sdfootnote33sym">33</a>丧于武昌，情在骏奔<a href="#sdfootnote34sym">34</a>，自免去职。仲秋至冬，在官八十余日。因事顺心<a href="#sdfootnote35sym">35</a>，命篇曰《归去来兮》。乙巳<a href="#sdfootnote36sym">36</a>岁十一月也。</p>
-</blockquote>
-<p>归去来兮，田园将芜<a href="#sdfootnote37sym">37</a>胡<a href="#sdfootnote38sym">38</a>不归！既目以心为形役<a href="#sdfootnote39sym">39</a>，奚<a href="#sdfootnote40sym">40</a>惆怅而独悲？悟已往之不谏，知来者之可追<a href="#sdfootnote41sym">41</a>。实迷途其未远<a href="#sdfootnote42sym">42</a>，觉今是而昨非。舟遥遥以轻飏<a href="#sdfootnote43sym">43</a>，风飘飘而吹衣。问征夫以前路<a href="#sdfootnote44sym">44</a>，恨晨光之熹微<a href="#sdfootnote45sym">45</a>。</p>
-<p>乃瞻衡宇<a href="#sdfootnote46sym">46</a>，载欣载奔<a href="#sdfootnote47sym">47</a>。僮仆欢迎，稚子候门。三径就荒<a href="#sdfootnote48sym">48</a>，松菊犹存。携幼入室，有酒盈樽。引壶觞以自酌，眄庭柯以怡颜<a href="#sdfootnote49sym">49</a>。倚南窗以寄傲<a href="#sdfootnote50sym">50</a>，审容膝之易安<a href="#sdfootnote51sym">51</a>。园日涉以成趣<a href="#sdfootnote52sym">52</a>，门虽设而常关。策扶老以流憩<a href="#sdfootnote53sym">53</a>，时矫首而遐观<a href="#sdfootnote54sym">54</a>。云无心以出岫<a href="#sdfootnote55sym">55</a>，鸟倦飞而知还。景翳翳以将入<a href="#sdfootnote56sym">56</a>，抚孤松而盘桓<a href="#sdfootnote57sym">57</a>。</p>
-<p>归去来兮，请息交以绝遊<a href="#sdfootnote58sym">58</a>。世与我而相违，复驾言兮焉求<a href="#sdfootnote59sym">59</a>？悦亲戚之情话<a href="#sdfootnote60sym">60</a>，乐琴书以消忧。农人告余以春及<a href="#sdfootnote61sym">61</a>，将有事于西畴<a href="#sdfootnote62sym">62</a>。或命巾车<a href="#sdfootnote63sym">63</a>，或棹孤舟<a href="#sdfootnote64sym">64</a>。既窈窕以寻壑<a href="#sdfootnote65sym">65</a>，亦崎岖而经邱。木欣欣以向荣，泉涓涓而始流。善万物之得时<a href="#sdfootnote66sym">66</a>，感吾生之行休<a href="#sdfootnote67sym">67</a>。</p>
-<p>已矣乎<a href="#sdfootnote68sym">68</a>！寓形宇内复几时<a href="#sdfootnote69sym">69</a>！曷不委心任去留<a href="#sdfootnote70sym">70</a>？胡为乎遑遑欲何之<a href="#sdfootnote71sym">71</a>？富贵非吾愿，帝乡不可期<a href="#sdfootnote72sym">72</a>。怀良辰以孤往<a href="#sdfootnote73sym">73</a>，或植杖而耘耔<a href="#sdfootnote74sym">74</a>。登东皋以舒啸<a href="#sdfootnote75sym">75</a>，临清流而赋诗。聊乘化以归尽<a href="#sdfootnote76sym">76</a>，乐天天命复奚疑<a href="#sdfootnote77sym">77</a>！</p>
-<p>​    <a href="#sdfootnote1anc">1</a>选自逯钦立《陶渊明集》（中华书局1979年版）。来，助词，无义。辞，赋的一种，一般要押韵。陶渊明从29岁开始出仕，向往田园，一直厌恶官场于东晋义熙元年（405）十一月辞去彭泽令。这篇赋就是其回归田园之初激动欣喜之情的自然流露。</p>
-<p>​    <a href="#sdfootnote2anc">2</a>耕植：耕田植桑</p>
-<p>​    <a href="#sdfootnote3anc">3</a>自给：供给自己的生活</p>
-<p>​    <a href="#sdfootnote4anc">4</a>幼稚盈室：指孩子多。幼稚，小孩。盈室，满屋</p>
-<p>​    <a href="#sdfootnote5anc">5</a>瓶无储粟：指家无余粮。瓶，盛粮食的器皿。粟，本指谷子，脱壳后称为小米，这里指粮食。</p>
-<p>​    <a href="#sdfootnote6anc">6</a>生生所资：所赖以维持生活的。生生，维持生活。资，凭借。</p>
-<p>​    <a href="#sdfootnote7anc">7</a>术：这是指经营生计的本领</p>
-<p>​    <a href="#sdfootnote8anc">8</a>长吏：指职位较高的官吏。《汉书·百官公卿表》：“秩四百石至二百石,是为长吏。”</p>
-<p>​    <a href="#sdfootnote9anc">9</a>脱然：轻快的样子</p>
-<p>​    <a href="#sdfootnote10anc">10</a>有怀：有所思念</p>
-<p>​    <a href="#sdfootnote11anc">11</a>靡途：没有门路</p>
-<p>​    <a href="#sdfootnote12anc">12</a>四方之事：指他接受建威将军江州刺史刘敬宣的任命出使的事情。会：恰逢</p>
-<p>​    <a href="#sdfootnote13anc">13</a>诸侯以惠爱为德：地方大吏以爱惜人才为美德。</p>
-<p>​    <a href="#sdfootnote14anc">14</a>家叔：作者的叔父陶夔,当时任太常卿（掌管国家祭祀礼乐医药的官）</p>
-<p>​    <a href="#sdfootnote15anc">15</a>见：被</p>
-<p>​    <a href="#sdfootnote16anc">16</a>风波未静：指战乱未停息。</p>
-<p>​    <a href="#sdfootnote17anc">17</a>心惮远役：心里害怕到远方服役。</p>
-<p>​    <a href="#sdfootnote18anc">18</a>彭泽：县名，在近江西湖口东。</p>
-<p>​    <a href="#sdfootnote19anc">19</a>公田：供俸禄的田</p>
-<p>​    <a href="#sdfootnote20anc">20</a>眷然有归欤之情：有辞官回家的想法。眷然，思念的样子。欤，语气词</p>
-<p>​    <a href="#sdfootnote21anc">21</a>何则：什么道理呢？</p>
-<p>​    <a href="#sdfootnote22anc">22</a>质性：本性。</p>
-<p>​    <a href="#sdfootnote23anc">23</a>矫厉：造作勉强</p>
-<p>​    <a href="#sdfootnote24anc">24</a>切：急迫</p>
-<p>​    <a href="#sdfootnote25anc">25</a>违己：违反自己的意志。</p>
-<p>​    <a href="#sdfootnote26anc">26</a>交病：身心都感动痛苦。</p>
-<p>​    <a href="#sdfootnote27anc">27</a>尝从人事：曾经出仕。从，顺随。人事，指做官</p>
-<p>​    <a href="#sdfootnote28anc">28</a>皆口腹自役：都是为了谋生糊口而役使自己。</p>
-<p>​    <a href="#sdfootnote29anc">29</a>怅然：失意的样子。</p>
-<p>​    <a href="#sdfootnote30anc">30</a>稔(rěn)：庄稼成熟         </p>
-<p>​    <a href="#sdfootnote31anc">31</a>敛裳宵逝：收拾衣装，星夜离去</p>
-<p>​    <a href="#sdfootnote32anc">32</a>寻：不久</p>
-<p>​    <a href="#sdfootnote33anc">33</a>程氏妹：嫁到程家的妹妹。</p>
-<p>​    <a href="#sdfootnote34anc">34</a>情在骏奔：去吊丧的心情像骏马奔驰一样急迫。</p>
-<p>​    <a href="#sdfootnote35anc">35</a>因事顺心：因辞官而顺遂心愿。</p>
-<p>​    <a href="#sdfootnote36anc">36</a>乙巳：晋安帝义熙元年（405）。</p>
-<p>​    <a href="#sdfootnote37anc">37</a>芜：田地荒芜        </p>
-<p>​    <a href="#sdfootnote38anc">38</a>胡：何，为什么。</p>
-<p>​    <a href="#sdfootnote39anc">39</a>以心为形役：让内心被形体役使。形，形体，指身体。役，奴役。</p>
-<p>​    <a href="#sdfootnote40anc">40</a>奚：何，为什么。</p>
-<p>​    <a href="#sdfootnote41anc">41</a>勿以往之不谏，知来者之可追：认识到过去的错误已经不可挽回，知道未来的事还来得及补救。谏，劝止、挽回。追，补救。</p>
-<p>​    <a href="#sdfootnote42anc">42</a>实迷途其未远：确实走入了迷途大概还不远。迷途，指出来做官。</p>
-<p>​    <a href="#sdfootnote43anc">43</a>舟遥遥以轻飏（yáng）：船在水面上轻轻得飘荡着前进。遥遥，飘摇放流的样子。以，表修饰。飏，飞扬，形容船行驶轻快。</p>
-<p>​    <a href="#sdfootnote44anc">44</a>问征夫以前路：向行人问前面的路程。征夫，行人。</p>
-<p>​    <a href="#sdfootnote45anc">45</a>恨晨光之熹微：遗憾的是天刚刚放亮。熹微，天色微明。</p>
-<p>​    <a href="#sdfootnote46anc">46</a>乃瞻衡宇：刚刚看见了自家的房子。乃，于是、然后。衡，通“横”。宇，屋檐，这里指居处</p>
-<p>​    <a href="#sdfootnote47anc">47</a>载欣载奔：一边高兴，一边奔跑。</p>
-<p>​    <a href="#sdfootnote48anc">48</a>三径就荒，松菊犹存：院子里的小路快要荒芜了，松菊还长在那里。三径，院中小路。汉朝蒋诩（xǔ）隐居之后，在院里竹下开辟三径，只与求仲、羊仲来往。后来，三径变成了隐士住处的代称。就，接近。</p>
-<p>​    <a href="#sdfootnote49anc">49</a>眄（miǎn）庭柯以怡颜：看看院子里的树木，觉得很愉快。眄，斜看。这里是“随便看看”的意思。柯，树枝。怡颜，使面容现出愉快神色。怡，愉快，这里是使动用法，使愉快。</p>
-<p>​    <a href="#sdfootnote50anc">50</a>寄傲：寄托傲然自得的心情。</p>
-<p>​    <a href="#sdfootnote51anc">51</a>审容膝之易安：深知住在小屋里反而容易安适。审，明白，知道。    容膝，仅能容纳双膝的小屋，极言居室狭小。易安，容易使人安乐。</p>
-<p>​    <a href="#sdfootnote52anc">52</a>园日涉以成趣：每天到园中散步，成为乐趣。园日涉，指每日在园中散步。涉，走</p>
-<p>​    <a href="#sdfootnote53anc">53</a>策扶老以流憩（qì）：拄着拐杖出去，到处走走，随时随地休息。策，拄着。扶老，拐杖。流憩，指无目的的漫步和随时地休息。流，周游。憩：休息。</p>
-<p>​    <a href="#sdfootnote54anc">54</a>时矫首而遐观：常常抬起头向远处望望。矫首，抬起头。矫，举。遐观，远望         </p>
-<p>​    <a href="#sdfootnote55anc">55</a>云无心以出岫（xiù）：云气自然而然地冒出山头。无心，无意。岫，有洞穴的山，这里泛指山峰</p>
-<p>​    <a href="#sdfootnote56anc">56</a>景翳翳以将入：阳光黯淡，太阳快要下山了。景，日光。翳翳，阴暗的样子。将入，指太阳快下山。</p>
-<p>​    <a href="#sdfootnote57anc">57</a>盘桓：徘徊</p>
-<p>​    <a href="#sdfootnote58anc">58</a>请息交以绝游：让我同外界断绝交游。</p>
-<p>​    <a href="#sdfootnote59anc">59</a>复驾言兮焉求：还要驾车出去追求什么？驾言，《诗经·邶风·泉水》“驾言出游”的简省，是“驾车出游”的意思。言，助词。焉求，追求什么。求，指求官。</p>
-<p>​    <a href="#sdfootnote60anc">60</a>情话：知心话</p>
-<p>​    <a href="#sdfootnote61anc">61</a>春及：春天到了。</p>
-<p>​    <a href="#sdfootnote62anc">62</a>将有事于西畴（chóu）：将要到西边的田里去春耕。事，指耕种之事。畴，田地</p>
-<p>​    <a href="#sdfootnote63anc">63</a>或命巾车：或，有时。巾车，有布蓬的小车。</p>
-<p>​    <a href="#sdfootnote64anc">64</a>    或棹（zhào）孤舟：有时划着一只小船。棹，桨，这里用作动词用桨划。</p>
-<p>​    <a href="#sdfootnote65anc">65</a>既窈窕以寻壑：既探寻幽深曲折的山沟。窈窕，深远曲折的样子。壑，山沟</p>
-<p>​    <a href="#sdfootnote66anc">66</a>善万物之得时：羡慕万物恰逢繁荣滋长的季节。善，喜好、羡慕。得时，顺应天时、适合时令。</p>
-<p>​    <a href="#sdfootnote67anc">67</a>感吾生之行休：感叹我的一生行将结束。行休，将要结束</p>
-<p>​    <a href="#sdfootnote68anc">68</a>已矣乎：算了吧!助词    “乎”“矣”连用，加强感叹语气。</p>
-<p>​    <a href="#sdfootnote69anc">69</a>寓形宇内复几时：身体寄托在天地间还能有多少时候？意思是说，活在世上还能有多久？寓形，寄托身体。宇内，天地间。</p>
-<p>​    <a href="#sdfootnote70anc">70</a>曷不委心任去留：为什么不随心所欲，听凭自然地生死？曷，何、为什么。委心，随心。委，随从、顺从。去留，指生死。</p>
-<p>​    <a href="#sdfootnote71anc">71</a>胡为乎惶惶欲何之：为什么心神不定啊，想要到哪里去？胡为，为什么。遑遑，心神不定的样子。何之，到哪里去。</p>
-<p>​    <a href="#sdfootnote72anc">72</a>帝乡不可期：修仙成神是没有希望的。帝乡，天帝居住的地方，也就是所谓仙境。期，期望、期求。</p>
-<p>​    <a href="#sdfootnote73anc">73</a>怀良辰以孤往：爱惜美好的时光，独自外出。怀，留恋、爱惜。良辰，指上文所说万物得时的春天。孤往，独自外出。</p>
-<p>​    <a href="#sdfootnote74anc">74</a>或植杖而耘籽（zǐ）：有时扶着拐杖除草培苗。植，立，扶着。耘，除草。籽，培苗。</p>
-<p>​    <a href="#sdfootnote75anc">75</a>登东皋以呼啸：登上东边的高冈，放声呼啸。皋，高地。舒，放。啸，高声叫。</p>
-<p>​    <a href="#sdfootnote76anc">76</a>聊乘化以归尽：姑且顺随自然的变化，度到生命的尽头。聊，姑且。乘化，顺随自然。化，造化，指自然。归尽，到死。尽，指死。</p>
-<p>​    <a href="#sdfootnote77anc">77</a>乐夫天命复奚疑：乐安天命，还有什么可疑虑的呢？</p>
-]]></content>
-      <categories>
-        <category>古典</category>
-        <category>赋文</category>
-      </categories>
-  </entry>
-  <entry>
     <title>王维诗选</title>
     <url>/2020/05/15/classics/%E7%8E%8B%E7%BB%B4%E8%AF%97%E9%80%89/</url>
     <content><![CDATA[<h2 id="王维诗选"><a href="#王维诗选" class="headerlink" title="王维诗选"></a>王维诗选</h2><a id="more"></a>
@@ -1318,6 +1194,35 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </categories>
   </entry>
   <entry>
+    <title>思旧赋</title>
+    <url>/2020/05/15/classics/%E6%80%9D%E6%97%A7%E8%B5%8B%E5%B9%B6%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="思旧赋"><a href="#思旧赋" class="headerlink" title="思旧赋"></a>思旧赋</h2><a id="more"></a>
+<p>余与嵇康、吕安居止接近，其人有不羁之才</p>
+<p>然嵇志远而疏，吕心旷而放，其后各以事见法</p>
+<p>嵇博综技艺，于丝竹特妙，临当就命，顾视日影，索琴而弹之</p>
+<p>余逝将西迈，经其旧庐</p>
+<p>于时日薄虞渊，寒冰凄然</p>
+<p>邻人有吹笛者，发声寥亮</p>
+<p>追思曩昔游宴之好，感音而叹，故作赋云：</p>
+<p>将命适于远京兮，遂旋反而北徂</p>
+<p>济黄河以泛舟兮，经山阳之旧居</p>
+<p>瞻旷野之萧条兮，息余驾乎城隅</p>
+<p>践二子之遗迹兮，历穷巷之空庐</p>
+<p>叹黍离之愍周兮，悲麦秀于殷墟</p>
+<p>惟古昔以怀人兮，心徘徊以踌躇</p>
+<p>栋宇存而弗毁兮，形神逝其焉如</p>
+<p>昔李斯之受罪兮，叹黄犬而长吟</p>
+<p>悼嵇生之永辞兮，顾日影而弹琴</p>
+<p>托运遇于领会兮，寄馀命于寸阴</p>
+<p>听鸣笛之慷慨兮，妙声绝而复寻</p>
+<p>停驾言其将迈兮，遂援翰而写心</p>
+]]></content>
+      <categories>
+        <category>古典</category>
+        <category>赋文</category>
+      </categories>
+  </entry>
+  <entry>
     <title>逍遥游</title>
     <url>/2020/05/15/classics/%E9%80%8D%E9%81%A5%E6%B8%B8/</url>
     <content><![CDATA[<h2 id="逍遥游"><a href="#逍遥游" class="headerlink" title="逍遥游"></a>逍遥游</h2><a id="more"></a>
@@ -1406,6 +1311,101 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       <categories>
         <category>古典</category>
         <category>经典</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>归去来兮辞</title>
+    <url>/2020/05/15/classics/%E5%BD%92%E5%8E%BB%E6%9D%A5%E5%85%AE%E8%BE%9E%E5%B9%B6%E5%BA%8F/</url>
+    <content><![CDATA[<h3 id="归去来兮辞并序1"><a href="#归去来兮辞并序1" class="headerlink" title="归去来兮辞并序1"></a>归去来兮辞并序<a href="#sdfootnote1sym">1</a></h3><a id="more"></a>
+<p>陶渊明</p>
+<blockquote>
+<p>余家贫，耕植<a href="#sdfootnote2sym">2</a>不足以自给<a href="#sdfootnote3sym">3</a>。幼稚盈室<a href="#sdfootnote4sym">4</a>，瓶无储粟<a href="#sdfootnote5sym">5</a>，生生所资<a href="#sdfootnote6sym">6</a>，未见其术<a href="#sdfootnote7sym">7</a>。亲故多劝余为长吏<a href="#sdfootnote8sym">8</a>，脱然<a href="#sdfootnote9sym">9</a>有怀<a href="#sdfootnote10sym">10</a>，求之靡途<a href="#sdfootnote11sym">11</a>。会有四方之事<a href="#sdfootnote12sym">12</a>，诸侯以惠爱为德<a href="#sdfootnote13sym">13</a>，家叔<a href="#sdfootnote14sym">14</a>以余贫苦，遂见<a href="#sdfootnote15sym">15</a>用于小邑。于时风波未静<a href="#sdfootnote16sym">16</a>，心惮远役<a href="#sdfootnote17sym">17</a>，彭泽<a href="#sdfootnote18sym">18</a>去家百里，公田<a href="#sdfootnote19sym">19</a>之利，足以为酒。故便求之。及少日，眷然有归欤之情<a href="#sdfootnote20sym">20</a>。何则<a href="#sdfootnote21sym">21</a>？质性<a href="#sdfootnote22sym">22</a>自然，非矫厉<a href="#sdfootnote23sym">23</a>所得。饥冻虽切<a href="#sdfootnote24sym">24</a>，违己<a href="#sdfootnote25sym">25</a>交病<a href="#sdfootnote26sym">26</a>。尝从人事<a href="#sdfootnote27sym">27</a>，皆口腹自役<a href="#sdfootnote28sym">28</a>。于是怅然<a href="#sdfootnote29sym">29</a>慷慨，深愧平生之志。犹望一稔<a href="#sdfootnote30sym">30</a>，当敛裳宵逝<a href="#sdfootnote31sym">31</a>。寻<a href="#sdfootnote32sym">32</a>程氏妹<a href="#sdfootnote33sym">33</a>丧于武昌，情在骏奔<a href="#sdfootnote34sym">34</a>，自免去职。仲秋至冬，在官八十余日。因事顺心<a href="#sdfootnote35sym">35</a>，命篇曰《归去来兮》。乙巳<a href="#sdfootnote36sym">36</a>岁十一月也。</p>
+</blockquote>
+<p>归去来兮，田园将芜<a href="#sdfootnote37sym">37</a>胡<a href="#sdfootnote38sym">38</a>不归！既目以心为形役<a href="#sdfootnote39sym">39</a>，奚<a href="#sdfootnote40sym">40</a>惆怅而独悲？悟已往之不谏，知来者之可追<a href="#sdfootnote41sym">41</a>。实迷途其未远<a href="#sdfootnote42sym">42</a>，觉今是而昨非。舟遥遥以轻飏<a href="#sdfootnote43sym">43</a>，风飘飘而吹衣。问征夫以前路<a href="#sdfootnote44sym">44</a>，恨晨光之熹微<a href="#sdfootnote45sym">45</a>。</p>
+<p>乃瞻衡宇<a href="#sdfootnote46sym">46</a>，载欣载奔<a href="#sdfootnote47sym">47</a>。僮仆欢迎，稚子候门。三径就荒<a href="#sdfootnote48sym">48</a>，松菊犹存。携幼入室，有酒盈樽。引壶觞以自酌，眄庭柯以怡颜<a href="#sdfootnote49sym">49</a>。倚南窗以寄傲<a href="#sdfootnote50sym">50</a>，审容膝之易安<a href="#sdfootnote51sym">51</a>。园日涉以成趣<a href="#sdfootnote52sym">52</a>，门虽设而常关。策扶老以流憩<a href="#sdfootnote53sym">53</a>，时矫首而遐观<a href="#sdfootnote54sym">54</a>。云无心以出岫<a href="#sdfootnote55sym">55</a>，鸟倦飞而知还。景翳翳以将入<a href="#sdfootnote56sym">56</a>，抚孤松而盘桓<a href="#sdfootnote57sym">57</a>。</p>
+<p>归去来兮，请息交以绝遊<a href="#sdfootnote58sym">58</a>。世与我而相违，复驾言兮焉求<a href="#sdfootnote59sym">59</a>？悦亲戚之情话<a href="#sdfootnote60sym">60</a>，乐琴书以消忧。农人告余以春及<a href="#sdfootnote61sym">61</a>，将有事于西畴<a href="#sdfootnote62sym">62</a>。或命巾车<a href="#sdfootnote63sym">63</a>，或棹孤舟<a href="#sdfootnote64sym">64</a>。既窈窕以寻壑<a href="#sdfootnote65sym">65</a>，亦崎岖而经邱。木欣欣以向荣，泉涓涓而始流。善万物之得时<a href="#sdfootnote66sym">66</a>，感吾生之行休<a href="#sdfootnote67sym">67</a>。</p>
+<p>已矣乎<a href="#sdfootnote68sym">68</a>！寓形宇内复几时<a href="#sdfootnote69sym">69</a>！曷不委心任去留<a href="#sdfootnote70sym">70</a>？胡为乎遑遑欲何之<a href="#sdfootnote71sym">71</a>？富贵非吾愿，帝乡不可期<a href="#sdfootnote72sym">72</a>。怀良辰以孤往<a href="#sdfootnote73sym">73</a>，或植杖而耘耔<a href="#sdfootnote74sym">74</a>。登东皋以舒啸<a href="#sdfootnote75sym">75</a>，临清流而赋诗。聊乘化以归尽<a href="#sdfootnote76sym">76</a>，乐天天命复奚疑<a href="#sdfootnote77sym">77</a>！</p>
+<p>​    <a href="#sdfootnote1anc">1</a>选自逯钦立《陶渊明集》（中华书局1979年版）。来，助词，无义。辞，赋的一种，一般要押韵。陶渊明从29岁开始出仕，向往田园，一直厌恶官场于东晋义熙元年（405）十一月辞去彭泽令。这篇赋就是其回归田园之初激动欣喜之情的自然流露。</p>
+<p>​    <a href="#sdfootnote2anc">2</a>耕植：耕田植桑</p>
+<p>​    <a href="#sdfootnote3anc">3</a>自给：供给自己的生活</p>
+<p>​    <a href="#sdfootnote4anc">4</a>幼稚盈室：指孩子多。幼稚，小孩。盈室，满屋</p>
+<p>​    <a href="#sdfootnote5anc">5</a>瓶无储粟：指家无余粮。瓶，盛粮食的器皿。粟，本指谷子，脱壳后称为小米，这里指粮食。</p>
+<p>​    <a href="#sdfootnote6anc">6</a>生生所资：所赖以维持生活的。生生，维持生活。资，凭借。</p>
+<p>​    <a href="#sdfootnote7anc">7</a>术：这是指经营生计的本领</p>
+<p>​    <a href="#sdfootnote8anc">8</a>长吏：指职位较高的官吏。《汉书·百官公卿表》：“秩四百石至二百石,是为长吏。”</p>
+<p>​    <a href="#sdfootnote9anc">9</a>脱然：轻快的样子</p>
+<p>​    <a href="#sdfootnote10anc">10</a>有怀：有所思念</p>
+<p>​    <a href="#sdfootnote11anc">11</a>靡途：没有门路</p>
+<p>​    <a href="#sdfootnote12anc">12</a>四方之事：指他接受建威将军江州刺史刘敬宣的任命出使的事情。会：恰逢</p>
+<p>​    <a href="#sdfootnote13anc">13</a>诸侯以惠爱为德：地方大吏以爱惜人才为美德。</p>
+<p>​    <a href="#sdfootnote14anc">14</a>家叔：作者的叔父陶夔,当时任太常卿（掌管国家祭祀礼乐医药的官）</p>
+<p>​    <a href="#sdfootnote15anc">15</a>见：被</p>
+<p>​    <a href="#sdfootnote16anc">16</a>风波未静：指战乱未停息。</p>
+<p>​    <a href="#sdfootnote17anc">17</a>心惮远役：心里害怕到远方服役。</p>
+<p>​    <a href="#sdfootnote18anc">18</a>彭泽：县名，在近江西湖口东。</p>
+<p>​    <a href="#sdfootnote19anc">19</a>公田：供俸禄的田</p>
+<p>​    <a href="#sdfootnote20anc">20</a>眷然有归欤之情：有辞官回家的想法。眷然，思念的样子。欤，语气词</p>
+<p>​    <a href="#sdfootnote21anc">21</a>何则：什么道理呢？</p>
+<p>​    <a href="#sdfootnote22anc">22</a>质性：本性。</p>
+<p>​    <a href="#sdfootnote23anc">23</a>矫厉：造作勉强</p>
+<p>​    <a href="#sdfootnote24anc">24</a>切：急迫</p>
+<p>​    <a href="#sdfootnote25anc">25</a>违己：违反自己的意志。</p>
+<p>​    <a href="#sdfootnote26anc">26</a>交病：身心都感动痛苦。</p>
+<p>​    <a href="#sdfootnote27anc">27</a>尝从人事：曾经出仕。从，顺随。人事，指做官</p>
+<p>​    <a href="#sdfootnote28anc">28</a>皆口腹自役：都是为了谋生糊口而役使自己。</p>
+<p>​    <a href="#sdfootnote29anc">29</a>怅然：失意的样子。</p>
+<p>​    <a href="#sdfootnote30anc">30</a>稔(rěn)：庄稼成熟         </p>
+<p>​    <a href="#sdfootnote31anc">31</a>敛裳宵逝：收拾衣装，星夜离去</p>
+<p>​    <a href="#sdfootnote32anc">32</a>寻：不久</p>
+<p>​    <a href="#sdfootnote33anc">33</a>程氏妹：嫁到程家的妹妹。</p>
+<p>​    <a href="#sdfootnote34anc">34</a>情在骏奔：去吊丧的心情像骏马奔驰一样急迫。</p>
+<p>​    <a href="#sdfootnote35anc">35</a>因事顺心：因辞官而顺遂心愿。</p>
+<p>​    <a href="#sdfootnote36anc">36</a>乙巳：晋安帝义熙元年（405）。</p>
+<p>​    <a href="#sdfootnote37anc">37</a>芜：田地荒芜        </p>
+<p>​    <a href="#sdfootnote38anc">38</a>胡：何，为什么。</p>
+<p>​    <a href="#sdfootnote39anc">39</a>以心为形役：让内心被形体役使。形，形体，指身体。役，奴役。</p>
+<p>​    <a href="#sdfootnote40anc">40</a>奚：何，为什么。</p>
+<p>​    <a href="#sdfootnote41anc">41</a>勿以往之不谏，知来者之可追：认识到过去的错误已经不可挽回，知道未来的事还来得及补救。谏，劝止、挽回。追，补救。</p>
+<p>​    <a href="#sdfootnote42anc">42</a>实迷途其未远：确实走入了迷途大概还不远。迷途，指出来做官。</p>
+<p>​    <a href="#sdfootnote43anc">43</a>舟遥遥以轻飏（yáng）：船在水面上轻轻得飘荡着前进。遥遥，飘摇放流的样子。以，表修饰。飏，飞扬，形容船行驶轻快。</p>
+<p>​    <a href="#sdfootnote44anc">44</a>问征夫以前路：向行人问前面的路程。征夫，行人。</p>
+<p>​    <a href="#sdfootnote45anc">45</a>恨晨光之熹微：遗憾的是天刚刚放亮。熹微，天色微明。</p>
+<p>​    <a href="#sdfootnote46anc">46</a>乃瞻衡宇：刚刚看见了自家的房子。乃，于是、然后。衡，通“横”。宇，屋檐，这里指居处</p>
+<p>​    <a href="#sdfootnote47anc">47</a>载欣载奔：一边高兴，一边奔跑。</p>
+<p>​    <a href="#sdfootnote48anc">48</a>三径就荒，松菊犹存：院子里的小路快要荒芜了，松菊还长在那里。三径，院中小路。汉朝蒋诩（xǔ）隐居之后，在院里竹下开辟三径，只与求仲、羊仲来往。后来，三径变成了隐士住处的代称。就，接近。</p>
+<p>​    <a href="#sdfootnote49anc">49</a>眄（miǎn）庭柯以怡颜：看看院子里的树木，觉得很愉快。眄，斜看。这里是“随便看看”的意思。柯，树枝。怡颜，使面容现出愉快神色。怡，愉快，这里是使动用法，使愉快。</p>
+<p>​    <a href="#sdfootnote50anc">50</a>寄傲：寄托傲然自得的心情。</p>
+<p>​    <a href="#sdfootnote51anc">51</a>审容膝之易安：深知住在小屋里反而容易安适。审，明白，知道。    容膝，仅能容纳双膝的小屋，极言居室狭小。易安，容易使人安乐。</p>
+<p>​    <a href="#sdfootnote52anc">52</a>园日涉以成趣：每天到园中散步，成为乐趣。园日涉，指每日在园中散步。涉，走</p>
+<p>​    <a href="#sdfootnote53anc">53</a>策扶老以流憩（qì）：拄着拐杖出去，到处走走，随时随地休息。策，拄着。扶老，拐杖。流憩，指无目的的漫步和随时地休息。流，周游。憩：休息。</p>
+<p>​    <a href="#sdfootnote54anc">54</a>时矫首而遐观：常常抬起头向远处望望。矫首，抬起头。矫，举。遐观，远望         </p>
+<p>​    <a href="#sdfootnote55anc">55</a>云无心以出岫（xiù）：云气自然而然地冒出山头。无心，无意。岫，有洞穴的山，这里泛指山峰</p>
+<p>​    <a href="#sdfootnote56anc">56</a>景翳翳以将入：阳光黯淡，太阳快要下山了。景，日光。翳翳，阴暗的样子。将入，指太阳快下山。</p>
+<p>​    <a href="#sdfootnote57anc">57</a>盘桓：徘徊</p>
+<p>​    <a href="#sdfootnote58anc">58</a>请息交以绝游：让我同外界断绝交游。</p>
+<p>​    <a href="#sdfootnote59anc">59</a>复驾言兮焉求：还要驾车出去追求什么？驾言，《诗经·邶风·泉水》“驾言出游”的简省，是“驾车出游”的意思。言，助词。焉求，追求什么。求，指求官。</p>
+<p>​    <a href="#sdfootnote60anc">60</a>情话：知心话</p>
+<p>​    <a href="#sdfootnote61anc">61</a>春及：春天到了。</p>
+<p>​    <a href="#sdfootnote62anc">62</a>将有事于西畴（chóu）：将要到西边的田里去春耕。事，指耕种之事。畴，田地</p>
+<p>​    <a href="#sdfootnote63anc">63</a>或命巾车：或，有时。巾车，有布蓬的小车。</p>
+<p>​    <a href="#sdfootnote64anc">64</a>    或棹（zhào）孤舟：有时划着一只小船。棹，桨，这里用作动词用桨划。</p>
+<p>​    <a href="#sdfootnote65anc">65</a>既窈窕以寻壑：既探寻幽深曲折的山沟。窈窕，深远曲折的样子。壑，山沟</p>
+<p>​    <a href="#sdfootnote66anc">66</a>善万物之得时：羡慕万物恰逢繁荣滋长的季节。善，喜好、羡慕。得时，顺应天时、适合时令。</p>
+<p>​    <a href="#sdfootnote67anc">67</a>感吾生之行休：感叹我的一生行将结束。行休，将要结束</p>
+<p>​    <a href="#sdfootnote68anc">68</a>已矣乎：算了吧!助词    “乎”“矣”连用，加强感叹语气。</p>
+<p>​    <a href="#sdfootnote69anc">69</a>寓形宇内复几时：身体寄托在天地间还能有多少时候？意思是说，活在世上还能有多久？寓形，寄托身体。宇内，天地间。</p>
+<p>​    <a href="#sdfootnote70anc">70</a>曷不委心任去留：为什么不随心所欲，听凭自然地生死？曷，何、为什么。委心，随心。委，随从、顺从。去留，指生死。</p>
+<p>​    <a href="#sdfootnote71anc">71</a>胡为乎惶惶欲何之：为什么心神不定啊，想要到哪里去？胡为，为什么。遑遑，心神不定的样子。何之，到哪里去。</p>
+<p>​    <a href="#sdfootnote72anc">72</a>帝乡不可期：修仙成神是没有希望的。帝乡，天帝居住的地方，也就是所谓仙境。期，期望、期求。</p>
+<p>​    <a href="#sdfootnote73anc">73</a>怀良辰以孤往：爱惜美好的时光，独自外出。怀，留恋、爱惜。良辰，指上文所说万物得时的春天。孤往，独自外出。</p>
+<p>​    <a href="#sdfootnote74anc">74</a>或植杖而耘籽（zǐ）：有时扶着拐杖除草培苗。植，立，扶着。耘，除草。籽，培苗。</p>
+<p>​    <a href="#sdfootnote75anc">75</a>登东皋以呼啸：登上东边的高冈，放声呼啸。皋，高地。舒，放。啸，高声叫。</p>
+<p>​    <a href="#sdfootnote76anc">76</a>聊乘化以归尽：姑且顺随自然的变化，度到生命的尽头。聊，姑且。乘化，顺随自然。化，造化，指自然。归尽，到死。尽，指死。</p>
+<p>​    <a href="#sdfootnote77anc">77</a>乐夫天命复奚疑：乐安天命，还有什么可疑虑的呢？</p>
+]]></content>
+      <categories>
+        <category>古典</category>
+        <category>赋文</category>
       </categories>
   </entry>
   <entry>
@@ -4073,108 +4073,6 @@ QS0，QS1                                                                  (指�
       </tags>
   </entry>
   <entry>
-    <title>ch9DMA8237</title>
-    <url>/2020/05/15/computer_organization/9_ch9_DMA8237/</url>
-    <content><![CDATA[<h2 id="DMA8237"><a href="#DMA8237" class="headerlink" title="DMA8237"></a>DMA8237</h2><a id="more"></a>
-<h3 id="内存与外设之间的数据传输控制方式"><a href="#内存与外设之间的数据传输控制方式" class="headerlink" title="内存与外设之间的数据传输控制方式"></a>内存与外设之间的数据传输控制方式</h3><p>程序控制方式</p>
-<p>中断方式</p>
-<p>[以上方式都需要CPU执行程序来控制数据传输；]</p>
-<ul>
-<li>中断过程需要额外的保护断点、标志操作；</li>
-<li>中断响应和中断返回时，都要清除指令队列，重新装入程序；</li>
-</ul>
-<p>DMA方式</p>
-<p>[外设和存储器之间直接进行数据传输，不经过CPU。]</p>
-<ul>
-<li><p>DMA过程中，DMAC能独立控制三大总线来访问存储器和I/O端口，</p>
-<p>像CPU一样提供数据传送所需的地址信息和读写控制信息==&gt;存储器</p>
-<p>－DMAC内部有地址寄存器和字节计数器</p>
-</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/DMA.png" alt="DMA"></p>
-<h3 id="DMA操作过程三个阶段"><a href="#DMA操作过程三个阶段" class="headerlink" title="DMA操作过程三个阶段"></a>DMA操作过程三个阶段</h3><ol>
-<li>DMA请求；<ul>
-<li>外设要求以DMA方式为它服务时，==DMA请求信号DREQ==&gt;DMAC</li>
-<li>DMAC检查该信号是否被屏蔽及其优先权，if 该信号有效则</li>
-<li>DMAC===发送总线请求信号HRQ==&gt;CPU的HOLD</li>
-</ul>
-</li>
-<li>DMA响应和数据传送；<ul>
-<li>DMAC接管总线===DACK信号==&gt;外设，使之成为DMA传送时被选中的设备</li>
-<li>DMAC==内存地址以及I/O读写和存储器读写控制信号==&gt;存储器</li>
-<li>在外设和存储器之间数据传送</li>
-</ul>
-</li>
-<li>传送结束；<ul>
-<li>DMAC放弃总线，撤消总线请求(HRQ==0)，</li>
-<li>CPU检测到HRQ(HOLD)==0后，HLDA==0，</li>
-<li>CPU重新获得总线控制权</li>
-</ul>
-</li>
-</ol>
-<h3 id="8237地址"><a href="#8237地址" class="headerlink" title="8237地址"></a>8237地址</h3><p>一片8237占用连续16个端口地址，用DMA+00H~DMA+0FH表示。其中，DMA表示该片8237的基地址。</p>
-<p>在AT以上的微机中，使用2片8237，其地址为：</p>
-<p>第一片8237，基地址DMA=0000H，使用0000H~000F  I/O地址。</p>
-<p>第二片8237，基地址DMA=00C0H，使用00C0H~00CF  I/O地址</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-addr.png" alt="8237-addr"></p>
-<p>传输模式：</p>
-<p>单字节传输模式</p>
-<ul>
-<li>每次DMA操作只传送一字节，接着8237释放总线；</li>
-</ul>
-<p>块传输模式</p>
-<ul>
-<li>8237获得总线控制权后，连续传送多个字节，每传输一个字节，当前字节计数器减1当前地址寄存器加1或1，直到所要求的字节数传输完（当前字节计数器减至0），8237在EOP引脚上发出结束信号，然后释放总线</li>
-</ul>
-<p>请求传输模式</p>
-<ul>
-<li>在传输过程中，8237要检测DREQ信号（询问外设），当DREQ==0时，8237暂停传输（不释放总线），当DREQ再次==1后，继续进行传输。</li>
-</ul>
-<p>级联传输模式    </p>
-<ul>
-<li>多片8237级联时，可以构成主从式DMA系统。级联的方式是把从片的请求线HRQ==&gt;主片的DREQ引脚，主DACK==&gt;从片的HLDA引脚</li>
-</ul>
-<h3 id="8237寄存器"><a href="#8237寄存器" class="headerlink" title="8237寄存器"></a>8237寄存器</h3><p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-reg.png" alt="8237-reg"></p>
-<h3 id="8237的初始化编程"><a href="#8237的初始化编程" class="headerlink" title="8237的初始化编程"></a>8237的初始化编程</h3><p>1.输出主清除命令</p>
-<p>2.写入基地址与现行地址寄存器</p>
-<p>3.写入基字节数与现行字节数寄存器</p>
-<p>4.写入方式寄存器</p>
-<p>5.写入屏蔽寄存器</p>
-<p>6.写入控制寄存器</p>
-<p>7.写入请求寄存器</p>
-<p>若有软件请求，就写入指定通道，便可以开始DMA传送的过程。</p>
-<p>若无软件请求，由通道的DREQ启动DMA传送过程 </p>
-<p>eg. 若要利用通道0，由外设（磁盘）输入32KB的一个数据块，传送至内存8000H开始的区域（增量传送），</p>
-<p>采用数据块连续传送的方式，传送完不自动初始化，</p>
-<p>外设的DREQ和DACK都为高电平有效。要编程首先要确定端口地址。</p>
-<p>地址的低4位以区分8237A的内部寄存器，高4位地址A7~A4，经译码后，连至选片端CS#，假定选中时高4位为7</p>
-<p>solution:依据要求，</p>
-<ol>
-<li><p>方式控制字为84H；</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/mode.PNG" alt="mode"></p>
-</li>
-<li><p>屏蔽寄存器的单屏蔽字为00H；</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/pinbi.png" alt="pinbi"></p>
-</li>
-<li><p>命令字0A0H</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/control.PNG" alt="control"></p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">OUT		7DH,AL		 ;输出主清除命令:对端口0DH写入0，使8237复位,70+DH&#x3D;&gt;复位寄存器</span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址低8位，70+0H&#x3D;&gt;基地址 reg 0</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址高8位</span><br><span class="line"></span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	71H, AL       ;70+1H&#x3D;&gt;基字节 counter</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	71H, AL;给基字节数和现行字节数</span><br><span class="line">			      ;寄存器赋值为32768</span><br><span class="line">MOV 	AL, 84H		</span><br><span class="line">OUT 	7BH, AL		 ;输出方式字,70+BH&#x3D;&gt;mode reg </span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	7AH, AL 	;输出屏蔽字,70+AH&#x3D;&gt;屏蔽 reg</span><br><span class="line">MOV 	AL, 0A0H</span><br><span class="line">OUT 	78H, AL		 ;输出命令字 , 70+8H&#x3D;&gt; control reg</span><br></pre></td></tr></table></figure>
-<p>1.简述DMA数据传送方式过程、特点和优点。</p>
-<p>2.在DMA方式数据传输过程中，是由DMAC控制总线。</p>
-<p>3.CPU与外设之间的数据传送控制方式有哪三种？</p>
-]]></content>
-      <categories>
-        <category>计算机组成原理</category>
-        <category>BIT课件</category>
-      </categories>
-      <tags>
-        <tag>computer organization</tag>
-        <tag>assembly language</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ch8中断8259</title>
     <url>/2020/05/15/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/</url>
     <content><![CDATA[<h2 id="中断8259"><a href="#中断8259" class="headerlink" title="中断8259"></a>中断8259</h2><a id="more"></a>
@@ -4370,6 +4268,108 @@ QS0，QS1                                                                  (指�
       <tags>
         <tag>control system</tag>
         <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch9DMA8237</title>
+    <url>/2020/05/15/computer_organization/9_ch9_DMA8237/</url>
+    <content><![CDATA[<h2 id="DMA8237"><a href="#DMA8237" class="headerlink" title="DMA8237"></a>DMA8237</h2><a id="more"></a>
+<h3 id="内存与外设之间的数据传输控制方式"><a href="#内存与外设之间的数据传输控制方式" class="headerlink" title="内存与外设之间的数据传输控制方式"></a>内存与外设之间的数据传输控制方式</h3><p>程序控制方式</p>
+<p>中断方式</p>
+<p>[以上方式都需要CPU执行程序来控制数据传输；]</p>
+<ul>
+<li>中断过程需要额外的保护断点、标志操作；</li>
+<li>中断响应和中断返回时，都要清除指令队列，重新装入程序；</li>
+</ul>
+<p>DMA方式</p>
+<p>[外设和存储器之间直接进行数据传输，不经过CPU。]</p>
+<ul>
+<li><p>DMA过程中，DMAC能独立控制三大总线来访问存储器和I/O端口，</p>
+<p>像CPU一样提供数据传送所需的地址信息和读写控制信息==&gt;存储器</p>
+<p>－DMAC内部有地址寄存器和字节计数器</p>
+</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/DMA.png" alt="DMA"></p>
+<h3 id="DMA操作过程三个阶段"><a href="#DMA操作过程三个阶段" class="headerlink" title="DMA操作过程三个阶段"></a>DMA操作过程三个阶段</h3><ol>
+<li>DMA请求；<ul>
+<li>外设要求以DMA方式为它服务时，==DMA请求信号DREQ==&gt;DMAC</li>
+<li>DMAC检查该信号是否被屏蔽及其优先权，if 该信号有效则</li>
+<li>DMAC===发送总线请求信号HRQ==&gt;CPU的HOLD</li>
+</ul>
+</li>
+<li>DMA响应和数据传送；<ul>
+<li>DMAC接管总线===DACK信号==&gt;外设，使之成为DMA传送时被选中的设备</li>
+<li>DMAC==内存地址以及I/O读写和存储器读写控制信号==&gt;存储器</li>
+<li>在外设和存储器之间数据传送</li>
+</ul>
+</li>
+<li>传送结束；<ul>
+<li>DMAC放弃总线，撤消总线请求(HRQ==0)，</li>
+<li>CPU检测到HRQ(HOLD)==0后，HLDA==0，</li>
+<li>CPU重新获得总线控制权</li>
+</ul>
+</li>
+</ol>
+<h3 id="8237地址"><a href="#8237地址" class="headerlink" title="8237地址"></a>8237地址</h3><p>一片8237占用连续16个端口地址，用DMA+00H~DMA+0FH表示。其中，DMA表示该片8237的基地址。</p>
+<p>在AT以上的微机中，使用2片8237，其地址为：</p>
+<p>第一片8237，基地址DMA=0000H，使用0000H~000F  I/O地址。</p>
+<p>第二片8237，基地址DMA=00C0H，使用00C0H~00CF  I/O地址</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-addr.png" alt="8237-addr"></p>
+<p>传输模式：</p>
+<p>单字节传输模式</p>
+<ul>
+<li>每次DMA操作只传送一字节，接着8237释放总线；</li>
+</ul>
+<p>块传输模式</p>
+<ul>
+<li>8237获得总线控制权后，连续传送多个字节，每传输一个字节，当前字节计数器减1当前地址寄存器加1或1，直到所要求的字节数传输完（当前字节计数器减至0），8237在EOP引脚上发出结束信号，然后释放总线</li>
+</ul>
+<p>请求传输模式</p>
+<ul>
+<li>在传输过程中，8237要检测DREQ信号（询问外设），当DREQ==0时，8237暂停传输（不释放总线），当DREQ再次==1后，继续进行传输。</li>
+</ul>
+<p>级联传输模式    </p>
+<ul>
+<li>多片8237级联时，可以构成主从式DMA系统。级联的方式是把从片的请求线HRQ==&gt;主片的DREQ引脚，主DACK==&gt;从片的HLDA引脚</li>
+</ul>
+<h3 id="8237寄存器"><a href="#8237寄存器" class="headerlink" title="8237寄存器"></a>8237寄存器</h3><p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-reg.png" alt="8237-reg"></p>
+<h3 id="8237的初始化编程"><a href="#8237的初始化编程" class="headerlink" title="8237的初始化编程"></a>8237的初始化编程</h3><p>1.输出主清除命令</p>
+<p>2.写入基地址与现行地址寄存器</p>
+<p>3.写入基字节数与现行字节数寄存器</p>
+<p>4.写入方式寄存器</p>
+<p>5.写入屏蔽寄存器</p>
+<p>6.写入控制寄存器</p>
+<p>7.写入请求寄存器</p>
+<p>若有软件请求，就写入指定通道，便可以开始DMA传送的过程。</p>
+<p>若无软件请求，由通道的DREQ启动DMA传送过程 </p>
+<p>eg. 若要利用通道0，由外设（磁盘）输入32KB的一个数据块，传送至内存8000H开始的区域（增量传送），</p>
+<p>采用数据块连续传送的方式，传送完不自动初始化，</p>
+<p>外设的DREQ和DACK都为高电平有效。要编程首先要确定端口地址。</p>
+<p>地址的低4位以区分8237A的内部寄存器，高4位地址A7~A4，经译码后，连至选片端CS#，假定选中时高4位为7</p>
+<p>solution:依据要求，</p>
+<ol>
+<li><p>方式控制字为84H；</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/mode.PNG" alt="mode"></p>
+</li>
+<li><p>屏蔽寄存器的单屏蔽字为00H；</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/pinbi.png" alt="pinbi"></p>
+</li>
+<li><p>命令字0A0H</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/control.PNG" alt="control"></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">OUT		7DH,AL		 ;输出主清除命令:对端口0DH写入0，使8237复位,70+DH&#x3D;&gt;复位寄存器</span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址低8位，70+0H&#x3D;&gt;基地址 reg 0</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址高8位</span><br><span class="line"></span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	71H, AL       ;70+1H&#x3D;&gt;基字节 counter</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	71H, AL;给基字节数和现行字节数</span><br><span class="line">			      ;寄存器赋值为32768</span><br><span class="line">MOV 	AL, 84H		</span><br><span class="line">OUT 	7BH, AL		 ;输出方式字,70+BH&#x3D;&gt;mode reg </span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	7AH, AL 	;输出屏蔽字,70+AH&#x3D;&gt;屏蔽 reg</span><br><span class="line">MOV 	AL, 0A0H</span><br><span class="line">OUT 	78H, AL		 ;输出命令字 , 70+8H&#x3D;&gt; control reg</span><br></pre></td></tr></table></figure>
+<p>1.简述DMA数据传送方式过程、特点和优点。</p>
+<p>2.在DMA方式数据传输过程中，是由DMAC控制总线。</p>
+<p>3.CPU与外设之间的数据传送控制方式有哪三种？</p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
       </tags>
   </entry>
   <entry>
@@ -5006,6 +5006,148 @@ e_{ss} =  \mathop{\text{lim}} \limits_{s\to 0+}  \frac{[1 - C(sI-A)^{-1}B ]}{s}\
       </tags>
   </entry>
   <entry>
+    <title>DTFT</title>
+    <url>/2020/05/15/dsp/DTFT/</url>
+    <content><![CDATA[<h2 id="DTFT"><a href="#DTFT" class="headerlink" title="DTFT"></a>DTFT</h2><script type="math/tex; mode=display">
+\begin{aligned}
+X(f) &= \int_{-\infty}^{\infty} x(t) e^{-j2\pi ft} dt\\
+x^*(t) &= \int_{-\infty}^{\infty} X(f) e^{j2\pi ft} df\\
+\end{aligned}</script><a id="more"></a>
+<p>When $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, then we have $\lambda &lt; 1$ that</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\hat{X}(f) &= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt = \sum_n x(nT) \int_{-\infty}^{\infty} \delta(t-nT)e^{-j2\pi ft} dt\\
+&=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\\
+\hat{x}^*(t) &= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\\
+x(nT) &=\int_{-\infty}^{\infty} \hat{x}^*(t) [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
+&= \int_{-\infty}^{\infty}  \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)T}^{(n+\lambda)T} e^{j2\pi ft} dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)}^{(n+\lambda)} e^{j2\pi (f/f_s)t'} dt'/f_s  \quad[t' = f_s t]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \frac{e^{j2\pi (f/f_s)(n+\lambda)}-e^{j2\pi (f/f_s)(n-\lambda)}}{j2\pi  (f/f_s)}\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{e^{j2\pi (f/f_s)\lambda}-e^{-j2\pi (f/f_s)\lambda}}{j2\pi  (f/f_s)}\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{2\lambda j\sin(2\pi(f/f_s)\lambda)}{j2\pi  (f/f_s)\lambda}\\
+&= 2\lambda \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{\sin(2\pi(f/f_s)\lambda)}{2\pi  (f/f_s)\lambda}\\
+\end{aligned}</script><p>If we replace kernel function: $[\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)]$ with function</p>
+<script type="math/tex; mode=display">
+\frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} = \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{j2\pi f_s(t-nT)}</script><p>We still have:</p>
+<script type="math/tex; mode=display">
+\int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
+= \int_{-\infty}^{\infty} \sum_{n'} x(n'T)  \delta(t-n'T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
+= \sum_{n'} x(n'T)  \int_{-\infty}^{\infty} \delta(t-n'T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
+= \sum_{n'} x(n'T) \frac{\sin(\pi (f_s/f_s)(n'-n))}{\pi (f_s/f_s)(n'-n)}  \int_{-\infty}^{\infty} \delta(t-n'T) dt\\
+= \sum_{n'} x(n'T) \delta(n'-n) = x(nT)</script><p>So, we have:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+x(nT)&=\int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft}\frac{\sin(2\pi (f_s/2)(t-nT))}{2\pi (f_s/2)(t-nT)}dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{2j2\pi (f_s/2)(t-nT)}dt\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{-j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t'} \frac{e^{j\pi t'}}{j2\pi (t'-n)}dt'/f_s - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t'} \frac{e^{-j\pi  t'}}{j2\pi (t'-n)}dt'/f_s]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi (t'-n)}dt' - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi (t'-n)}dt']\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)(t'+n)} \frac{1}{j2\pi t'}dt' - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)(t'+n)} \frac{1}{j2\pi t'}dt']\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n}e^{j2\pi (f/f_s+0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - e^{ j2\pi n} e^{j2\pi (f/f_s-0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt']\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) [e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt' ]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt' ]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{1}{2}[\text{sgn}(f/f_s+0.5) - \text{sgn}(f/f_s-0.5) ]\\
+&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\text{u}(f/f_s+0.5) - \text{u}(f/f_s-0.5) ]\\
+&= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
+\end{aligned}</script><p>because $\text{sgn}(t) &lt;=&gt; \frac{1}{j\pi f}$, then we have $\frac{1}{j\pi t} &lt;=&gt; \text{sgn}(-f)=-\text{sgn}(f)$,</p>
+<p>Thus means</p>
+<script type="math/tex; mode=display">
+-\text{sgn}(f) = \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{-j2\pi ft} dt\\
+\text{sgn}(f) =-\text{sgn}(-f) = \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi ft} dt\\
+\text{sgn}(f/f_s+0.5)= \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s+0.5)t} dt = 2\text{u}(f/f_s+0.5)-1\\
+\text{sgn}(f/f_s-0.5)= \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s-0.5)t} dt = 2\text{u}(f/f_s-0.5)-1\\</script><p>To sum up:</p>
+<p>for $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, we have</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\hat{X}(f) &= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt\\
+&=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\\
+\hat{x}^*(t) &= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\\
+x(nT) &= \int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
+&= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
+\end{aligned}</script><p>Now define $\omega = 2\pi f/f_s$, then</p>
+<script type="math/tex; mode=display">
+X(e^{jw}) \equiv \hat{X}(f) = \sum_n x(nT) [e^{j\omega}]^{-n}\\
+x(nT)=  \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \frac{1}{2\pi} \int_{2\pi} X(e^{jw}) [e^{j\omega}]^{n} d\omega</script><h2 id="Formula"><a href="#Formula" class="headerlink" title="Formula"></a>Formula</h2><script type="math/tex; mode=display">
+\text{FT}[\delta(t)] = \int\delta(t) e^{-j2\pi ft} dt = \int\delta(t) e^{-j2\pi f0} dt = 1\cdot \int\delta(t) dt=1(f)\\
+\text{so, } \delta(t) = \text{FT}^{-1}[1(f)] = \int 1 \cdot e^{j2\pi ft} df</script><p>then replace $f\to t, t\to -f$, having</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\delta(-f) &= \int1(t) \cdot e^{j2\pi t(-f)} dt = \text{FT}[1(t)]\\
+&= \delta(f)
+\end{aligned}</script><p>Thus Fourier pair $1(t) &lt;-&gt; \delta(f)$, now we want to verify:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\sum_n \delta(t-nT) &= \frac{1}{T} \sum_k e^{j2\pi k(\frac{t}{T})}  \quad [\alpha\delta(\alpha t') = \delta(t'), t'=\frac{t}{T}=tf_s]\\  
+\sum_n \delta(t'-n) &= \sum_k e^{j2\pi k t'}
+\end{aligned}</script><p>Here we have:</p>
+<p>一个矩形脉冲的傅里叶变换是sinc函数</p>
+<p>一个矩形脉冲离散采样之后的离散傅里叶变换就是Dirichlet函数</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\sum_{k=-A}^{A}e^{j2\pi kt'} &= 1+ 2 \sum_{k=1}^A \cos(2\pi t' k)\\
+\sin(\pi t' ) \sum_{k=-A}^{A}e^{j2\pi kt'} &= \sin(\pi t' ) + \sum_{k=1}^A[ \sin(2\pi t'(k+0.5)) - \sin(2\pi t'(k-0.5)) ]\\
+&= \sin(2\pi t'(A+0.5)) = \sin(\pi t'(2A+1))\\
+\sum_{k=-A}^{A}e^{j2\pi kt'} &= \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )}
+\end{aligned}</script><p>Moreover, $ \frac{\sin(\pi (t’+\Delta) (2A+1))}{\sin(\pi (t’+\Delta) )}=  \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}, \Delta\in Z$, the period is 1:</p>
+<script type="math/tex; mode=display">
+\int_{-0.5}^{0.5} \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )} dt' = \sum_{k=-A}^{A}  \int_{-0.5}^{0.5}e^{j2\pi kt'} dt'= \sum_{k=-A}^{A} \delta(k) = 1</script><p>So, $\lim_{A\to \infty} \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}[\text{u}(t’+0.5)-\text{u}(t’-0.5)] = \delta(t’)$, then we have</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\lim_{A\to \infty} \sum_{k=-A}^{A}e^{j2\pi kt'} &= \lim_{A\to \infty} \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )}\\
+&= \lim_{A\to \infty} \sum_n \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
+&= \lim_{A\to \infty} \sum_n \frac{\sin(\pi (t'-n)(2A+1))}{\sin(\pi (t'-n) )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
+&= \sum_n \lim_{A\to \infty} \frac{\sin(\pi (t'-n)(2A+1))}{\sin(\pi (t'-n) )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
+&= \sum_n \delta(t'-n) \\
+\end{aligned}</script><p>Thus,</p>
+<script type="math/tex; mode=display">
+\sum_n \delta(t'-n) = \sum_k e^{j2\pi k t'} \quad[t=t' T]\\
+T\sum_n \delta(t-nT) =  \sum_n \delta(t/T-n) = \sum_k e^{j2\pi k(\frac{t}{T})}</script><h2 id="DFT"><a href="#DFT" class="headerlink" title="DFT"></a>DFT</h2><p>consider to sample $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$ 0~NT, as a period</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\tilde{x}(t) &= \left\{ \hat{x}(t) \left[ \text{u}(t)-\text{u}(t-NT) \right]  \right\} * \sum_{n'} \delta(t-n'NT)\\
+&= \left\{  \sum_{n=0}^{N-1} x(nT)  \delta(t-nT) \right\} * \sum_{n'} \delta(t-n'NT)\\
+&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  \delta(t-(n+n'N)T) \right\}  \\
+\end{aligned}</script><p>For freq domain:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\tilde{X}(f) &= \int_{-\infty}^{\infty} \tilde{x}(t) e^{-j2\pi ft} dt \\
+&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  [ \int_{-\infty}^{\infty} \delta(t-(n+n'N)T) e^{-j2\pi ft} dt] \right\} \\
+&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)(n+n'N)}  \right\} \\
+&=  \sum_{n'} e^{-j2\pi (\frac{f}{f_s/N})n'} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}  \quad[\sum_n \delta(t'-n) = \sum_k e^{j2\pi k t'}] \\
+&=  \sum_{k} \delta(\frac{f}{f_s/N}-k) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}\\
+&=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}\\
+&=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\}\\
+&= \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]
+\end{aligned}</script><p>Reconstruction:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\tilde{x}^*(t) &= \int_{-\infty}^{\infty} \tilde{X}(f) e^{j2\pi ft} df\\
+&=\int_{-\infty}^{\infty} e^{j2\pi ft} df \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg] \\
+&= \sum_{k} \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]  \int_{-\infty}^{\infty} e^{j2\pi ft} \delta(f-k\frac{f_s}{N}) df \\
+&= \sum_{k} \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]  e^{j2\pi (k/N)f_st} \\
+x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
+&= \int_{-0.5}^{0.5} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \int_{0}^{1} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
+&=  \int_{0}^{1} e^{j2\pi (f/f_s)n} d(f/f_s)  \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\  
+&= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{f}{f_s})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})
+\Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\  
+&= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{k}{N})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})
+\Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\
+&= \sum_{k=0}^{N-1} e^{j2\pi (\frac{k}{N})n} \Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\
+&= \frac{1}{N} \sum_{k=0}^{N-1}  \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (\frac{k}{N}) n}  \right\} e^{j2\pi (\frac{k}{N})n}
+\end{aligned}</script>]]></content>
+      <categories>
+        <category>信号处理</category>
+        <category>公式</category>
+      </categories>
+      <tags>
+        <tag>math</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Fourier变换</title>
     <url>/2020/05/15/dsp/Fourier%20transform/</url>
     <content><![CDATA[<h1 id="Fourier-Transform"><a href="#Fourier-Transform" class="headerlink" title="Fourier Transform"></a>Fourier Transform</h1><a id="more"></a>
@@ -5493,145 +5635,33 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>DTFT</title>
-    <url>/2020/05/15/dsp/DTFT/</url>
-    <content><![CDATA[<h2 id="DTFT"><a href="#DTFT" class="headerlink" title="DTFT"></a>DTFT</h2><script type="math/tex; mode=display">
-\begin{aligned}
-X(f) &= \int_{-\infty}^{\infty} x(t) e^{-j2\pi ft} dt\\
-x^*(t) &= \int_{-\infty}^{\infty} X(f) e^{j2\pi ft} df\\
-\end{aligned}</script><a id="more"></a>
-<p>When $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, then we have $\lambda &lt; 1$ that</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\hat{X}(f) &= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt = \sum_n x(nT) \int_{-\infty}^{\infty} \delta(t-nT)e^{-j2\pi ft} dt\\
-&=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\\
-\hat{x}^*(t) &= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\\
-x(nT) &=\int_{-\infty}^{\infty} \hat{x}^*(t) [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
-&= \int_{-\infty}^{\infty}  \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} [\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)] dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)T}^{(n+\lambda)T} e^{j2\pi ft} dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{(n-\lambda)}^{(n+\lambda)} e^{j2\pi (f/f_s)t'} dt'/f_s  \quad[t' = f_s t]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \frac{e^{j2\pi (f/f_s)(n+\lambda)}-e^{j2\pi (f/f_s)(n-\lambda)}}{j2\pi  (f/f_s)}\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{e^{j2\pi (f/f_s)\lambda}-e^{-j2\pi (f/f_s)\lambda}}{j2\pi  (f/f_s)}\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{2\lambda j\sin(2\pi(f/f_s)\lambda)}{j2\pi  (f/f_s)\lambda}\\
-&= 2\lambda \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{\sin(2\pi(f/f_s)\lambda)}{2\pi  (f/f_s)\lambda}\\
-\end{aligned}</script><p>If we replace kernel function: $[\text{u}(t-(n-\lambda)T)-\text{u}(t-(n+\lambda)T)]$ with function</p>
-<script type="math/tex; mode=display">
-\frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} = \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{j2\pi f_s(t-nT)}</script><p>We still have:</p>
-<script type="math/tex; mode=display">
-\int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
-= \int_{-\infty}^{\infty} \sum_{n'} x(n'T)  \delta(t-n'T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
-= \sum_{n'} x(n'T)  \int_{-\infty}^{\infty} \delta(t-n'T) \frac{\sin(\pi f_s(t-nT))}{\pi f_s(t-nT)} dt\\
-= \sum_{n'} x(n'T) \frac{\sin(\pi (f_s/f_s)(n'-n))}{\pi (f_s/f_s)(n'-n)}  \int_{-\infty}^{\infty} \delta(t-n'T) dt\\
-= \sum_{n'} x(n'T) \delta(n'-n) = x(nT)</script><p>So, we have:</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-x(nT)&=\int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft}\frac{\sin(2\pi (f_s/2)(t-nT))}{2\pi (f_s/2)(t-nT)}dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df  \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2)(t-nT)}-e^{-j2\pi (f_s/2)(t-nT)}}{2j2\pi (f_s/2)(t-nT)}dt\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi ft} \frac{e^{-j2\pi (f_s/2) t}}{j2\pi f_s(t-nT)}dt]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) df \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t'} \frac{e^{j\pi t'}}{j2\pi (t'-n)}dt'/f_s - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s)t'} \frac{e^{-j\pi  t'}}{j2\pi (t'-n)}dt'/f_s]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi (t'-n)}dt' - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi (t'-n)}dt']\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)(t'+n)} \frac{1}{j2\pi t'}dt' - e^{ j2\pi n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)(t'+n)} \frac{1}{j2\pi t'}dt']\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) \cdot [e^{-j2\pi n}e^{j2\pi (f/f_s+0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - e^{ j2\pi n} e^{j2\pi (f/f_s-0.5)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt']\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) [e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - e^{j2\pi (f/f_s)n} \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt' ]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\int_{-\infty}^{\infty} e^{j2\pi (f/f_s+0.5)t'} \frac{1}{j2\pi t'}dt' - \int_{-\infty}^{\infty} e^{j2\pi (f/f_s-0.5)t'} \frac{1}{j2\pi t'}dt' ]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} \frac{1}{2}[\text{sgn}(f/f_s+0.5) - \text{sgn}(f/f_s-0.5) ]\\
-&= \int_{-\infty}^{\infty} \hat{X}(f) d(f/f_s) e^{j2\pi (f/f_s)n} [\text{u}(f/f_s+0.5) - \text{u}(f/f_s-0.5) ]\\
-&= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
-\end{aligned}</script><p>because $\text{sgn}(t) &lt;=&gt; \frac{1}{j\pi f}$, then we have $\frac{1}{j\pi t} &lt;=&gt; \text{sgn}(-f)=-\text{sgn}(f)$,</p>
-<p>Thus means</p>
-<script type="math/tex; mode=display">
--\text{sgn}(f) = \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{-j2\pi ft} dt\\
-\text{sgn}(f) =-\text{sgn}(-f) = \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi ft} dt\\
-\text{sgn}(f/f_s+0.5)= \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s+0.5)t} dt = 2\text{u}(f/f_s+0.5)-1\\
-\text{sgn}(f/f_s-0.5)= \int^{\infty}_{-\infty} \frac{1}{j\pi t} e^{j2\pi (f/f_s-0.5)t} dt = 2\text{u}(f/f_s-0.5)-1\\</script><p>To sum up:</p>
-<p>for $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$, we have</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\hat{X}(f) &= \int_{-\infty}^{\infty} \hat{x}(t) e^{-j2\pi ft} dt\\
-&=\sum_n x(nT) e^{-j2 \pi n (f/f_s)}\\
-\hat{x}^*(t) &= \int_{-\infty}^{\infty} \hat{X}(f) e^{j2\pi ft} df\\
-x(nT) &= \int_{-\infty}^{\infty} \hat{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
-&= \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
-\end{aligned}</script><p>Now define $\omega = 2\pi f/f_s$, then</p>
-<script type="math/tex; mode=display">
-X(e^{jw}) \equiv \hat{X}(f) = \sum_n x(nT) [e^{j\omega}]^{-n}\\
-x(nT)=  \int_{-0.5}^{0.5} \hat{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \frac{1}{2\pi} \int_{2\pi} X(e^{jw}) [e^{j\omega}]^{n} d\omega</script><h2 id="Formula"><a href="#Formula" class="headerlink" title="Formula"></a>Formula</h2><script type="math/tex; mode=display">
-\text{FT}[\delta(t)] = \int\delta(t) e^{-j2\pi ft} dt = \int\delta(t) e^{-j2\pi f0} dt = 1\cdot \int\delta(t) dt=1(f)\\
-\text{so, } \delta(t) = \text{FT}^{-1}[1(f)] = \int 1 \cdot e^{j2\pi ft} df</script><p>then replace $f\to t, t\to -f$, having</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\delta(-f) &= \int1(t) \cdot e^{j2\pi t(-f)} dt = \text{FT}[1(t)]\\
-&= \delta(f)
-\end{aligned}</script><p>Thus Fourier pair $1(t) &lt;-&gt; \delta(f)$, now we want to verify:</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\sum_n \delta(t-nT) &= \frac{1}{T} \sum_k e^{j2\pi k(\frac{t}{T})}  \quad [\alpha\delta(\alpha t') = \delta(t'), t'=\frac{t}{T}=tf_s]\\  
-\sum_n \delta(t'-n) &= \sum_k e^{j2\pi k t'}
-\end{aligned}</script><p>Here we have:</p>
-<p>一个矩形脉冲的傅里叶变换是sinc函数</p>
-<p>一个矩形脉冲离散采样之后的离散傅里叶变换就是Dirichlet函数</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\sum_{k=-A}^{A}e^{j2\pi kt'} &= 1+ 2 \sum_{k=1}^A \cos(2\pi t' k)\\
-\sin(\pi t' ) \sum_{k=-A}^{A}e^{j2\pi kt'} &= \sin(\pi t' ) + \sum_{k=1}^A[ \sin(2\pi t'(k+0.5)) - \sin(2\pi t'(k-0.5)) ]\\
-&= \sin(2\pi t'(A+0.5)) = \sin(\pi t'(2A+1))\\
-\sum_{k=-A}^{A}e^{j2\pi kt'} &= \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )}
-\end{aligned}</script><p>Moreover, $ \frac{\sin(\pi (t’+\Delta) (2A+1))}{\sin(\pi (t’+\Delta) )}=  \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}, \Delta\in Z$, the period is 1:</p>
-<script type="math/tex; mode=display">
-\int_{-0.5}^{0.5} \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )} dt' = \sum_{k=-A}^{A}  \int_{-0.5}^{0.5}e^{j2\pi kt'} dt'= \sum_{k=-A}^{A} \delta(k) = 1</script><p>So, $\lim_{A\to \infty} \frac{\sin(\pi t’(2A+1))}{\sin(\pi t’ )}[\text{u}(t’+0.5)-\text{u}(t’-0.5)] = \delta(t’)$, then we have</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\lim_{A\to \infty} \sum_{k=-A}^{A}e^{j2\pi kt'} &= \lim_{A\to \infty} \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )}\\
-&= \lim_{A\to \infty} \sum_n \frac{\sin(\pi t'(2A+1))}{\sin(\pi t' )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
-&= \lim_{A\to \infty} \sum_n \frac{\sin(\pi (t'-n)(2A+1))}{\sin(\pi (t'-n) )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
-&= \sum_n \lim_{A\to \infty} \frac{\sin(\pi (t'-n)(2A+1))}{\sin(\pi (t'-n) )} [\text{u}(t'+0.5-n)-\text{u}(t'-0.5-n)] \\
-&= \sum_n \delta(t'-n) \\
-\end{aligned}</script><p>Thus,</p>
-<script type="math/tex; mode=display">
-\sum_n \delta(t'-n) = \sum_k e^{j2\pi k t'} \quad[t=t' T]\\
-T\sum_n \delta(t-nT) =  \sum_n \delta(t/T-n) = \sum_k e^{j2\pi k(\frac{t}{T})}</script><h2 id="DFT"><a href="#DFT" class="headerlink" title="DFT"></a>DFT</h2><p>consider to sample $\hat{x}(t) = x(t) p(t) = x(t) \cdot \sum \delta(t-nT)= \sum x(nT)  \delta(t-nT)$ 0~NT, as a period</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\tilde{x}(t) &= \left\{ \hat{x}(t) \left[ \text{u}(t)-\text{u}(t-NT) \right]  \right\} * \sum_{n'} \delta(t-n'NT)\\
-&= \left\{  \sum_{n=0}^{N-1} x(nT)  \delta(t-nT) \right\} * \sum_{n'} \delta(t-n'NT)\\
-&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  \delta(t-(n+n'N)T) \right\}  \\
-\end{aligned}</script><p>For freq domain:</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\tilde{X}(f) &= \int_{-\infty}^{\infty} \tilde{x}(t) e^{-j2\pi ft} dt \\
-&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  [ \int_{-\infty}^{\infty} \delta(t-(n+n'N)T) e^{-j2\pi ft} dt] \right\} \\
-&=  \sum_{n'} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)(n+n'N)}  \right\} \\
-&=  \sum_{n'} e^{-j2\pi (\frac{f}{f_s/N})n'} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}  \quad[\sum_n \delta(t'-n) = \sum_k e^{j2\pi k t'}] \\
-&=  \sum_{k} \delta(\frac{f}{f_s/N}-k) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}\\
-&=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (f/f_s)n}  \right\}\\
-&=  \frac{f_s}{N} \sum_{k} \delta(f-k\frac{f_s}{N}) \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\}\\
-&= \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]
-\end{aligned}</script><p>Reconstruction:</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\tilde{x}^*(t) &= \int_{-\infty}^{\infty} \tilde{X}(f) e^{j2\pi ft} df\\
-&=\int_{-\infty}^{\infty} e^{j2\pi ft} df \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg] \\
-&= \sum_{k} \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]  \int_{-\infty}^{\infty} e^{j2\pi ft} \delta(f-k\frac{f_s}{N}) df \\
-&= \sum_{k} \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]  e^{j2\pi (k/N)f_st} \\
-x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)} dt\\
-&= \int_{-0.5}^{0.5} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s) = \int_{0}^{1} \tilde{X}(f) e^{j2\pi (f/f_s)n} d(f/f_s)\\
-&=  \int_{0}^{1} e^{j2\pi (f/f_s)n} d(f/f_s)  \sum_{k} \delta(f-k\frac{f_s}{N}) \Bigg[\frac{f_s}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\  
-&= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{f}{f_s})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})
-\Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\  
-&= \sum_{k} \int_{0}^{1} e^{j2\pi (\frac{k}{N})n} \delta(\frac{f}{f_s}-\frac{k}{N})  d(\frac{f}{f_s})
-\Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\
-&= \sum_{k=0}^{N-1} e^{j2\pi (\frac{k}{N})n} \Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\
-&= \frac{1}{N} \sum_{k=0}^{N-1}  \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (\frac{k}{N}) n}  \right\} e^{j2\pi (\frac{k}{N})n}
-\end{aligned}</script>]]></content>
+    <title>Chap 1 - 信息论框架</title>
+    <url>/2020/05/15/information_theory/Chap_1/</url>
+    <content><![CDATA[<h2 id="Chap-1"><a href="#Chap-1" class="headerlink" title="Chap 1"></a>Chap 1</h2><a id="more"></a>
+<p><img src="/2020/05/15/information_theory/Chap_1/ch1_0.png" alt="ch1_1"></p>
+<p><img src="/2020/05/15/information_theory/Chap_1/ch1_1.png" alt="ch1_1"></p>
+<p><img src="/2020/05/15/information_theory/Chap_1/ch1_2.png" alt="ch1_1"></p>
+<p><img src="/2020/05/15/information_theory/Chap_1/ch1_3.png" alt="ch1_1"></p>
+<p><img src="/2020/05/15/information_theory/Chap_1/ch1_4.png" alt="ch1_1"></p>
+<h3 id="香农重点-信源到信宿的全过程"><a href="#香农重点-信源到信宿的全过程" class="headerlink" title="香农重点: 信源到信宿的全过程"></a>香农重点: 信源到信宿的全过程</h3><p>= 收、发端联合最优化问题</p>
+<p>重点: 编码</p>
+<h3 id="维纳重点-接收端"><a href="#维纳重点-接收端" class="headerlink" title="维纳重点: 接收端"></a>维纳重点: 接收端</h3><p>研究消息在传输过程中受到干扰时，在接收端如何把消息从干扰中提取出来?</p>
+<ul>
+<li>最佳过滤理论（维纳滤波器）</li>
+<li>统计检测与估计理论</li>
+<li>噪声理论等</li>
+</ul>
+<h3 id="香农信息论缺陷"><a href="#香农信息论缺陷" class="headerlink" title="香农信息论缺陷"></a>香农信息论缺陷</h3><ol>
+<li>寻找一个合适的概率模型往往是非常困难的。某些情况下，这一模型不一定存在</li>
+<li>信息的度量没有考虑收信者的主观性和主观意义: 撇开了信息的具体含义、具体用途、重要程度和引起的后果等元素</li>
+</ol>
+]]></content>
       <categories>
-        <category>信号处理</category>
-        <category>公式</category>
+        <category>信息论</category>
+        <category>BIT课件</category>
       </categories>
       <tags>
-        <tag>math</tag>
-        <tag>DSP</tag>
+        <tag>information theory</tag>
       </tags>
   </entry>
   <entry>
@@ -5718,36 +5748,6 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
 <p>从而使信道的信息传输率R达到信道容量C，实现信源与信道理想的统计匹配</p>
 <h3 id="无失真信源编码定理"><a href="#无失真信源编码定理" class="headerlink" title="(无失真信源编码定理)"></a>(无失真信源编码定理)</h3><p>若信道的信息传输率R&lt;=信道容量C，总能对信源的输出进行适当的编码，使的在无噪无损信道上能无差错的以最大信息传输率C</p>
 <p>传输信息，若R大于C，则无差错传输是不可能的。</p>
-]]></content>
-      <categories>
-        <category>信息论</category>
-        <category>BIT课件</category>
-      </categories>
-      <tags>
-        <tag>information theory</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Chap 1 - 信息论框架</title>
-    <url>/2020/05/15/information_theory/Chap_1/</url>
-    <content><![CDATA[<h2 id="Chap-1"><a href="#Chap-1" class="headerlink" title="Chap 1"></a>Chap 1</h2><a id="more"></a>
-<p><img src="/2020/05/15/information_theory/Chap_1/ch1_0.png" alt="ch1_1"></p>
-<p><img src="/2020/05/15/information_theory/Chap_1/ch1_1.png" alt="ch1_1"></p>
-<p><img src="/2020/05/15/information_theory/Chap_1/ch1_2.png" alt="ch1_1"></p>
-<p><img src="/2020/05/15/information_theory/Chap_1/ch1_3.png" alt="ch1_1"></p>
-<p><img src="/2020/05/15/information_theory/Chap_1/ch1_4.png" alt="ch1_1"></p>
-<h3 id="香农重点-信源到信宿的全过程"><a href="#香农重点-信源到信宿的全过程" class="headerlink" title="香农重点: 信源到信宿的全过程"></a>香农重点: 信源到信宿的全过程</h3><p>= 收、发端联合最优化问题</p>
-<p>重点: 编码</p>
-<h3 id="维纳重点-接收端"><a href="#维纳重点-接收端" class="headerlink" title="维纳重点: 接收端"></a>维纳重点: 接收端</h3><p>研究消息在传输过程中受到干扰时，在接收端如何把消息从干扰中提取出来?</p>
-<ul>
-<li>最佳过滤理论（维纳滤波器）</li>
-<li>统计检测与估计理论</li>
-<li>噪声理论等</li>
-</ul>
-<h3 id="香农信息论缺陷"><a href="#香农信息论缺陷" class="headerlink" title="香农信息论缺陷"></a>香农信息论缺陷</h3><ol>
-<li>寻找一个合适的概率模型往往是非常困难的。某些情况下，这一模型不一定存在</li>
-<li>信息的度量没有考虑收信者的主观性和主观意义: 撇开了信息的具体含义、具体用途、重要程度和引起的后果等元素</li>
-</ol>
 ]]></content>
       <categories>
         <category>信息论</category>
@@ -5890,14 +5890,14 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
       </tags>
   </entry>
   <entry>
-    <title>copy</title>
-    <url>/2020/05/17/linux_cmd/copy/</url>
-    <content><![CDATA[<h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><a id="more"></a>
-<p>Linux中使用cp命令报cp:omitting directory错误</p>
-<p>这是因为test1目录下还有目录，不能直接进行拷贝。 </p>
-<p>先找下cp 的命令帮助，输入cp —h .</p>
-<p>其中一个-r，能解决这个问题。<br>在cp命令后，加一个选项 -r . </p>
-<p>cp -r  /TEST/test1 /TEST/test2.<br>解释一下： -r 这个options 是递归的意思。</p>
+    <title>apt install</title>
+    <url>/2020/05/17/linux_cmd/apt/</url>
+    <content><![CDATA[<h2 id="apt-install"><a href="#apt-install" class="headerlink" title="apt install"></a>apt install</h2><a id="more"></a>
+<p>安装软件的时候出现了Package has no installation candidate的问题，如：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">#  apt-get install &lt;packagename&gt;</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency <span class="built_in">tree</span>... Done</span><br><span class="line">Package aptitude is <span class="keyword">not</span> available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another source</span><br><span class="line"><span class="function">E: <span class="title">Package</span> &lt;<span class="title">packagename</span>&gt; <span class="title">has</span> <span class="title">no</span> <span class="title">installation</span> <span class="title">candidate</span></span></span><br></pre></td></tr></table></figure>
+<p>解决方法如下：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># apt-get update</span><br><span class="line"># apt-get upgrade</span><br><span class="line"># apt-get install &lt;packagename&gt;</span><br></pre></td></tr></table></figure>
+<p>这样就可以正常使用apt-get</p>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -5909,14 +5909,14 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
       </tags>
   </entry>
   <entry>
-    <title>apt install</title>
-    <url>/2020/05/17/linux_cmd/apt/</url>
-    <content><![CDATA[<h2 id="apt-install"><a href="#apt-install" class="headerlink" title="apt install"></a>apt install</h2><a id="more"></a>
-<p>安装软件的时候出现了Package has no installation candidate的问题，如：</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">#  apt-get install &lt;packagename&gt;</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency <span class="built_in">tree</span>... Done</span><br><span class="line">Package aptitude is <span class="keyword">not</span> available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another source</span><br><span class="line"><span class="function">E: <span class="title">Package</span> &lt;<span class="title">packagename</span>&gt; <span class="title">has</span> <span class="title">no</span> <span class="title">installation</span> <span class="title">candidate</span></span></span><br></pre></td></tr></table></figure>
-<p>解决方法如下：</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># apt-get update</span><br><span class="line"># apt-get upgrade</span><br><span class="line"># apt-get install &lt;packagename&gt;</span><br></pre></td></tr></table></figure>
-<p>这样就可以正常使用apt-get</p>
+    <title>copy</title>
+    <url>/2020/05/17/linux_cmd/copy/</url>
+    <content><![CDATA[<h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><a id="more"></a>
+<p>Linux中使用cp命令报cp:omitting directory错误</p>
+<p>这是因为test1目录下还有目录，不能直接进行拷贝。 </p>
+<p>先找下cp 的命令帮助，输入cp —h .</p>
+<p>其中一个-r，能解决这个问题。<br>在cp命令后，加一个选项 -r . </p>
+<p>cp -r  /TEST/test1 /TEST/test2.<br>解释一下： -r 这个options 是递归的意思。</p>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -5991,7 +5991,8 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
   <entry>
     <title>linux cmd</title>
     <url>/2020/05/17/linux_cmd/linux_cmd%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<div class="pdfobject-container" data-target="https://dassein.github.io/pdf/linux_command_reference.pdf" data-height="undefined"></div>]]></content>
+    <content><![CDATA[<a id="more"></a>
+<div class="pdfobject-container" data-target="https://dassein.github.io/pdf/linux_command_reference.pdf" data-height="1000px"></div>]]></content>
       <categories>
         <category>linux</category>
         <category>cmd</category>
@@ -6060,25 +6061,6 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
       </tags>
   </entry>
   <entry>
-    <title>linux安装MATLAB</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85MATLAB/</url>
-    <content><![CDATA[<h2 id="linux安装MATLAB"><a href="#linux安装MATLAB" class="headerlink" title="linux安装MATLAB"></a>linux安装MATLAB</h2><a id="more"></a>
-<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><p>下载安装包rar后, 解压为iso</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Downloads$ rar x MATHWORKS_R2014A.part1.rar</span><br><span class="line">RAR <span class="number">5</span>.<span class="number">30</span> beta <span class="number">2</span>   Copyright (c) <span class="number">1993</span>-<span class="number">2015</span> Alexander Roshal   <span class="number">4</span> Aug <span class="number">2015</span></span><br><span class="line">Trial version             <span class="built_in">Type</span> RAR -? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">Extracting from MATHWORKS_R2014A.part1.rar</span><br><span class="line">Extracting  MATHWORKS_R2014A.iso                                      <span class="number">58</span>%</span><br><span class="line">Extracting from MATHWORKS_R2014A.part2.rar</span><br><span class="line">...         MATHWORKS_R2014A.iso                                      OK </span><br><span class="line">All OK</span><br></pre></td></tr></table></figure>
-<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>安装matlab<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">mkdir</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">mount</span> -<span class="title">o</span> <span class="title">loop</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">MATHWORKS_R2014A.iso</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">mount</span>: /<span class="title">dev</span>/<span class="title">loop0</span> <span class="title">is</span> <span class="title">write</span>-<span class="title">protected</span>, <span class="title">mounting</span> <span class="title">read</span>-<span class="title">only</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cd</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">sudo</span> ./<span class="title">install</span></span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">installation</span> <span class="title">files</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Installing</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Finished</span></span></span><br></pre></td></tr></table></figure></p>
-<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><p>破解matlab</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">cd</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">cp</span> <span class="title">libmwservices.so</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">matlab</span></span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>matlab</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>linux安装Quartus软件FPGA部分</title>
     <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85Quartus%E8%BD%AF%E4%BB%B6FPGA%E9%83%A8%E5%88%86/</url>
     <content><![CDATA[<h2 id="linux安装Quartus软件FPGA部分"><a href="#linux安装Quartus软件FPGA部分" class="headerlink" title="linux安装Quartus软件FPGA部分"></a>linux安装Quartus软件FPGA部分</h2><a id="more"></a>
@@ -6095,6 +6077,25 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
       </categories>
       <tags>
         <tag>Quartus</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux安装MATLAB</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85MATLAB/</url>
+    <content><![CDATA[<h2 id="linux安装MATLAB"><a href="#linux安装MATLAB" class="headerlink" title="linux安装MATLAB"></a>linux安装MATLAB</h2><a id="more"></a>
+<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><p>下载安装包rar后, 解压为iso</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Downloads$ rar x MATHWORKS_R2014A.part1.rar</span><br><span class="line">RAR <span class="number">5</span>.<span class="number">30</span> beta <span class="number">2</span>   Copyright (c) <span class="number">1993</span>-<span class="number">2015</span> Alexander Roshal   <span class="number">4</span> Aug <span class="number">2015</span></span><br><span class="line">Trial version             <span class="built_in">Type</span> RAR -? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">Extracting from MATHWORKS_R2014A.part1.rar</span><br><span class="line">Extracting  MATHWORKS_R2014A.iso                                      <span class="number">58</span>%</span><br><span class="line">Extracting from MATHWORKS_R2014A.part2.rar</span><br><span class="line">...         MATHWORKS_R2014A.iso                                      OK </span><br><span class="line">All OK</span><br></pre></td></tr></table></figure>
+<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>安装matlab<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">mkdir</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">mount</span> -<span class="title">o</span> <span class="title">loop</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">MATHWORKS_R2014A.iso</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">mount</span>: /<span class="title">dev</span>/<span class="title">loop0</span> <span class="title">is</span> <span class="title">write</span>-<span class="title">protected</span>, <span class="title">mounting</span> <span class="title">read</span>-<span class="title">only</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cd</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">sudo</span> ./<span class="title">install</span></span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">installation</span> <span class="title">files</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Installing</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Finished</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><p>破解matlab</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">cd</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">cp</span> <span class="title">libmwservices.so</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">matlab</span></span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>matlab</tag>
         <tag>linux</tag>
       </tags>
   </entry>
@@ -6172,6 +6173,32 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
       </tags>
   </entry>
   <entry>
+    <title>linux安装jdk</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85jdk/</url>
+    <content><![CDATA[<h2 id="linux安装jdk"><a href="#linux安装jdk" class="headerlink" title="linux安装jdk"></a>linux安装jdk</h2><a id="more"></a>
+<p><a href="http://www.linuxidc.com/Linux/2016-07/133482.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2016-07/133482.htm</a>   安装jdk和eclipse</p>
+<h3 id="准备jdk"><a href="#准备jdk" class="headerlink" title="准备jdk"></a>准备jdk</h3><p><a href="https://www.oracle.com/java/technologies/javase-jdk8-downloads.html" target="_blank" rel="noopener">https://www.oracle.com/java/technologies/javase-jdk8-downloads.html</a> oracle的jdk 8的下载页<br>访问oracle的jdk 8的下载页, 登录java帐号, 下载<code>jdk-8u121-linux-x64.tar.gz</code></p>
+<h3 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h3><p>jdk放置<code>/opt/jvm</code>, 并解压</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">mv</span>   /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">jdk</span>-8<span class="title">u121</span>-<span class="title">linux</span>-<span class="title">x64.tar.gz</span> /<span class="title">opt</span>/<span class="title">jvm</span>/</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">sudo</span> <span class="title">tar</span> <span class="title">zxvf</span> /<span class="title">opt</span>/<span class="title">jvm</span>/<span class="title">jdk</span>-8<span class="title">u121</span>-<span class="title">linux</span>-<span class="title">x64.tar.gz</span> -<span class="title">C</span> /<span class="title">opt</span>/<span class="title">jvm</span></span></span><br><span class="line"><span class="function"><span class="title">jdk1</span>.8.0<span class="title">_121</span>/</span></span><br><span class="line"><span class="function"><span class="title">jdk1</span>.8.0<span class="title">_121</span>/<span class="title">THIRDPARTYLICENSEREADME</span>-<span class="title">JAVAFX.txt</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="配置jdk的环境变量"><a href="#配置jdk的环境变量" class="headerlink" title="配置jdk的环境变量"></a>配置jdk的环境变量</h3><p>打开 <code>/etc/profile</code> 即(<code>sudo vim /etc/profile</code>), 在文件末尾添加语句</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/opt/jvm/jdk1.8.0_121</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<p>保存后退出</p>
+<p>使其立即生效：<code>sudo source /etc/profile</code></p>
+<p>查看是否安装成功：<code>java -version</code> 出现 <code>java version &quot;1.8.0_121&quot;</code></p>
+<p>说明jdk安装成功</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">sudo</span> <span class="title">vim</span> /<span class="title">etc</span>/<span class="title">profile</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">source</span> /<span class="title">etc</span>/<span class="title">profile</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~$ <span class="title">java</span> -<span class="title">version</span></span></span><br><span class="line"><span class="function"><span class="title">java</span> <span class="title">version</span> "1.8.0<span class="title">_121</span>"</span></span><br><span class="line"><span class="function"><span class="title">Java</span>(<span class="title">TM</span>) <span class="title">SE</span> <span class="title">Runtime</span> <span class="title">Environment</span> (<span class="title">build</span> 1.8.0<span class="title">_121</span>-<span class="title">b13</span>)</span></span><br><span class="line"><span class="function"><span class="title">Java</span> <span class="title">HotSpot</span>(<span class="title">TM</span>) 64-<span class="title">Bit</span> <span class="title">Server</span> <span class="title">VM</span> (<span class="title">build</span> 25.121-<span class="title">b13</span>, <span class="title">mixed</span> <span class="title">mode</span>)</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>jdk</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux安装eclipse</title>
     <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85eclipse/</url>
     <content><![CDATA[<h2 id="linux安装eclipse"><a href="#linux安装eclipse" class="headerlink" title="linux安装eclipse"></a>linux安装eclipse</h2><a id="more"></a>
@@ -6200,34 +6227,8 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
       </categories>
       <tags>
         <tag>linux</tag>
+        <tag>java</tag>
         <tag>eclipse</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux安装jdk</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85jdk/</url>
-    <content><![CDATA[<h2 id="linux安装jdk"><a href="#linux安装jdk" class="headerlink" title="linux安装jdk"></a>linux安装jdk</h2><a id="more"></a>
-<p><a href="http://www.linuxidc.com/Linux/2016-07/133482.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2016-07/133482.htm</a>   安装jdk和eclipse</p>
-<h3 id="准备jdk"><a href="#准备jdk" class="headerlink" title="准备jdk"></a>准备jdk</h3><p><a href="https://www.oracle.com/java/technologies/javase-jdk8-downloads.html" target="_blank" rel="noopener">https://www.oracle.com/java/technologies/javase-jdk8-downloads.html</a> oracle的jdk 8的下载页<br>访问oracle的jdk 8的下载页, 登录java帐号, 下载<code>jdk-8u121-linux-x64.tar.gz</code></p>
-<h3 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h3><p>jdk放置<code>/opt/jvm</code>, 并解压</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">mv</span>   /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">jdk</span>-8<span class="title">u121</span>-<span class="title">linux</span>-<span class="title">x64.tar.gz</span> /<span class="title">opt</span>/<span class="title">jvm</span>/</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">sudo</span> <span class="title">tar</span> <span class="title">zxvf</span> /<span class="title">opt</span>/<span class="title">jvm</span>/<span class="title">jdk</span>-8<span class="title">u121</span>-<span class="title">linux</span>-<span class="title">x64.tar.gz</span> -<span class="title">C</span> /<span class="title">opt</span>/<span class="title">jvm</span></span></span><br><span class="line"><span class="function"><span class="title">jdk1</span>.8.0<span class="title">_121</span>/</span></span><br><span class="line"><span class="function"><span class="title">jdk1</span>.8.0<span class="title">_121</span>/<span class="title">THIRDPARTYLICENSEREADME</span>-<span class="title">JAVAFX.txt</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="配置jdk的环境变量"><a href="#配置jdk的环境变量" class="headerlink" title="配置jdk的环境变量"></a>配置jdk的环境变量</h3><p>打开 <code>/etc/profile</code> 即(<code>sudo vim /etc/profile</code>), 在文件末尾添加语句</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/opt/jvm/jdk1.8.0_121</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
-<p>保存后退出</p>
-<p>使其立即生效：<code>sudo source /etc/profile</code></p>
-<p>查看是否安装成功：<code>java -version</code> 出现 <code>java version &quot;1.8.0_121&quot;</code></p>
-<p>说明jdk安装成功</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">sudo</span> <span class="title">vim</span> /<span class="title">etc</span>/<span class="title">profile</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">source</span> /<span class="title">etc</span>/<span class="title">profile</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~$ <span class="title">java</span> -<span class="title">version</span></span></span><br><span class="line"><span class="function"><span class="title">java</span> <span class="title">version</span> "1.8.0<span class="title">_121</span>"</span></span><br><span class="line"><span class="function"><span class="title">Java</span>(<span class="title">TM</span>) <span class="title">SE</span> <span class="title">Runtime</span> <span class="title">Environment</span> (<span class="title">build</span> 1.8.0<span class="title">_121</span>-<span class="title">b13</span>)</span></span><br><span class="line"><span class="function"><span class="title">Java</span> <span class="title">HotSpot</span>(<span class="title">TM</span>) 64-<span class="title">Bit</span> <span class="title">Server</span> <span class="title">VM</span> (<span class="title">build</span> 25.121-<span class="title">b13</span>, <span class="title">mixed</span> <span class="title">mode</span>)</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
-        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>
