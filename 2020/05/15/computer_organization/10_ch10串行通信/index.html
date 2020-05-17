@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dassein.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="串行通信技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ch10串行通信">
+<meta property="og:url" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="dassein&#39;s blog">
+<meta property="og:description" content="串行通信技术">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/frame.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/RS232_simple.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250_2.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/LCR.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/MCR.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/LSR.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/MSR.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/IIR.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250_2.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250_state.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/MCR.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_wr.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_reg1.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_reg2.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_ini.png">
+<meta property="article:published_time" content="2020-05-15T18:09:49.476Z">
+<meta property="article:modified_time" content="2020-05-14T03:19:36.000Z">
+<meta property="article:author" content="dassein">
+<meta property="article:tag" content="computer organization">
+<meta property="article:tag" content="assembly language">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/frame.png">
+
+<link rel="canonical" href="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>ch10串行通信 | dassein's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dassein's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">31</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">29</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">69</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dassein.github.io/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dassein">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dassein's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ch10串行通信
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-15 13:09:49" itemprop="dateCreated datePublished" datetime="2020-05-15T13:09:49-05:00">2020-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-13 22:19:36" itemprop="dateModified" datetime="2020-05-13T22:19:36-05:00">2020-05-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">计算机组成原理</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/BIT%E8%AF%BE%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">BIT课件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="串行通信技术"><a href="#串行通信技术" class="headerlink" title="串行通信技术"></a>串行通信技术</h2><a id="more"></a>
+<h3 id="串行通信基本概念"><a href="#串行通信基本概念" class="headerlink" title="串行通信基本概念"></a>串行通信基本概念</h3><p>baud rate = 1/T (每second 传字符数)</p>
+<p>波特率因子：发送/接收一个数据位所需要的时钟脉冲个数</p>
+<p>eg. 波特率=9600bps，波特率因子=16，则(接收和发送)时钟频率=9600×16=153600Hz</p>
+<p>调制解调器——Modem。</p>
+<p>Modem起着传输信号的作用，数据通讯设备，简称DCE</p>
+<p>接收设备和发送设备称为数据终端设备，简称DTE。</p>
+<ul>
+<li><p>连接方式：</p>
+<p>全双工方式：通信双方能同时进行发送和接收操作；</p>
+<p>半双工方式：只有1根数据线传送数据信号，要求通信双方的发送和接收由电子开关切换；</p>
+<p>单工方式：只允许数据按照一个固定的方向传送；</p>
+</li>
+</ul>
+<ul>
+<li><p>并行通信：将一组数据的各位同时进行传送。</p>
+</li>
+<li><p>串行通信：把数据的字节分解成单个二进制位依次传输[优势：传输干扰小]</p>
+<ul>
+<li><p>异步串行通信: 在单根数据线上逐字符逐位传输，</p>
+<p>传输一个字符时，依次传输起始位、字符各位、校验位、停止位结束该字符的传输</p>
+<p>帧（Frame）:起始位、字符各位、校验位、停止位构成一组完整的信息</p>
+<ul>
+<li>起始位  逻辑0  1位</li>
+<li>数据位  逻辑0或1    5位、6位、7位、8位</li>
+<li>校验位  逻辑0或1    1位或无</li>
+<li>停止位  逻辑1  1位、1.5位或2位</li>
+<li>空闲位  逻辑1  任意数量 </li>
+</ul>
+<p>[帧之间可有任意个空闲位]</p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/frame.png" alt="frame"></p>
+</li>
+<li><p>同步串行通信：以一个数据块为传输单位，</p>
+<p>在每个数据并不加起始和停止位，而是将数据顺序连接起来，每个数据块附加一个或多个同步字符，最后以校验字符结束。</p>
+<p>异步传输的错误检测:</p>
+<ul>
+<li>奇偶校验错（ParityError）</li>
+<li>溢出（超越）错（OverrunError）</li>
+<li>帧格式错（FrameError）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>校验方法</p>
+<ul>
+<li>奇偶校验法</li>
+<li>方阵码校验:<br>奇偶校验和“异或校验和”综合</li>
+<li>循环冗余校验码（CRC）（Cyclic Redundancy Check）</li>
+</ul>
+</li>
+</ul>
+<h4 id="串行总线标准RS-232C"><a href="#串行总线标准RS-232C" class="headerlink" title="串行总线标准RS-232C"></a>串行总线标准RS-232C</h4><p>串行通信中，DTE和DCE之间的连接要符合接口标准，计算机通信中使用最普遍的是RS-232C标准</p>
+<p>定义了按位串行传输的DTE和DCE之间的接口信息。</p>
+<p>eg. PC机上的COM1、COM2接口，就是RS-232C接口，使用9针和25针连接器</p>
+<p>见ppt P13,14</p>
+<p>RS-232三线通信的连线图</p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/RS232_simple.png" alt="RS232_simple"></p>
+<h3 id="异步串行通信接口芯片8250"><a href="#异步串行通信接口芯片8250" class="headerlink" title="异步串行通信接口芯片8250"></a>异步串行通信接口芯片8250</h3><p>8250芯片是一种通用的异步接收发送器</p>
+<p>发送和接收都采用双缓冲器结构</p>
+<ul>
+<li>发送时:自CPU的并行数据字符—&gt;转换为连续的数据流—&gt;移位寄存器发送。</li>
+<li>接收时: 接收串行数据流—&gt;转换为并行数据—&gt;数据寄存器提供给CPU</li>
+</ul>
+<p>支持异步串行通信规程: </p>
+<ul>
+<li>发送时可自动插入起始位、停止位和奇偶校验位。接收时能自动删除他们</li>
+</ul>
+<p>具有可编程的时钟产生电路:</p>
+<ul>
+<li>对外部输入时钟1~65535次分频，据规定Baud rate，可编程选择分频次数</li>
+</ul>
+<p>具有由CPU发向MODEM的控制信号</p>
+<p>具有优先级排队的中断系统，有多种中断源</p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250.png" alt="8250"></p>
+<h4 id="8250内部功能、结构"><a href="#8250内部功能、结构" class="headerlink" title="8250内部功能、结构"></a>8250内部功能、结构</h4><p>数据输入/输出缓冲器：与CPU总线D7~D0连接。</p>
+<p>读/写控制逻辑：接收读写命令和地址信号A2~A0，产生内部控制信号，决定哪寄存器进行操作</p>
+<p>接收器：由接收缓冲寄存器，接收移位寄存器、接收同步电路构成</p>
+<p>发送器：包括发送缓冲寄存器TBR，发送移位寄存器和发送同步控制。</p>
+<p>时钟发生环节：包括波特率发生器和分频次数锁存器。8250的发送和接收时钟为波特率的16倍。</p>
+<p>设外部时钟频率为1.8432MHz，则分频次数N=184320/（16*波特率）</p>
+<p>传输线控制寄存器&amp;传输线状态寄存器：控制寄存器用来写入控制字，状态寄存器用来记录通讯时状态。</p>
+<p>中断控制寄存器：包括中断允许寄存器、中断识别寄存器和中断控制逻辑三部分。</p>
+<p>MODEN控制逻辑：包括调制解调控制寄存器、调制解调状态寄存器和调制解调控制逻辑</p>
+<h4 id="8250的引脚功能"><a href="#8250的引脚功能" class="headerlink" title="8250的引脚功能"></a>8250的引脚功能</h4><p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250_2.png" alt="8250_2"></p>
+<ul>
+<li><p>双向数据线（D0~D7）</p>
+</li>
+<li><p>地址&amp;地址控制线</p>
+<p>CS0，CS1，$\overline{CS2}$—输入片选信号。当CS0与CS1为高、$\overline{CS2}$为低时，该芯片被选中</p>
+<p>A0，A1，A2—寻找8250内部寄存器。+ 除数锁存器访问位DLAB==&gt;芯片内部可供处理机访问10寄存器</p>
+<p>$\overline{ADS}$—地址选通信号:  锁存片选（CS0，CS1，$\overline{CS2}$ ）&amp;&amp; 寄存器选择（A0，A1，A2）</p>
+<p>DDIS—-收发器禁止，==1  禁止处理器对8250写操作；</p>
+<p>MR—主复位，==1 清除内部寄存器（除接收器数据、发送保持寄存器和除数锁存器）&amp; 控制逻辑；</p>
+<p>XTAL1、XTAL2—外时钟输入/输出，外部时钟XTAL1—-&gt;芯片内，芯片—-&gt;XTAL2基准时钟信号输出脚</p>
+<p>CSOUT—芯片选择输出, 开始数据传输； [when芯片已由CS0，CS1，CS2输入所选中时]，</p>
+<p>INTRPT—中断，8250内部有四种类型中断源。[any中断类型有效&amp;&amp;中断允许时]===&gt;该输出端==1</p>
+</li>
+<li><p>调制解调器控制逻辑</p>
+<p>$\overline{DSR}$数传机就绪（输入）Modem就绪==&gt; ==0，允许使用通讯设备进行数据传送—&gt;8250；</p>
+<p>$\overline{DTR}$数据终端8250就绪（输出）$\overline{DTR}$==0 ==&gt; 通知调制解调器或数传机8250已准备好通信；</p>
+<p>$\overline{RTS}$  8250请求发送（输出）$\overline{RTS}$==0 ==&gt; 8250要求向Modem输出串行数据</p>
+<p>$\overline{CTS}$  清除发送  （输入） ==0 ==&gt; MODEM已同意8250的发送请求</p>
+<p>$\overline{RLSD}$  接收线路信号检测（输入）==0 ==&gt; 说明MODEM接收数据载波，8250立即接收解调后的数据</p>
+<p>$\overline{RI}$    振铃指示（输入）MODEM要求8250予以回答。==0 + 若它已准备好==&gt;$\overline{DTR}$输出==0作为MODEM应答信号</p>
+<p>OUT1  输出1，MODEM控制寄存器的位2编程来控制OUT1输出电平</p>
+<p>OUT2  输出2，MODEM控制寄存器的位3编程来控制OUT2输出电平</p>
+</li>
+<li><p>接收器逻辑(接收器移位寄存器、数据寄存器、相应接收控制逻辑)</p>
+<p>RCLK   接收器时钟 :输入Baud rate X 16 时钟信号</p>
+<p>SIN      串行输入</p>
+</li>
+<li><p>发送器逻辑</p>
+<p>BAUDOUT    波特率输出: 输出Baud rate X 16 时钟信号</p>
+<p>SOUT            串行输出</p>
+<p>DISTR、$\overline{DISTR}$   数据输入选通,一个有效=&gt;被选中寄存器内容可被读出。常与系统总线$\overline{IOR}$相连</p>
+<p>DOSTR、$\overline{DOSTR}$   数据输出选通,一个有效=&gt;被选中寄存器内容可写入数据或控制字。常与系统总线$\overline{IOW}$相连</p>
+</li>
+</ul>
+<h4 id="8250内部寄存器-amp-amp-控制字及状态字"><a href="#8250内部寄存器-amp-amp-控制字及状态字" class="headerlink" title="8250内部寄存器 &amp;&amp; 控制字及状态字"></a>8250内部寄存器 &amp;&amp; 控制字及状态字</h4><ul>
+<li><p>初始化命令控制寄存器共5个</p>
+<p>传输线控制寄存器LCR                                           [A2A1A0 = 011, LCR地址为3F8H+011B=3FBH]</p>
+<ul>
+<li><p>A2A1A0 = 011</p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/LCR.png" alt="LCR"></p>
+<p>D7－DLAB除数锁存         </p>
+<p> 0－寻址RBR、TBR、IER寄存器；</p>
+<p> 1－寻址DLL、DLH；</p>
+<p>D6－SB设置间断</p>
+<p> 0－禁止间断产生；</p>
+<p> 1－设置间断，SOUT发送空号。据此，收方能识别发送设备已中止发送；</p>
+<p>D5－SP附加奇偶标志位选择位</p>
+<p>  0－无奇偶保持位选择位；</p>
+<p>  1 －PEN=1时，在奇偶校验位和停止位之间插入一个奇偶标志位。采用偶校验，此奇偶标志位为0。采用奇校验，此奇偶标志位为1。</p>
+<p>D4－EPS奇偶类型</p>
+<p> 0－奇校验（当D3=1）；</p>
+<p> 1－偶校验（当D3=1）；</p>
+<p>D3－PEN奇偶校验允许</p>
+<p> 0－无奇偶校验；</p>
+<p> 1－有奇偶校验；</p>
+<p>D2－STB停止位选择</p>
+<p> 0－1位停止位；</p>
+<p> 1－1.5位停止位（数据位5位）；</p>
+<p> 1－2位（数据位6、7、8）；</p>
+<p>D1，D0－WLS1，WLS0数据位数</p>
+<p>  00－5位</p>
+<p>  01－6位</p>
+<p> 10－7位</p>
+<p> 11－8位</p>
+<p>eg. 用串口COM1，LCR地址为3FBH，假定要求的</p>
+<p>数据位长7位=&gt;D1D0=10，2位停止位=&gt;D2=1，奇校验=&gt;D3=1,D4=0。</p>
+<p>0－寻址RBR、TBR、IER寄存器=&gt;D7=0。那么向LCR写入控制字程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV 	DX, 3FBH</span><br><span class="line">MOV 	AL, 00001110B</span><br><span class="line">OUT 		DX, AL</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>MODEM控制寄存器MCR        [A2A1A0=100]</p>
+<ul>
+<li><p>控制8250连接外部MODEM的信号线</p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/MCR.png" alt="MCR"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>D0－数据终端就绪</p>
+<p>  1=DTR#为低电平；  0=DTR#为高电平；</p>
+<p>D1－请求发送</p>
+<p>  1=RTS#输出低电平；0=RTS#输出高电平；</p>
+<p>D2－输出1（OUT1#）</p>
+<p>  1=用户指定辅助输出1，OUT1#为低电平；</p>
+<p>  0=OUT1#为高电平；</p>
+<p>D3－输出2（OUT2#）</p>
+<p>  1=用户指定辅助输出2，OUT2#为低电平；</p>
+<p>  0=OUT2#为高电平；</p>
+<p>D4－用来控制循环检测，实现8250的自测试。</p>
+<p>  1=芯片循环反馈，提供诊断测试，即发送的数据立即被接收，  完成8250的自检。允许CPU来验证8250的发送和接收通路是否正常；</p>
+<p>  0=8250正常工作</p>
+<p>中断允许寄存器IER                                                          [A2A1A0=001, 地址3F9H]</p>
+</li>
+</ul>
+<ul>
+<li><p>IER高4位固定为0。</p>
+<p>D0－允许接收数据就绪中断；</p>
+<p>D1－允许发送保持寄存器空中断；</p>
+<p>D2－允许接收字符错误或接收到间断状态中断（也称接收线路状态中断）；</p>
+<p>D3－允许MODEM状态改变中断</p>
+<p>除数锁存器低8位DLL（分频次数N低8位锁存器）       [A2A1A0=000, 地址3F8H]</p>
+<p>除数锁存器高8位DLH（分频次数N高8位锁存器）      [A2A1A0=001, 地址3F9H]</p>
+</li>
+<li><p>前提DLAB==1[DLAB为LCR的最高位]</p>
+<p>XTAL1输入基准时钟信号（1.8432MHz ）—-&gt;N分频——&gt;16倍波特率波特率发生器时钟（BAUDOUT）</p>
+<p>波特率=1843200/（分频系数N×16）</p>
+<p>eg. 分频系数寄存器为16位，高8位DLH，地址3F9H，低8位DLL，地址3F8H。</p>
+<p>波特率为4800Baud，外部基准时钟频率1.8432MHz 。分频系数N=1843200/（4800×16）=24=18H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MOV DX，03FBH</span><br><span class="line">MOV AL, 80H</span><br><span class="line">OUT DX, AL    ;set  DLAB&#x3D;&#x3D;1[DLAB为LCR的最高位]</span><br><span class="line">MOV DX，03F8H</span><br><span class="line">MOV AL, 18H   ;set N 低8位DLL &#x3D; 18H &#x3D; 24</span><br><span class="line">OUT DX, AL</span><br><span class="line">MOV DX，03F9H</span><br><span class="line">MOV AL, 00H   ;set N 低8位DLH &#x3D; 0H</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>状态寄存器3个</p>
+<p>传输线状态寄存器LSR           [A2A1A0=101]</p>
+<ul>
+<li><p>得到发送数据缓冲器和接收数据缓冲器的状态值</p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/LSR.png" alt="LSR"></p>
+</li>
+<li><p>D0－接收器数据就绪。</p>
+<p>  1=接收数据寄存器收到一个完整的输入字符；</p>
+<p>  0=读出接收数据寄存器的内容后，该位变0。</p>
+<p>D1－超越错，8250接收下一个字符前，接收数据寄存器中的数据尚未取走。</p>
+<p>  1=出现超越错；</p>
+<p>​    0=CPU读出接收缓冲寄存器的内容时使该位清0；</p>
+<p>D2－奇偶错</p>
+<p>  1=检验出奇偶错；</p>
+<p>  0=处理器读该状态寄存器时使其复位为0；</p>
+<p>D3－帧格式错</p>
+<p>  1=接收到的数据停止位不正确时置1</p>
+<p>D4－线路间断标志</p>
+<p>  1=接收的间断状态超过一个完整的数据字传输时间，则使该位置1；</p>
+<p>  0=读出该状态寄存器时使其复位为0 ；</p>
+<p>出现上述4种错误会使8250发出线路状态错中断。</p>
+<p>D5－发送保持寄存器空</p>
+<p>​     1=准备好接收下一个要求发送的字符或本次发送的字符已从保持寄存器传送到发送移位寄存器；</p>
+<p>  0=处理机将字符装入到发送保持寄存器后复位0；</p>
+<p>D6－发送移位寄存器空</p>
+<p>  1－发送移位寄存器空闲。</p>
+<p>  0－数据由保持寄存器送到移位器后复位0。</p>
+<p>D7－恒为0</p>
+</li>
+</ul>
+<p>MODEM状态寄存器MSR     [A2A1A0=110]</p>
+<ul>
+<li><p>D7~4调制解调器控制线当前状态，D3~0四位控制输入状态变化</p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/MSR.png" alt="MSR"></p>
+</li>
+<li><p>D0－清除发送</p>
+<p>​    该位逻辑1表示从处理机上一次读出以后，输入的CTS已改变状态；</p>
+<p>D1－数传机就绪</p>
+<p>​    该位逻辑1表示从处理机上一次读出以后，输入的DSR已改变状态；</p>
+<p>D2－振铃标志</p>
+<p>​    该位逻辑1表示RI已由接通（逻辑1）变成断开（逻辑0）状态；</p>
+<p>D3－接收线路信号检测</p>
+<p>​    该位逻辑1表示RLSD已改变状态；</p>
+<p>D4~D7位反映MODEM 控制输入的相应状态</p>
+</li>
+</ul>
+<p>中断标志寄存器IIR             [地址3FAH,  A2A1A0=010]</p>
+<ul>
+<li><p>四种类型中断优先级依次:  [默认D0=0]</p>
+<p>接收线路状态中断         [D2D1=11]</p>
+<p>接收数据就绪中断         [D2D1=10]</p>
+<p>发送保持寄存器空中断 [D2D1=01]</p>
+<p>MODEM状态改变中断 [D2D1=00]</p>
+</li>
+<li><p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/IIR.png" alt="IIR"></p>
+<p>高5位恒为0=&gt; 判别系统是否存在异步通讯接口</p>
+<p>D2和D1表示内部4类中断源。</p>
+<p>D0为0，表示有中断源请求中断，1无中断请求</p>
+<p>eg. 判别系统是否存在异步通讯接口=&gt;D7D6D5D4D3=11111, D2D1D0=000</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MOV DX, 3FAH</span><br><span class="line">IN　AL, DX</span><br><span class="line">TEST AL, 0F8H</span><br><span class="line">JZ INITIALIZATION</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>数据寄存器2个</p>
+<p>发送缓冲器TBR                  [A2A1A0 = 000, DLAB = 0,write]</p>
+<ul>
+<li>写入数据保持寄存器，串行发送从字节的最低位开始发送</li>
+</ul>
+<p>接收缓冲器RBR                  [A2A1A0 = 000, DLAB = 0,read]</p>
+<ul>
+<li>寄存器存放接收字符</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250_2.png" alt="8250_2"></p>
+</li>
+</ul>
+<p>10个寄存器寻址由A2，A1，A0决定：2^3 +2 = 10</p>
+<p>ps. 地址共用同样A2A1A0==000 or 001：两个分频次数寄存器&amp;&amp;其他两个寄存器</p>
+<p>DLAB=1时，寻址分频次数寄存器；[DLAB为LCR的最高位]</p>
+<p>DLAB=0时，寻址其他寄存器。</p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8250_state.png" alt="8250_state"></p>
+<h3 id="串行通信8250初始化编程"><a href="#串行通信8250初始化编程" class="headerlink" title="串行通信8250初始化编程"></a>串行通信8250初始化编程</h3><h4 id="基本步骤"><a href="#基本步骤" class="headerlink" title="基本步骤"></a>基本步骤</h4><p>1.确认串行口地址</p>
+<p>  COM1为2F8~2FFH，COM2为3F8~3FFH。</p>
+<p>  各端口地址= 3F8H + A2A1A0</p>
+<ul>
+<li>DLL(000)地址3F8H,  DLH(001)地址3F9H         [先将LCR的D7置1（DLAB）]</li>
+<li>LCR(011)地址为3FBH</li>
+<li>MCR(100)地址3FCH</li>
+<li>IER(000)地址3F9H                                               [先将LCR的D7置0（DLAB）]</li>
+<li>MSR(110)地址3FDH</li>
+</ul>
+<p>2.设置分频次数（波特率）</p>
+<p>  据波特率，计算和查表得到分频系数16位，分别放入DLL和DLH。先将LCR的D7置1（DLAB），然后再写入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MOV DX, 3FBH</span><br><span class="line">MOV AL, 80H</span><br><span class="line">OUT DX, AL	;DLAB&#x3D;1</span><br><span class="line">MOV DX, 3F8H</span><br><span class="line">MOV AL, 0CH</span><br><span class="line">OUT DX, AL	;设置分频系数DLL&#x3D;&#x3D;0CH</span><br><span class="line">MOV DX, 3F9H</span><br><span class="line">MOV AL, 00H</span><br><span class="line">OUT DX, AL	;设置分频系数DLH&#x3D;&#x3D;0H</span><br></pre></td></tr></table></figure>
+<p>3.设置通信数据格式</p>
+<p>  字符代码位数、停止位、奇偶校验位等，初始化LCR</p>
+<p>  eg. 数据位长7位=&gt;D1D0=10，1位停止位=&gt;D2=0，奇校验=&gt;D3=1-&gt;D4=1，0－寻址RBR、TBR、IER寄存器=&gt;D7=0，D6D5默认00</p>
+<p>D4D3D2D1D0=11010，D7D6D5=000==&gt;D7~D0=1AH</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV DX, 3FBH</span><br><span class="line">MOV AL, 0001 1010B</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+<p>4.设置MODEM控制寄存器MCR</p>
+<p>  一般情况MCR设置为03H&lt;=正常情况下，D4=0, </p>
+<p>   RTS#=0，DSR#=0。</p>
+<p>   <img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/MCR.png" alt="MCR"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV DX, 3FCH	;MCR</span><br><span class="line">MOV AL, 03H  	;set 03H</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+<p>5.设置中断允许寄存器IER（3F9H）</p>
+<p>IER高4位固定为0。[中断次序如下：]</p>
+<p>D0－允许接收数据就绪中断；</p>
+<p>D1－允许发送保持寄存器空中断；</p>
+<p>D2－允许接收字符错误或接收到间断状态中断（也称接收线路状态中断）；</p>
+<p>D3－允许MODEM状态改变中断</p>
+<p>发送：开放发送缓冲器空中断，使IER中D1=1。</p>
+<p>接收：开放接收数据出错中断，使IER中D2=1。开放接收数据就绪中断，使IER中D0=1</p>
+<p>eg. 禁止中断==&gt;D3D2D1D0=0000=&gt;D7~D0=00H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV DX, 3F9H	;  IER</span><br><span class="line">MOV AL, 00H  	;禁止中断</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+<p>eg. 允许接收      数据寄存器满产生中断==&gt;D3D2D1D0=0101=&gt;D7~D0=05H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV DX, 3F9H	;  IER</span><br><span class="line">MOV AL, 05H  	; 允许接收     数据寄存器产生中断</span><br><span class="line">OUT DX, AL</span><br></pre></td></tr></table></figure>
+<p>PS附加. TEST检验D4~D1任一位为1出错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   MOV DX,3FDH	;LSR传输线状态寄存器</span><br><span class="line">IN AL,DX</span><br><span class="line">TEST AL,1EH		;D4~D1任一位为1出错</span><br><span class="line">JNZ ERROR</span><br></pre></td></tr></table></figure>
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><p>eg. 以查询方式发送数据，</p>
+<p>发送字符数据顺序放在SENTDATA开始的单元。</p>
+<p>以中断方式接收数据，接收到的字符数据放在变量RECDATA开始的存储单元。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">	MOV DX, 3FBH</span><br><span class="line">	MOV AL, 80H</span><br><span class="line">	OUT DX, AL	;DLAB&#x3D;1</span><br><span class="line">	MOV DX, 3F8H	;规定波特率9600Baud</span><br><span class="line">	MOV AL, 0CH</span><br><span class="line">	OUT DX, AL	;设置分频系数DLL</span><br><span class="line">	MOV DX, 3F9H</span><br><span class="line">	MOV AL, 00H</span><br><span class="line">	OUT DX, AL	;设置分频系数DLH</span><br><span class="line">	</span><br><span class="line">	MOV DX, 3FBH</span><br><span class="line">	MOV AL, 1AH  	;长度7位，1位停止，奇校验</span><br><span class="line">	OUT DX, AL</span><br><span class="line"></span><br><span class="line">	MOV DX, 3FCH	;MCR</span><br><span class="line">	MOV AL, 0BH 	;0000 1011B  	</span><br><span class="line">	OUT DX, AL</span><br><span class="line"></span><br><span class="line">	MOV DX, 3F9H	;  IER</span><br><span class="line">	MOV AL, 05H  	; 允许接收数据寄存器满产生中断</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	</span><br><span class="line">	STI</span><br><span class="line">	MOV SI, OFFSET SENTDATA</span><br><span class="line">	MOV BX, OFFSET RECDATA</span><br><span class="line"></span><br><span class="line">	;接收中断服务程序：</span><br><span class="line">RECVE: PUSH AX</span><br><span class="line">	PUSH BX</span><br><span class="line">	PUSH DX</span><br><span class="line">	PUSH DS</span><br><span class="line">	MOV DX,3FDH	;LSR传输线状态寄存器</span><br><span class="line">	IN AL,DX</span><br><span class="line">	TEST AL,1EH	;D4~D1任一位为1出错</span><br><span class="line">	JNZ ERROR</span><br><span class="line">	MOV DX, 3F8</span><br><span class="line">	IN AL, DX</span><br><span class="line">	AND AL, 7FH</span><br><span class="line">	MOV [BX], AL</span><br><span class="line">	INC BX</span><br><span class="line">	MOV AL,20H</span><br><span class="line">	MOV DX,0020H</span><br><span class="line">	OUT DX,AL</span><br><span class="line">	POP DS</span><br><span class="line">	POP DX</span><br><span class="line">	POP BX</span><br><span class="line">	POP AX</span><br><span class="line">	STI</span><br><span class="line">	IRET</span><br></pre></td></tr></table></figure>
+<h3 id="异步串行通信接口芯片8251"><a href="#异步串行通信接口芯片8251" class="headerlink" title="异步串行通信接口芯片8251"></a>异步串行通信接口芯片8251</h3><p>同步方式或异步方式:</p>
+<ul>
+<li><p>同步方式下，波特率为0～64Kbps，</p>
+<p>每一个字符可为5、6、7或8位，</p>
+<p>能自动检测同步字符，</p>
+<p>可进行奇/偶校验；</p>
+</li>
+<li><p>异步方式下，波特率为0～19.2Kbps，</p>
+<p>每一个字符可为5、6、7或8位，</p>
+<p>启动位1位，校验位1位，能根据编程为每个数据增加1、1.5或2位停止位。</p>
+</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251.png" alt="8251"></p>
+<h4 id="8251管脚"><a href="#8251管脚" class="headerlink" title="8251管脚"></a>8251管脚</h4><ul>
+<li><p>与CPU的连接信号</p>
+<p>读/写控制信号：</p>
+<p>包括读信号RD#、写信号WR#、控制/数据信号C/D#</p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_wr.png" alt="8251_wr"></p>
+<p>片选信号CS#</p>
+<p>数据信号D7~D0</p>
+<p>收发联络信号:</p>
+<ul>
+<li>TXRDY   发送器准备好</li>
+<li>TXE  发送器空</li>
+<li>RXRDY  接收器准备好</li>
+<li>SYNDET  同步检测信号</li>
+</ul>
+</li>
+<li><p>与外设的连接信号</p>
+<p>数据信号: TxD、RxD；</p>
+<p>和外设的联络信号:</p>
+<ul>
+<li>DTR#(data terminal ready)：数据终端准备好信号；</li>
+<li>DSR#(data set ready)：数据设备准备好信号；</li>
+<li>RTS#(request to send)：请求发送信号；</li>
+<li>CTS#(clear to send)：清除发送信号；</li>
+</ul>
+<p>使用时，一般将DTR#和DSR#连接接收器，将RTS#和CTS#连接发送器。</p>
+<p>时钟信号: 系统时钟CLK；发送时钟TXC；接收时钟RXC；</p>
+</li>
+</ul>
+<h4 id="8251内部寄存器"><a href="#8251内部寄存器" class="headerlink" title="8251内部寄存器"></a>8251内部寄存器</h4><p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_reg1.png" alt="8251_reg1"></p>
+<p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_reg2.png" alt="8251_reg2"></p>
+<p>异步模式：</p>
+<ul>
+<li><p>发送时钟TxC、接收时钟RxC由专门的时钟发生器供给；</p>
+<p>发送和接收波特率分别由TxC、RxC与波特率因子决定：</p>
+<p>  波特率＝时钟频率/波特率因子</p>
+<p>异步发送数据时，在控制寄存器中允许发送位TxEN有效，且CTS#信号有效时，开始发送过程；</p>
+<p>异步接收数据时，在控制寄存器中允许发送位RxEN有效时，RxRDY信号表示收到了一个有效数据</p>
+</li>
+</ul>
+<p>同步模式：</p>
+<ul>
+<li><p>发送时钟TxC、接收时钟RxC由调制解调器和有关通信设备控制；</p>
+<p>发送和接收波特率分别和TxC、RxC引脚上的时钟频率相等；</p>
+<p>同步发送时，在控制寄存器中允许发送位TxEN有效，且CTS#信号有效时，开始发送过程:</p>
+<ul>
+<li><p>根据编程要求发送1个或2个同步字符，然后发送数据块；</p>
+<p>当CPU来不及提供数据时，8251自动插入同步字符；</p>
+</li>
+</ul>
+<p>同步接收时，8251首先搜索同步字符，将接收到的字符与同步字符寄存器内容比较</p>
+<ul>
+<li>根据编程，需较1或2个同步字符</li>
+</ul>
+</li>
+</ul>
+<h4 id="模式字-amp-控制字-amp-状态字"><a href="#模式字-amp-控制字-amp-状态字" class="headerlink" title="模式字&amp;控制字&amp;状态字"></a>模式字&amp;控制字&amp;状态字</h4><p>8251A有一奇一偶两个端口地址。</p>
+<p>偶地址对应数据输入寄存器和数据输出寄存器。</p>
+<p>奇地址对应状态寄存器、模式寄存器、控制寄存器和同步字符寄存器。</p>
+<p>8251的初始化</p>
+<ol>
+<li><p>芯片复位后，第一次对  模式字——-&gt;奇地址—-&gt;模式寄存器；</p>
+</li>
+<li><p>if模式字=&gt;同步模式，往奇地址写入同步字符，</p>
+<p>then if 规定同步字符为2个，则分别写入第一个和第二个同步字符寄存器；</p>
+</li>
+<li><p>此后，只要不是复位命令，不分同步、异步模式，往奇地址写的作为控制字送到控制寄存器，往偶地址写的作为数据送到数据发送缓冲器</p>
+</li>
+</ol>
+<p>eg. 异步模式初始化程序</p>
+<p>模式字和控制字都必须写入“奇地址”端口，这里假设为42H。异步模式下必须给出波特率因子。</p>
+<p>假设：字符用7位数据位表示、偶校验、2位停止位，波特率因子16。</p>
+<p>模式字：1111 10 10B      0FAH</p>
+<p>控制字：0011 0111B       37H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MOV   AL, 0FAH  ;设模式字：异步模式、波特率因子16、</span><br><span class="line">OUT   42H, AL   ; 7位数据位、偶校验、2位停止位</span><br><span class="line">MOV   AL, 37H   ;设置控制字：使发送启动、接收启动</span><br><span class="line">OUT   42H, AL</span><br></pre></td></tr></table></figure>
+<p>eg. 同步模式初始化程序</p>
+<p>假设“奇地址”端口为42H。程序往此端口设置的数据依次为模式字、同步字符和控制字符</p>
+<p>假设：字符用7位数据位表示、偶校验，用两个同步字符，采用内同步模式。同步字符16H</p>
+<p>模式字：00111000B  38H </p>
+<p>控制字：1001 0111B  97H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MOV   AL, 38H   ;设置模式字：同步模式、2个同步字符</span><br><span class="line">OUT    42H, AL   ; 7位数据位、偶校验</span><br><span class="line">MOV   AL, 16H   </span><br><span class="line">OUT    42H, AL   ;两个同步字符均为16H；</span><br><span class="line">OUT    42H, AL   </span><br><span class="line">MOV   AL, 97H   ;设置控制字：使发送启动、接收启动</span><br><span class="line">OUT    42H, AL</span><br></pre></td></tr></table></figure>
+<p>eg. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV   DX,209H</span><br><span class="line">IN    AL,DX;状态字</span><br><span class="line">AND   AL,02H;RXRDY？</span><br></pre></td></tr></table></figure>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV   DX,209H</span><br><span class="line">IN     AL,DX	;状态字</span><br><span class="line">AND    AL,01H	;TXRDY？</span><br></pre></td></tr></table></figure>
+<h4 id="综合实例"><a href="#综合实例" class="headerlink" title="综合实例"></a>综合实例</h4><p><img src="/2020/05/15/computer_organization/10_ch10%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/8251_ini.png" alt="8251_ini"></p>
+<p>eg. 输入80个字符。</p>
+<p>假设8251控制和状态端口为42H，数据输入和输出地址为40H。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">	MOV   AL, 0FAH ;设模式字：异步模式、波特率因子16、</span><br><span class="line">	OUT    42H, AL   ; 7位数据位、偶校验、2位停止位</span><br><span class="line">	MOV   AL, 37H   ;设置控制字：使发送启动、接收启动</span><br><span class="line">	OUT    42H, AL   </span><br><span class="line">	MOV DI, 0</span><br><span class="line">	MOV CX, 80</span><br><span class="line">BEGIN: IN AL, 42H</span><br><span class="line">	TEST AL,02H	;测试RxRDY</span><br><span class="line">	JZ BEGIN</span><br><span class="line">	IN AL, 40H</span><br><span class="line">	MOV DX,OFFSET BUFFER</span><br><span class="line">	MOV [DX+DI], AL</span><br><span class="line">	INC DI</span><br><span class="line">    IN AL, 42H</span><br><span class="line">    TEST AL,38H   ;测试是否有错</span><br><span class="line">    JNZ ERROR</span><br><span class="line">    LOOP BEGIN</span><br><span class="line">    JMP EXIT</span><br><span class="line">ERROR: CALL ERROR_OUT</span><br><span class="line">EXIT: </span><br><span class="line">	...</span><br></pre></td></tr></table></figure>
+<p>eg. 8251异步模式下的接收和发送程序，完成256个字符的发送和接收，</p>
+<p>设端口地址：208H，209H，波特率因子16，</p>
+<p>1起始位，1停止位，无奇偶校验，每字符8位</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">;接收程序</span><br><span class="line">Data segment</span><br><span class="line">buf DB 256 dup(?)</span><br><span class="line">Data ends</span><br><span class="line">...</span><br><span class="line">MOV    DX, 209H</span><br><span class="line">MOV    AL, 40H;复位</span><br><span class="line">OUT     DX, AL</span><br><span class="line">MOV    AL, 01001110B;模式字</span><br><span class="line">OUT     DX, AL</span><br><span class="line">MOV    AL, 00110111B;控制字</span><br><span class="line">OUT     DX, AL</span><br><span class="line">MOV   CX, 256	;接收256字节</span><br><span class="line">MOV   SI, 0</span><br><span class="line">NEXT:MOV DX,209H</span><br><span class="line">     IN   AL,DX    ;状态字</span><br><span class="line">	AND   AL,02H  ;RXRDY？</span><br><span class="line">	JZ   NEXT</span><br><span class="line">	MOV  DX,208H</span><br><span class="line">	IN   AL,DX   ;接收1字符</span><br><span class="line">	MOV buf[SI],AL</span><br><span class="line">	INC SI</span><br><span class="line">	LOOP NEXT</span><br><span class="line">;发送程序</span><br><span class="line">	MOV  DX,  209H</span><br><span class="line">	MOV  AL,  40H		;复位命令。</span><br><span class="line">	OUT  DX,  AL</span><br><span class="line">	MOV  AL,  01001110B	;模式字</span><br><span class="line">	MOV  DX,  AL</span><br><span class="line">	MOV  AL,  00110111B	;控制字</span><br><span class="line">	OUT  DX,  AL</span><br><span class="line">	MOV  CX,  256		;发送256字节</span><br><span class="line">NEXT:MOV  DX, 209H</span><br><span class="line">	IN   AL,  DX		;状态字</span><br><span class="line">	AND  AL,  01H		;TXRDY？</span><br><span class="line">	JZ NEXT</span><br><span class="line">	MOV  AL,  CL</span><br><span class="line"> 	MOV  DX, 208H</span><br><span class="line">	OUT  DX, AL		;发送</span><br><span class="line">	LOOP NEXT</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/computer-organization/" rel="tag"># computer organization</a>
+              <a href="/tags/assembly-language/" rel="tag"># assembly language</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/15/computer_organization/2_ch2%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A88086/" rel="prev" title="ch2微处理器8086">
+      <i class="fa fa-chevron-left"></i> ch2微处理器8086
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/15/classics/%E9%81%93%E5%BE%B7%E7%BB%8F%E5%85%A8%E6%96%87/" rel="next" title="道德经">
+      道德经 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#串行通信技术"><span class="nav-number">1.</span> <span class="nav-text">串行通信技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#串行通信基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">串行通信基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#串行总线标准RS-232C"><span class="nav-number">1.1.1.</span> <span class="nav-text">串行总线标准RS-232C</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步串行通信接口芯片8250"><span class="nav-number">1.2.</span> <span class="nav-text">异步串行通信接口芯片8250</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8250内部功能、结构"><span class="nav-number">1.2.1.</span> <span class="nav-text">8250内部功能、结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8250的引脚功能"><span class="nav-number">1.2.2.</span> <span class="nav-text">8250的引脚功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8250内部寄存器-amp-amp-控制字及状态字"><span class="nav-number">1.2.3.</span> <span class="nav-text">8250内部寄存器 &amp;&amp; 控制字及状态字</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串行通信8250初始化编程"><span class="nav-number">1.3.</span> <span class="nav-text">串行通信8250初始化编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本步骤"><span class="nav-number">1.3.1.</span> <span class="nav-text">基本步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例"><span class="nav-number">1.3.2.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步串行通信接口芯片8251"><span class="nav-number">1.4.</span> <span class="nav-text">异步串行通信接口芯片8251</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8251管脚"><span class="nav-number">1.4.1.</span> <span class="nav-text">8251管脚</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8251内部寄存器"><span class="nav-number">1.4.2.</span> <span class="nav-text">8251内部寄存器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式字-amp-控制字-amp-状态字"><span class="nav-number">1.4.3.</span> <span class="nav-text">模式字&amp;控制字&amp;状态字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#综合实例"><span class="nav-number">1.4.4.</span> <span class="nav-text">综合实例</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dassein"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dassein</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dassein" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dassein" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dassein75325@gmail.com" title="E-Mail → mailto:dassein75325@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/ju-ting-74-63" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;ju-ting-74-63" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dassein</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

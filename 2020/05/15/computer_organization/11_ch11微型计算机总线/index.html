@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dassein.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="微型计算机总线">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ch11微型计算机总线">
+<meta property="og:url" content="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/index.html">
+<meta property="og:site_name" content="dassein&#39;s blog">
+<meta property="og:description" content="微型计算机总线">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/ISA.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_judge.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set1.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set2.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_head0.png">
+<meta property="article:published_time" content="2020-05-15T18:09:45.555Z">
+<meta property="article:modified_time" content="2020-05-14T03:19:46.000Z">
+<meta property="article:author" content="dassein">
+<meta property="article:tag" content="computer organization">
+<meta property="article:tag" content="assembly language">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/ISA.png">
+
+<link rel="canonical" href="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>ch11微型计算机总线 | dassein's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dassein's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">31</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">29</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">69</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dassein.github.io/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dassein">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dassein's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ch11微型计算机总线
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-15 13:09:45" itemprop="dateCreated datePublished" datetime="2020-05-15T13:09:45-05:00">2020-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-13 22:19:46" itemprop="dateModified" datetime="2020-05-13T22:19:46-05:00">2020-05-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">计算机组成原理</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/BIT%E8%AF%BE%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">BIT课件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="微型计算机总线"><a href="#微型计算机总线" class="headerlink" title="微型计算机总线"></a>微型计算机总线</h2><a id="more"></a>
+<h3 id="总线概述"><a href="#总线概述" class="headerlink" title="总线概述"></a>总线概述</h3><ul>
+<li><p>总线结构的优点：</p>
+<p>便于采用模块化结构设计方法，简化系统设计；</p>
+<p>便于开发相互兼容的硬件板卡和软件，标准总线得到各厂商的支持；</p>
+<p>便于系统的扩充和升级，灵活性好；</p>
+<p>便于故障诊断和维修</p>
+</li>
+<li><p>总线指标</p>
+<p>总线宽度：指一次可以同时传输的数据位数</p>
+<p>总线频率：指总线工作时每秒钟内能传输数据的次数</p>
+<p>传输速率：指每秒钟能够传输的字节数 = 总线宽度 X 总线频率</p>
+<p>eg. PCI总线的宽度为32位=4 B，总线频率为33MHz，所以，PCI的数据传输率为132MB/s(33*4)</p>
+</li>
+<li><p>总线功能分成</p>
+<p>控制总线 [控制其他部件的部件称为总线主控 (master)，被控部件称为从控(slave)]</p>
+<p>地址总线 [地址总线是单向的，即地址信号只能由总线主控至从控。地址总线也是三态的]</p>
+<p>数据总线 [数据总线是双向的。数据总线是三态的]</p>
+<p>(数据总线的根数==总线的宽度)</p>
+</li>
+<li><p>总线的层次结构（内—&gt;外）</p>
+<p>片内总线：CPU或IO芯片内部，用于各功能部件之间</p>
+<p>CPU总线：CPU、RAM、ROM、控制芯片组等芯片之间的信号连接[包括控制总线、地址总线和数据总线]</p>
+<p>局部总线：主机板上的信息通道，连接主机板上各主要部件，通过扩展槽连接各种适配器</p>
+<ul>
+<li>ISA, EISA :(Extended) Industry Standard Architecture 16,32位标准总线，数据传输率16,33MB/s</li>
+<li>MCA : Micro Channel Architecture  32位标准总线，数据传输率40MB/s</li>
+<li>PCI : Peripheral Component Interconnect  32/64位标准总线，数据传输率132MB/s</li>
+<li>VESA : Video Electronic Standard Association  32位标准总线，数据传输率133MB/s</li>
+<li>AGP :  Accelerated Graphics Port 是一种接口标准</li>
+</ul>
+<p>系统总线：多处理器系统连接各CPU插件板的信息通道；系统机箱底板上；</p>
+<p>外部总线：I/O设备（外设）与系统中其他部件（主机）间的公共通信通路</p>
+<ul>
+<li>SCSI－小型计算机系统互连；</li>
+<li>USB－通用串行总线</li>
+</ul>
+</li>
+</ul>
+<h3 id="ISA总线"><a href="#ISA总线" class="headerlink" title="ISA总线"></a>ISA总线</h3><p>Industry Standard Architecture 16位标准总线，数据传输率16MB/s</p>
+<p>数据线扩展为16位；</p>
+<p>地址线扩展为24位，直接寻址2^24=16MB；</p>
+<p>总线时钟为8MHZ，传输率8M*（16位/8bit）= 16MB/S</p>
+<p>15个外部中断输入和7个DMA通道</p>
+<p>62+36 =98 条信号线</p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/ISA.png" alt="ISA"></p>
+<p>SBHE：System Byte High Enable, when==1 数据总线SD8-SD15—-&gt;高位字节—-&gt;数据总线缓冲器</p>
+<p>$\overline{MEM CS16}$：Memory 16 Bit Chip Select ==1  8位数据传输; ==0  16位数据传输</p>
+<p>$\overline{I/O CS16}$：I/O 16-Bit Chip Select ==1  8位数据传输; ==0  16位数据传输</p>
+<p>$\overline{MASTER}$[总线主模块信号] when扩展卡上有CPU或DMA控制器, ==0  获得总线控制权，并访问系统资源</p>
+<p>OWS：Zero Wait State ==1 完成当前的总线周期，无插入Tw等待周期</p>
+<p>$\overline{SMEMR}\   \overline{SMEMW}$   对系统16MB存储器read,write[$\overline{MEMR}\   \overline{MEMW}$ 1MB范围内的存储器]</p>
+<p>IRQ0-IRQ15：中断请求，主片的IRQ2—&gt;从片(2片8259A)中断请求端INT</p>
+<p>DRQ0、DRQ5-DRQ7：DMA请求，主片的DRQ0—&gt;从片(2片主从式8237A)DMA 请求端</p>
+<p>DACK0、DACK5-DACK7 ：DMA应答信号</p>
+<h3 id="EISA总线"><a href="#EISA总线" class="headerlink" title="EISA总线"></a>EISA总线</h3><p>Extended Industry Standard Architecture 32位标准总线，数据传输率33MB/s</p>
+<p>提高寻址能力(addr)、增加总线宽度(data)、增加控制信号 than ISA：</p>
+<p>地址线为32条，直接寻址范围可达2^32=4GB</p>
+<p>数据宽度为32位，自动进行8位、16位、32位数据转换</p>
+<p>共有198条信号线，其中，98条是ISA原有的</p>
+<p>时钟频率为8.3MHz，传输率为8.3MHz×32b/8b=33.2MB/s</p>
+<h3 id="PCI总线"><a href="#PCI总线" class="headerlink" title="PCI总线"></a>PCI总线</h3><p>Peripheral Component Interconnect  32/64位标准总线，数据传输率132MB/s</p>
+<p>四个主要的标准规格：</p>
+<p>分别支持32位与64位,其下又分成3.3V与5V两种信号</p>
+<p>运行在33MHz或66MHz：数据传输率最大可达66M*(64位/8bit)=528MB/s</p>
+<h4 id="PCI总线特点"><a href="#PCI总线特点" class="headerlink" title="PCI总线特点"></a>PCI总线特点</h4><p>高传输率: PCI频率限于66MHz，最高传输率528MB/s</p>
+<p>高效率: 集成高速缓冲器=&gt;缓冲CPU数据, 支持突发数据传输模式</p>
+<p>即插即用功能</p>
+<ul>
+<li><p>系统和适配器两方面: </p>
+<p>适配器中设EEPROM存按PCI规范的配置信息 </p>
+<p>PCI总线控制器测、调配置信息各参数，每PCI设备配256字节存放配置信息</p>
+</li>
+</ul>
+<p>独立于CPU</p>
+<ul>
+<li>中间连接件机制：PCI控制器 &amp;&amp; CPU  结构无关</li>
+<li>CPU不直接控制外设；</li>
+<li>支持当前、未来CPU</li>
+</ul>
+<p>负载能力强、易于扩展</p>
+<ul>
+<li>负载能力比较强，而且PCI总线—&gt;PCI控制器—&gt;form多级PCI总线—&gt;多个设备</li>
+</ul>
+<h4 id="PCI-总线信号"><a href="#PCI-总线信号" class="headerlink" title="PCI 总线信号"></a>PCI 总线信号</h4><p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI.png" alt="PCI"></p>
+<ul>
+<li><p>1 系统信号</p>
+<p>CLK：总线时钟输入信号0HZ～66MHz,除$\overline{RST}$，$\overline{INTA～D}$外，余信号在CLK 上升沿同步</p>
+<p>$\overline{RST}$: PCI 专用寄存器、定时器相关的信号恢复到规定的初始状态</p>
+</li>
+<li><p>2 地址和数据信号</p>
+<p>AD[31:00]地址/数据复用信号：双向（输入/输出）三态信号</p>
+<p>$C/\overline{BE[3:0]}$总线命令&amp;&amp;字节使能信号:地址期，定义总线命令；数据期，作字节使能</p>
+<ul>
+<li><p>总线命令的作用</p>
+<p>规定主从设备之间传输信息的类型</p>
+<p>0000   中断确认 中断识别命令 </p>
+<p>0001   特殊周期 提供在PCI上的简单广播机制 </p>
+<p>0010   I/O读 从I/O口地址中读数据 </p>
+<p>0011   I/O写 向I/O地址空间写数据</p>
+<p>0110   存储器读 从内存空间中读出数据 </p>
+<p>0111   存储器写 向内存空间写入数据 </p>
+<p>1100   多重存储器读 只要$\overline{FRAME}$==0,保持存取管道连续,以大量传输数据 </p>
+</li>
+</ul>
+<p>PAR奇偶校验信号: 进行偶校验AD[31:00]、$C/\overline{BE[3:0]}$双向</p>
+</li>
+<li><p>3 接口控制信号</p>
+<p>$\overline{FRAME}$：帧同步信号，由启动方驱动，==0 数据帧访问开始&amp;&amp; 数据传输keep</p>
+<p>$\overline{IRDY}$: （Initiator Ready）：启动方准备好信号</p>
+<p>$\overline{TRDY}$:（Target Ready）目标方准备好信号</p>
+<p>$\overline{STOP}$:停止数据传送信号，从设备要求主设备</p>
+<p>$\overline{LOCK}$: 总线锁定信号， ==0时阻其他设备 中断当前的总线周期</p>
+<p>IDSEL: 初始化设备选择信号</p>
+<p>$\overline{DEVSEL}$:  设备选择信号，此信号==0时，通知主设备，从设备被选中</p>
+</li>
+<li><p>4 总线仲裁信号</p>
+<p>$\overline{REQ}$: 总线请求信号，==0 表示驱动它的设备要求使用总线</p>
+<p>$\overline{GNT}$: 总线允许信号，==0仲裁器同意(请求总线的设备)使用总线</p>
+<p>PCI使用同步集中式隐含仲裁。</p>
+<ul>
+<li>对于每个主设备都有唯一的请求($\overline{REQ}$)和允许信号($\overline{GNT}$)连接到仲裁器，利用请求－允许方式完成总线的切换，仲裁过程在上一次访问期间隐性完成。</li>
+</ul>
+<p>仲裁器可以使用先来先服务法、循环轮流法和其他一些优先权排列法</p>
+<p>eg. 设备B的优先级高于设备A。</p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_judge.png" alt="PCI_judge"></p>
+<p>PCI主设备必对它要执行每次传输 请求总线仲裁</p>
+</li>
+</ul>
+<ul>
+<li><p>5 错误报告信号</p>
+<p>$\overline{PERR}$: 数据奇偶校验parity错误报告信号</p>
+<p>$\overline{SERR}$: 系统错误报告信号, PCI的任一设备来驱动</p>
+</li>
+<li><p>6 中断信号</p>
+<p>$\overline{INTA-D}$: 四条中断请求线, 单功能设备只能用$\overline{INTA}$，后三个信号用于多功能设备</p>
+</li>
+<li><p>7 Cache 支持信号</p>
+<p>$\overline{SBO}$: PCI  Cache /bridge的输出信号, PCI总线上高速缓冲存储器子系统的输入信号</p>
+<p>$\overline{SDONE}$:  侦听完成信号。是PCI Cache / bridge 输出信号，在PCI总线上高速缓冲存储器子系统的输入信</p>
+</li>
+<li><p>8 64位总线扩展信号</p>
+<p>AD[63:32] : 扩展的32位地址和数据多路复用线</p>
+<p>$C/\overline{BE[7:4]}$: 总线命令&amp;&amp;字节使能多路复用信号</p>
+<p>$\overline{REQ64}$: 64位传输请求, 本设备要求采用64位传送数据</p>
+<p>$\overline{ACK64}$: 64位传输确认信号，表示目标方同意执行64位传输</p>
+<p>PAR64: 奇偶校验信号，是AD[64:32]和C/BE[7:4]的校验位</p>
+</li>
+<li><p>9 边界扫描信号JTAG</p>
+<p>TCK：边界扫描的测试时钟，用于记录状态信息，测试设备的输入输出数据</p>
+<p>TDI： 测试输入信号，通过串行移位将测试数据和指令送入设备中</p>
+<p>TDO： 测试输出信号，串行移位设备中的输出数据和指令</p>
+<p>TMS： 测试模式选择，用于初始化“测试访问口控制器”的状态</p>
+<p>$\overline{TEST}$: 测试复位，用于初始化“测试访问口控制器”</p>
+</li>
+</ul>
+<h4 id="PCI-数据传输"><a href="#PCI-数据传输" class="headerlink" title="PCI 数据传输"></a>PCI 数据传输</h4><p>由一个地址期和一个或多个数据期所组成</p>
+<p>[地址期为一个时钟周期，数据期可插入Tw，等待由于主or从设备未准备好造成]</p>
+<p>事件在时钟下降沿同步,  在每个时钟周期中间部位发生</p>
+<p>总线设备在总线周期开始的上升沿,  采样总线上的各信号</p>
+<p>信号变化在时钟下降沿  +  信号采样在时钟上升沿</p>
+<p>传输过程: 主设备-&gt;$\overline{FRAME}$==0开始;  $\overline{FRAME}$==1后最后一个数据传输</p>
+<h4 id="PCI编码"><a href="#PCI编码" class="headerlink" title="PCI编码"></a>PCI编码</h4><ul>
+<li><p>I/O空间：位于主机系统</p>
+<p>正向译码：</p>
+<p>负向译码：其他设备未被选中时，由总线扩展桥发$\overline{DEVSEL}$来响应</p>
+</li>
+<li><p>内存空间：位于主机系统</p>
+</li>
+<li><p>配置空间：分布于各个设备中</p>
+<ul>
+<li><p>基本配置空间为256字节。</p>
+<p>头标区(0~3FH)64字节，描述与系统相关的信息</p>
+<p>设备相关区(40H~FFH)192字节，描述设备本身功能细节</p>
+<p>配置寄存器如下</p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set1.png" alt="PCI_set1"></p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_set2.png" alt="PCI_set2"></p>
+<p>三种头标类型[头标区(0~3FH)] (前16字节（0～0FH）定义是统一的，后48字节的定义不同)</p>
+<ul>
+<li><p>2类：专用于PCI-CardBus桥</p>
+</li>
+<li><p>1类：专用于PCI-CPI桥</p>
+</li>
+<li><p>0类：适用于普通的PCI设备和CPI扩展桥</p>
+<p><img src="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/PCI_head0.png" alt="PCI_head0"></p>
+<p>10H～27H共16+8=24个字节，组成：</p>
+<p>6个32位(4B)寄存器，可申请6个32位寻址存储区，or</p>
+<p>3个64位(8B)寄存器，可申请3个64位寻址存储区，or</p>
+<p>6个32位(4B)寄存器，可申请6个32位寻址IO端口；</p>
+<p>基于映射机制:基址寄存器第0位决定</p>
+<p>0－存储器空间；  1－IO空间</p>
+<p>基址寄存器第1、2位==&gt;存储空间基址寄存器长度32 or 64位&amp;&amp;存储空间大小</p>
+</li>
+</ul>
+</li>
+<li><p>提供设备的各种寄存器地址(映射到统一的空间，用来支持即插即用功能)、设备及其类型、设备运行时需要存储空间和IO接口</p>
+</li>
+<li><p>设备所需存储器和IO端口统一编址，使互不冲突</p>
+</li>
+<li><p>为需要的设备分配中断类型号</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="外部总线"><a href="#外部总线" class="headerlink" title="外部总线"></a>外部总线</h3><p>RS232；</p>
+<p>IDE(IntegratedDrive Electronics)：原指把控制器和盘体集中在一起的硬盘驱动器，主要用于主机和硬盘、光驱、软驱之间的连接</p>
+<p>[ATA（Advanced Technology Attachment）：IDE技术规范归纳成为全球硬盘标准]</p>
+<p>SATA(SerialATA)：SATA规范将硬盘的外部传输速率理论值提高到了150MB/s，比标准ATA/100高出50%。</p>
+<p>SCSI(SmallComputer System Interface)：用于小型机、工作站、服务器或其他多任务、高性能、智能外设。</p>
+<p>USB：通用串行总线</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/computer-organization/" rel="tag"># computer organization</a>
+              <a href="/tags/assembly-language/" rel="tag"># assembly language</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/" rel="prev" title="ch12ADDA转换">
+      <i class="fa fa-chevron-left"></i> ch12ADDA转换
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/15/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/" rel="next" title="ch5存储器">
+      ch5存储器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#微型计算机总线"><span class="nav-number">1.</span> <span class="nav-text">微型计算机总线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总线概述"><span class="nav-number">1.1.</span> <span class="nav-text">总线概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ISA总线"><span class="nav-number">1.2.</span> <span class="nav-text">ISA总线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EISA总线"><span class="nav-number">1.3.</span> <span class="nav-text">EISA总线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCI总线"><span class="nav-number">1.4.</span> <span class="nav-text">PCI总线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PCI总线特点"><span class="nav-number">1.4.1.</span> <span class="nav-text">PCI总线特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCI-总线信号"><span class="nav-number">1.4.2.</span> <span class="nav-text">PCI 总线信号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCI-数据传输"><span class="nav-number">1.4.3.</span> <span class="nav-text">PCI 数据传输</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCI编码"><span class="nav-number">1.4.4.</span> <span class="nav-text">PCI编码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外部总线"><span class="nav-number">1.5.</span> <span class="nav-text">外部总线</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dassein"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dassein</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dassein" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dassein" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dassein75325@gmail.com" title="E-Mail → mailto:dassein75325@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/ju-ting-74-63" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;ju-ting-74-63" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dassein</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
