@@ -424,8 +424,8 @@
       <i class="fa fa-chevron-left"></i> Z变换
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/" rel="next" title="ch12ADDA转换">
-      ch12ADDA转换 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/" rel="next" title="ch11微型计算机总线">
+      ch11微型计算机总线 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -608,6 +608,26 @@
 
 
 
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
 
 
 
