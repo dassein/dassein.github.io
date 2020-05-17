@@ -87,6 +87,45 @@
       </tags>
   </entry>
   <entry>
+    <title>MATLAB动画显示</title>
+    <url>/2020/05/17/MATLAB%E5%9D%90%E6%A0%87%E5%9B%BE%E7%9A%84%E5%8A%A8%E7%94%BB%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<h2 id="MATLAB动画显示"><a href="#MATLAB动画显示" class="headerlink" title="MATLAB动画显示"></a>MATLAB动画显示</h2><a id="more"></a>
+<p>数据采集或者数据回放时，用matlab的plot画图一般是静态的，画完不动<br>但是有时，实时数据采集然后通过串口或pci在matlab画出数据变化图并同步动态显示<br>以及在一些想用matlab绘图回放大块的数据模拟随时间变化的情景<br>需要坐标图动画显示。功能实现起来多种方法，介绍一种最简单也是matlab中推荐使用  </p>
+<p>此功能的实现依赖animatedline对象，配合drawnow函数使用，具体使用可看帮助</p>
+<ol>
+<li>基本实现</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animateline;&lt;br&gt;axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>，<span class="number">-1</span>,<span class="number">1</span>])&lt;br&gt;x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">1000</span>);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="built_in">length</span>(x)</span><br><span class="line">    addpoints(h,x(k),y(k));</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果有另一个函数想从当前图形中获得数据，用animateline的getpoints方法</p>
+</blockquote>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">[xdata,ydata] = getpoints(h);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>如果想实现贪吃蛇那样的效果，动态的图像中只显示一部分，不是每次都从头就开始显示<br>可以设置画图的最大点数，通过设置MaximumNumPoints这个属性的值来实现</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline(<span class="string">'MaximumNumPoints'</span>,<span class="number">100</span>);</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">1000</span>);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="built_in">length</span>(x)</span><br><span class="line">    addpoints(h,x(k),y(k));</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>加快刷新的技巧，以上每次循环中都只向结构体中增加一个点，实时显示的话有可能刷新速度跟不上，所以可以考虑一次循环中向里面添加多个点，这样就可以加快刷新了</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">numpoints = <span class="number">100000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="number">100</span>:numpoints<span class="number">-100</span></span><br><span class="line">    xvec = x(k:k+<span class="number">99</span>);</span><br><span class="line">    yvec = y(k:k+<span class="number">99</span>);</span><br><span class="line">    addpoints(h,xvec,yvec)</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>也可以用drawnow update加快动画速度</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">numpoints = <span class="number">100000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numpoints</span><br><span class="line">    addpoints(h,x(k),y(k))</span><br><span class="line">    drawnow update</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>控制动画的速度，有时候，希望动画显示的慢一点，上面介绍的都是加快动画的，如果要想控制动画速度，可以配合tic函数与toc函数，相当于一个记录程序运行的秒表，调用tic表示按一下开始计时，调用toc表示按一下结束及时，两个之间的时间差就是这一段程序运行的时间，下面这段代码表示控制帧速度在30</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line">numpoints = <span class="number">10000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line">a = tic; <span class="comment">% start timer</span></span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numpoints</span><br><span class="line">    addpoints(h,x(k),y(k))</span><br><span class="line">    b = toc(a); <span class="comment">% check timer</span></span><br><span class="line">    <span class="keyword">if</span> b &gt; (<span class="number">1</span>/<span class="number">30</span>)</span><br><span class="line">        drawnow <span class="comment">% update screen every 1/30 seconds</span></span><br><span class="line">        a = tic; <span class="comment">% reset timer after updating</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">drawnow <span class="comment">% draw final frame</span></span><br></pre></td></tr></table></figure>
+<p>其它的还有一些细节的属性，比如设置线条属性等，具体可看看帮助文档</p>
+]]></content>
+      <categories>
+        <category>matlab</category>
+      </categories>
+      <tags>
+        <tag>matlab</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Verilog语法</title>
     <url>/2020/05/15/Verilog%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h2 id="Verilog语法"><a href="#Verilog语法" class="headerlink" title="Verilog语法"></a>Verilog语法</h2><a id="more"></a>
@@ -153,45 +192,6 @@
       <tags>
         <tag>Verilog</tag>
         <tag>Quartus</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MATLAB动画显示</title>
-    <url>/2020/05/17/MATLAB%E5%9D%90%E6%A0%87%E5%9B%BE%E7%9A%84%E5%8A%A8%E7%94%BB%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<h2 id="MATLAB动画显示"><a href="#MATLAB动画显示" class="headerlink" title="MATLAB动画显示"></a>MATLAB动画显示</h2><a id="more"></a>
-<p>数据采集或者数据回放时，用matlab的plot画图一般是静态的，画完不动<br>但是有时，实时数据采集然后通过串口或pci在matlab画出数据变化图并同步动态显示<br>以及在一些想用matlab绘图回放大块的数据模拟随时间变化的情景<br>需要坐标图动画显示。功能实现起来多种方法，介绍一种最简单也是matlab中推荐使用  </p>
-<p>此功能的实现依赖animatedline对象，配合drawnow函数使用，具体使用可看帮助</p>
-<ol>
-<li>基本实现</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animateline;&lt;br&gt;axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>，<span class="number">-1</span>,<span class="number">1</span>])&lt;br&gt;x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">1000</span>);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="built_in">length</span>(x)</span><br><span class="line">    addpoints(h,x(k),y(k));</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果有另一个函数想从当前图形中获得数据，用animateline的getpoints方法</p>
-</blockquote>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">[xdata,ydata] = getpoints(h);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>如果想实现贪吃蛇那样的效果，动态的图像中只显示一部分，不是每次都从头就开始显示<br>可以设置画图的最大点数，通过设置MaximumNumPoints这个属性的值来实现</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline(<span class="string">'MaximumNumPoints'</span>,<span class="number">100</span>);</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">1000</span>);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="built_in">length</span>(x)</span><br><span class="line">    addpoints(h,x(k),y(k));</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>加快刷新的技巧，以上每次循环中都只向结构体中增加一个点，实时显示的话有可能刷新速度跟不上，所以可以考虑一次循环中向里面添加多个点，这样就可以加快刷新了</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">numpoints = <span class="number">100000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="number">100</span>:numpoints<span class="number">-100</span></span><br><span class="line">    xvec = x(k:k+<span class="number">99</span>);</span><br><span class="line">    yvec = y(k:k+<span class="number">99</span>);</span><br><span class="line">    addpoints(h,xvec,yvec)</span><br><span class="line">    drawnow</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>也可以用drawnow update加快动画速度</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line">numpoints = <span class="number">100000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numpoints</span><br><span class="line">    addpoints(h,x(k),y(k))</span><br><span class="line">    drawnow update</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>控制动画的速度，有时候，希望动画显示的慢一点，上面介绍的都是加快动画的，如果要想控制动画速度，可以配合tic函数与toc函数，相当于一个记录程序运行的秒表，调用tic表示按一下开始计时，调用toc表示按一下结束及时，两个之间的时间差就是这一段程序运行的时间，下面这段代码表示控制帧速度在30</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">h = animatedline;</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,<span class="number">-1</span>,<span class="number">1</span>])</span><br><span class="line">numpoints = <span class="number">10000</span>;</span><br><span class="line">x = <span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">4</span>*<span class="built_in">pi</span>,numpoints);</span><br><span class="line">y = <span class="built_in">sin</span>(x);</span><br><span class="line">a = tic; <span class="comment">% start timer</span></span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numpoints</span><br><span class="line">    addpoints(h,x(k),y(k))</span><br><span class="line">    b = toc(a); <span class="comment">% check timer</span></span><br><span class="line">    <span class="keyword">if</span> b &gt; (<span class="number">1</span>/<span class="number">30</span>)</span><br><span class="line">        drawnow <span class="comment">% update screen every 1/30 seconds</span></span><br><span class="line">        a = tic; <span class="comment">% reset timer after updating</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">drawnow <span class="comment">% draw final frame</span></span><br></pre></td></tr></table></figure>
-<p>其它的还有一些细节的属性，比如设置线条属性等，具体可看看帮助文档</p>
-]]></content>
-      <categories>
-        <category>matlab</category>
-      </categories>
-      <tags>
-        <tag>matlab</tag>
       </tags>
   </entry>
   <entry>
@@ -700,35 +700,6 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </tags>
   </entry>
   <entry>
-    <title>摘要怎么写 [PARI法]</title>
-    <url>/2020/05/15/%E6%91%98%E8%A6%81%E6%80%8E%E4%B9%88%E5%86%99_PARI/</url>
-    <content><![CDATA[<h2 id="摘要怎么写-PARI法"><a href="#摘要怎么写-PARI法" class="headerlink" title="摘要怎么写 [PARI法]"></a>摘要怎么写 [PARI法]</h2><p>P = Problem: 文章要解决什么问题</p>
-<p>A = Approach: 文章用得是什么方法解决提出的问题</p>
-<p>R = Results: 解决了问题得到了些什么结果</p>
-<p>I = Impacts: 这些结果有什么具体理论或者实际的影响<br><a id="more"></a></p>
-<p>先按照以下四个句式写四句话，概括研究成果：</p>
-<p>The problem I am trying to solve in thispaper is …</p>
-<p>The approach I adopt to solve the problemis …</p>
-<p>The results obtained in this researchinclude …</p>
-<p>The impacts of our obtained results are …</p>
-<p>更详细些，加上前面:  简短做啥的 + background</p>
-<ol>
-<li>what is the subject matter/area the research is dealing with?</li>
-<li>what background information?总结现状的基础上提出问题</li>
-<li>what is the purpose of the present study?   P</li>
-<li>how is the research to be done?   A</li>
-<li>what are some of the important findings?   R</li>
-<li>what are some of the implications of the study?  I</li>
-</ol>
-]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>paper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>怎样做presentation</title>
     <url>/2020/05/16/%E6%80%8E%E6%A0%B7%E5%81%9Apresentaion/</url>
     <content><![CDATA[<h2 id="怎样做presentation"><a href="#怎样做presentation" class="headerlink" title="怎样做presentation"></a>怎样做presentation</h2><a id="more"></a>
@@ -761,6 +732,35 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       <tags>
         <tag>presentation</tag>
         <tag>ppt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>摘要怎么写 [PARI法]</title>
+    <url>/2020/05/15/%E6%91%98%E8%A6%81%E6%80%8E%E4%B9%88%E5%86%99_PARI/</url>
+    <content><![CDATA[<h2 id="摘要怎么写-PARI法"><a href="#摘要怎么写-PARI法" class="headerlink" title="摘要怎么写 [PARI法]"></a>摘要怎么写 [PARI法]</h2><p>P = Problem: 文章要解决什么问题</p>
+<p>A = Approach: 文章用得是什么方法解决提出的问题</p>
+<p>R = Results: 解决了问题得到了些什么结果</p>
+<p>I = Impacts: 这些结果有什么具体理论或者实际的影响<br><a id="more"></a></p>
+<p>先按照以下四个句式写四句话，概括研究成果：</p>
+<p>The problem I am trying to solve in thispaper is …</p>
+<p>The approach I adopt to solve the problemis …</p>
+<p>The results obtained in this researchinclude …</p>
+<p>The impacts of our obtained results are …</p>
+<p>更详细些，加上前面:  简短做啥的 + background</p>
+<ol>
+<li>what is the subject matter/area the research is dealing with?</li>
+<li>what background information?总结现状的基础上提出问题</li>
+<li>what is the purpose of the present study?   P</li>
+<li>how is the research to be done?   A</li>
+<li>what are some of the important findings?   R</li>
+<li>what are some of the implications of the study?  I</li>
+</ol>
+]]></content>
+      <categories>
+        <category>论文</category>
+      </categories>
+      <tags>
+        <tag>paper</tag>
       </tags>
   </entry>
   <entry>
@@ -1160,35 +1160,6 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </categories>
   </entry>
   <entry>
-    <title>思旧赋</title>
-    <url>/2020/05/15/classics/%E6%80%9D%E6%97%A7%E8%B5%8B%E5%B9%B6%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="思旧赋"><a href="#思旧赋" class="headerlink" title="思旧赋"></a>思旧赋</h2><a id="more"></a>
-<p>余与嵇康、吕安居止接近，其人有不羁之才</p>
-<p>然嵇志远而疏，吕心旷而放，其后各以事见法</p>
-<p>嵇博综技艺，于丝竹特妙，临当就命，顾视日影，索琴而弹之</p>
-<p>余逝将西迈，经其旧庐</p>
-<p>于时日薄虞渊，寒冰凄然</p>
-<p>邻人有吹笛者，发声寥亮</p>
-<p>追思曩昔游宴之好，感音而叹，故作赋云：</p>
-<p>将命适于远京兮，遂旋反而北徂</p>
-<p>济黄河以泛舟兮，经山阳之旧居</p>
-<p>瞻旷野之萧条兮，息余驾乎城隅</p>
-<p>践二子之遗迹兮，历穷巷之空庐</p>
-<p>叹黍离之愍周兮，悲麦秀于殷墟</p>
-<p>惟古昔以怀人兮，心徘徊以踌躇</p>
-<p>栋宇存而弗毁兮，形神逝其焉如</p>
-<p>昔李斯之受罪兮，叹黄犬而长吟</p>
-<p>悼嵇生之永辞兮，顾日影而弹琴</p>
-<p>托运遇于领会兮，寄馀命于寸阴</p>
-<p>听鸣笛之慷慨兮，妙声绝而复寻</p>
-<p>停驾言其将迈兮，遂援翰而写心</p>
-]]></content>
-      <categories>
-        <category>古典</category>
-        <category>赋文</category>
-      </categories>
-  </entry>
-  <entry>
     <title>梦游天姥吟留别</title>
     <url>/2020/05/15/classics/%E6%A2%A6%E6%B8%B8%E5%A4%A9%E5%A7%A5%E5%90%9F%E7%95%99%E5%88%AB/</url>
     <content><![CDATA[<h2 id="梦游天姥吟留别"><a href="#梦游天姥吟留别" class="headerlink" title="梦游天姥吟留别"></a>梦游天姥吟留别</h2><a id="more"></a>
@@ -1214,6 +1185,35 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
 <p>别君去兮何时还？</p>
 <p>且放白鹿青崖间，须行即骑访名山。</p>
 <p>安能摧眉折腰事权贵，使我不得开心颜！</p>
+]]></content>
+      <categories>
+        <category>古典</category>
+        <category>赋文</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>思旧赋</title>
+    <url>/2020/05/15/classics/%E6%80%9D%E6%97%A7%E8%B5%8B%E5%B9%B6%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="思旧赋"><a href="#思旧赋" class="headerlink" title="思旧赋"></a>思旧赋</h2><a id="more"></a>
+<p>余与嵇康、吕安居止接近，其人有不羁之才</p>
+<p>然嵇志远而疏，吕心旷而放，其后各以事见法</p>
+<p>嵇博综技艺，于丝竹特妙，临当就命，顾视日影，索琴而弹之</p>
+<p>余逝将西迈，经其旧庐</p>
+<p>于时日薄虞渊，寒冰凄然</p>
+<p>邻人有吹笛者，发声寥亮</p>
+<p>追思曩昔游宴之好，感音而叹，故作赋云：</p>
+<p>将命适于远京兮，遂旋反而北徂</p>
+<p>济黄河以泛舟兮，经山阳之旧居</p>
+<p>瞻旷野之萧条兮，息余驾乎城隅</p>
+<p>践二子之遗迹兮，历穷巷之空庐</p>
+<p>叹黍离之愍周兮，悲麦秀于殷墟</p>
+<p>惟古昔以怀人兮，心徘徊以踌躇</p>
+<p>栋宇存而弗毁兮，形神逝其焉如</p>
+<p>昔李斯之受罪兮，叹黄犬而长吟</p>
+<p>悼嵇生之永辞兮，顾日影而弹琴</p>
+<p>托运遇于领会兮，寄馀命于寸阴</p>
+<p>听鸣笛之慷慨兮，妙声绝而复寻</p>
+<p>停驾言其将迈兮，遂援翰而写心</p>
 ]]></content>
       <categories>
         <category>古典</category>
@@ -4073,108 +4073,6 @@ QS0，QS1                                                                  (指�
       </tags>
   </entry>
   <entry>
-    <title>ch9DMA8237</title>
-    <url>/2020/05/15/computer_organization/9_ch9_DMA8237/</url>
-    <content><![CDATA[<h2 id="DMA8237"><a href="#DMA8237" class="headerlink" title="DMA8237"></a>DMA8237</h2><a id="more"></a>
-<h3 id="内存与外设之间的数据传输控制方式"><a href="#内存与外设之间的数据传输控制方式" class="headerlink" title="内存与外设之间的数据传输控制方式"></a>内存与外设之间的数据传输控制方式</h3><p>程序控制方式</p>
-<p>中断方式</p>
-<p>[以上方式都需要CPU执行程序来控制数据传输；]</p>
-<ul>
-<li>中断过程需要额外的保护断点、标志操作；</li>
-<li>中断响应和中断返回时，都要清除指令队列，重新装入程序；</li>
-</ul>
-<p>DMA方式</p>
-<p>[外设和存储器之间直接进行数据传输，不经过CPU。]</p>
-<ul>
-<li><p>DMA过程中，DMAC能独立控制三大总线来访问存储器和I/O端口，</p>
-<p>像CPU一样提供数据传送所需的地址信息和读写控制信息==&gt;存储器</p>
-<p>－DMAC内部有地址寄存器和字节计数器</p>
-</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/DMA.png" alt="DMA"></p>
-<h3 id="DMA操作过程三个阶段"><a href="#DMA操作过程三个阶段" class="headerlink" title="DMA操作过程三个阶段"></a>DMA操作过程三个阶段</h3><ol>
-<li>DMA请求；<ul>
-<li>外设要求以DMA方式为它服务时，==DMA请求信号DREQ==&gt;DMAC</li>
-<li>DMAC检查该信号是否被屏蔽及其优先权，if 该信号有效则</li>
-<li>DMAC===发送总线请求信号HRQ==&gt;CPU的HOLD</li>
-</ul>
-</li>
-<li>DMA响应和数据传送；<ul>
-<li>DMAC接管总线===DACK信号==&gt;外设，使之成为DMA传送时被选中的设备</li>
-<li>DMAC==内存地址以及I/O读写和存储器读写控制信号==&gt;存储器</li>
-<li>在外设和存储器之间数据传送</li>
-</ul>
-</li>
-<li>传送结束；<ul>
-<li>DMAC放弃总线，撤消总线请求(HRQ==0)，</li>
-<li>CPU检测到HRQ(HOLD)==0后，HLDA==0，</li>
-<li>CPU重新获得总线控制权</li>
-</ul>
-</li>
-</ol>
-<h3 id="8237地址"><a href="#8237地址" class="headerlink" title="8237地址"></a>8237地址</h3><p>一片8237占用连续16个端口地址，用DMA+00H~DMA+0FH表示。其中，DMA表示该片8237的基地址。</p>
-<p>在AT以上的微机中，使用2片8237，其地址为：</p>
-<p>第一片8237，基地址DMA=0000H，使用0000H~000F  I/O地址。</p>
-<p>第二片8237，基地址DMA=00C0H，使用00C0H~00CF  I/O地址</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-addr.png" alt="8237-addr"></p>
-<p>传输模式：</p>
-<p>单字节传输模式</p>
-<ul>
-<li>每次DMA操作只传送一字节，接着8237释放总线；</li>
-</ul>
-<p>块传输模式</p>
-<ul>
-<li>8237获得总线控制权后，连续传送多个字节，每传输一个字节，当前字节计数器减1当前地址寄存器加1或1，直到所要求的字节数传输完（当前字节计数器减至0），8237在EOP引脚上发出结束信号，然后释放总线</li>
-</ul>
-<p>请求传输模式</p>
-<ul>
-<li>在传输过程中，8237要检测DREQ信号（询问外设），当DREQ==0时，8237暂停传输（不释放总线），当DREQ再次==1后，继续进行传输。</li>
-</ul>
-<p>级联传输模式    </p>
-<ul>
-<li>多片8237级联时，可以构成主从式DMA系统。级联的方式是把从片的请求线HRQ==&gt;主片的DREQ引脚，主DACK==&gt;从片的HLDA引脚</li>
-</ul>
-<h3 id="8237寄存器"><a href="#8237寄存器" class="headerlink" title="8237寄存器"></a>8237寄存器</h3><p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-reg.png" alt="8237-reg"></p>
-<h3 id="8237的初始化编程"><a href="#8237的初始化编程" class="headerlink" title="8237的初始化编程"></a>8237的初始化编程</h3><p>1.输出主清除命令</p>
-<p>2.写入基地址与现行地址寄存器</p>
-<p>3.写入基字节数与现行字节数寄存器</p>
-<p>4.写入方式寄存器</p>
-<p>5.写入屏蔽寄存器</p>
-<p>6.写入控制寄存器</p>
-<p>7.写入请求寄存器</p>
-<p>若有软件请求，就写入指定通道，便可以开始DMA传送的过程。</p>
-<p>若无软件请求，由通道的DREQ启动DMA传送过程 </p>
-<p>eg. 若要利用通道0，由外设（磁盘）输入32KB的一个数据块，传送至内存8000H开始的区域（增量传送），</p>
-<p>采用数据块连续传送的方式，传送完不自动初始化，</p>
-<p>外设的DREQ和DACK都为高电平有效。要编程首先要确定端口地址。</p>
-<p>地址的低4位以区分8237A的内部寄存器，高4位地址A7~A4，经译码后，连至选片端CS#，假定选中时高4位为7</p>
-<p>solution:依据要求，</p>
-<ol>
-<li><p>方式控制字为84H；</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/mode.PNG" alt="mode"></p>
-</li>
-<li><p>屏蔽寄存器的单屏蔽字为00H；</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/pinbi.png" alt="pinbi"></p>
-</li>
-<li><p>命令字0A0H</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/control.PNG" alt="control"></p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">OUT		7DH,AL		 ;输出主清除命令:对端口0DH写入0，使8237复位,70+DH&#x3D;&gt;复位寄存器</span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址低8位，70+0H&#x3D;&gt;基地址 reg 0</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址高8位</span><br><span class="line"></span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	71H, AL       ;70+1H&#x3D;&gt;基字节 counter</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	71H, AL;给基字节数和现行字节数</span><br><span class="line">			      ;寄存器赋值为32768</span><br><span class="line">MOV 	AL, 84H		</span><br><span class="line">OUT 	7BH, AL		 ;输出方式字,70+BH&#x3D;&gt;mode reg </span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	7AH, AL 	;输出屏蔽字,70+AH&#x3D;&gt;屏蔽 reg</span><br><span class="line">MOV 	AL, 0A0H</span><br><span class="line">OUT 	78H, AL		 ;输出命令字 , 70+8H&#x3D;&gt; control reg</span><br></pre></td></tr></table></figure>
-<p>1.简述DMA数据传送方式过程、特点和优点。</p>
-<p>2.在DMA方式数据传输过程中，是由DMAC控制总线。</p>
-<p>3.CPU与外设之间的数据传送控制方式有哪三种？</p>
-]]></content>
-      <categories>
-        <category>计算机组成原理</category>
-        <category>BIT课件</category>
-      </categories>
-      <tags>
-        <tag>computer organization</tag>
-        <tag>assembly language</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ch8中断8259</title>
     <url>/2020/05/15/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/</url>
     <content><![CDATA[<h2 id="中断8259"><a href="#中断8259" class="headerlink" title="中断8259"></a>中断8259</h2><a id="more"></a>
@@ -4355,6 +4253,108 @@ QS0，QS1                                                                  (指�
       </tags>
   </entry>
   <entry>
+    <title>ch9DMA8237</title>
+    <url>/2020/05/15/computer_organization/9_ch9_DMA8237/</url>
+    <content><![CDATA[<h2 id="DMA8237"><a href="#DMA8237" class="headerlink" title="DMA8237"></a>DMA8237</h2><a id="more"></a>
+<h3 id="内存与外设之间的数据传输控制方式"><a href="#内存与外设之间的数据传输控制方式" class="headerlink" title="内存与外设之间的数据传输控制方式"></a>内存与外设之间的数据传输控制方式</h3><p>程序控制方式</p>
+<p>中断方式</p>
+<p>[以上方式都需要CPU执行程序来控制数据传输；]</p>
+<ul>
+<li>中断过程需要额外的保护断点、标志操作；</li>
+<li>中断响应和中断返回时，都要清除指令队列，重新装入程序；</li>
+</ul>
+<p>DMA方式</p>
+<p>[外设和存储器之间直接进行数据传输，不经过CPU。]</p>
+<ul>
+<li><p>DMA过程中，DMAC能独立控制三大总线来访问存储器和I/O端口，</p>
+<p>像CPU一样提供数据传送所需的地址信息和读写控制信息==&gt;存储器</p>
+<p>－DMAC内部有地址寄存器和字节计数器</p>
+</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/DMA.png" alt="DMA"></p>
+<h3 id="DMA操作过程三个阶段"><a href="#DMA操作过程三个阶段" class="headerlink" title="DMA操作过程三个阶段"></a>DMA操作过程三个阶段</h3><ol>
+<li>DMA请求；<ul>
+<li>外设要求以DMA方式为它服务时，==DMA请求信号DREQ==&gt;DMAC</li>
+<li>DMAC检查该信号是否被屏蔽及其优先权，if 该信号有效则</li>
+<li>DMAC===发送总线请求信号HRQ==&gt;CPU的HOLD</li>
+</ul>
+</li>
+<li>DMA响应和数据传送；<ul>
+<li>DMAC接管总线===DACK信号==&gt;外设，使之成为DMA传送时被选中的设备</li>
+<li>DMAC==内存地址以及I/O读写和存储器读写控制信号==&gt;存储器</li>
+<li>在外设和存储器之间数据传送</li>
+</ul>
+</li>
+<li>传送结束；<ul>
+<li>DMAC放弃总线，撤消总线请求(HRQ==0)，</li>
+<li>CPU检测到HRQ(HOLD)==0后，HLDA==0，</li>
+<li>CPU重新获得总线控制权</li>
+</ul>
+</li>
+</ol>
+<h3 id="8237地址"><a href="#8237地址" class="headerlink" title="8237地址"></a>8237地址</h3><p>一片8237占用连续16个端口地址，用DMA+00H~DMA+0FH表示。其中，DMA表示该片8237的基地址。</p>
+<p>在AT以上的微机中，使用2片8237，其地址为：</p>
+<p>第一片8237，基地址DMA=0000H，使用0000H~000F  I/O地址。</p>
+<p>第二片8237，基地址DMA=00C0H，使用00C0H~00CF  I/O地址</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-addr.png" alt="8237-addr"></p>
+<p>传输模式：</p>
+<p>单字节传输模式</p>
+<ul>
+<li>每次DMA操作只传送一字节，接着8237释放总线；</li>
+</ul>
+<p>块传输模式</p>
+<ul>
+<li>8237获得总线控制权后，连续传送多个字节，每传输一个字节，当前字节计数器减1当前地址寄存器加1或1，直到所要求的字节数传输完（当前字节计数器减至0），8237在EOP引脚上发出结束信号，然后释放总线</li>
+</ul>
+<p>请求传输模式</p>
+<ul>
+<li>在传输过程中，8237要检测DREQ信号（询问外设），当DREQ==0时，8237暂停传输（不释放总线），当DREQ再次==1后，继续进行传输。</li>
+</ul>
+<p>级联传输模式    </p>
+<ul>
+<li>多片8237级联时，可以构成主从式DMA系统。级联的方式是把从片的请求线HRQ==&gt;主片的DREQ引脚，主DACK==&gt;从片的HLDA引脚</li>
+</ul>
+<h3 id="8237寄存器"><a href="#8237寄存器" class="headerlink" title="8237寄存器"></a>8237寄存器</h3><p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-reg.png" alt="8237-reg"></p>
+<h3 id="8237的初始化编程"><a href="#8237的初始化编程" class="headerlink" title="8237的初始化编程"></a>8237的初始化编程</h3><p>1.输出主清除命令</p>
+<p>2.写入基地址与现行地址寄存器</p>
+<p>3.写入基字节数与现行字节数寄存器</p>
+<p>4.写入方式寄存器</p>
+<p>5.写入屏蔽寄存器</p>
+<p>6.写入控制寄存器</p>
+<p>7.写入请求寄存器</p>
+<p>若有软件请求，就写入指定通道，便可以开始DMA传送的过程。</p>
+<p>若无软件请求，由通道的DREQ启动DMA传送过程 </p>
+<p>eg. 若要利用通道0，由外设（磁盘）输入32KB的一个数据块，传送至内存8000H开始的区域（增量传送），</p>
+<p>采用数据块连续传送的方式，传送完不自动初始化，</p>
+<p>外设的DREQ和DACK都为高电平有效。要编程首先要确定端口地址。</p>
+<p>地址的低4位以区分8237A的内部寄存器，高4位地址A7~A4，经译码后，连至选片端CS#，假定选中时高4位为7</p>
+<p>solution:依据要求，</p>
+<ol>
+<li><p>方式控制字为84H；</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/mode.PNG" alt="mode"></p>
+</li>
+<li><p>屏蔽寄存器的单屏蔽字为00H；</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/pinbi.png" alt="pinbi"></p>
+</li>
+<li><p>命令字0A0H</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/control.PNG" alt="control"></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">OUT		7DH,AL		 ;输出主清除命令:对端口0DH写入0，使8237复位,70+DH&#x3D;&gt;复位寄存器</span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址低8位，70+0H&#x3D;&gt;基地址 reg 0</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址高8位</span><br><span class="line"></span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	71H, AL       ;70+1H&#x3D;&gt;基字节 counter</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	71H, AL;给基字节数和现行字节数</span><br><span class="line">			      ;寄存器赋值为32768</span><br><span class="line">MOV 	AL, 84H		</span><br><span class="line">OUT 	7BH, AL		 ;输出方式字,70+BH&#x3D;&gt;mode reg </span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	7AH, AL 	;输出屏蔽字,70+AH&#x3D;&gt;屏蔽 reg</span><br><span class="line">MOV 	AL, 0A0H</span><br><span class="line">OUT 	78H, AL		 ;输出命令字 , 70+8H&#x3D;&gt; control reg</span><br></pre></td></tr></table></figure>
+<p>1.简述DMA数据传送方式过程、特点和优点。</p>
+<p>2.在DMA方式数据传输过程中，是由DMAC控制总线。</p>
+<p>3.CPU与外设之间的数据传送控制方式有哪三种？</p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Appendix-Jury&#39;s Criterion</title>
     <url>/2020/05/15/control_system/Appendix-Jury&#39;s%20Criterion/</url>
     <content><![CDATA[<h1 id="Jury’s-Criterion"><a href="#Jury’s-Criterion" class="headerlink" title="Jury’s Criterion"></a>Jury’s Criterion</h1><a id="more"></a>
@@ -4452,6 +4452,46 @@ T_p = \frac{\pi}{\sqrt{1-\zeta^2}\omega_n}</script><p>here we have</p>
 \% = e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}\\
 -\frac{\ln(\%)}{\pi} = \frac{\zeta}{\sqrt{1-\zeta^2}}\\
 \frac{-\ln(\%)}{\sqrt{\pi^2 + \ln^2(\%)}} = \zeta</script>]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 2- State Space Representation</title>
+    <url>/2020/05/15/control_system/Lecture%202-%20State%20Space%20Representation/</url>
+    <content><![CDATA[<h1 id="Lecture-2"><a href="#Lecture-2" class="headerlink" title="Lecture 2"></a>Lecture 2</h1><p>Lecture 2- State Space Representation<br><a id="more"></a></p>
+<h2 id="symbols"><a href="#symbols" class="headerlink" title="symbols"></a>symbols</h2><script type="math/tex; mode=display">\dot{X}(t) = AX(t) + BU(t)</script><script type="math/tex; mode=display">Y(t) = CX(t) + DU(t)</script><p>$\dot{X}(t)$ derivative of state vector</p>
+<p>$X(t)$ state vector | nx1</p>
+<p>$Y(t)$ output vector | px1</p>
+<p>$U(t)$ input/control vector | mx1</p>
+<p>$A$ symstem matrix | nxn</p>
+<p>$B$ input matrix | nxm</p>
+<p>$C$ output matrix | pxn</p>
+<p>$D$ feedforward matrix | pxm</p>
+<p>set $X(t)|_{t=0} = 0​$, do Laplace Transfrom</p>
+<script type="math/tex; mode=display">sX(s) = AX(s) + BU(s)​</script><script type="math/tex; mode=display">Y(s) = CX(s) + DU(s)​</script><p>so,</p>
+<script type="math/tex; mode=display">X(s) = (sI-A)^{-1} BU(s) = \frac{adj(sI-A)B}{det(sI-A)} U(s)</script><script type="math/tex; mode=display">Y(s) = [\frac{Cadj(sI-A)B}{det(sI-A)} + D] U(s)</script><p>thus, transfer function $G(s)$</p>
+<script type="math/tex; mode=display">G(s) \equiv \frac{Y(s)}{U(s)} = \frac{Cadj(sI-A)B}{det(sI-A)} + D​</script><p>if $X(t)|_{t=0} = X(0)$</p>
+<script type="math/tex; mode=display">
+sX(s)-X(0) = AX(s) + BU(s)\\
+Y(s) = CX(s) + DU(s)</script><p>then</p>
+<script type="math/tex; mode=display">
+Y(s) = C(sI-A)^{-1}X(0) + C(sI-A)^{-1}BU(s) + DU(s)</script><p>Here set $\Phi(t) \equiv L[(sI-A)^{-1}] = e^{At} = \sum_{k=0}^{\infty} \frac{t^k A^k}{k!}​$</p>
+<p>in other way </p>
+<script type="math/tex; mode=display">
+(sI-A)^{-1} = \Bigg\{
+\begin{aligned}
+-A^{-1}(I-sA^{-1})^{-1} = -A^{-1}[\sum^{\infty}_{k=0}s^kA^{-k}]  && |s|< \lambda_{min}\\
+s^{-1}(I-\frac{A}{s})^{-1} = \frac{1}{s}[\sum^{\infty}_{k=0}s^{-k}A^{k}]  && |s|> \lambda_{max}\\
+
+\end{aligned}</script><p>Here $\frac{1}{s^{k+1}} = L^{-1}[\frac{t^k}{k!}]$</p>
+<p>So we can get $(sI-A)^{-1}|_{s=0} = -A^{-1}, \lim_{s\to \infty} s(sI-A)^{-1}=I​$</p>
+]]></content>
       <categories>
         <category>控制原理</category>
         <category>PNW课件</category>
@@ -4738,46 +4778,6 @@ T(s) = \frac{C \text{adj}(sI - A + BK)B}{|sI - A + BK|}\\
 <script type="math/tex; mode=display">
 \frac{Y(s)}{R(s)} \equiv T'(s) = \frac{K_e \frac{T(s)}{s}}{1+K_e \frac{T(s)}{s}}\\
 = \frac{K_e N(s)}{sD_2(s) + K_e N(s)}</script><p>So no matter introduce K and K_e, zeros of T(s) Not change</p>
-]]></content>
-      <categories>
-        <category>控制原理</category>
-        <category>PNW课件</category>
-      </categories>
-      <tags>
-        <tag>control system</tag>
-        <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Lecture 2- State Space Representation</title>
-    <url>/2020/05/15/control_system/Lecture%202-%20State%20Space%20Representation/</url>
-    <content><![CDATA[<h1 id="Lecture-2"><a href="#Lecture-2" class="headerlink" title="Lecture 2"></a>Lecture 2</h1><p>Lecture 2- State Space Representation<br><a id="more"></a></p>
-<h2 id="symbols"><a href="#symbols" class="headerlink" title="symbols"></a>symbols</h2><script type="math/tex; mode=display">\dot{X}(t) = AX(t) + BU(t)</script><script type="math/tex; mode=display">Y(t) = CX(t) + DU(t)</script><p>$\dot{X}(t)$ derivative of state vector</p>
-<p>$X(t)$ state vector | nx1</p>
-<p>$Y(t)$ output vector | px1</p>
-<p>$U(t)$ input/control vector | mx1</p>
-<p>$A$ symstem matrix | nxn</p>
-<p>$B$ input matrix | nxm</p>
-<p>$C$ output matrix | pxn</p>
-<p>$D$ feedforward matrix | pxm</p>
-<p>set $X(t)|_{t=0} = 0​$, do Laplace Transfrom</p>
-<script type="math/tex; mode=display">sX(s) = AX(s) + BU(s)​</script><script type="math/tex; mode=display">Y(s) = CX(s) + DU(s)​</script><p>so,</p>
-<script type="math/tex; mode=display">X(s) = (sI-A)^{-1} BU(s) = \frac{adj(sI-A)B}{det(sI-A)} U(s)</script><script type="math/tex; mode=display">Y(s) = [\frac{Cadj(sI-A)B}{det(sI-A)} + D] U(s)</script><p>thus, transfer function $G(s)$</p>
-<script type="math/tex; mode=display">G(s) \equiv \frac{Y(s)}{U(s)} = \frac{Cadj(sI-A)B}{det(sI-A)} + D​</script><p>if $X(t)|_{t=0} = X(0)$</p>
-<script type="math/tex; mode=display">
-sX(s)-X(0) = AX(s) + BU(s)\\
-Y(s) = CX(s) + DU(s)</script><p>then</p>
-<script type="math/tex; mode=display">
-Y(s) = C(sI-A)^{-1}X(0) + C(sI-A)^{-1}BU(s) + DU(s)</script><p>Here set $\Phi(t) \equiv L[(sI-A)^{-1}] = e^{At} = \sum_{k=0}^{\infty} \frac{t^k A^k}{k!}​$</p>
-<p>in other way </p>
-<script type="math/tex; mode=display">
-(sI-A)^{-1} = \Bigg\{
-\begin{aligned}
--A^{-1}(I-sA^{-1})^{-1} = -A^{-1}[\sum^{\infty}_{k=0}s^kA^{-k}]  && |s|< \lambda_{min}\\
-s^{-1}(I-\frac{A}{s})^{-1} = \frac{1}{s}[\sum^{\infty}_{k=0}s^{-k}A^{k}]  && |s|> \lambda_{max}\\
-
-\end{aligned}</script><p>Here $\frac{1}{s^{k+1}} = L^{-1}[\frac{t^k}{k!}]$</p>
-<p>So we can get $(sI-A)^{-1}|_{s=0} = -A^{-1}, \lim_{s\to \infty} s(sI-A)^{-1}=I​$</p>
 ]]></content>
       <categories>
         <category>控制原理</category>
@@ -5138,65 +5138,6 @@ x(nT) &= \int_{-\infty}^{\infty} \tilde{x}^*(t) \frac{\sin(\pi(t-nT))}{\pi(t-nT)
 &= \sum_{k=0}^{N-1} e^{j2\pi (\frac{k}{N})n} \Bigg[\frac{1}{N} \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (k/N)n}  \right\} \Bigg]\\
 &= \frac{1}{N} \sum_{k=0}^{N-1}  \left\{  \sum_{n=0}^{N-1} x(nT)  e^{-j2\pi (\frac{k}{N}) n}  \right\} e^{j2\pi (\frac{k}{N})n}
 \end{aligned}</script>]]></content>
-      <categories>
-        <category>信号处理</category>
-        <category>公式</category>
-      </categories>
-      <tags>
-        <tag>math</tag>
-        <tag>DSP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Laplace变换</title>
-    <url>/2020/05/15/dsp/Laplace%20transform/</url>
-    <content><![CDATA[<h1 id="Laplace-Transform"><a href="#Laplace-Transform" class="headerlink" title="Laplace Transform"></a>Laplace Transform</h1><a id="more"></a>
-<h2 id="Fourier"><a href="#Fourier" class="headerlink" title="Fourier"></a>Fourier</h2><p>Proof: see “Harmonious Analysis” CHAPTER 3 P37 ~ P38\<br><a href="https://drive.google.com/file/d/0B7t_mQHDlsRsdnZkSE9LbndfOHM/view" target="_blank" rel="noopener">https://drive.google.com/file/d/0B7t_mQHDlsRsdnZkSE9LbndfOHM/view</a></p>
-<p><a href="https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/" target="_blank" rel="noopener">https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/</a></p>
-<p>Fourier tranform</p>
-<script type="math/tex; mode=display">
-\mathbb{F}[g(t)] 
-\equiv \int_{-\infty}^{+\infty} g(t) e^{-j\omega t} dt 
-= G(\omega)</script><p>Fourier Inversion</p>
-<script type="math/tex; mode=display">
-\mathbb{F^{-1}}[G(\omega)] 
-\equiv \frac{1}{2\pi} \int_{-\infty}^{+\infty} G(\omega) e^{j\omega t} d\omega =g^{*}(t)</script><p>Here is the Inversion of g(t)</p>
-<script type="math/tex; mode=display">
-g^{*}(t) = \left\{
-\begin{aligned}
-g(t) && \text{continuous at t}\\
-\frac{g(t_{-}) + g(t_{+})}{2} && \text{Not continuous at t}
-\end{aligned}
-\right.</script><h2 id="Laplace-and-Fourier"><a href="#Laplace-and-Fourier" class="headerlink" title="Laplace and Fourier"></a>Laplace and Fourier</h2><p>set $f(t) e^{-\beta t}u(t) \equiv g(t), \quad f^{\ast}(t) \equiv g^{\ast}(t) e^{\beta t}$\</p>
-<p>(I) $\forall [a, b] \subset (-\infty, +\infty)$\<br>g(t) satisfy <strong>Dirichlet</strong> conditions for [a, b]</p>
-<p>(II) $\int_{-\infty}^{+\infty} g(t) dt &lt; M$</p>
-<p>So, Fourier Transform, $s = \beta + j\omega$, we would have</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\mathbb{F}[g(t)] 
-&= \int_{-\infty}^{+\infty} g(t) e^{-j\omega t} dt
-= \int_{0_{-}}^{\infty} f(t) e^{-s t} dt\\
-&= G(\omega) = G(\frac{s-\beta}{j}) = F(s)\\
-\mathbb{F^{-1}}[G(\omega)] 
-&= \frac{1}{2\pi} \int_{-\infty}^{+\infty} G(\omega) e^{j\omega t} d\omega 
-= \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F(s) e^{(s-\beta) t} ds\\
-&=g^{*}(t) \equiv f^{*}(t) e^{-\beta t}
-\end{aligned}</script><p>Then we have Inversion</p>
-<script type="math/tex; mode=display">
-f^{*}(t) = \left\{
-\begin{aligned}
-f(t) && \text{continuous at t } (t 
-\geq 0)\\
-\frac{f(t_{-}) + f(t_{+})}{2} && \text{Not continuous at t } (t \geq 0)
-\end{aligned}
-\right.</script><h2 id="Define-Laplace-Transform"><a href="#Define-Laplace-Transform" class="headerlink" title="Define Laplace Transform"></a>Define <strong>Laplace Transform</strong></h2><p>Definition of LT</p>
-<script type="math/tex; mode=display">
-F(s) = \mathbb{L}[f(t)] 
-\equiv \int_{0_{-}}^{\infty} f(t) e^{-st} dt = G(\frac{s-\beta}{j})\\
-f^{*}(t) = \mathbb{L^{-1}}[F(s)] \equiv \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F(s) e^{s t} ds = g^{*}(t) e^{\beta t}  \quad [t \geq 0]</script><p>可以选择$\beta$, 使$Re\{\text{poles of }F(s)\} &lt; \beta$, 此时</p>
-<script type="math/tex; mode=display">
-f^{*}(t) = \mathbb{L^{-1}}[F(s)] \equiv \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F(s) e^{s t} ds \\
-= \sum \mathop{Res}\limits_{s=s_k}[F(s) e^{st}]</script>]]></content>
       <categories>
         <category>信号处理</category>
         <category>公式</category>
@@ -5635,6 +5576,65 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
+    <title>Laplace变换</title>
+    <url>/2020/05/15/dsp/Laplace%20transform/</url>
+    <content><![CDATA[<h1 id="Laplace-Transform"><a href="#Laplace-Transform" class="headerlink" title="Laplace Transform"></a>Laplace Transform</h1><a id="more"></a>
+<h2 id="Fourier"><a href="#Fourier" class="headerlink" title="Fourier"></a>Fourier</h2><p>Proof: see “Harmonious Analysis” CHAPTER 3 P37 ~ P38\<br><a href="https://drive.google.com/file/d/0B7t_mQHDlsRsdnZkSE9LbndfOHM/view" target="_blank" rel="noopener">https://drive.google.com/file/d/0B7t_mQHDlsRsdnZkSE9LbndfOHM/view</a></p>
+<p><a href="https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/" target="_blank" rel="noopener">https://yannisparissis.wordpress.com/2011/03/10/dmat0101-notes-3-the-fourier-transform-on-l1/</a></p>
+<p>Fourier tranform</p>
+<script type="math/tex; mode=display">
+\mathbb{F}[g(t)] 
+\equiv \int_{-\infty}^{+\infty} g(t) e^{-j\omega t} dt 
+= G(\omega)</script><p>Fourier Inversion</p>
+<script type="math/tex; mode=display">
+\mathbb{F^{-1}}[G(\omega)] 
+\equiv \frac{1}{2\pi} \int_{-\infty}^{+\infty} G(\omega) e^{j\omega t} d\omega =g^{*}(t)</script><p>Here is the Inversion of g(t)</p>
+<script type="math/tex; mode=display">
+g^{*}(t) = \left\{
+\begin{aligned}
+g(t) && \text{continuous at t}\\
+\frac{g(t_{-}) + g(t_{+})}{2} && \text{Not continuous at t}
+\end{aligned}
+\right.</script><h2 id="Laplace-and-Fourier"><a href="#Laplace-and-Fourier" class="headerlink" title="Laplace and Fourier"></a>Laplace and Fourier</h2><p>set $f(t) e^{-\beta t}u(t) \equiv g(t), \quad f^{\ast}(t) \equiv g^{\ast}(t) e^{\beta t}$\</p>
+<p>(I) $\forall [a, b] \subset (-\infty, +\infty)$\<br>g(t) satisfy <strong>Dirichlet</strong> conditions for [a, b]</p>
+<p>(II) $\int_{-\infty}^{+\infty} g(t) dt &lt; M$</p>
+<p>So, Fourier Transform, $s = \beta + j\omega$, we would have</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathbb{F}[g(t)] 
+&= \int_{-\infty}^{+\infty} g(t) e^{-j\omega t} dt
+= \int_{0_{-}}^{\infty} f(t) e^{-s t} dt\\
+&= G(\omega) = G(\frac{s-\beta}{j}) = F(s)\\
+\mathbb{F^{-1}}[G(\omega)] 
+&= \frac{1}{2\pi} \int_{-\infty}^{+\infty} G(\omega) e^{j\omega t} d\omega 
+= \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F(s) e^{(s-\beta) t} ds\\
+&=g^{*}(t) \equiv f^{*}(t) e^{-\beta t}
+\end{aligned}</script><p>Then we have Inversion</p>
+<script type="math/tex; mode=display">
+f^{*}(t) = \left\{
+\begin{aligned}
+f(t) && \text{continuous at t } (t 
+\geq 0)\\
+\frac{f(t_{-}) + f(t_{+})}{2} && \text{Not continuous at t } (t \geq 0)
+\end{aligned}
+\right.</script><h2 id="Define-Laplace-Transform"><a href="#Define-Laplace-Transform" class="headerlink" title="Define Laplace Transform"></a>Define <strong>Laplace Transform</strong></h2><p>Definition of LT</p>
+<script type="math/tex; mode=display">
+F(s) = \mathbb{L}[f(t)] 
+\equiv \int_{0_{-}}^{\infty} f(t) e^{-st} dt = G(\frac{s-\beta}{j})\\
+f^{*}(t) = \mathbb{L^{-1}}[F(s)] \equiv \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F(s) e^{s t} ds = g^{*}(t) e^{\beta t}  \quad [t \geq 0]</script><p>可以选择$\beta$, 使$Re\{\text{poles of }F(s)\} &lt; \beta$, 此时</p>
+<script type="math/tex; mode=display">
+f^{*}(t) = \mathbb{L^{-1}}[F(s)] \equiv \frac{1}{2\pi j} \int_{\beta-j\infty}^{\beta+j\infty} F(s) e^{s t} ds \\
+= \sum \mathop{Res}\limits_{s=s_k}[F(s) e^{st}]</script>]]></content>
+      <categories>
+        <category>信号处理</category>
+        <category>公式</category>
+      </categories>
+      <tags>
+        <tag>math</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Chap 1 - 信息论框架</title>
     <url>/2020/05/15/information_theory/Chap_1/</url>
     <content><![CDATA[<h2 id="Chap-1"><a href="#Chap-1" class="headerlink" title="Chap 1"></a>Chap 1</h2><a id="more"></a>
@@ -5928,11 +5928,11 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>linux查看磁盘信息</title>
-    <url>/2020/05/15/linux_cmd/disk_info/</url>
-    <content><![CDATA[<h2 id="linux查看磁盘信息"><a href="#linux查看磁盘信息" class="headerlink" title="linux查看磁盘信息"></a>linux查看磁盘信息</h2><p><a href="https://www.jb51.net/LINUXjishu/160497.html" target="_blank" rel="noopener">https://www.jb51.net/LINUXjishu/160497.html</a>  linux查看磁盘挂载的三种方法</p>
-<a id="more"></a>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassin@dassein:~$ <span class="title">df</span> -<span class="title">kv</span></span></span><br><span class="line"><span class="function"><span class="title">Filesystem</span>     1<span class="title">K</span>-<span class="title">blocks</span>     <span class="title">Used</span> <span class="title">Available</span> <span class="title">Use</span>% <span class="title">Mounted</span> <span class="title">on</span></span></span><br><span class="line"><span class="function"><span class="title">udev</span>             6023316        0   6023316   0% /<span class="title">dev</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            1209008    10072   1198936   1% /<span class="title">run</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p8</span>  16834880  4725920  11230728  30% /</span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            6045020      376   6044644   1% /<span class="title">dev</span>/<span class="title">shm</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>               5120        4      5116   1% /<span class="title">run</span>/<span class="title">lock</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            6045020        0   6045020   0% /<span class="title">sys</span>/<span class="title">fs</span>/<span class="title">cgroup</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p5</span>    497696     1156    496540   1% /<span class="title">boot</span>/<span class="title">efi</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            1209004      120   1208884   1% /<span class="title">run</span>/<span class="title">user</span>/1000</span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">sda1</span>       72586216 32109820  40476396  45% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">Windows10</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p1</span> 176656380   311220 176345160   1% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">New</span> <span class="title">Volume</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p6</span>  11468016   139056  10726696   2% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">b7ba5ef9</span>-77<span class="title">f0</span>-4<span class="title">aa2</span>-<span class="title">a1fa</span>-131011320<span class="title">d54</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p7</span>  29666284  3860224  24276052  14% /<span class="title">media</span>/<span class="title">dassin</span>/144362<span class="title">ae</span>-35<span class="title">fa</span>-4437-814<span class="title">c</span>-7<span class="title">a3098a4d903</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">sda5</span>       43817252 30798012  13019240  71% /<span class="title">media</span>/<span class="title">dassin</span>/0000<span class="title">BCCE0004B966</span></span></span><br></pre></td></tr></table></figure>
+    <title>delete</title>
+    <url>/2020/05/17/linux_cmd/delete/</url>
+    <content><![CDATA[<h2 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h2><a id="more"></a>
+<p>删除文件夹实例：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">rm -rf /var/log/httpd/access</span><br></pre></td></tr></table></figure><br>将会删除<code>/var/log/httpd/access</code>目录以及其下所有文件、文件夹</p>
+<p>删除文件使用实例：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">rm -f /var/log/httpd/access.log</span><br></pre></td></tr></table></figure><br>将会强制删除<code>/var/log/httpd/access.log</code>这个文件</p>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -5944,11 +5944,11 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>delete</title>
-    <url>/2020/05/17/linux_cmd/delete/</url>
-    <content><![CDATA[<h2 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h2><a id="more"></a>
-<p>删除文件夹实例：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">rm -rf /var/log/httpd/access</span><br></pre></td></tr></table></figure><br>将会删除<code>/var/log/httpd/access</code>目录以及其下所有文件、文件夹</p>
-<p>删除文件使用实例：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">rm -f /var/log/httpd/access.log</span><br></pre></td></tr></table></figure><br>将会强制删除<code>/var/log/httpd/access.log</code>这个文件</p>
+    <title>linux查看磁盘信息</title>
+    <url>/2020/05/15/linux_cmd/disk_info/</url>
+    <content><![CDATA[<h2 id="linux查看磁盘信息"><a href="#linux查看磁盘信息" class="headerlink" title="linux查看磁盘信息"></a>linux查看磁盘信息</h2><p><a href="https://www.jb51.net/LINUXjishu/160497.html" target="_blank" rel="noopener">https://www.jb51.net/LINUXjishu/160497.html</a>  linux查看磁盘挂载的三种方法</p>
+<a id="more"></a>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassin@dassein:~$ <span class="title">df</span> -<span class="title">kv</span></span></span><br><span class="line"><span class="function"><span class="title">Filesystem</span>     1<span class="title">K</span>-<span class="title">blocks</span>     <span class="title">Used</span> <span class="title">Available</span> <span class="title">Use</span>% <span class="title">Mounted</span> <span class="title">on</span></span></span><br><span class="line"><span class="function"><span class="title">udev</span>             6023316        0   6023316   0% /<span class="title">dev</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            1209008    10072   1198936   1% /<span class="title">run</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p8</span>  16834880  4725920  11230728  30% /</span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            6045020      376   6044644   1% /<span class="title">dev</span>/<span class="title">shm</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>               5120        4      5116   1% /<span class="title">run</span>/<span class="title">lock</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            6045020        0   6045020   0% /<span class="title">sys</span>/<span class="title">fs</span>/<span class="title">cgroup</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p5</span>    497696     1156    496540   1% /<span class="title">boot</span>/<span class="title">efi</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            1209004      120   1208884   1% /<span class="title">run</span>/<span class="title">user</span>/1000</span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">sda1</span>       72586216 32109820  40476396  45% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">Windows10</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p1</span> 176656380   311220 176345160   1% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">New</span> <span class="title">Volume</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p6</span>  11468016   139056  10726696   2% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">b7ba5ef9</span>-77<span class="title">f0</span>-4<span class="title">aa2</span>-<span class="title">a1fa</span>-131011320<span class="title">d54</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p7</span>  29666284  3860224  24276052  14% /<span class="title">media</span>/<span class="title">dassin</span>/144362<span class="title">ae</span>-35<span class="title">fa</span>-4437-814<span class="title">c</span>-7<span class="title">a3098a4d903</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">sda5</span>       43817252 30798012  13019240  71% /<span class="title">media</span>/<span class="title">dassin</span>/0000<span class="title">BCCE0004B966</span></span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -5989,9 +5989,9 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>linux cmd总结</title>
+    <title>linux cmd</title>
     <url>/2020/05/17/linux_cmd/linux_cmd%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h2 id="linux-cmd总结"><a href="#linux-cmd总结" class="headerlink" title="linux cmd总结"></a>linux cmd总结</h2><a id="more"></a>
+    <content><![CDATA[<h2 id="linux-cmd"><a href="#linux-cmd" class="headerlink" title="linux cmd"></a>linux cmd</h2><a id="more"></a>
 <div class="pdfobject-container" data-target="https://dassein.github.io/pdf/linux_command_reference.pdf" data-height="500px"></div>]]></content>
       <categories>
         <category>linux</category>
@@ -6031,25 +6031,6 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       <tags>
         <tag>linux</tag>
         <tag>cmd</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux安装MATLAB</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85MATLAB/</url>
-    <content><![CDATA[<h2 id="linux安装MATLAB"><a href="#linux安装MATLAB" class="headerlink" title="linux安装MATLAB"></a>linux安装MATLAB</h2><a id="more"></a>
-<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><p>下载安装包rar后, 解压为iso</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Downloads$ rar x MATHWORKS_R2014A.part1.rar</span><br><span class="line">RAR <span class="number">5</span>.<span class="number">30</span> beta <span class="number">2</span>   Copyright (c) <span class="number">1993</span>-<span class="number">2015</span> Alexander Roshal   <span class="number">4</span> Aug <span class="number">2015</span></span><br><span class="line">Trial version             <span class="built_in">Type</span> RAR -? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">Extracting from MATHWORKS_R2014A.part1.rar</span><br><span class="line">Extracting  MATHWORKS_R2014A.iso                                      <span class="number">58</span>%</span><br><span class="line">Extracting from MATHWORKS_R2014A.part2.rar</span><br><span class="line">...         MATHWORKS_R2014A.iso                                      OK </span><br><span class="line">All OK</span><br></pre></td></tr></table></figure>
-<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>安装matlab<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">mkdir</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">mount</span> -<span class="title">o</span> <span class="title">loop</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">MATHWORKS_R2014A.iso</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">mount</span>: /<span class="title">dev</span>/<span class="title">loop0</span> <span class="title">is</span> <span class="title">write</span>-<span class="title">protected</span>, <span class="title">mounting</span> <span class="title">read</span>-<span class="title">only</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cd</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">sudo</span> ./<span class="title">install</span></span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">installation</span> <span class="title">files</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Installing</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Finished</span></span></span><br></pre></td></tr></table></figure></p>
-<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><p>破解matlab</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">cd</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">cp</span> <span class="title">libmwservices.so</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">matlab</span></span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>matlab</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -6100,8 +6081,27 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
+    <title>linux安装MATLAB</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85MATLAB/</url>
+    <content><![CDATA[<h2 id="linux安装MATLAB"><a href="#linux安装MATLAB" class="headerlink" title="linux安装MATLAB"></a>linux安装MATLAB</h2><a id="more"></a>
+<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><p>下载安装包rar后, 解压为iso</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Downloads$ rar x MATHWORKS_R2014A.part1.rar</span><br><span class="line">RAR <span class="number">5</span>.<span class="number">30</span> beta <span class="number">2</span>   Copyright (c) <span class="number">1993</span>-<span class="number">2015</span> Alexander Roshal   <span class="number">4</span> Aug <span class="number">2015</span></span><br><span class="line">Trial version             <span class="built_in">Type</span> RAR -? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">Extracting from MATHWORKS_R2014A.part1.rar</span><br><span class="line">Extracting  MATHWORKS_R2014A.iso                                      <span class="number">58</span>%</span><br><span class="line">Extracting from MATHWORKS_R2014A.part2.rar</span><br><span class="line">...         MATHWORKS_R2014A.iso                                      OK </span><br><span class="line">All OK</span><br></pre></td></tr></table></figure>
+<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>安装matlab<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">mkdir</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">mount</span> -<span class="title">o</span> <span class="title">loop</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">MATHWORKS_R2014A.iso</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">mount</span>: /<span class="title">dev</span>/<span class="title">loop0</span> <span class="title">is</span> <span class="title">write</span>-<span class="title">protected</span>, <span class="title">mounting</span> <span class="title">read</span>-<span class="title">only</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cd</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">sudo</span> ./<span class="title">install</span></span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">installation</span> <span class="title">files</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Installing</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Finished</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><p>破解matlab</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">cd</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">cp</span> <span class="title">libmwservices.so</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">matlab</span></span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>matlab</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux安装Quartus13</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85Quartus13/</url>
+    <url>/2020/05/17/linux_install/linux%E5%AE%89%E8%A3%85Quartus13/</url>
     <content><![CDATA[<h2 id="linux安装Quartus13"><a href="#linux安装Quartus13" class="headerlink" title="linux安装Quartus13"></a>linux安装Quartus13</h2><a id="more"></a>
 <h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>:</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># /<span class="title">mnt</span></span></span><br><span class="line"><span class="function"><span class="title">bash</span>: /<span class="title">mnt</span>: <span class="title">Is</span> <span class="title">a</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">c</span> /<span class="title">mnt</span></span></span><br><span class="line"><span class="function"><span class="title">c</span>: <span class="title">command</span> <span class="title">not</span> <span class="title">found</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">cd</span> /<span class="title">mnt</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># ./<span class="title">setup.sh</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># <span class="title">tar</span> -<span class="title">xvf</span> <span class="title">Quartus</span>-13.0.0.156-<span class="title">linux.tar</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">DSPBuilderSetup</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">FlexlmSetup</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">ModelSimSetup</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">QuartusHelpSetup</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">QuartusProgrammerSetup</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">QuartusSetup</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">setup.sh</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># ./<span class="title">setup.sh</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># <span class="title">tar</span> -<span class="title">xvf</span> <span class="title">Quartus</span>-13.0.0.156-<span class="title">devices1.tar</span></span></span><br><span class="line"><span class="function"><span class="title">tar</span>: <span class="title">Quartus</span>-13.0.0.156-<span class="title">devices1.tar</span>: <span class="title">Cannot</span> <span class="title">open</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">tar</span>: <span class="title">Error</span> <span class="title">is</span> <span class="title">not</span> <span class="title">recoverable</span>: <span class="title">exiting</span> <span class="title">now</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># <span class="title">tar</span> -<span class="title">xvf</span> <span class="title">Quartus</span>-13.0.0.156-<span class="title">devices</span>-1.<span class="title">tar</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">DeviceInstall</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">cyclone</span>-13.0.0.156.<span class="title">qdz</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">cyclonev</span>-13.0.0.156.<span class="title">qdz</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">max</span>-13.0.0.156.<span class="title">qdz</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">stratix</span>-13.0.0.156.<span class="title">qdz</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">stratixiv</span>-13.0.0.156.<span class="title">qdz</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">stratixv</span>-13.0.0.156.<span class="title">qdz</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">DeviceInstall</span>-13.0.0.156.<span class="title">exe</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># <span class="title">tar</span> -<span class="title">xvf</span> <span class="title">Quartus</span>-13.0.0.156-<span class="title">devices</span>-2.<span class="title">tar</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">DeviceInstall</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">arria</span>-13.0.0.156.<span class="title">qdz</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">arriav</span>-13.0.0.156.<span class="title">qdz</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">arriavgz</span>-13.0.0.156.<span class="title">qdz</span></span></span><br><span class="line"><span class="function"><span class="title">components</span>/<span class="title">DeviceInstall</span>-13.0.0.156.<span class="title">exe</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># /<span class="title">mnt</span>/<span class="title">components</span></span></span><br><span class="line"><span class="function"><span class="title">bash</span>: /<span class="title">mnt</span>/<span class="title">components</span>: <span class="title">Is</span> <span class="title">a</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># <span class="title">cd</span> /<span class="title">mnt</span>/<span class="title">component</span></span></span><br><span class="line"><span class="function"><span class="title">bash</span>: <span class="title">cd</span>: /<span class="title">mnt</span>/<span class="title">component</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># <span class="title">cd</span> /<span class="title">mnt</span>/<span class="title">components</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># <span class="title">DeviceInstall</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">DeviceInstall</span>-13.0.0.156.<span class="title">run</span>: <span class="title">command</span> <span class="title">not</span> <span class="title">found</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># ./<span class="title">DeviceInstall</span>-13.0.0.156.<span class="title">run</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># /<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">quartus</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libpng12.so</span>.0: <span class="title">cannot</span> <span class="title">open</span> <span class="title">shared</span> <span class="title">object</span> <span class="title">file</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># ./<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">bash</span>: ./<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># ./<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">bash</span>: ./<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># /<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">quartus</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libpng12.so</span>.0: <span class="title">cannot</span> <span class="title">open</span> <span class="title">shared</span> <span class="title">object</span> <span class="title">file</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># <span class="title">locate</span> <span class="title">libpng12.so</span>.0</span></span><br><span class="line"><span class="function">/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libpng12.so</span>.0</span></span><br><span class="line"><span class="function">/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libpng12.so</span>.0.49.0</span></span><br><span class="line"><span class="function">/<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span>/<span class="title">libpng12.so</span>.0</span></span><br><span class="line"><span class="function">/<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span>/<span class="title">libpng12.so</span>.0.39.0</span></span><br><span class="line"><span class="function">/<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">toolbox</span>/<span class="title">sl3d</span>/<span class="title">orbisnap</span>/<span class="title">bin</span>/<span class="title">glnxa64</span>/<span class="title">libpng12.so</span>.0</span></span><br><span class="line"><span class="function">/<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">toolbox</span>/<span class="title">sl3d</span>/<span class="title">orbisnap</span>/<span class="title">bin</span>/<span class="title">glnxa64</span>/<span class="title">libpng12.so</span>.0.39.0</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span>#  <span class="title">ldconfig</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># /<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">quartus</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libpng12.so</span>.0: <span class="title">cannot</span> <span class="title">open</span> <span class="title">shared</span> <span class="title">object</span> <span class="title">file</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># <span class="title">ln</span> -<span class="title">sf</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">libpng.so</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libpng12.so</span>.0</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># /<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartusquartus</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libpng12.so</span>.0: <span class="title">cannot</span> <span class="title">open</span> <span class="title">shared</span> <span class="title">object</span> <span class="title">file</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># <span class="title">cat</span> /<span class="title">etc</span>/<span class="title">ld.so.conf</span></span></span><br><span class="line"><span class="function"><span class="title">include</span> /<span class="title">etc</span>/<span class="title">ld.so.conf.d</span>/*.<span class="title">conf</span></span></span><br></pre></td></tr></table></figure>
 <h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">mnt</span>/<span class="title">components</span># <span class="title">echo</span> "/<span class="title">usr</span>/<span class="title">local</span>/<span class="title">lib</span>" &gt;&gt; /<span class="title">etc</span>/<span class="title">ld.so.conf</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># <span class="title">ldconfig</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># /<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">quartus</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libpng12.so</span>.0: <span class="title">cannot</span> <span class="title">open</span> <span class="title">shared</span> <span class="title">object</span> <span class="title">file</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># <span class="title">echo</span> "/<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>" &gt;&gt; /<span class="title">etc</span>/<span class="title">ld.so.conf</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># <span class="title">ldconfig</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># /<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">quartus</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libpng12.so</span>.0: <span class="title">cannot</span> <span class="title">open</span> <span class="title">shared</span> <span class="title">object</span> <span class="title">file</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># /<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">quartus</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libpng12.so</span>.0: <span class="title">wrong</span> <span class="title">ELF</span> <span class="title">class</span>: <span class="title">ELFCLASS64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># /<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">quartus</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libpng12.so</span>.0: <span class="title">wrong</span> <span class="title">ELF</span> <span class="title">class</span>: <span class="title">ELFCLASS64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span># /<span class="title">opt</span>/<span class="title">altera13</span>/13.0/<span class="title">quartus</span>/<span class="title">bin</span>/<span class="title">quartus</span></span></span><br><span class="line"><span class="function"><span class="title">quartus</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libpng12.so</span>.0: <span class="title">wrong</span> <span class="title">ELF</span> <span class="title">class</span>: <span class="title">ELFCLASS64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">components</span>#</span></span><br></pre></td></tr></table></figure>
@@ -6114,10 +6114,10 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
 <figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>:</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">cp</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">quartus_64bit</span>  /<span class="title">opt</span>/<span class="title">altera13</span>/13.0</span></span><br><span class="line"><span class="function"><span class="title">cp</span>: <span class="title">cannot</span> <span class="title">stat</span> '/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">quartus_64bit</span>': <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">cp</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">quartus_64bit.sh</span>  /<span class="title">opt</span>/<span class="title">altera13</span>/13.0</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>#</span></span><br></pre></td></tr></table></figure>
 <h3 id="step-4"><a href="#step-4" class="headerlink" title="step 4"></a>step 4</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>:</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span># <span class="title">cp</span> <span class="title">libpng12.so</span>.0  /<span class="title">lib</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span># <span class="title">cp</span> <span class="title">libpng12.so</span>.0 /<span class="title">lib64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span># <span class="title">cp</span> <span class="title">libpng12.so</span>.0 /<span class="title">lib32</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>#</span></span><br></pre></td></tr></table></figure>
 <h2 id="安装Quartus网络web版-optional"><a href="#安装Quartus网络web版-optional" class="headerlink" title="安装Quartus网络web版 [optional]"></a>安装Quartus网络web版 [optional]</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span># <span class="title">cd</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cp</span> 90<span class="title">_altera_webinstall.sh</span> /<span class="title">mnt</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># /<span class="title">mnt</span></span></span><br><span class="line"><span class="function"><span class="title">bash</span>: /<span class="title">mnt</span>: <span class="title">Is</span> <span class="title">a</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cd</span> /<span class="title">mnt</span>/</span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># ./90<span class="title">_altera_webinstall.sh</span></span></span><br><span class="line"><span class="function"><span class="title">bash</span>: ./90<span class="title">_altera_webinstall.sh</span>: <span class="title">Permission</span> <span class="title">denied</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># <span class="title">chmod</span> 777 90<span class="title">_altera_webinstall.sh</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># ./90<span class="title">_altera_webinstall.sh</span></span></span><br><span class="line"><span class="function"><span class="title">Creating</span> <span class="title">directory</span> <span class="title">webinstall</span></span></span><br><span class="line"><span class="function"><span class="title">Verifying</span> <span class="title">archive</span> <span class="title">integrity</span>... <span class="title">All</span> <span class="title">good</span>.</span></span><br><span class="line"><span class="function"><span class="title">Uncompressing</span> <span class="title">Altera</span> <span class="title">Installer</span>..............................................</span></span><br><span class="line"><span class="function"><span class="title">altera_installer</span>: <span class="title">error</span> <span class="title">while</span> <span class="title">loading</span> <span class="title">shared</span> <span class="title">libraries</span>: <span class="title">libSM.so</span>.6: <span class="title">cannot</span> <span class="title">open</span> <span class="title">shared</span> <span class="title">object</span> <span class="title">file</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span># ./<span class="title">setup.sh</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="安装Quartus15网络web版-optional"><a href="#安装Quartus15网络web版-optional" class="headerlink" title="安装Quartus15网络web版 [optional]"></a>安装Quartus15网络web版 [optional]</h2><p>axel -n 4 -o /home/dassein/Downloads <a href="http://download.altera.com/akdlm/software/acdsinst/15.0/145/iso/Quartus-web-15.0.0.145.iso" target="_blank" rel="noopener">http://download.altera.com/akdlm/software/acdsinst/15.0/145/iso/Quartus-web-15.0.0.145.iso</a></p>
+<h2 id="安装Quartus15网络web版-optional"><a href="#安装Quartus15网络web版-optional" class="headerlink" title="安装Quartus15网络web版 [optional]"></a>安装Quartus15网络web版 [optional]</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">axel -n <span class="number">4</span> -o /home/dassein/Downloads http://download.altera.com/akdlm/software/acdsinst/<span class="number">15</span>.<span class="number">0</span>/<span class="number">145</span>/iso/Quartus-web-<span class="number">15</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">145</span>.iso</span><br></pre></td></tr></table></figure>
 <p>接着运行安装程序</p>
 <figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:/<span class="title">mnt</span>/<span class="title">Quartus</span>-<span class="title">web</span>-15.0.0.145$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">mnt</span>/<span class="title">Quartus</span>-<span class="title">web</span>-15.0.0.145# ./<span class="title">setup.sh</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">GConf</span>-<span class="title">WARNING</span> **: <span class="title">Client</span> <span class="title">failed</span> <span class="title">to</span> <span class="title">connect</span> <span class="title">to</span> <span class="title">the</span> <span class="title">D</span>-<span class="title">BUS</span> <span class="title">daemon</span>:</span></span><br><span class="line"><span class="function"><span class="title">Did</span> <span class="title">not</span> <span class="title">receive</span> <span class="title">a</span> <span class="title">reply</span>. <span class="title">Possible</span> <span class="title">causes</span> <span class="title">include</span>: <span class="title">the</span> <span class="title">remote</span> <span class="title">application</span> <span class="title">did</span> <span class="title">not</span> <span class="title">send</span> <span class="title">a</span> <span class="title">reply</span>, <span class="title">the</span> <span class="title">message</span> <span class="title">bus</span> <span class="title">security</span> <span class="title">policy</span> <span class="title">blocked</span> <span class="title">the</span> <span class="title">reply</span>, <span class="title">the</span> <span class="title">reply</span> <span class="title">timeout</span> <span class="title">expired</span>, <span class="title">or</span> <span class="title">the</span> <span class="title">network</span> <span class="title">connection</span> <span class="title">was</span> <span class="title">broken</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">GLib</span>-<span class="title">GIO</span>-<span class="title">CRITICAL</span> **: <span class="title">g_dbus_connection_register_object</span>: <span class="title">assertion</span> '<span class="title">G_IS_DBUS_CONNECTION</span> (<span class="title">connection</span>)' <span class="title">failed</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Qt</span>: <span class="title">Session</span> <span class="title">management</span> <span class="title">error</span>: <span class="title">None</span> <span class="title">of</span> <span class="title">the</span> <span class="title">authentication</span> <span class="title">protocols</span> <span class="title">specified</span> <span class="title">are</span> <span class="title">supported</span></span></span><br><span class="line"><span class="function"><span class="title">Inconsistency</span> <span class="title">detected</span> <span class="title">by</span> <span class="title">ld.so</span>: <span class="title">dl</span>-<span class="title">close.c</span>: 811: <span class="title">_dl_close</span>: <span class="title">Assertion</span> `<span class="title">map</span>-&gt;<span class="title">l_init_called</span>' <span class="title">failed</span>!</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">Gtk</span>-<span class="title">WARNING</span> **: <span class="title">Error</span> <span class="title">loading</span> <span class="title">theme</span> <span class="title">icon</span> '<span class="title">window</span>-<span class="title">close</span>' <span class="title">for</span> <span class="title">stock</span>: <span class="title">Unable</span> <span class="title">to</span> <span class="title">load</span> <span class="title">image</span>-<span class="title">loading</span> <span class="title">module</span>: /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">gdk</span>-<span class="title">pixbuf</span>-2.0/2.10.0/<span class="title">loaders</span>/<span class="title">libpixbufloader</span>-<span class="title">svg.so</span>: /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">linux64</span>/<span class="title">libstdc</span>++.<span class="title">so</span>.6: <span class="title">version</span> `<span class="title">CXXABI_1</span>.3.8' <span class="title">not</span> <span class="title">found</span> (<span class="title">required</span> <span class="title">by</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libicuuc.so</span>.57)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">Gtk</span>-<span class="title">WARNING</span> **: <span class="title">Error</span> <span class="title">loading</span> <span class="title">theme</span> <span class="title">icon</span> '<span class="title">dialog</span>-<span class="title">information</span>' <span class="title">for</span> <span class="title">stock</span>: <span class="title">Unable</span> <span class="title">to</span> <span class="title">load</span> <span class="title">image</span>-<span class="title">loading</span> <span class="title">module</span>: /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">gdk</span>-<span class="title">pixbuf</span>-2.0/2.10.0/<span class="title">loaders</span>/<span class="title">libpixbufloader</span>-<span class="title">svg.so</span>: /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">linux64</span>/<span class="title">libstdc</span>++.<span class="title">so</span>.6: <span class="title">version</span> `<span class="title">CXXABI_1</span>.3.8' <span class="title">not</span> <span class="title">found</span> (<span class="title">required</span> <span class="title">by</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libicuuc.so</span>.57)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">GConf</span>-<span class="title">WARNING</span> **: <span class="title">Client</span> <span class="title">failed</span> <span class="title">to</span> <span class="title">connect</span> <span class="title">to</span> <span class="title">the</span> <span class="title">D</span>-<span class="title">BUS</span> <span class="title">daemon</span>:</span></span><br><span class="line"><span class="function"><span class="title">Did</span> <span class="title">not</span> <span class="title">receive</span> <span class="title">a</span> <span class="title">reply</span>. <span class="title">Possible</span> <span class="title">causes</span> <span class="title">include</span>: <span class="title">the</span> <span class="title">remote</span> <span class="title">application</span> <span class="title">did</span> <span class="title">not</span> <span class="title">send</span> <span class="title">a</span> <span class="title">reply</span>, <span class="title">the</span> <span class="title">message</span> <span class="title">bus</span> <span class="title">security</span> <span class="title">policy</span> <span class="title">blocked</span> <span class="title">the</span> <span class="title">reply</span>, <span class="title">the</span> <span class="title">reply</span> <span class="title">timeout</span> <span class="title">expired</span>, <span class="title">or</span> <span class="title">the</span> <span class="title">network</span> <span class="title">connection</span> <span class="title">was</span> <span class="title">broken</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">(<span class="title">quartus</span>:8317): <span class="title">Gtk</span>-<span class="title">WARNING</span> **: <span class="title">Error</span> <span class="title">loading</span> <span class="title">theme</span> <span class="title">icon</span> '<span class="title">dialog</span>-<span class="title">information</span>' <span class="title">for</span> <span class="title">stock</span>: <span class="title">Unable</span> <span class="title">to</span> <span class="title">load</span> <span class="title">image</span>-<span class="title">loading</span> <span class="title">module</span>: /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">gdk</span>-<span class="title">pixbuf</span>-2.0/2.10.0/<span class="title">loaders</span>/<span class="title">libpixbufloader</span>-<span class="title">svg.so</span>: /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">linux64</span>/<span class="title">libstdc</span>++.<span class="title">so</span>.6: <span class="title">version</span> `<span class="title">CXXABI_1</span>.3.8' <span class="title">not</span> <span class="title">found</span> (<span class="title">required</span> <span class="title">by</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">x86_64</span>-<span class="title">linux</span>-<span class="title">gnu</span>/<span class="title">libicuuc.so</span>.57)</span></span><br><span class="line"><span class="function">/<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">firefox</span>/<span class="title">firefox</span>: /<span class="title">opt</span>/<span class="title">altera</span>/15.0/<span class="title">quartus</span>/<span class="title">linux64</span>/<span class="title">libstdc</span>++.<span class="title">so</span>.6: <span class="title">version</span> `<span class="title">GLIBCXX_3</span>.4.21' <span class="title">not</span> <span class="title">found</span> (<span class="title">required</span> <span class="title">by</span> /<span class="title">usr</span>/<span class="title">lib</span>/<span class="title">firefox</span>/<span class="title">firefox</span>)</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装Quartus16-optional"><a href="#安装Quartus16-optional" class="headerlink" title="安装Quartus16 [optional]"></a>安装Quartus16 [optional]</h2><p>axel -n 4 -o /home/dassein/Downloads <a href="http://download.altera.com/akdlm/software/acdsinst/16.1.2/203/ib_tar/Quartus-16.1.2.203-linux-complete.tar" target="_blank" rel="noopener">http://download.altera.com/akdlm/software/acdsinst/16.1.2/203/ib_tar/Quartus-16.1.2.203-linux-complete.tar</a></p>
+<h2 id="安装Quartus16-optional"><a href="#安装Quartus16-optional" class="headerlink" title="安装Quartus16 [optional]"></a>安装Quartus16 [optional]</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">axel -n <span class="number">4</span> -o /home/dassein/Downloads http://download.altera.com/akdlm/software/acdsinst/<span class="number">16</span>.<span class="number">1</span>.<span class="number">2</span>/<span class="number">203</span>/ib_tar/Quartus-<span class="number">16</span>.<span class="number">1</span>.<span class="number">2</span>.<span class="number">203</span>-linux-complete.tar</span><br></pre></td></tr></table></figure>
 <p>之后, 同理运行setup.sh</p>
 ]]></content>
       <categories>
@@ -6232,42 +6232,6 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>linux安装typora</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85typora/</url>
-    <content><![CDATA[<h2 id="linux安装typora"><a href="#linux安装typora" class="headerlink" title="linux安装typora"></a>linux安装typora</h2><a id="more"></a>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># optional, but recommended</span><br><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span><br><span class="line"></span><br><span class="line"># add Typora's repository</span><br><span class="line">sudo add-apt-repository 'deb http://typora.io linux/'</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"># install typora</span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>typora</tag>
-        <tag>markdown</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux安装输入法</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="linux安装输入法"><a href="#linux安装输入法" class="headerlink" title="linux安装输入法"></a>linux安装输入法</h2><a id="more"></a>
-<p><a href="http://blog.csdn.net/ljp812184246/article/details/50222125" target="_blank" rel="noopener">http://blog.csdn.net/ljp812184246/article/details/50222125</a>    linux中yum的安装</p>
-<p><a href="http://blog.csdn.net/wzgl__wh/article/details/51327570" target="_blank" rel="noopener">http://blog.csdn.net/wzgl__wh/article/details/51327570</a>    Linux系统下如何使用中文输入法</p>
-<p><a href="https://zhidao.baidu.com/question/582793394878019125.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/582793394878019125.html</a>   linux如何配置中文输入</p>
-<p><a href="https://zhidao.baidu.com/question/619127469641961052.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/619127469641961052.html</a>    Ubuntu 16.04 不支持中文输入法吗</p>
-<p><a href="http://www.cnblogs.com/bluestorm/p/3731330.html" target="_blank" rel="noopener">http://www.cnblogs.com/bluestorm/p/3731330.html</a> 搜狗拼音输入法LINUX版安装</p>
-<p><a href="http://blog.csdn.net/gzliudan/article/details/53052859" target="_blank" rel="noopener">http://blog.csdn.net/gzliudan/article/details/53052859</a>     安装完ubuntu 16.10要做的事情 </p>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>ibus</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>linux软件安装</title>
     <url>/2020/05/15/linux_install/linux%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%8C%85/</url>
     <content><![CDATA[<h2 id="linux软件安装"><a href="#linux软件安装" class="headerlink" title="linux软件安装"></a>linux软件安装</h2><a id="more"></a>
@@ -6295,6 +6259,42 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       <tags>
         <tag>linux</tag>
         <tag>compile</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux安装输入法</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="linux安装输入法"><a href="#linux安装输入法" class="headerlink" title="linux安装输入法"></a>linux安装输入法</h2><a id="more"></a>
+<p><a href="http://blog.csdn.net/ljp812184246/article/details/50222125" target="_blank" rel="noopener">http://blog.csdn.net/ljp812184246/article/details/50222125</a>    linux中yum的安装</p>
+<p><a href="http://blog.csdn.net/wzgl__wh/article/details/51327570" target="_blank" rel="noopener">http://blog.csdn.net/wzgl__wh/article/details/51327570</a>    Linux系统下如何使用中文输入法</p>
+<p><a href="https://zhidao.baidu.com/question/582793394878019125.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/582793394878019125.html</a>   linux如何配置中文输入</p>
+<p><a href="https://zhidao.baidu.com/question/619127469641961052.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/619127469641961052.html</a>    Ubuntu 16.04 不支持中文输入法吗</p>
+<p><a href="http://www.cnblogs.com/bluestorm/p/3731330.html" target="_blank" rel="noopener">http://www.cnblogs.com/bluestorm/p/3731330.html</a> 搜狗拼音输入法LINUX版安装</p>
+<p><a href="http://blog.csdn.net/gzliudan/article/details/53052859" target="_blank" rel="noopener">http://blog.csdn.net/gzliudan/article/details/53052859</a>     安装完ubuntu 16.10要做的事情 </p>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>ibus</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux安装typora</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85typora/</url>
+    <content><![CDATA[<h2 id="linux安装typora"><a href="#linux安装typora" class="headerlink" title="linux安装typora"></a>linux安装typora</h2><a id="more"></a>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># optional, but recommended</span><br><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span><br><span class="line"></span><br><span class="line"># add Typora's repository</span><br><span class="line">sudo add-apt-repository 'deb http://typora.io linux/'</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"># install typora</span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>typora</tag>
+        <tag>markdown</tag>
       </tags>
   </entry>
   <entry>
