@@ -49,44 +49,6 @@
       </tags>
   </entry>
   <entry>
-    <title>C语句</title>
-    <url>/2020/05/16/C%E8%AF%AD%E5%8F%A5/</url>
-    <content><![CDATA[<h2 id="C语句"><a href="#C语句" class="headerlink" title="C语句"></a>C语句</h2><a id="more"></a>
-<h3 id="if-else"><a href="#if-else" class="headerlink" title="if-else"></a>if-else</h3><p>If test evaluates to true, then then-statement is executed and else-statement is not.<br>If test evaluates to false, then else-statement is executed and then-statement is not. The else<br>clause is optional.</p>
-<h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><p>The switch statement compares test to each of the compare expressions,<br>until it finds one that is equal to test.<br>Then, the statements following the successful case are executed.  </p>
-<p>All of the expressions compared must be of an integer type, and the compare-N expressions must be of a constant integer type (e.g., a literal integer or an expression built of literal integers).<br>Optionally, you can specify a default case. If test doesn’t match any of the specific cases listed prior to the default case, then the statements for the default case are executed.<br>Traditionally, the default case is put after the specific cases, but that isn’t required.  </p>
-<h3 id="do-while"><a href="#do-while" class="headerlink" title="do-while"></a>do-while</h3><p>This example also prints the integers from zero through nine:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"%d "</span>, x++);</span><br><span class="line"><span class="keyword">while</span> (x &lt; <span class="number">10</span>);</span><br></pre></td></tr></table></figure>
-<p>A break statement can also cause a do loop to exit.</p>
-<h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><p>If you need to test two conditions, you will need to use the &amp;&amp; operator:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x, y;</span><br><span class="line"><span class="keyword">for</span> (x = <span class="number">1</span>, y = <span class="number">10</span>; x &lt;= <span class="number">10</span> &amp;&amp; y &gt;= <span class="number">1</span>; x+=<span class="number">2</span>, y--)</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"%d %d\n"</span>, x, y);</span><br></pre></td></tr></table></figure>
-<p>A break statement can also cause a for loop to exit.</p>
-<h3 id="block"><a href="#block" class="headerlink" title="block"></a>block</h3><p>A block is a set of zero or more statements enclosed in braces. Blocks are also known as compound statements.<br>Often, a block is used as the body of an if statement or a loop<br>statement, to group statements together.</p>
-<p>You can declare variables inside a block; such variables are local to that block.<br>In C89, declarations must occur before other statements, and so sometimes it is useful to introduce a block simply for this purpose:</p>
-<h3 id="label"><a href="#label" class="headerlink" title="label"></a>label</h3><p>A null statement is also sometimes used to follow a label that would otherwise be the last thing in a block.</p>
-<p>The label can be anywhere in the same function as the goto statement that jumps to it,<br>but a goto statement cannot jump to a label in a different function.</p>
-<h3 id="break"><a href="#break" class="headerlink" title="break"></a>break</h3><p>If you put a break statement inside of a loop or switch statement which itself is inside of a loop or switch statement, the break only terminates the innermost loop or switch statement.</p>
-<h3 id="continue"><a href="#continue" class="headerlink" title="continue"></a>continue</h3><p>You can use the continue statement in loops to terminate an iteration of the loop and<br>begin the next iteration.</p>
-<h3 id="void"><a href="#void" class="headerlink" title="void*"></a>void*</h3><p><a href="http://blog.chinaunix.net/uid-22197900-id-359211.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-22197900-id-359211.html</a> void* 用法</p>
-<h3 id="return"><a href="#return" class="headerlink" title="return"></a>return</h3><p>return-value is an optional expression to return.<br>If the function’s return type is void,<br>then it is invalid to return an expression.<br>You can, however, use the return statement without a return value.</p>
-<p>If the function’s return type is not the same as the type of return-value, and automatic type conversion cannot be performed, then returning return-value is invalid.</p>
-<p>If the function’s return type is not void and no return value is specified, then the return statement is valid unless the function is called in a context that requires a return value. For<br>example:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">x = cosine (y);</span><br></pre></td></tr></table></figure>
-<p>Even in contexts where a return value is not required, it is a bad idea for a non-void function to omit the return value.</p>
-<h3 id="typedef"><a href="#typedef" class="headerlink" title="typedef"></a>typedef</h3><p>In the case of custom data types, you can use typedef to make a new name for the type while defining the type:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">fish</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">float</span> weight;</span><br><span class="line">    <span class="keyword">float</span> length;</span><br><span class="line">    <span class="keyword">float</span> probability_of_being_caught;</span><br><span class="line">&#125; fish_type;</span><br></pre></td></tr></table></figure>
-<p>To make a type definition of an array,<br>you first provide the type of the element,<br>and then establish the number of elements at the end of the type definition:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> array_of_bytes [<span class="number">5</span>];</span><br><span class="line">array_of_bytes five_bytes = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>C</category>
-        <category>语法</category>
-      </categories>
-      <tags>
-        <tag>C</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MATLAB动画显示</title>
     <url>/2020/05/17/MATLAB%E5%9D%90%E6%A0%87%E5%9B%BE%E7%9A%84%E5%8A%A8%E7%94%BB%E6%98%BE%E7%A4%BA/</url>
     <content><![CDATA[<h2 id="MATLAB动画显示"><a href="#MATLAB动画显示" class="headerlink" title="MATLAB动画显示"></a>MATLAB动画显示</h2><a id="more"></a>
@@ -205,9 +167,9 @@
         <category>语法</category>
       </categories>
       <tags>
-        <tag>C</tag>
         <tag>linux</tag>
         <tag>compile</tag>
+        <tag>C</tag>
       </tags>
   </entry>
   <entry>
@@ -603,6 +565,25 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </tags>
   </entry>
   <entry>
+    <title>不可替代性</title>
+    <url>/2020/05/16/%E4%B8%8D%E5%8F%AF%E6%9B%BF%E4%BB%A3%E6%80%A7/</url>
+    <content><![CDATA[<h2 id="不可替代性"><a href="#不可替代性" class="headerlink" title="不可替代性"></a>不可替代性</h2><a id="more"></a>
+<p>不可替代性 -&gt; 议价能力</p>
+<p>不可替代性:</p>
+<ul>
+<li>技能水平提升</li>
+<li>多技能</li>
+<li>人脉 (协作, 调动资源)</li>
+</ul>
+]]></content>
+      <categories>
+        <category>道理</category>
+      </categories>
+      <tags>
+        <tag>principle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>volatile关键字</title>
     <url>/2020/05/15/volatile%E5%85%B3%E9%94%AE%E5%AD%97/</url>
     <content><![CDATA[<h2 id="volatile-易变的"><a href="#volatile-易变的" class="headerlink" title="volatile: 易变的"></a>volatile: 易变的</h2><p><a href="https://blog.csdn.net/huhuandk/article/details/92771038" target="_blank" rel="noopener">https://blog.csdn.net/huhuandk/article/details/92771038</a> C语言中volatile关键字的作用</p>
@@ -635,28 +616,9 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
         <category>语法</category>
       </categories>
       <tags>
-        <tag>C</tag>
         <tag>linux</tag>
         <tag>compile</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>不可替代性</title>
-    <url>/2020/05/16/%E4%B8%8D%E5%8F%AF%E6%9B%BF%E4%BB%A3%E6%80%A7/</url>
-    <content><![CDATA[<h2 id="不可替代性"><a href="#不可替代性" class="headerlink" title="不可替代性"></a>不可替代性</h2><a id="more"></a>
-<p>不可替代性 -&gt; 议价能力</p>
-<p>不可替代性:</p>
-<ul>
-<li>技能水平提升</li>
-<li>多技能</li>
-<li>人脉 (协作, 调动资源)</li>
-</ul>
-]]></content>
-      <categories>
-        <category>道理</category>
-      </categories>
-      <tags>
-        <tag>principle</tag>
+        <tag>C</tag>
       </tags>
   </entry>
   <entry>
@@ -700,35 +662,6 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </tags>
   </entry>
   <entry>
-    <title>摘要怎么写 [PARI法]</title>
-    <url>/2020/05/15/%E6%91%98%E8%A6%81%E6%80%8E%E4%B9%88%E5%86%99_PARI/</url>
-    <content><![CDATA[<h2 id="摘要怎么写-PARI法"><a href="#摘要怎么写-PARI法" class="headerlink" title="摘要怎么写 [PARI法]"></a>摘要怎么写 [PARI法]</h2><p>P = Problem: 文章要解决什么问题</p>
-<p>A = Approach: 文章用得是什么方法解决提出的问题</p>
-<p>R = Results: 解决了问题得到了些什么结果</p>
-<p>I = Impacts: 这些结果有什么具体理论或者实际的影响<br><a id="more"></a></p>
-<p>先按照以下四个句式写四句话，概括研究成果：</p>
-<p>The problem I am trying to solve in thispaper is …</p>
-<p>The approach I adopt to solve the problemis …</p>
-<p>The results obtained in this researchinclude …</p>
-<p>The impacts of our obtained results are …</p>
-<p>更详细些，加上前面:  简短做啥的 + background</p>
-<ol>
-<li>what is the subject matter/area the research is dealing with?</li>
-<li>what background information?总结现状的基础上提出问题</li>
-<li>what is the purpose of the present study?   P</li>
-<li>how is the research to be done?   A</li>
-<li>what are some of the important findings?   R</li>
-<li>what are some of the implications of the study?  I</li>
-</ol>
-]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>paper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>怎样做presentation</title>
     <url>/2020/05/16/%E6%80%8E%E6%A0%B7%E5%81%9Apresentaion/</url>
     <content><![CDATA[<h2 id="怎样做presentation"><a href="#怎样做presentation" class="headerlink" title="怎样做presentation"></a>怎样做presentation</h2><a id="more"></a>
@@ -761,6 +694,73 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       <tags>
         <tag>presentation</tag>
         <tag>ppt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C语句</title>
+    <url>/2020/05/16/C%E8%AF%AD%E5%8F%A5/</url>
+    <content><![CDATA[<h2 id="C语句"><a href="#C语句" class="headerlink" title="C语句"></a>C语句</h2><a id="more"></a>
+<h3 id="if-else"><a href="#if-else" class="headerlink" title="if-else"></a>if-else</h3><p>If test evaluates to true, then then-statement is executed and else-statement is not.<br>If test evaluates to false, then else-statement is executed and then-statement is not. The else<br>clause is optional.</p>
+<h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><p>The switch statement compares test to each of the compare expressions,<br>until it finds one that is equal to test.<br>Then, the statements following the successful case are executed.  </p>
+<p>All of the expressions compared must be of an integer type, and the compare-N expressions must be of a constant integer type (e.g., a literal integer or an expression built of literal integers).<br>Optionally, you can specify a default case. If test doesn’t match any of the specific cases listed prior to the default case, then the statements for the default case are executed.<br>Traditionally, the default case is put after the specific cases, but that isn’t required.  </p>
+<h3 id="do-while"><a href="#do-while" class="headerlink" title="do-while"></a>do-while</h3><p>This example also prints the integers from zero through nine:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"%d "</span>, x++);</span><br><span class="line"><span class="keyword">while</span> (x &lt; <span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+<p>A break statement can also cause a do loop to exit.</p>
+<h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><p>If you need to test two conditions, you will need to use the &amp;&amp; operator:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x, y;</span><br><span class="line"><span class="keyword">for</span> (x = <span class="number">1</span>, y = <span class="number">10</span>; x &lt;= <span class="number">10</span> &amp;&amp; y &gt;= <span class="number">1</span>; x+=<span class="number">2</span>, y--)</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"%d %d\n"</span>, x, y);</span><br></pre></td></tr></table></figure>
+<p>A break statement can also cause a for loop to exit.</p>
+<h3 id="block"><a href="#block" class="headerlink" title="block"></a>block</h3><p>A block is a set of zero or more statements enclosed in braces. Blocks are also known as compound statements.<br>Often, a block is used as the body of an if statement or a loop<br>statement, to group statements together.</p>
+<p>You can declare variables inside a block; such variables are local to that block.<br>In C89, declarations must occur before other statements, and so sometimes it is useful to introduce a block simply for this purpose:</p>
+<h3 id="label"><a href="#label" class="headerlink" title="label"></a>label</h3><p>A null statement is also sometimes used to follow a label that would otherwise be the last thing in a block.</p>
+<p>The label can be anywhere in the same function as the goto statement that jumps to it,<br>but a goto statement cannot jump to a label in a different function.</p>
+<h3 id="break"><a href="#break" class="headerlink" title="break"></a>break</h3><p>If you put a break statement inside of a loop or switch statement which itself is inside of a loop or switch statement, the break only terminates the innermost loop or switch statement.</p>
+<h3 id="continue"><a href="#continue" class="headerlink" title="continue"></a>continue</h3><p>You can use the continue statement in loops to terminate an iteration of the loop and<br>begin the next iteration.</p>
+<h3 id="void"><a href="#void" class="headerlink" title="void*"></a>void*</h3><p><a href="http://blog.chinaunix.net/uid-22197900-id-359211.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-22197900-id-359211.html</a> void* 用法</p>
+<h3 id="return"><a href="#return" class="headerlink" title="return"></a>return</h3><p>return-value is an optional expression to return.<br>If the function’s return type is void,<br>then it is invalid to return an expression.<br>You can, however, use the return statement without a return value.</p>
+<p>If the function’s return type is not the same as the type of return-value, and automatic type conversion cannot be performed, then returning return-value is invalid.</p>
+<p>If the function’s return type is not void and no return value is specified, then the return statement is valid unless the function is called in a context that requires a return value. For<br>example:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">x = cosine (y);</span><br></pre></td></tr></table></figure>
+<p>Even in contexts where a return value is not required, it is a bad idea for a non-void function to omit the return value.</p>
+<h3 id="typedef"><a href="#typedef" class="headerlink" title="typedef"></a>typedef</h3><p>In the case of custom data types, you can use typedef to make a new name for the type while defining the type:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">fish</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">float</span> weight;</span><br><span class="line">    <span class="keyword">float</span> length;</span><br><span class="line">    <span class="keyword">float</span> probability_of_being_caught;</span><br><span class="line">&#125; fish_type;</span><br></pre></td></tr></table></figure>
+<p>To make a type definition of an array,<br>you first provide the type of the element,<br>and then establish the number of elements at the end of the type definition:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> array_of_bytes [<span class="number">5</span>];</span><br><span class="line">array_of_bytes five_bytes = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C</category>
+        <category>语法</category>
+      </categories>
+      <tags>
+        <tag>C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>摘要怎么写 [PARI法]</title>
+    <url>/2020/05/15/%E6%91%98%E8%A6%81%E6%80%8E%E4%B9%88%E5%86%99_PARI/</url>
+    <content><![CDATA[<h2 id="摘要怎么写-PARI法"><a href="#摘要怎么写-PARI法" class="headerlink" title="摘要怎么写 [PARI法]"></a>摘要怎么写 [PARI法]</h2><p>P = Problem: 文章要解决什么问题</p>
+<p>A = Approach: 文章用得是什么方法解决提出的问题</p>
+<p>R = Results: 解决了问题得到了些什么结果</p>
+<p>I = Impacts: 这些结果有什么具体理论或者实际的影响<br><a id="more"></a></p>
+<p>先按照以下四个句式写四句话，概括研究成果：</p>
+<p>The problem I am trying to solve in thispaper is …</p>
+<p>The approach I adopt to solve the problemis …</p>
+<p>The results obtained in this researchinclude …</p>
+<p>The impacts of our obtained results are …</p>
+<p>更详细些，加上前面:  简短做啥的 + background</p>
+<ol>
+<li>what is the subject matter/area the research is dealing with?</li>
+<li>what background information?总结现状的基础上提出问题</li>
+<li>what is the purpose of the present study?   P</li>
+<li>how is the research to be done?   A</li>
+<li>what are some of the important findings?   R</li>
+<li>what are some of the implications of the study?  I</li>
+</ol>
+]]></content>
+      <categories>
+        <category>论文</category>
+      </categories>
+      <tags>
+        <tag>paper</tag>
       </tags>
   </entry>
   <entry>
@@ -2501,320 +2501,6 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
       </tags>
   </entry>
   <entry>
-    <title>ch1基本组成</title>
-    <url>/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/</url>
-    <content><![CDATA[<h3 id="层次"><a href="#层次" class="headerlink" title="层次"></a>层次</h3><a id="more"></a>
-<ul>
-<li><p>微处理器 (CPU)：（8086, 80286）</p>
-<p>控制器， 运算器（ALU）， 寄存器组， 系统总线</p>
-<p>控制器分为：</p>
-<ul>
-<li>指令寄存器IR (Instruction Register)</li>
-<li>指令译码器ID (Instruction Decoder)</li>
-<li>定时与控制电路</li>
-</ul>
-<p>寄存器组分为：</p>
-<ul>
-<li>累加器                      AX</li>
-<li>数据缓冲寄存器      DX</li>
-<li>计数寄存器              CX</li>
-<li>地址缓冲寄存器      BX</li>
-<li>程序计数器              IP</li>
-<li>状态标志寄存器      PSW</li>
-<li>通用寄存器组          AX ~ DX</li>
-<li>暂存器</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/2.png" alt="2"></p>
-</li>
-</ul>
-<p>  <img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/segment_address.png" alt="segment_address"></p>
-<p>  系统总线(BUS)外部分为：</p>
-<ul>
-<li><p>控制总线</p>
-<p>一般为单向</p>
-</li>
-<li><p>地址总线</p>
-<p>地址为n位宽，那么将有2^n个地址（即0~(2^n)-1），对应存储单元2^n Bytes</p>
-</li>
-<li><p>数据总线</p>
-<p>双向传送</p>
-</li>
-</ul>
-<ul>
-<li><p>微型计算机 (增加Cache，主存储器：内存)</p>
-<p>Cache RAM，RAM，ROM， I/O接口（即输入输出接口电路）</p>
-<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/3.png" alt="3"></p>
-<p>输入输出接口电路用芯片如：</p>
-<ul>
-<li>缓冲器：74LS244、74LS245</li>
-<li>锁存器：74LS373</li>
-<li>可编程中断控制器8259A</li>
-<li>可编程计数器/定时器8253</li>
-<li>可编程并行/串行接口芯片8255A/8250A</li>
-<li>DMA控制器8237A模/数和数/模转换器</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/4.png" alt="4"></p>
-</li>
-<li><p>微型计算机系统 (MCS) (增加外存，外设)</p>
-<p>I/O设备，软件系统</p>
-</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/1.png" alt="1"></p>
-<h3 id="硬件结构"><a href="#硬件结构" class="headerlink" title="硬件结构"></a>硬件结构</h3><ul>
-<li><p>冯·诺依曼结构</p>
-<ul>
-<li><p>地址码（2进制）-&gt; data &amp;&amp; program（2进制） 存放地址   [data &amp;&amp; program不分开存]</p>
-</li>
-<li><p>程序计数器（PC）-&gt; 指令序列（即程序）-&gt; 控制器工作</p>
-<p>具体过程：</p>
-<ul>
-<li>码段寄存器CS及指令指针寄存器IP -&gt; 控制器             （取指）</li>
-<li>控制器取 -&gt; 指令代码 in 内存                           </li>
-<li>CPU中对代码 分析                                                         （译码）</li>
-<li>控制器send该指令功能对应控制信号 - &gt; 各个部件</li>
-<li>各个部件执行                                                                   （执行）</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/7.png" alt="7"></p>
-</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/5.png" alt="5"></p>
-</li>
-<li><p>哈佛结构</p>
-<ul>
-<li>存储器：程序存储器，数据存储器</li>
-<li>总线分为：程序总线，数据总线</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/6.png" alt="6"></p>
-</li>
-</ul>
-<p>​     </p>
-<ul>
-<li><p>现代计算机</p>
-<ul>
-<li><p>主存储器：冯·诺依曼结构</p>
-<p>指令和数据合用</p>
-</li>
-<li><p>高速缓冲存储器（Cache）：哈佛结构</p>
-<p>指令Cache，数据Cache</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="分段编址"><a href="#分段编址" class="headerlink" title="分段编址"></a>分段编址</h3><ul>
-<li><p>分为代码段、数据段、堆栈段和附加段，一段最大 2^ 16 = 64KB</p>
-<p>段地址分别由CS/DS/SS/ES四个寄存器给出</p>
-<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/memory_address.png" alt="memory_address"></p>
-<ul>
-<li>串操作：源串DS:SI ，目的串ES:DI</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>分段编址好处</p>
-<ul>
-<li>大部分指令只涉及16位地址：在2 ^16 = 64kB的段内寻址 =&gt; 减小了指令长度、提高了执行速度</li>
-<li>便于程序的浮动加载：程序本身是可浮动的，与物理地址（段地址无关），只与偏移地址有关</li>
-</ul>
-</li>
-<li><p>8086的固定用途存储区 [物理地址 20 bits]</p>
-<p>00000H－003FFH，1KB    中断向量表；</p>
-<p>B0000H－B0F9FH， 4KB    单色显示器显示缓冲区；</p>
-<p>B8000H－BBF3FH，16KB    彩色显示器显示缓冲区；</p>
-<p>FFFF0H－FFFFFH，16B    复位程序入口；</p>
-</li>
-<li><p>8086的I/O编址</p>
-<p>端口：I/O接口电路中可被访问存储单元   (8086可以访问64KB的I/O端口)</p>
-<ul>
-<li><p>I/O端口和存储器统一编址</p>
-<p>可以用对存储器的指令来 =&gt; 对IO端口的访问</p>
-</li>
-<li><p>I/O端口单独编址</p>
-<ul>
-<li><p>使用MOV指令访问存储器，M/$\overline{IO}$ = 1    </p>
-</li>
-<li><p>使用IN/OUT指令访问端口，M/$\overline{IO}$ = 0</p>
-<p>输入－IN，  $\overline{RD}$=0    </p>
-<p>输出－OUT，$\overline{WR}$=0</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>计算机组成原理</category>
-        <category>BIT课件</category>
-      </categories>
-      <tags>
-        <tag>computer organization</tag>
-        <tag>assembly language</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ch12ADDA转换</title>
-    <url>/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/</url>
-    <content><![CDATA[<h2 id="模-数和数-模转换"><a href="#模-数和数-模转换" class="headerlink" title="模/数和数/模转换"></a>模/数和数/模转换</h2><a id="more"></a>
-<h3 id="数据采集基本概念"><a href="#数据采集基本概念" class="headerlink" title="数据采集基本概念"></a>数据采集基本概念</h3><p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADDA_control.png" alt="ADDA_contro"></p>
-<p>传感器: 物理量转换成电信号</p>
-<p>多路模拟开关: 模拟信号源—&gt;转换成数字形式</p>
-<p>信号调理器（SIGNAL CONDITIONING ）:</p>
-<ul>
-<li>信号的电平、极性等转换，以便与A/D变换器所需的电平极性匹配</li>
-<li>阻抗变换作用，隔离后面的负载对传感器的影响</li>
-<li>抑制干扰，提高信噪比</li>
-<li>防止混叠现象</li>
-</ul>
-<p>采样保持(Sample/Hold)电路:</p>
-<ul>
-<li><p>A/D进行转换时间内，保持输入信号不变</p>
-</li>
-<li><p>采样模式: 输出随输入变化，通常增益为1</p>
-<p>在保持模式: 采样保持电路的输出保持命令发出时的输出值</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/sample_keeper.png" alt="sample_holder"></p>
-</li>
-</ul>
-<p>eg : 高速多通道数据采集系统</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD.png" alt="multi_AD"></p>
-<p>eg: 多通道共用A/D变换器</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD2.png" alt="multi_AD2"></p>
-<h3 id="A-D转换器及其应用"><a href="#A-D转换器及其应用" class="headerlink" title="A/D转换器及其应用"></a>A/D转换器及其应用</h3><h4 id="AD转换器参数"><a href="#AD转换器参数" class="headerlink" title="AD转换器参数"></a>AD转换器参数</h4><ul>
-<li>量程：输入模拟信号幅度</li>
-<li>带宽：输入模拟信号频率</li>
-<li>转换速率：每秒能进行的转换次数</li>
-<li>分辨率（Resolution）: 位数8位，满量程5V，则其分辨率为8位，或<br>5V/(2^8-1)=19.6mV</li>
-<li>转换精度（Accuracy）: 精度和分辨率的区别，例如某ADC具有24位的分辨率，但其精度相当于16位，低8位表征随机噪声的影响</li>
-</ul>
-<h4 id="ADC0809工作原理及接口"><a href="#ADC0809工作原理及接口" class="headerlink" title="ADC0809工作原理及接口"></a>ADC0809工作原理及接口</h4><p>转换时间是100us，分辨率为8位，单5V供电，输入模拟电压范围为0—5V</p>
-<ul>
-<li><p>8路模拟开关；</p>
-</li>
-<li><p>地址锁存与译码；</p>
-</li>
-<li><p>8位A/D转换；(DAC)</p>
-</li>
-<li><p>三态输出锁存器。</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809.png" alt="ADC0809"></p>
-</li>
-</ul>
-<p>IN0～IN7: 输入，8路模拟输入</p>
-<p>DB0～DB7 : 三态输出，A/D转换数据输出线; </p>
-<p>ADD_A，ADD_B，ADD_C: 输入，模拟通道选择线;</p>
-<p>ALE: 输入，地址锁存使能，上升沿将ADD_A、ADD_B、ADD_C三位地址信号锁存，译码选通对应的模拟通道;</p>
-<p>REF(+)/REF(-): 输入，基准电压输入端，要求1/2[VREF(+)+VREF(-)]=1/2Vc</p>
-<p>模拟输入与数字输出的关系为：N＝(UIN - UREF-) / (UREF+ - UREF-)*28</p>
-<p>START: 输入,脉冲上升使所有内部寄存器清零，下降沿使A/D转换开始</p>
-<p>EOC: 输出，转换结束信号,EOC变为高电平</p>
-<p>OE: 输入，输出允许</p>
-<h4 id="AD574A工作原理"><a href="#AD574A工作原理" class="headerlink" title="AD574A工作原理"></a>AD574A工作原理</h4><p>12位的A/D转换芯片, 转换时间为35us, 输入模拟电压范围：单极性0~+10V或0~+20V；双极性±5V或±10V</p>
-<p>[可直接与8位或16位微处理器接口, 集成时钟&amp;基准电压电路, 输出可读全部12位数据，亦可两个8位方式读取]</p>
-<p>DB0～DB11，三态输出数据线，DB0为LSB,  DB11为MSB</p>
-<p>CE,芯片使能输入, CE由0变1,启动一次转换</p>
-<p>$\overline{CS}$,芯片选择输入,低电平有效</p>
-<p>$R/\overline{C}$,  =1 read &amp;&amp; =0 convert</p>
-<p>STS, 状态信号输出, 转换开始,STS=1; 转换周期完成, STS=0</p>
-<p>A0和$12/\overline{8}$这两个信号控制转换的长度和数据的格式</p>
-<p>$REF_{IN}$   基准电压输入,在使用中,可在REF IN和REF OUT之间接一个100欧的可调电阻,进行增益微调;</p>
-<p>$REF_{OUT}$  基准电压输出,AD574A内有基准电压电路,以供DAC的基准电压,基准电压可以被调到10.00V±1%;</p>
-<p>$BIP_{OFF}$   双极性偏置, 在使用中用于偏置的调整;</p>
-<p>DC: 数字公共端,   AC: 模拟公共端;</p>
-<p>Vlogic  逻辑电源,接+5V;</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_logic.png" alt="ADC574_logic"></p>
-<p>eg. $\overline{CS}$=0,$R/\overline{C}$=0,CE由0—&gt;1,启动一次转换；</p>
-<p>若此时A0=1,表明进行8bit转换; A0=0,表明进行12bit转换</p>
-<p>转换开始后,STS==1,直到转换周期完成STS==0;</p>
-<p>[转换期间,忽略新转换启动信号,不允许输出数据缓冲器输出]</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_eg1.png" alt="ADC574_eg1"></p>
-<p>eg. 读取周期自CE==1和$R/\overline{C}$==1时开始；</p>
-<p>$12/\overline{8}$=1,表明是16位接口方式,12位转换结果一次读出；</p>
-<p>$12/\overline{8}$=0,表明是8位接口方式,A0=0使能高8位, A0=1使能低4位数据</p>
-<h4 id="A-D转换器与系统的典型接口"><a href="#A-D转换器与系统的典型接口" class="headerlink" title="A/D转换器与系统的典型接口"></a>A/D转换器与系统的典型接口</h4><ul>
-<li><p>ADC0809通过8255A与系统的接口（P521）</p>
-<p>程序设定8255A的PA口和PC口为输入</p>
-<p>[ADC0809的数据输出经8255A的PA输入给CPU]</p>
-<p>[A/D转换状态信号EOC由PC4输入]</p>
-<p>PB口为输出，均为方式0，</p>
-<p>[ADDA、ADDB和ADDC以及地址锁存信号ALE由8255A的PB3~PB0输入]</p>
-<p>以查询方式来读取A/D转换结果。</p>
-<p>设8255A端口地址为0FFFCH~0FFFFH</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A.png" alt="ADC0809_8255A"></p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A2.png" alt="ADC0809_8255A2"></p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">	MOV AL, 98H     ;8255A控制字	</span><br><span class="line">	MOV DX, 0FFFFH	;控制字端口地址</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV AL, 0BH		;选IN3输入端和地址锁存信号</span><br><span class="line">	MOV DX, 0FFFDH</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV AL, 1BH		;start PB4&#x3D;1</span><br><span class="line">	OUT DX, AL		;启动A&#x2F;D转换</span><br><span class="line">	MOV AL, 0BH</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV DX, 0FFFEH</span><br><span class="line">TEST: IN AL, DX			;读C端口状态</span><br><span class="line">	AND AL, 10H		;测试EOC状态（PC4）</span><br><span class="line">	JZ TEST</span><br><span class="line">	MOV DX, 0FFFCH</span><br><span class="line">	IN AL, DX			;读转换结果</span><br><span class="line">	HLT</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>AD574与8086CPU [8283：带锁存器的缓冲器 8286：数据收发器]</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8086.png" alt="AD574_8086"></p>
-</li>
-</ul>
-<ul>
-<li><p>AD574与8088CPU</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8088.png" alt="AD574_8088"></p>
-</li>
-</ul>
-<h3 id="D-A转换器及其应用"><a href="#D-A转换器及其应用" class="headerlink" title="D/A转换器及其应用"></a>D/A转换器及其应用</h3><h4 id="DAC指标"><a href="#DAC指标" class="headerlink" title="DAC指标"></a>DAC指标</h4><p>分辨率：满量程$V_{FS}$ ，N位的DAC，分辨率＝$V_{FS}$/(2^N-1)</p>
-<p>转换精度：</p>
-<ul>
-<li>相对转换精度：用数字量最低有效位LSB的一半来表示，±0.5LSB＝±0.5*(1/2^N)＝ ±1/2^(N+1)；</li>
-<li>绝对转换精度：相对转换精度对应的电压值表示，即±$V_{FS}$/2^(N+1)；</li>
-</ul>
-<p>转换速率和建立时间</p>
-<p>线性误差：在整个量程上，转换输出偏离理想转换特性的最大值</p>
-<h4 id="DAC0832"><a href="#DAC0832" class="headerlink" title="DAC0832"></a>DAC0832</h4><p>8位数模转换芯片，片中有R-2R梯形电阻</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832.png" alt="DAC0832"></p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2.png" alt="DAC0832_2"></p>
-<p>DI0～DI7：8位数据输入线；</p>
-<p>$\overline{CS}$：片选端，低电平有效，仅用于控制$\overline{WR1}$；</p>
-<p>ILE：数据允许锁存信号，高电平有效；</p>
-<p>$\overline{WR1}$：写信号1端，低电平有效。用于将输入数据锁存到输入寄存器中。必须与ILE、$\overline{CS}$同时有效；</p>
-<p>$\overline{WR2}$：写信号2端，低电平有效。</p>
-<p>$\overline{XFER}$：传送控制信号，低电平有效。用于控制$\overline{WR2}$ </p>
-<p>[$\overline{WR2}$和$\overline{XFER}$同时有效时，输入寄存器中的数据才能通过DAC寄存器进行D/A转换]</p>
-<p>$V_{REF}$：参考电压，+10V～-10V，电压愈稳定模拟输出精度越高;</p>
-<p>$I_{OUT1}$、$I_{OUT2}$：模拟电流输出端，与运放输入端相接;</p>
-<p>$R_{fb}$: 反馈电阻接出端</p>
-<p>两级输入锁存器：输入寄存器、DAC寄存器</p>
-<p>三种工作方式：</p>
-<ul>
-<li><p>双缓冲工作方式[转换输出模拟信号, 同时输入新的数据==&gt;提高速度,多个输出通道同步]</p>
-<p>eg. CS由A9~A1经译码产生，DAC的地址范围是228-22FH，实际只使用228H和229H两个地址:</p>
-<p>在CPU执行OUT指令时</p>
-<p>若A0=0，DAC0832内部LE1有效，数据总线上的值（AL）—&gt;数据输入寄存器;</p>
-<p> 若A0=1，DAC0832内部LE2有效，数据输入寄存器的值 —&gt;DAC寄存器</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2buf.png" alt="DAC0832_2buf"></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A0832   EQU 228H</span><br><span class="line">MOV    DX, A0832+0       ;A0&#x3D;0</span><br><span class="line">OUT     DX, AL                ;AL的值为待转换的数字</span><br><span class="line">MOV    DX, A0832+1      ;A0&#x3D;1</span><br><span class="line">OUT     DX, AL                ;AL的值无关</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>单缓冲工作方式</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_1buf.png" alt="DAC0832_1buf"></p>
-<p>eg. 设D/A转换端口号为PORTDA，设需转换的数据放在1000H单元，则D/A转换程序为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV BX, 1000H</span><br><span class="line">MOV AL, [BX]</span><br><span class="line">MOV DX, PORTDA</span><br><span class="line">OUT  DX, AL</span><br></pre></td></tr></table></figure>
-<p>eg. 工作在单缓冲方式下。</p>
-<p>设D/A转换端口地址为200H，设需转换的数据量为10H，则D/A转换程序为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV AL, 10H</span><br><span class="line">MOV DX, 0200H</span><br><span class="line">OUT  DX, AL</span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
-<p>eg. 利用D/A转换器可以输出不同的电压波形，输出三角波的程序段如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TRG0:    MOV DX, 0200H</span><br><span class="line">		MOV AL, 0H</span><br><span class="line">T1: 	OUT  DX, AL</span><br><span class="line">		INC AL</span><br><span class="line">		JNZ T1</span><br><span class="line">T2: 	OUT  DX, AL</span><br><span class="line">		DEC AL</span><br><span class="line">		JNZ T2</span><br><span class="line">		JMP T1</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>直通工作方式</p>
-</li>
-</ul>
-<h4 id="12位D-A转换器DAC1210"><a href="#12位D-A转换器DAC1210" class="headerlink" title="12位D/A转换器DAC1210"></a>12位D/A转换器DAC1210</h4><p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210_2.png" alt="DAC1210_2"></p>
-<p>12位D/A转换器DAC1210与CPU的接口</p>
-<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210.png" alt="DAC1210"></p>
-<p>eg. DAC占用220H～222H三个端口地址。</p>
-<p>A0地址线不参与I/O地址译码，反相—&gt;$B1/\overline{B2}$。</p>
-<p>设BX寄存器的低12位为待转换的数字量，完成一次转换输出的程序段如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	DX, 220H             </span><br><span class="line">MOV	CL, 4</span><br><span class="line">SHL	BX, CL</span><br><span class="line">MOV	AL, BH		;送高8位数据 </span><br><span class="line">	OUT	DX, AL</span><br><span class="line">	INC	DX           ;送低4位数据</span><br><span class="line">	MOV  AL, BL</span><br><span class="line">	OUT	DX, AL</span><br><span class="line">	INC	DX		          </span><br><span class="line">OUT	DX, AL 		;启动D&#x2F;A转换</span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>计算机组成原理</category>
-        <category>BIT课件</category>
-      </categories>
-      <tags>
-        <tag>computer organization</tag>
-        <tag>assembly language</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ch11微型计算机总线</title>
     <url>/2020/05/15/computer_organization/11_ch11%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/</url>
     <content><![CDATA[<h2 id="微型计算机总线"><a href="#微型计算机总线" class="headerlink" title="微型计算机总线"></a>微型计算机总线</h2><a id="more"></a>
@@ -3027,6 +2713,320 @@ p(x) = \sum \frac{1}{\sqrt{2\pi}} e^{-(x- X_i)^2/(2\sigma^2)}</script><p>KDE: ke
 <p>SATA(SerialATA)：SATA规范将硬盘的外部传输速率理论值提高到了150MB/s，比标准ATA/100高出50%。</p>
 <p>SCSI(SmallComputer System Interface)：用于小型机、工作站、服务器或其他多任务、高性能、智能外设。</p>
 <p>USB：通用串行总线</p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch12ADDA转换</title>
+    <url>/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/</url>
+    <content><![CDATA[<h2 id="模-数和数-模转换"><a href="#模-数和数-模转换" class="headerlink" title="模/数和数/模转换"></a>模/数和数/模转换</h2><a id="more"></a>
+<h3 id="数据采集基本概念"><a href="#数据采集基本概念" class="headerlink" title="数据采集基本概念"></a>数据采集基本概念</h3><p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADDA_control.png" alt="ADDA_contro"></p>
+<p>传感器: 物理量转换成电信号</p>
+<p>多路模拟开关: 模拟信号源—&gt;转换成数字形式</p>
+<p>信号调理器（SIGNAL CONDITIONING ）:</p>
+<ul>
+<li>信号的电平、极性等转换，以便与A/D变换器所需的电平极性匹配</li>
+<li>阻抗变换作用，隔离后面的负载对传感器的影响</li>
+<li>抑制干扰，提高信噪比</li>
+<li>防止混叠现象</li>
+</ul>
+<p>采样保持(Sample/Hold)电路:</p>
+<ul>
+<li><p>A/D进行转换时间内，保持输入信号不变</p>
+</li>
+<li><p>采样模式: 输出随输入变化，通常增益为1</p>
+<p>在保持模式: 采样保持电路的输出保持命令发出时的输出值</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/sample_keeper.png" alt="sample_holder"></p>
+</li>
+</ul>
+<p>eg : 高速多通道数据采集系统</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD.png" alt="multi_AD"></p>
+<p>eg: 多通道共用A/D变换器</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD2.png" alt="multi_AD2"></p>
+<h3 id="A-D转换器及其应用"><a href="#A-D转换器及其应用" class="headerlink" title="A/D转换器及其应用"></a>A/D转换器及其应用</h3><h4 id="AD转换器参数"><a href="#AD转换器参数" class="headerlink" title="AD转换器参数"></a>AD转换器参数</h4><ul>
+<li>量程：输入模拟信号幅度</li>
+<li>带宽：输入模拟信号频率</li>
+<li>转换速率：每秒能进行的转换次数</li>
+<li>分辨率（Resolution）: 位数8位，满量程5V，则其分辨率为8位，或<br>5V/(2^8-1)=19.6mV</li>
+<li>转换精度（Accuracy）: 精度和分辨率的区别，例如某ADC具有24位的分辨率，但其精度相当于16位，低8位表征随机噪声的影响</li>
+</ul>
+<h4 id="ADC0809工作原理及接口"><a href="#ADC0809工作原理及接口" class="headerlink" title="ADC0809工作原理及接口"></a>ADC0809工作原理及接口</h4><p>转换时间是100us，分辨率为8位，单5V供电，输入模拟电压范围为0—5V</p>
+<ul>
+<li><p>8路模拟开关；</p>
+</li>
+<li><p>地址锁存与译码；</p>
+</li>
+<li><p>8位A/D转换；(DAC)</p>
+</li>
+<li><p>三态输出锁存器。</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809.png" alt="ADC0809"></p>
+</li>
+</ul>
+<p>IN0～IN7: 输入，8路模拟输入</p>
+<p>DB0～DB7 : 三态输出，A/D转换数据输出线; </p>
+<p>ADD_A，ADD_B，ADD_C: 输入，模拟通道选择线;</p>
+<p>ALE: 输入，地址锁存使能，上升沿将ADD_A、ADD_B、ADD_C三位地址信号锁存，译码选通对应的模拟通道;</p>
+<p>REF(+)/REF(-): 输入，基准电压输入端，要求1/2[VREF(+)+VREF(-)]=1/2Vc</p>
+<p>模拟输入与数字输出的关系为：N＝(UIN - UREF-) / (UREF+ - UREF-)*28</p>
+<p>START: 输入,脉冲上升使所有内部寄存器清零，下降沿使A/D转换开始</p>
+<p>EOC: 输出，转换结束信号,EOC变为高电平</p>
+<p>OE: 输入，输出允许</p>
+<h4 id="AD574A工作原理"><a href="#AD574A工作原理" class="headerlink" title="AD574A工作原理"></a>AD574A工作原理</h4><p>12位的A/D转换芯片, 转换时间为35us, 输入模拟电压范围：单极性0~+10V或0~+20V；双极性±5V或±10V</p>
+<p>[可直接与8位或16位微处理器接口, 集成时钟&amp;基准电压电路, 输出可读全部12位数据，亦可两个8位方式读取]</p>
+<p>DB0～DB11，三态输出数据线，DB0为LSB,  DB11为MSB</p>
+<p>CE,芯片使能输入, CE由0变1,启动一次转换</p>
+<p>$\overline{CS}$,芯片选择输入,低电平有效</p>
+<p>$R/\overline{C}$,  =1 read &amp;&amp; =0 convert</p>
+<p>STS, 状态信号输出, 转换开始,STS=1; 转换周期完成, STS=0</p>
+<p>A0和$12/\overline{8}$这两个信号控制转换的长度和数据的格式</p>
+<p>$REF_{IN}$   基准电压输入,在使用中,可在REF IN和REF OUT之间接一个100欧的可调电阻,进行增益微调;</p>
+<p>$REF_{OUT}$  基准电压输出,AD574A内有基准电压电路,以供DAC的基准电压,基准电压可以被调到10.00V±1%;</p>
+<p>$BIP_{OFF}$   双极性偏置, 在使用中用于偏置的调整;</p>
+<p>DC: 数字公共端,   AC: 模拟公共端;</p>
+<p>Vlogic  逻辑电源,接+5V;</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_logic.png" alt="ADC574_logic"></p>
+<p>eg. $\overline{CS}$=0,$R/\overline{C}$=0,CE由0—&gt;1,启动一次转换；</p>
+<p>若此时A0=1,表明进行8bit转换; A0=0,表明进行12bit转换</p>
+<p>转换开始后,STS==1,直到转换周期完成STS==0;</p>
+<p>[转换期间,忽略新转换启动信号,不允许输出数据缓冲器输出]</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_eg1.png" alt="ADC574_eg1"></p>
+<p>eg. 读取周期自CE==1和$R/\overline{C}$==1时开始；</p>
+<p>$12/\overline{8}$=1,表明是16位接口方式,12位转换结果一次读出；</p>
+<p>$12/\overline{8}$=0,表明是8位接口方式,A0=0使能高8位, A0=1使能低4位数据</p>
+<h4 id="A-D转换器与系统的典型接口"><a href="#A-D转换器与系统的典型接口" class="headerlink" title="A/D转换器与系统的典型接口"></a>A/D转换器与系统的典型接口</h4><ul>
+<li><p>ADC0809通过8255A与系统的接口（P521）</p>
+<p>程序设定8255A的PA口和PC口为输入</p>
+<p>[ADC0809的数据输出经8255A的PA输入给CPU]</p>
+<p>[A/D转换状态信号EOC由PC4输入]</p>
+<p>PB口为输出，均为方式0，</p>
+<p>[ADDA、ADDB和ADDC以及地址锁存信号ALE由8255A的PB3~PB0输入]</p>
+<p>以查询方式来读取A/D转换结果。</p>
+<p>设8255A端口地址为0FFFCH~0FFFFH</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A.png" alt="ADC0809_8255A"></p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A2.png" alt="ADC0809_8255A2"></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">	MOV AL, 98H     ;8255A控制字	</span><br><span class="line">	MOV DX, 0FFFFH	;控制字端口地址</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV AL, 0BH		;选IN3输入端和地址锁存信号</span><br><span class="line">	MOV DX, 0FFFDH</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV AL, 1BH		;start PB4&#x3D;1</span><br><span class="line">	OUT DX, AL		;启动A&#x2F;D转换</span><br><span class="line">	MOV AL, 0BH</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV DX, 0FFFEH</span><br><span class="line">TEST: IN AL, DX			;读C端口状态</span><br><span class="line">	AND AL, 10H		;测试EOC状态（PC4）</span><br><span class="line">	JZ TEST</span><br><span class="line">	MOV DX, 0FFFCH</span><br><span class="line">	IN AL, DX			;读转换结果</span><br><span class="line">	HLT</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>AD574与8086CPU [8283：带锁存器的缓冲器 8286：数据收发器]</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8086.png" alt="AD574_8086"></p>
+</li>
+</ul>
+<ul>
+<li><p>AD574与8088CPU</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8088.png" alt="AD574_8088"></p>
+</li>
+</ul>
+<h3 id="D-A转换器及其应用"><a href="#D-A转换器及其应用" class="headerlink" title="D/A转换器及其应用"></a>D/A转换器及其应用</h3><h4 id="DAC指标"><a href="#DAC指标" class="headerlink" title="DAC指标"></a>DAC指标</h4><p>分辨率：满量程$V_{FS}$ ，N位的DAC，分辨率＝$V_{FS}$/(2^N-1)</p>
+<p>转换精度：</p>
+<ul>
+<li>相对转换精度：用数字量最低有效位LSB的一半来表示，±0.5LSB＝±0.5*(1/2^N)＝ ±1/2^(N+1)；</li>
+<li>绝对转换精度：相对转换精度对应的电压值表示，即±$V_{FS}$/2^(N+1)；</li>
+</ul>
+<p>转换速率和建立时间</p>
+<p>线性误差：在整个量程上，转换输出偏离理想转换特性的最大值</p>
+<h4 id="DAC0832"><a href="#DAC0832" class="headerlink" title="DAC0832"></a>DAC0832</h4><p>8位数模转换芯片，片中有R-2R梯形电阻</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832.png" alt="DAC0832"></p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2.png" alt="DAC0832_2"></p>
+<p>DI0～DI7：8位数据输入线；</p>
+<p>$\overline{CS}$：片选端，低电平有效，仅用于控制$\overline{WR1}$；</p>
+<p>ILE：数据允许锁存信号，高电平有效；</p>
+<p>$\overline{WR1}$：写信号1端，低电平有效。用于将输入数据锁存到输入寄存器中。必须与ILE、$\overline{CS}$同时有效；</p>
+<p>$\overline{WR2}$：写信号2端，低电平有效。</p>
+<p>$\overline{XFER}$：传送控制信号，低电平有效。用于控制$\overline{WR2}$ </p>
+<p>[$\overline{WR2}$和$\overline{XFER}$同时有效时，输入寄存器中的数据才能通过DAC寄存器进行D/A转换]</p>
+<p>$V_{REF}$：参考电压，+10V～-10V，电压愈稳定模拟输出精度越高;</p>
+<p>$I_{OUT1}$、$I_{OUT2}$：模拟电流输出端，与运放输入端相接;</p>
+<p>$R_{fb}$: 反馈电阻接出端</p>
+<p>两级输入锁存器：输入寄存器、DAC寄存器</p>
+<p>三种工作方式：</p>
+<ul>
+<li><p>双缓冲工作方式[转换输出模拟信号, 同时输入新的数据==&gt;提高速度,多个输出通道同步]</p>
+<p>eg. CS由A9~A1经译码产生，DAC的地址范围是228-22FH，实际只使用228H和229H两个地址:</p>
+<p>在CPU执行OUT指令时</p>
+<p>若A0=0，DAC0832内部LE1有效，数据总线上的值（AL）—&gt;数据输入寄存器;</p>
+<p> 若A0=1，DAC0832内部LE2有效，数据输入寄存器的值 —&gt;DAC寄存器</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2buf.png" alt="DAC0832_2buf"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A0832   EQU 228H</span><br><span class="line">MOV    DX, A0832+0       ;A0&#x3D;0</span><br><span class="line">OUT     DX, AL                ;AL的值为待转换的数字</span><br><span class="line">MOV    DX, A0832+1      ;A0&#x3D;1</span><br><span class="line">OUT     DX, AL                ;AL的值无关</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>单缓冲工作方式</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_1buf.png" alt="DAC0832_1buf"></p>
+<p>eg. 设D/A转换端口号为PORTDA，设需转换的数据放在1000H单元，则D/A转换程序为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV BX, 1000H</span><br><span class="line">MOV AL, [BX]</span><br><span class="line">MOV DX, PORTDA</span><br><span class="line">OUT  DX, AL</span><br></pre></td></tr></table></figure>
+<p>eg. 工作在单缓冲方式下。</p>
+<p>设D/A转换端口地址为200H，设需转换的数据量为10H，则D/A转换程序为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV AL, 10H</span><br><span class="line">MOV DX, 0200H</span><br><span class="line">OUT  DX, AL</span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
+<p>eg. 利用D/A转换器可以输出不同的电压波形，输出三角波的程序段如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TRG0:    MOV DX, 0200H</span><br><span class="line">		MOV AL, 0H</span><br><span class="line">T1: 	OUT  DX, AL</span><br><span class="line">		INC AL</span><br><span class="line">		JNZ T1</span><br><span class="line">T2: 	OUT  DX, AL</span><br><span class="line">		DEC AL</span><br><span class="line">		JNZ T2</span><br><span class="line">		JMP T1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直通工作方式</p>
+</li>
+</ul>
+<h4 id="12位D-A转换器DAC1210"><a href="#12位D-A转换器DAC1210" class="headerlink" title="12位D/A转换器DAC1210"></a>12位D/A转换器DAC1210</h4><p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210_2.png" alt="DAC1210_2"></p>
+<p>12位D/A转换器DAC1210与CPU的接口</p>
+<p><img src="/2020/05/15/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210.png" alt="DAC1210"></p>
+<p>eg. DAC占用220H～222H三个端口地址。</p>
+<p>A0地址线不参与I/O地址译码，反相—&gt;$B1/\overline{B2}$。</p>
+<p>设BX寄存器的低12位为待转换的数字量，完成一次转换输出的程序段如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	DX, 220H             </span><br><span class="line">MOV	CL, 4</span><br><span class="line">SHL	BX, CL</span><br><span class="line">MOV	AL, BH		;送高8位数据 </span><br><span class="line">	OUT	DX, AL</span><br><span class="line">	INC	DX           ;送低4位数据</span><br><span class="line">	MOV  AL, BL</span><br><span class="line">	OUT	DX, AL</span><br><span class="line">	INC	DX		          </span><br><span class="line">OUT	DX, AL 		;启动D&#x2F;A转换</span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ch1基本组成</title>
+    <url>/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/</url>
+    <content><![CDATA[<h3 id="层次"><a href="#层次" class="headerlink" title="层次"></a>层次</h3><a id="more"></a>
+<ul>
+<li><p>微处理器 (CPU)：（8086, 80286）</p>
+<p>控制器， 运算器（ALU）， 寄存器组， 系统总线</p>
+<p>控制器分为：</p>
+<ul>
+<li>指令寄存器IR (Instruction Register)</li>
+<li>指令译码器ID (Instruction Decoder)</li>
+<li>定时与控制电路</li>
+</ul>
+<p>寄存器组分为：</p>
+<ul>
+<li>累加器                      AX</li>
+<li>数据缓冲寄存器      DX</li>
+<li>计数寄存器              CX</li>
+<li>地址缓冲寄存器      BX</li>
+<li>程序计数器              IP</li>
+<li>状态标志寄存器      PSW</li>
+<li>通用寄存器组          AX ~ DX</li>
+<li>暂存器</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/2.png" alt="2"></p>
+</li>
+</ul>
+<p>  <img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/segment_address.png" alt="segment_address"></p>
+<p>  系统总线(BUS)外部分为：</p>
+<ul>
+<li><p>控制总线</p>
+<p>一般为单向</p>
+</li>
+<li><p>地址总线</p>
+<p>地址为n位宽，那么将有2^n个地址（即0~(2^n)-1），对应存储单元2^n Bytes</p>
+</li>
+<li><p>数据总线</p>
+<p>双向传送</p>
+</li>
+</ul>
+<ul>
+<li><p>微型计算机 (增加Cache，主存储器：内存)</p>
+<p>Cache RAM，RAM，ROM， I/O接口（即输入输出接口电路）</p>
+<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/3.png" alt="3"></p>
+<p>输入输出接口电路用芯片如：</p>
+<ul>
+<li>缓冲器：74LS244、74LS245</li>
+<li>锁存器：74LS373</li>
+<li>可编程中断控制器8259A</li>
+<li>可编程计数器/定时器8253</li>
+<li>可编程并行/串行接口芯片8255A/8250A</li>
+<li>DMA控制器8237A模/数和数/模转换器</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/4.png" alt="4"></p>
+</li>
+<li><p>微型计算机系统 (MCS) (增加外存，外设)</p>
+<p>I/O设备，软件系统</p>
+</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/1.png" alt="1"></p>
+<h3 id="硬件结构"><a href="#硬件结构" class="headerlink" title="硬件结构"></a>硬件结构</h3><ul>
+<li><p>冯·诺依曼结构</p>
+<ul>
+<li><p>地址码（2进制）-&gt; data &amp;&amp; program（2进制） 存放地址   [data &amp;&amp; program不分开存]</p>
+</li>
+<li><p>程序计数器（PC）-&gt; 指令序列（即程序）-&gt; 控制器工作</p>
+<p>具体过程：</p>
+<ul>
+<li>码段寄存器CS及指令指针寄存器IP -&gt; 控制器             （取指）</li>
+<li>控制器取 -&gt; 指令代码 in 内存                           </li>
+<li>CPU中对代码 分析                                                         （译码）</li>
+<li>控制器send该指令功能对应控制信号 - &gt; 各个部件</li>
+<li>各个部件执行                                                                   （执行）</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/7.png" alt="7"></p>
+</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/5.png" alt="5"></p>
+</li>
+<li><p>哈佛结构</p>
+<ul>
+<li>存储器：程序存储器，数据存储器</li>
+<li>总线分为：程序总线，数据总线</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/6.png" alt="6"></p>
+</li>
+</ul>
+<p>​     </p>
+<ul>
+<li><p>现代计算机</p>
+<ul>
+<li><p>主存储器：冯·诺依曼结构</p>
+<p>指令和数据合用</p>
+</li>
+<li><p>高速缓冲存储器（Cache）：哈佛结构</p>
+<p>指令Cache，数据Cache</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="分段编址"><a href="#分段编址" class="headerlink" title="分段编址"></a>分段编址</h3><ul>
+<li><p>分为代码段、数据段、堆栈段和附加段，一段最大 2^ 16 = 64KB</p>
+<p>段地址分别由CS/DS/SS/ES四个寄存器给出</p>
+<p><img src="/2020/05/15/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/memory_address.png" alt="memory_address"></p>
+<ul>
+<li>串操作：源串DS:SI ，目的串ES:DI</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>分段编址好处</p>
+<ul>
+<li>大部分指令只涉及16位地址：在2 ^16 = 64kB的段内寻址 =&gt; 减小了指令长度、提高了执行速度</li>
+<li>便于程序的浮动加载：程序本身是可浮动的，与物理地址（段地址无关），只与偏移地址有关</li>
+</ul>
+</li>
+<li><p>8086的固定用途存储区 [物理地址 20 bits]</p>
+<p>00000H－003FFH，1KB    中断向量表；</p>
+<p>B0000H－B0F9FH， 4KB    单色显示器显示缓冲区；</p>
+<p>B8000H－BBF3FH，16KB    彩色显示器显示缓冲区；</p>
+<p>FFFF0H－FFFFFH，16B    复位程序入口；</p>
+</li>
+<li><p>8086的I/O编址</p>
+<p>端口：I/O接口电路中可被访问存储单元   (8086可以访问64KB的I/O端口)</p>
+<ul>
+<li><p>I/O端口和存储器统一编址</p>
+<p>可以用对存储器的指令来 =&gt; 对IO端口的访问</p>
+</li>
+<li><p>I/O端口单独编址</p>
+<ul>
+<li><p>使用MOV指令访问存储器，M/$\overline{IO}$ = 1    </p>
+</li>
+<li><p>使用IN/OUT指令访问端口，M/$\overline{IO}$ = 0</p>
+<p>输入－IN，  $\overline{RD}$=0    </p>
+<p>输出－OUT，$\overline{WR}$=0</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>计算机组成原理</category>
@@ -3577,158 +3577,6 @@ QS0，QS1                                                                  (指�
       </tags>
   </entry>
   <entry>
-    <title>ch7可编程并行接口8255A_计数器8253</title>
-    <url>/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/</url>
-    <content><![CDATA[<h2 id="8255"><a href="#8255" class="headerlink" title="8255"></a>8255</h2><a id="more"></a>
-<p><img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8255.png" alt="8255"></p>
-<p>和CPU一边相连的信号a</p>
-<p>RESET－复位信号；</p>
-<p>D7～D0 －数据线；</p>
-<p>CS#   －片选信号；</p>
-<p>RD#   －读出信号；</p>
-<p>WR#   －写入信号；</p>
-<p>A1、A0－端口选择信号</p>
-<p>和外设一边相连的信号</p>
-<p>PA7～PA0—A组数据信号；</p>
-<p>PB7～PB0—B组数据信号；</p>
-<p>PC7～PC0—C组数据信号。</p>
-<p>有三种基本工作方式：</p>
-<p>p方式0——基本的输入输出方式；</p>
-<p>p方式1——选通的输入输出方式；</p>
-<p>p方式2——双向传输方式；</p>
-<p>eg. 应用1：多片8255的连接</p>
-<p>  某微机系统有两片8255芯片：J1和J2；</p>
-<p>  J1、J2的A1/A0分别和系统地址总线的A2/A1连接；</p>
-<p>  其它控制信号分别连在一起，然后与系统相关信号连接；</p>
-<p>  系统靠片选信号CS#来区分对J1和J2的访问；</p>
-<p>solu:</p>
-<p>A8A7 A6 A5 A4 A3 A2 A1 A0    （Y4 Y5）</p>
-<p>0    1   1    1   0  0    0    0    0      00E0H     </p>
-<p>0    1   1    1   0  0    1    1    0   00E6H</p>
-<p>0    1   1    1   0  1    0    0    0   00E8H</p>
-<p>0    1   1   1   0  1    1     1    0   00EEH</p>
-<p>J1：端口A，方式0，输出</p>
-<p>​        端口B，方式0，输入</p>
-<p>​        端口C高4位，输出</p>
-<p>​        端口C低4位，输入</p>
-<p>控制字：10000011  83H</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL,83H</span><br><span class="line">MOV	DX,00E6H</span><br><span class="line">OUT	DX,AL</span><br></pre></td></tr></table></figure>
-<p>J2：端口A，方式0，输入</p>
-<p>​        端口B，方式1，输出</p>
-<p>​        端口C高4位，输出</p>
-<p>端口C低4位，配合端口B工作，可任意为1或0，此处0</p>
-<p>控制字：10010100  94H</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL,94H</span><br><span class="line">MOV	DX,00EEH</span><br><span class="line">OUT	DX,AL</span><br></pre></td></tr></table></figure>
-<p>eg. 8255工作于方式0 </p>
-<p>端口地址</p>
-<p>A端口：00D0H;     B端口：  00D2H;</p>
-<p>C端口：00D4H;  控制端口：00D6H;</p>
-<p>A端口：方式0，输出  （传送字符的通道）</p>
-<p>B端口：未用</p>
-<p>C端口高4位：方式0，输出（PC6作为STB#信号输出端） </p>
-<p>C端口低4位：方式0，输入  （PC2作为BUSY信号输入端） </p>
-<p>控制字：</p>
-<p>​    10000001  81H</p>
-<p>A端口：00D0H;   B端口：00D2H;<br>C端口：00D4H; 控制端口：00D6H</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">	MOV     AL, 81H</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">	MOV	AL,0DH</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">WAIT:   IN	AL,00D4H</span><br><span class="line">	AND	AL,04H	</span><br><span class="line">	JNZ	WAIT</span><br><span class="line">	MOV	AL,CL</span><br><span class="line">	OUT	00D0H,AL</span><br><span class="line">	MOV	AL,0CH</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">	INC	AL</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">;控制字：10000001</span><br><span class="line"></span><br><span class="line">;用置1&#x2F;0 方式使PC6为1，使STB#高电平，00001101B</span><br><span class="line">;读端口C的值</span><br><span class="line"></span><br><span class="line">;如不为0，说明忙信号为1，打印机忙，等待</span><br><span class="line"></span><br><span class="line">;不忙，把CL中字符送端口A</span><br><span class="line"></span><br><span class="line">;用置1&#x2F;0 方式使PC6为0，使STB#低电平，00001100B</span><br><span class="line"></span><br><span class="line">;再使STB#高电平</span><br></pre></td></tr></table></figure>
-<p>eg. 8255工作于方式1 </p>
-<p>设8255端口地址：</p>
-<p>A端口00C0H;   B端口 00C2H;</p>
-<p>C端口00C4H;   控制端口 00C6H</p>
-<p>A端口作为数据通道，工作在方式1，输出方式。PC7自动作为OBF#信号输出端，PC6自动作为ACK#信号输入端。CPU控制PC0产生选通脉冲。OBF#此处无用，悬空。</p>
-<p>PC3自动作为INTR信号输出端。中断类型号0BH</p>
-<p>中断入口地址在2CH~2FH</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MAIN:MOV   AL,0A0H     </span><br><span class="line">	OUT  0C6H,AL      ;设置控制字    10100000</span><br><span class="line">	MOV   AL,01H        ;PC0&#x3D;1，让选通无效</span><br><span class="line">	OUT    0C6H,AL      </span><br><span class="line">	XOR	AX,AX        ;设置中断处理子程序入口地址：</span><br><span class="line">	MOV   DS,AX        ;1000H:2000H 在2CH~2EH</span><br><span class="line">	MOV   AX,2000H  ;中断类型号为多少？</span><br><span class="line">	MOV   WORD PRT[002C], AX</span><br><span class="line">	MOV   AX,1000H</span><br><span class="line">	MOV   WORD PRT[002E],AX</span><br><span class="line">	MOV   AL,0DH      ;PC6&#x3D;1,允许8255中断</span><br><span class="line">	OUT    0C6,AL</span><br><span class="line">	STI    </span><br><span class="line">;中断处理</span><br><span class="line">TINTR: </span><br><span class="line">	MOV   AL,[DI]       ;[DI]为打印内容, 字符送A端口</span><br><span class="line">	 OUT    0C0H,AL    ;</span><br><span class="line">	 MOV   AL,00          ;PC0&#x3D;0，产生选通信号</span><br><span class="line">	  OUT    0C6H,AL    ;PC0&#x3D;1 ，撤销选通信号</span><br><span class="line">	  INC     AL</span><br><span class="line">	  OUT    0C6H,AL</span><br><span class="line">              …</span><br><span class="line">              IRET</span><br></pre></td></tr></table></figure>
-<h2 id="8253"><a href="#8253" class="headerlink" title="8253"></a>8253</h2><p>8254&amp;8253不同点：</p>
-<ul>
-<li>只有8254内部有状态寄存器；</li>
-<li>8253有2种方式读出计数值，8254增加了读出控制字命令，有3种方式可读出计数值和状态值</li>
-</ul>
-<p>8253内部有三个计数器，他们的结构完全相同。</p>
-<p>每个计数器的输入和输出都决定于设置在控制寄存器中的控制字，互相之间工作完全独立。</p>
-<p>每个计数器通过三个引脚和外部联系:</p>
-<ul>
-<li>一个为时钟输入端CLK，一个为门控信号输入端GATE，另一个为输出端OUT。</li>
-</ul>
-<p>每个计数器内部有</p>
-<ul>
-<li>一个8位的控制寄存器，</li>
-<li>16位的计数初值寄存器CR</li>
-<li>计数执行部件CE</li>
-<li>输出锁存器OL</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253.png" alt="8253"></p>
-<h3 id="控制字"><a href="#控制字" class="headerlink" title="控制字"></a>控制字</h3><p><img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_controlword.png" alt="8253_controlword"></p>
-<h3 id="8253初始化program"><a href="#8253初始化program" class="headerlink" title="8253初始化program"></a>8253初始化program</h3><p>8253CNT0~ CNT2端口地址：0200H~0202H</p>
-<p>控制寄存器端口地址：0203H</p>
-<p>eg. 端口地址：0200H~0203H</p>
-<p>CNT0工作于方式3，二进制计数，计数初值65536</p>
-<p>CNT0控制字：00 11 011 0   36H</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;CNT0初始化编程</span><br><span class="line">MOV AL,36H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0200H</span><br><span class="line">MOV AL,00H</span><br><span class="line">OUT DX,AL</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
-<p>eg. 端口地址：0200H~0203H</p>
-<p>CNT1工作于方式2，BCD计数，计数初值1023H</p>
-<p>CNT1控制字：01 11 010 1  75H</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;CNT1初始化编程</span><br><span class="line">MOV AL,75H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0201H</span><br><span class="line">MOV AX,1023H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV AL,AH</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
-<p>eg. 端口地址：0200H~0203H</p>
-<p>CNT2工作于方式3，二进制计数，计数初值255</p>
-<p>CNT2控制字：10 01 011 0   96H</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;CNT2初始化编程</span><br><span class="line">MOV AL,96H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0202H</span><br><span class="line">MOV AL,0FFH</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
-<h3 id="8253的锁存读出命令program"><a href="#8253的锁存读出命令program" class="headerlink" title="8253的锁存读出命令program"></a>8253的锁存读出命令program</h3><p>方法：</p>
-<p>（1）写锁存命令，使计数值锁存到输出寄存器OL；</p>
-<p>（2）读锁定的计数值</p>
-<p>eg. 若8253端口地址200H~203H，已知CNT1已经工作，现需要读出CNT1的当前计数值</p>
-<p>；锁存命令， CNT0、<br>CNT1和 CNT2分别为00H、40H和80H</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV AL,40H    	;锁存命令， CNT0、 CNT1和 CNT2分别为00H、40H和80H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0201H</span><br><span class="line">IN AL,DX</span><br><span class="line">MOV CL,AL</span><br><span class="line">IN AL,DX</span><br><span class="line">MOV CH,AL</span><br></pre></td></tr></table></figure>
-<h3 id="8253-工作mode"><a href="#8253-工作mode" class="headerlink" title="8253 工作mode"></a>8253 工作mode</h3><p>软件触发计数启动</p>
-<ul>
-<li>模式0－计数结束中断</li>
-<li>模式4－软件触发延时选通</li>
-</ul>
-<p>硬件触发计数启动</p>
-<ul>
-<li>模式1－可编程单拍</li>
-<li>模式5－硬件触发延时选通</li>
-</ul>
-<p>周期信号发生器</p>
-<ul>
-<li>模式2－频率发生器</li>
-<li>模式3－方波发生器</li>
-</ul>
-<p><img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_workmode.png" alt="8253_workmode"></p>
-<h3 id="8253实例"><a href="#8253实例" class="headerlink" title="8253实例"></a>8253实例</h3><p>eg. OUT0输出接8259A的IRQ0，用作PC实时时钟的定时中断请求信号。</p>
-<p>工作于方式3，</p>
-<p>CNT0的控制字</p>
-<p>0011 011 0       36H</p>
-<p>计数器初值为0000H，</p>
-<p>对应最大方波周期：  T=65536*838ns» 55ms。</p>
-<p>输出信号频率：   f=1/T=18.206Hz </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL, 36H</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AL, 0</span><br><span class="line">OUT	40H, AL</span><br><span class="line">OUT	40H, AL</span><br></pre></td></tr></table></figure>
-<p>用来为动态存储器的刷新提供定时信号。</p>
-<p>工作于方式2。</p>
-<p>CNT1的控制字</p>
-<p>0101 010 0       54H</p>
-<p>计数器初值为18H。</p>
-<p>对应最大方波周期：  T=18*838ns» 15us。</p>
-<p>每次刷新512单元，128次刷新全部64KB。所需时间：</p>
-<p>​      15us*128 »1.92ms&lt;2ms</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL, 54H</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AL, 18</span><br><span class="line">OUT	41H, AL</span><br></pre></td></tr></table></figure>
-<p>GATE2接至并行接口8255A的PB0位，用它控制通道2的计数过程。</p>
-<p>输出OUT2经过一个与门，这个与门受PB1位控制。扬声器可由PB0或PB1分别控制发声。8255A的端口地址为60H~63H。</p>
-<p>若要求扬声器发出600Hz的声音，可将计数器2设定为方式3，作为方波发生器</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL, 10110110B     ;方式3，写入16位计数值</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AX, 1989		；1.19318MHz&#x2F;600&#x3D;1989</span><br><span class="line">OUT	42H, AL		;写入低8位</span><br><span class="line">MOV AL，AH</span><br><span class="line">OUT	42H, AL		;写入高8位</span><br><span class="line">IN AL, 61H			;读8255A的B端口原输入值</span><br><span class="line">MOV AH, AL</span><br><span class="line">OR AL, 03H		;使PB1和PB0位均为1</span><br><span class="line">OUT 61H,AL		;输出以使扬声器能够发声</span><br></pre></td></tr></table></figure>
-<p>eg. <img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_eg2.png" alt="8253_eg2"></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">		NAME EX_1</span><br><span class="line">DATA		SEGMENT</span><br><span class="line">MESS	DB	‘8253 CNT0 IN MODE 3’,0DH,0AH</span><br><span class="line">		DB	‘8253 CNT1 IN MODE 2’,0DH,0AH,‘$’</span><br><span class="line">DATA		ENDS</span><br><span class="line">CODE 	SEGMENT</span><br><span class="line">		ASSUME CS:CODE,DS:DATA</span><br><span class="line">START:	MOV AX,DATA</span><br><span class="line">MOV DS,AX</span><br><span class="line">CLI</span><br><span class="line">MOV DX,0203H	;CNT0初始化，产生方波，周期10ms</span><br><span class="line">MOV AL,36H	; CNT0方式控制字   00110110    </span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0200H</span><br><span class="line">MOV AL,0C4H</span><br><span class="line">OUT DX,AL		;写入低字节计数值          09C4H</span><br><span class="line">MOV AL,09H</span><br><span class="line">OUT DX,AL		;写入高字节计数值</span><br><span class="line">MOV DX,0203H	;CNT1初始化，产生周期性负脉冲信号，MOV AL,74H	;周期1s ，CNT1方式控制字   01110100    </span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0201H</span><br><span class="line">MOV AL,064H</span><br><span class="line">OUT DX,AL		;写入低字节计数值          64H</span><br><span class="line">MOV AL,00H</span><br><span class="line">OUT DX,AL		;写入高字节计数值</span><br><span class="line">STI</span><br><span class="line">MOV DX,OFFSET MESS</span><br><span class="line">MOV AH,09H</span><br><span class="line">INT 21H</span><br><span class="line">MOV AH,4CH</span><br><span class="line">INT 21H</span><br><span class="line">CODE ENDS</span><br><span class="line">END START</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>计算机组成原理</category>
-        <category>BIT课件</category>
-      </categories>
-      <tags>
-        <tag>computer organization</tag>
-        <tag>assembly language</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ch5存储器</title>
     <url>/2020/05/15/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/</url>
     <content><![CDATA[<h3 id="存储器分类"><a href="#存储器分类" class="headerlink" title="存储器分类"></a>存储器分类</h3><a id="more"></a>
@@ -4073,97 +3921,147 @@ QS0，QS1                                                                  (指�
       </tags>
   </entry>
   <entry>
-    <title>ch9DMA8237</title>
-    <url>/2020/05/15/computer_organization/9_ch9_DMA8237/</url>
-    <content><![CDATA[<h2 id="DMA8237"><a href="#DMA8237" class="headerlink" title="DMA8237"></a>DMA8237</h2><a id="more"></a>
-<h3 id="内存与外设之间的数据传输控制方式"><a href="#内存与外设之间的数据传输控制方式" class="headerlink" title="内存与外设之间的数据传输控制方式"></a>内存与外设之间的数据传输控制方式</h3><p>程序控制方式</p>
-<p>中断方式</p>
-<p>[以上方式都需要CPU执行程序来控制数据传输；]</p>
+    <title>ch7可编程并行接口8255A_计数器8253</title>
+    <url>/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/</url>
+    <content><![CDATA[<h2 id="8255"><a href="#8255" class="headerlink" title="8255"></a>8255</h2><a id="more"></a>
+<p><img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8255.png" alt="8255"></p>
+<p>和CPU一边相连的信号a</p>
+<p>RESET－复位信号；</p>
+<p>D7～D0 －数据线；</p>
+<p>CS#   －片选信号；</p>
+<p>RD#   －读出信号；</p>
+<p>WR#   －写入信号；</p>
+<p>A1、A0－端口选择信号</p>
+<p>和外设一边相连的信号</p>
+<p>PA7～PA0—A组数据信号；</p>
+<p>PB7～PB0—B组数据信号；</p>
+<p>PC7～PC0—C组数据信号。</p>
+<p>有三种基本工作方式：</p>
+<p>p方式0——基本的输入输出方式；</p>
+<p>p方式1——选通的输入输出方式；</p>
+<p>p方式2——双向传输方式；</p>
+<p>eg. 应用1：多片8255的连接</p>
+<p>  某微机系统有两片8255芯片：J1和J2；</p>
+<p>  J1、J2的A1/A0分别和系统地址总线的A2/A1连接；</p>
+<p>  其它控制信号分别连在一起，然后与系统相关信号连接；</p>
+<p>  系统靠片选信号CS#来区分对J1和J2的访问；</p>
+<p>solu:</p>
+<p>A8A7 A6 A5 A4 A3 A2 A1 A0    （Y4 Y5）</p>
+<p>0    1   1    1   0  0    0    0    0      00E0H     </p>
+<p>0    1   1    1   0  0    1    1    0   00E6H</p>
+<p>0    1   1    1   0  1    0    0    0   00E8H</p>
+<p>0    1   1   1   0  1    1     1    0   00EEH</p>
+<p>J1：端口A，方式0，输出</p>
+<p>​        端口B，方式0，输入</p>
+<p>​        端口C高4位，输出</p>
+<p>​        端口C低4位，输入</p>
+<p>控制字：10000011  83H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL,83H</span><br><span class="line">MOV	DX,00E6H</span><br><span class="line">OUT	DX,AL</span><br></pre></td></tr></table></figure>
+<p>J2：端口A，方式0，输入</p>
+<p>​        端口B，方式1，输出</p>
+<p>​        端口C高4位，输出</p>
+<p>端口C低4位，配合端口B工作，可任意为1或0，此处0</p>
+<p>控制字：10010100  94H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL,94H</span><br><span class="line">MOV	DX,00EEH</span><br><span class="line">OUT	DX,AL</span><br></pre></td></tr></table></figure>
+<p>eg. 8255工作于方式0 </p>
+<p>端口地址</p>
+<p>A端口：00D0H;     B端口：  00D2H;</p>
+<p>C端口：00D4H;  控制端口：00D6H;</p>
+<p>A端口：方式0，输出  （传送字符的通道）</p>
+<p>B端口：未用</p>
+<p>C端口高4位：方式0，输出（PC6作为STB#信号输出端） </p>
+<p>C端口低4位：方式0，输入  （PC2作为BUSY信号输入端） </p>
+<p>控制字：</p>
+<p>​    10000001  81H</p>
+<p>A端口：00D0H;   B端口：00D2H;<br>C端口：00D4H; 控制端口：00D6H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">	MOV     AL, 81H</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">	MOV	AL,0DH</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">WAIT:   IN	AL,00D4H</span><br><span class="line">	AND	AL,04H	</span><br><span class="line">	JNZ	WAIT</span><br><span class="line">	MOV	AL,CL</span><br><span class="line">	OUT	00D0H,AL</span><br><span class="line">	MOV	AL,0CH</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">	INC	AL</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">;控制字：10000001</span><br><span class="line"></span><br><span class="line">;用置1&#x2F;0 方式使PC6为1，使STB#高电平，00001101B</span><br><span class="line">;读端口C的值</span><br><span class="line"></span><br><span class="line">;如不为0，说明忙信号为1，打印机忙，等待</span><br><span class="line"></span><br><span class="line">;不忙，把CL中字符送端口A</span><br><span class="line"></span><br><span class="line">;用置1&#x2F;0 方式使PC6为0，使STB#低电平，00001100B</span><br><span class="line"></span><br><span class="line">;再使STB#高电平</span><br></pre></td></tr></table></figure>
+<p>eg. 8255工作于方式1 </p>
+<p>设8255端口地址：</p>
+<p>A端口00C0H;   B端口 00C2H;</p>
+<p>C端口00C4H;   控制端口 00C6H</p>
+<p>A端口作为数据通道，工作在方式1，输出方式。PC7自动作为OBF#信号输出端，PC6自动作为ACK#信号输入端。CPU控制PC0产生选通脉冲。OBF#此处无用，悬空。</p>
+<p>PC3自动作为INTR信号输出端。中断类型号0BH</p>
+<p>中断入口地址在2CH~2FH</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MAIN:MOV   AL,0A0H     </span><br><span class="line">	OUT  0C6H,AL      ;设置控制字    10100000</span><br><span class="line">	MOV   AL,01H        ;PC0&#x3D;1，让选通无效</span><br><span class="line">	OUT    0C6H,AL      </span><br><span class="line">	XOR	AX,AX        ;设置中断处理子程序入口地址：</span><br><span class="line">	MOV   DS,AX        ;1000H:2000H 在2CH~2EH</span><br><span class="line">	MOV   AX,2000H  ;中断类型号为多少？</span><br><span class="line">	MOV   WORD PRT[002C], AX</span><br><span class="line">	MOV   AX,1000H</span><br><span class="line">	MOV   WORD PRT[002E],AX</span><br><span class="line">	MOV   AL,0DH      ;PC6&#x3D;1,允许8255中断</span><br><span class="line">	OUT    0C6,AL</span><br><span class="line">	STI    </span><br><span class="line">;中断处理</span><br><span class="line">TINTR: </span><br><span class="line">	MOV   AL,[DI]       ;[DI]为打印内容, 字符送A端口</span><br><span class="line">	 OUT    0C0H,AL    ;</span><br><span class="line">	 MOV   AL,00          ;PC0&#x3D;0，产生选通信号</span><br><span class="line">	  OUT    0C6H,AL    ;PC0&#x3D;1 ，撤销选通信号</span><br><span class="line">	  INC     AL</span><br><span class="line">	  OUT    0C6H,AL</span><br><span class="line">              …</span><br><span class="line">              IRET</span><br></pre></td></tr></table></figure>
+<h2 id="8253"><a href="#8253" class="headerlink" title="8253"></a>8253</h2><p>8254&amp;8253不同点：</p>
 <ul>
-<li>中断过程需要额外的保护断点、标志操作；</li>
-<li>中断响应和中断返回时，都要清除指令队列，重新装入程序；</li>
+<li>只有8254内部有状态寄存器；</li>
+<li>8253有2种方式读出计数值，8254增加了读出控制字命令，有3种方式可读出计数值和状态值</li>
 </ul>
-<p>DMA方式</p>
-<p>[外设和存储器之间直接进行数据传输，不经过CPU。]</p>
+<p>8253内部有三个计数器，他们的结构完全相同。</p>
+<p>每个计数器的输入和输出都决定于设置在控制寄存器中的控制字，互相之间工作完全独立。</p>
+<p>每个计数器通过三个引脚和外部联系:</p>
 <ul>
-<li><p>DMA过程中，DMAC能独立控制三大总线来访问存储器和I/O端口，</p>
-<p>像CPU一样提供数据传送所需的地址信息和读写控制信息==&gt;存储器</p>
-<p>－DMAC内部有地址寄存器和字节计数器</p>
-</li>
+<li>一个为时钟输入端CLK，一个为门控信号输入端GATE，另一个为输出端OUT。</li>
 </ul>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/DMA.png" alt="DMA"></p>
-<h3 id="DMA操作过程三个阶段"><a href="#DMA操作过程三个阶段" class="headerlink" title="DMA操作过程三个阶段"></a>DMA操作过程三个阶段</h3><ol>
-<li>DMA请求；<ul>
-<li>外设要求以DMA方式为它服务时，==DMA请求信号DREQ==&gt;DMAC</li>
-<li>DMAC检查该信号是否被屏蔽及其优先权，if 该信号有效则</li>
-<li>DMAC===发送总线请求信号HRQ==&gt;CPU的HOLD</li>
-</ul>
-</li>
-<li>DMA响应和数据传送；<ul>
-<li>DMAC接管总线===DACK信号==&gt;外设，使之成为DMA传送时被选中的设备</li>
-<li>DMAC==内存地址以及I/O读写和存储器读写控制信号==&gt;存储器</li>
-<li>在外设和存储器之间数据传送</li>
-</ul>
-</li>
-<li>传送结束；<ul>
-<li>DMAC放弃总线，撤消总线请求(HRQ==0)，</li>
-<li>CPU检测到HRQ(HOLD)==0后，HLDA==0，</li>
-<li>CPU重新获得总线控制权</li>
-</ul>
-</li>
-</ol>
-<h3 id="8237地址"><a href="#8237地址" class="headerlink" title="8237地址"></a>8237地址</h3><p>一片8237占用连续16个端口地址，用DMA+00H~DMA+0FH表示。其中，DMA表示该片8237的基地址。</p>
-<p>在AT以上的微机中，使用2片8237，其地址为：</p>
-<p>第一片8237，基地址DMA=0000H，使用0000H~000F  I/O地址。</p>
-<p>第二片8237，基地址DMA=00C0H，使用00C0H~00CF  I/O地址</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-addr.png" alt="8237-addr"></p>
-<p>传输模式：</p>
-<p>单字节传输模式</p>
+<p>每个计数器内部有</p>
 <ul>
-<li>每次DMA操作只传送一字节，接着8237释放总线；</li>
+<li>一个8位的控制寄存器，</li>
+<li>16位的计数初值寄存器CR</li>
+<li>计数执行部件CE</li>
+<li>输出锁存器OL</li>
 </ul>
-<p>块传输模式</p>
+<p><img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253.png" alt="8253"></p>
+<h3 id="控制字"><a href="#控制字" class="headerlink" title="控制字"></a>控制字</h3><p><img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_controlword.png" alt="8253_controlword"></p>
+<h3 id="8253初始化program"><a href="#8253初始化program" class="headerlink" title="8253初始化program"></a>8253初始化program</h3><p>8253CNT0~ CNT2端口地址：0200H~0202H</p>
+<p>控制寄存器端口地址：0203H</p>
+<p>eg. 端口地址：0200H~0203H</p>
+<p>CNT0工作于方式3，二进制计数，计数初值65536</p>
+<p>CNT0控制字：00 11 011 0   36H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;CNT0初始化编程</span><br><span class="line">MOV AL,36H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0200H</span><br><span class="line">MOV AL,00H</span><br><span class="line">OUT DX,AL</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+<p>eg. 端口地址：0200H~0203H</p>
+<p>CNT1工作于方式2，BCD计数，计数初值1023H</p>
+<p>CNT1控制字：01 11 010 1  75H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;CNT1初始化编程</span><br><span class="line">MOV AL,75H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0201H</span><br><span class="line">MOV AX,1023H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV AL,AH</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+<p>eg. 端口地址：0200H~0203H</p>
+<p>CNT2工作于方式3，二进制计数，计数初值255</p>
+<p>CNT2控制字：10 01 011 0   96H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;CNT2初始化编程</span><br><span class="line">MOV AL,96H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0202H</span><br><span class="line">MOV AL,0FFH</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+<h3 id="8253的锁存读出命令program"><a href="#8253的锁存读出命令program" class="headerlink" title="8253的锁存读出命令program"></a>8253的锁存读出命令program</h3><p>方法：</p>
+<p>（1）写锁存命令，使计数值锁存到输出寄存器OL；</p>
+<p>（2）读锁定的计数值</p>
+<p>eg. 若8253端口地址200H~203H，已知CNT1已经工作，现需要读出CNT1的当前计数值</p>
+<p>；锁存命令， CNT0、<br>CNT1和 CNT2分别为00H、40H和80H</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV AL,40H    	;锁存命令， CNT0、 CNT1和 CNT2分别为00H、40H和80H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0201H</span><br><span class="line">IN AL,DX</span><br><span class="line">MOV CL,AL</span><br><span class="line">IN AL,DX</span><br><span class="line">MOV CH,AL</span><br></pre></td></tr></table></figure>
+<h3 id="8253-工作mode"><a href="#8253-工作mode" class="headerlink" title="8253 工作mode"></a>8253 工作mode</h3><p>软件触发计数启动</p>
 <ul>
-<li>8237获得总线控制权后，连续传送多个字节，每传输一个字节，当前字节计数器减1当前地址寄存器加1或1，直到所要求的字节数传输完（当前字节计数器减至0），8237在EOP引脚上发出结束信号，然后释放总线</li>
+<li>模式0－计数结束中断</li>
+<li>模式4－软件触发延时选通</li>
 </ul>
-<p>请求传输模式</p>
+<p>硬件触发计数启动</p>
 <ul>
-<li>在传输过程中，8237要检测DREQ信号（询问外设），当DREQ==0时，8237暂停传输（不释放总线），当DREQ再次==1后，继续进行传输。</li>
+<li>模式1－可编程单拍</li>
+<li>模式5－硬件触发延时选通</li>
 </ul>
-<p>级联传输模式    </p>
+<p>周期信号发生器</p>
 <ul>
-<li>多片8237级联时，可以构成主从式DMA系统。级联的方式是把从片的请求线HRQ==&gt;主片的DREQ引脚，主DACK==&gt;从片的HLDA引脚</li>
+<li>模式2－频率发生器</li>
+<li>模式3－方波发生器</li>
 </ul>
-<h3 id="8237寄存器"><a href="#8237寄存器" class="headerlink" title="8237寄存器"></a>8237寄存器</h3><p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-reg.png" alt="8237-reg"></p>
-<h3 id="8237的初始化编程"><a href="#8237的初始化编程" class="headerlink" title="8237的初始化编程"></a>8237的初始化编程</h3><p>1.输出主清除命令</p>
-<p>2.写入基地址与现行地址寄存器</p>
-<p>3.写入基字节数与现行字节数寄存器</p>
-<p>4.写入方式寄存器</p>
-<p>5.写入屏蔽寄存器</p>
-<p>6.写入控制寄存器</p>
-<p>7.写入请求寄存器</p>
-<p>若有软件请求，就写入指定通道，便可以开始DMA传送的过程。</p>
-<p>若无软件请求，由通道的DREQ启动DMA传送过程 </p>
-<p>eg. 若要利用通道0，由外设（磁盘）输入32KB的一个数据块，传送至内存8000H开始的区域（增量传送），</p>
-<p>采用数据块连续传送的方式，传送完不自动初始化，</p>
-<p>外设的DREQ和DACK都为高电平有效。要编程首先要确定端口地址。</p>
-<p>地址的低4位以区分8237A的内部寄存器，高4位地址A7~A4，经译码后，连至选片端CS#，假定选中时高4位为7</p>
-<p>solution:依据要求，</p>
-<ol>
-<li><p>方式控制字为84H；</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/mode.PNG" alt="mode"></p>
-</li>
-<li><p>屏蔽寄存器的单屏蔽字为00H；</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/pinbi.png" alt="pinbi"></p>
-</li>
-<li><p>命令字0A0H</p>
-<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/control.PNG" alt="control"></p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">OUT		7DH,AL		 ;输出主清除命令:对端口0DH写入0，使8237复位,70+DH&#x3D;&gt;复位寄存器</span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址低8位，70+0H&#x3D;&gt;基地址 reg 0</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址高8位</span><br><span class="line"></span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	71H, AL       ;70+1H&#x3D;&gt;基字节 counter</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	71H, AL;给基字节数和现行字节数</span><br><span class="line">			      ;寄存器赋值为32768</span><br><span class="line">MOV 	AL, 84H		</span><br><span class="line">OUT 	7BH, AL		 ;输出方式字,70+BH&#x3D;&gt;mode reg </span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	7AH, AL 	;输出屏蔽字,70+AH&#x3D;&gt;屏蔽 reg</span><br><span class="line">MOV 	AL, 0A0H</span><br><span class="line">OUT 	78H, AL		 ;输出命令字 , 70+8H&#x3D;&gt; control reg</span><br></pre></td></tr></table></figure>
-<p>1.简述DMA数据传送方式过程、特点和优点。</p>
-<p>2.在DMA方式数据传输过程中，是由DMAC控制总线。</p>
-<p>3.CPU与外设之间的数据传送控制方式有哪三种？</p>
+<p><img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_workmode.png" alt="8253_workmode"></p>
+<h3 id="8253实例"><a href="#8253实例" class="headerlink" title="8253实例"></a>8253实例</h3><p>eg. OUT0输出接8259A的IRQ0，用作PC实时时钟的定时中断请求信号。</p>
+<p>工作于方式3，</p>
+<p>CNT0的控制字</p>
+<p>0011 011 0       36H</p>
+<p>计数器初值为0000H，</p>
+<p>对应最大方波周期：  T=65536*838ns» 55ms。</p>
+<p>输出信号频率：   f=1/T=18.206Hz </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL, 36H</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AL, 0</span><br><span class="line">OUT	40H, AL</span><br><span class="line">OUT	40H, AL</span><br></pre></td></tr></table></figure>
+<p>用来为动态存储器的刷新提供定时信号。</p>
+<p>工作于方式2。</p>
+<p>CNT1的控制字</p>
+<p>0101 010 0       54H</p>
+<p>计数器初值为18H。</p>
+<p>对应最大方波周期：  T=18*838ns» 15us。</p>
+<p>每次刷新512单元，128次刷新全部64KB。所需时间：</p>
+<p>​      15us*128 »1.92ms&lt;2ms</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL, 54H</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AL, 18</span><br><span class="line">OUT	41H, AL</span><br></pre></td></tr></table></figure>
+<p>GATE2接至并行接口8255A的PB0位，用它控制通道2的计数过程。</p>
+<p>输出OUT2经过一个与门，这个与门受PB1位控制。扬声器可由PB0或PB1分别控制发声。8255A的端口地址为60H~63H。</p>
+<p>若要求扬声器发出600Hz的声音，可将计数器2设定为方式3，作为方波发生器</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV	AL, 10110110B     ;方式3，写入16位计数值</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AX, 1989		；1.19318MHz&#x2F;600&#x3D;1989</span><br><span class="line">OUT	42H, AL		;写入低8位</span><br><span class="line">MOV AL，AH</span><br><span class="line">OUT	42H, AL		;写入高8位</span><br><span class="line">IN AL, 61H			;读8255A的B端口原输入值</span><br><span class="line">MOV AH, AL</span><br><span class="line">OR AL, 03H		;使PB1和PB0位均为1</span><br><span class="line">OUT 61H,AL		;输出以使扬声器能够发声</span><br></pre></td></tr></table></figure>
+<p>eg. <img src="/2020/05/15/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_eg2.png" alt="8253_eg2"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">		NAME EX_1</span><br><span class="line">DATA		SEGMENT</span><br><span class="line">MESS	DB	‘8253 CNT0 IN MODE 3’,0DH,0AH</span><br><span class="line">		DB	‘8253 CNT1 IN MODE 2’,0DH,0AH,‘$’</span><br><span class="line">DATA		ENDS</span><br><span class="line">CODE 	SEGMENT</span><br><span class="line">		ASSUME CS:CODE,DS:DATA</span><br><span class="line">START:	MOV AX,DATA</span><br><span class="line">MOV DS,AX</span><br><span class="line">CLI</span><br><span class="line">MOV DX,0203H	;CNT0初始化，产生方波，周期10ms</span><br><span class="line">MOV AL,36H	; CNT0方式控制字   00110110    </span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0200H</span><br><span class="line">MOV AL,0C4H</span><br><span class="line">OUT DX,AL		;写入低字节计数值          09C4H</span><br><span class="line">MOV AL,09H</span><br><span class="line">OUT DX,AL		;写入高字节计数值</span><br><span class="line">MOV DX,0203H	;CNT1初始化，产生周期性负脉冲信号，MOV AL,74H	;周期1s ，CNT1方式控制字   01110100    </span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0201H</span><br><span class="line">MOV AL,064H</span><br><span class="line">OUT DX,AL		;写入低字节计数值          64H</span><br><span class="line">MOV AL,00H</span><br><span class="line">OUT DX,AL		;写入高字节计数值</span><br><span class="line">STI</span><br><span class="line">MOV DX,OFFSET MESS</span><br><span class="line">MOV AH,09H</span><br><span class="line">INT 21H</span><br><span class="line">MOV AH,4CH</span><br><span class="line">INT 21H</span><br><span class="line">CODE ENDS</span><br><span class="line">END START</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>计算机组成原理</category>
@@ -4172,95 +4070,6 @@ QS0，QS1                                                                  (指�
       <tags>
         <tag>computer organization</tag>
         <tag>assembly language</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Appendix-settling and peak time</title>
-    <url>/2020/05/15/control_system/Appendix-T_s%20and%20T_p/</url>
-    <content><![CDATA[<h1 id="T-s-and-T-p"><a href="#T-s-and-T-p" class="headerlink" title="T_s and T_p"></a>T_s and T_p</h1><a id="more"></a>
-<script type="math/tex; mode=display">
-G(s) = \frac{\omega_n^2}{s^2 + 2 \zeta \omega_n s + \omega_n^2} \\ 
-= \frac{\omega_n^2}{(s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)(s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)}\\
-= \frac{A}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
-- \frac{A}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}</script><p>here</p>
-<script type="math/tex; mode=display">
--2A j \sqrt{1-\zeta^2}\omega_n = \omega_n^2 \\
-A = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}</script><p>So</p>
-<script type="math/tex; mode=display">
-G(s) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}} 
-[\frac{1}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
-- \frac{1}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}]\\
-g(t) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}
-[e^{-(\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)t}
--e^{-(\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)t}]\\
-= \frac{j\omega_n}{2\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t} 
-[-2j\sin(\sqrt{1-\zeta^2}\omega_n t)]\\
-= \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
-\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>So the output:</p>
-<script type="math/tex; mode=display">
-Y(s) = \frac{1}{s} G(s)\\
-y(t) = u(t) * g(t) = \int^t_{0_-} g(\tau) d\tau\\
-\mathbb{L}[y'(t)] = sY(s) - y(0_-) = sY(s) = G(s)</script><p>So we have</p>
-<script type="math/tex; mode=display">
-y'(t) = g(t) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
-\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>Now we want to calculate y(t), consider</p>
-<script type="math/tex; mode=display">
-\int^t_0 e^{-a\tau}\sin(b\tau) d\tau\\
-= \int^t_0 \text{Im}[e^{(-a+jb)\tau}] d\tau\\
-= \text{Im}[ \int^t_0 e^{(-a+jb)\tau} d\tau ]\\
-= \text{Im}[ \frac{1}{a-jb} [1 - e^{(-a+jb)t}] ]\\
-= \text{Im}[ \frac{a+jb}{a^2 + b^2} [1-e^{-at}\cos(bt)
--je^{-at}\sin(bt)]  ]\\
-= \frac{1}{a^2+b^2} [-ae^{-at}\sin(bt) + b - be^{-at}\cos(bt)]\\
-= \frac{b}{a^2+b^2} - \frac{e^{-at}}{a^2+b^2} \sqrt{a^2+b^2}\sin(bt+\phi)</script><p>Here</p>
-<script type="math/tex; mode=display">
-\tan(\phi) = \frac{b}{a}</script><p>in all</p>
-<script type="math/tex; mode=display">
-y(t) = \int^t_{0_-} g(\tau) d\tau\\
-= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
-\int^t_{0_-} e^{-\zeta\omega_n \tau}
-\sin(\sqrt{1-\zeta^2}\omega_n \tau) d\tau\\
-= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
-[ \frac{\sqrt{1-\zeta^2}\omega_n}{\omega_n^2} - 
-\frac{e^{-\zeta\omega_n t}}{\omega_n}
-\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)]\\
-= 1 - \frac{e^{-\zeta\omega_n t}}{\sqrt{1-\zeta^2}}
-\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)</script><p>Here</p>
-<script type="math/tex; mode=display">
-\tan(\phi) = \frac{\sqrt{1-\zeta^2}}{\zeta}\\
-\sin(\phi) = \sqrt{1-\zeta^2}\\
-\cos(\phi) = \zeta</script><h2 id="Calculate-T-s"><a href="#Calculate-T-s" class="headerlink" title="Calculate T_s"></a>Calculate T_s</h2><p>For T_s</p>
-<script type="math/tex; mode=display">
-T_s = \frac{4}{\zeta \omega_n}\\
-e^{-\zeta\omega_n T_s} = e^{-4} \approx 0.02</script><h2 id="Calculate-overshoot-and-T-p"><a href="#Calculate-overshoot-and-T-p" class="headerlink" title="Calculate overshoot and T_p"></a>Calculate overshoot and T_p</h2><p>set y’(T_p) = 0</p>
-<script type="math/tex; mode=display">
-y'(t=T_p) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n T_p}
-\sin(\sqrt{1-\zeta^2}\omega_n T_p) = 0\\
-\sqrt{1-\zeta^2}\omega_n T_p = \pi\\
-T_p = \frac{\pi}{\sqrt{1-\zeta^2}\omega_n}</script><p>here we have</p>
-<script type="math/tex; mode=display">
-1 + \% = y(t=T_p) \\
-= 1 - \frac{e^{-\zeta\omega_n T_p}}
-{\sqrt{1-\zeta^2}}
-\sin(\sqrt{1-\zeta^2}\omega_n T_p + \phi)\\
-= 1 - \frac{e^{-\zeta\omega_n T_p}}
-{\sqrt{1-\zeta^2}}
-\sin(\pi + \phi)\\
-= 1 + \frac{e^{-\zeta\omega_n T_p}}
-{\sqrt{1-\zeta^2}} \sqrt{1-\zeta^2}\\
-= 1 + e^{-\zeta\omega_n T_p}
-= 1 + e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}</script><p>So, we have</p>
-<script type="math/tex; mode=display">
-\% = e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}\\
--\frac{\ln(\%)}{\pi} = \frac{\zeta}{\sqrt{1-\zeta^2}}\\
-\frac{-\ln(\%)}{\sqrt{\pi^2 + \ln^2(\%)}} = \zeta</script>]]></content>
-      <categories>
-        <category>控制原理</category>
-        <category>PNW课件</category>
-      </categories>
-      <tags>
-        <tag>control system</tag>
-        <tag>math</tag>
       </tags>
   </entry>
   <entry>
@@ -4444,6 +4253,108 @@ T_p = \frac{\pi}{\sqrt{1-\zeta^2}\omega_n}</script><p>here we have</p>
       </tags>
   </entry>
   <entry>
+    <title>ch9DMA8237</title>
+    <url>/2020/05/15/computer_organization/9_ch9_DMA8237/</url>
+    <content><![CDATA[<h2 id="DMA8237"><a href="#DMA8237" class="headerlink" title="DMA8237"></a>DMA8237</h2><a id="more"></a>
+<h3 id="内存与外设之间的数据传输控制方式"><a href="#内存与外设之间的数据传输控制方式" class="headerlink" title="内存与外设之间的数据传输控制方式"></a>内存与外设之间的数据传输控制方式</h3><p>程序控制方式</p>
+<p>中断方式</p>
+<p>[以上方式都需要CPU执行程序来控制数据传输；]</p>
+<ul>
+<li>中断过程需要额外的保护断点、标志操作；</li>
+<li>中断响应和中断返回时，都要清除指令队列，重新装入程序；</li>
+</ul>
+<p>DMA方式</p>
+<p>[外设和存储器之间直接进行数据传输，不经过CPU。]</p>
+<ul>
+<li><p>DMA过程中，DMAC能独立控制三大总线来访问存储器和I/O端口，</p>
+<p>像CPU一样提供数据传送所需的地址信息和读写控制信息==&gt;存储器</p>
+<p>－DMAC内部有地址寄存器和字节计数器</p>
+</li>
+</ul>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/DMA.png" alt="DMA"></p>
+<h3 id="DMA操作过程三个阶段"><a href="#DMA操作过程三个阶段" class="headerlink" title="DMA操作过程三个阶段"></a>DMA操作过程三个阶段</h3><ol>
+<li>DMA请求；<ul>
+<li>外设要求以DMA方式为它服务时，==DMA请求信号DREQ==&gt;DMAC</li>
+<li>DMAC检查该信号是否被屏蔽及其优先权，if 该信号有效则</li>
+<li>DMAC===发送总线请求信号HRQ==&gt;CPU的HOLD</li>
+</ul>
+</li>
+<li>DMA响应和数据传送；<ul>
+<li>DMAC接管总线===DACK信号==&gt;外设，使之成为DMA传送时被选中的设备</li>
+<li>DMAC==内存地址以及I/O读写和存储器读写控制信号==&gt;存储器</li>
+<li>在外设和存储器之间数据传送</li>
+</ul>
+</li>
+<li>传送结束；<ul>
+<li>DMAC放弃总线，撤消总线请求(HRQ==0)，</li>
+<li>CPU检测到HRQ(HOLD)==0后，HLDA==0，</li>
+<li>CPU重新获得总线控制权</li>
+</ul>
+</li>
+</ol>
+<h3 id="8237地址"><a href="#8237地址" class="headerlink" title="8237地址"></a>8237地址</h3><p>一片8237占用连续16个端口地址，用DMA+00H~DMA+0FH表示。其中，DMA表示该片8237的基地址。</p>
+<p>在AT以上的微机中，使用2片8237，其地址为：</p>
+<p>第一片8237，基地址DMA=0000H，使用0000H~000F  I/O地址。</p>
+<p>第二片8237，基地址DMA=00C0H，使用00C0H~00CF  I/O地址</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-addr.png" alt="8237-addr"></p>
+<p>传输模式：</p>
+<p>单字节传输模式</p>
+<ul>
+<li>每次DMA操作只传送一字节，接着8237释放总线；</li>
+</ul>
+<p>块传输模式</p>
+<ul>
+<li>8237获得总线控制权后，连续传送多个字节，每传输一个字节，当前字节计数器减1当前地址寄存器加1或1，直到所要求的字节数传输完（当前字节计数器减至0），8237在EOP引脚上发出结束信号，然后释放总线</li>
+</ul>
+<p>请求传输模式</p>
+<ul>
+<li>在传输过程中，8237要检测DREQ信号（询问外设），当DREQ==0时，8237暂停传输（不释放总线），当DREQ再次==1后，继续进行传输。</li>
+</ul>
+<p>级联传输模式    </p>
+<ul>
+<li>多片8237级联时，可以构成主从式DMA系统。级联的方式是把从片的请求线HRQ==&gt;主片的DREQ引脚，主DACK==&gt;从片的HLDA引脚</li>
+</ul>
+<h3 id="8237寄存器"><a href="#8237寄存器" class="headerlink" title="8237寄存器"></a>8237寄存器</h3><p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/8237-reg.png" alt="8237-reg"></p>
+<h3 id="8237的初始化编程"><a href="#8237的初始化编程" class="headerlink" title="8237的初始化编程"></a>8237的初始化编程</h3><p>1.输出主清除命令</p>
+<p>2.写入基地址与现行地址寄存器</p>
+<p>3.写入基字节数与现行字节数寄存器</p>
+<p>4.写入方式寄存器</p>
+<p>5.写入屏蔽寄存器</p>
+<p>6.写入控制寄存器</p>
+<p>7.写入请求寄存器</p>
+<p>若有软件请求，就写入指定通道，便可以开始DMA传送的过程。</p>
+<p>若无软件请求，由通道的DREQ启动DMA传送过程 </p>
+<p>eg. 若要利用通道0，由外设（磁盘）输入32KB的一个数据块，传送至内存8000H开始的区域（增量传送），</p>
+<p>采用数据块连续传送的方式，传送完不自动初始化，</p>
+<p>外设的DREQ和DACK都为高电平有效。要编程首先要确定端口地址。</p>
+<p>地址的低4位以区分8237A的内部寄存器，高4位地址A7~A4，经译码后，连至选片端CS#，假定选中时高4位为7</p>
+<p>solution:依据要求，</p>
+<ol>
+<li><p>方式控制字为84H；</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/mode.PNG" alt="mode"></p>
+</li>
+<li><p>屏蔽寄存器的单屏蔽字为00H；</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/pinbi.png" alt="pinbi"></p>
+</li>
+<li><p>命令字0A0H</p>
+<p><img src="/2020/05/15/computer_organization/9_ch9_DMA8237/control.PNG" alt="control"></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">OUT		7DH,AL		 ;输出主清除命令:对端口0DH写入0，使8237复位,70+DH&#x3D;&gt;复位寄存器</span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址低8位，70+0H&#x3D;&gt;基地址 reg 0</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	70H, AL;输出基地址和现行地址高8位</span><br><span class="line"></span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	71H, AL       ;70+1H&#x3D;&gt;基字节 counter</span><br><span class="line">MOV 	AL, 80H</span><br><span class="line">OUT 	71H, AL;给基字节数和现行字节数</span><br><span class="line">			      ;寄存器赋值为32768</span><br><span class="line">MOV 	AL, 84H		</span><br><span class="line">OUT 	7BH, AL		 ;输出方式字,70+BH&#x3D;&gt;mode reg </span><br><span class="line">MOV 	AL, 00H</span><br><span class="line">OUT 	7AH, AL 	;输出屏蔽字,70+AH&#x3D;&gt;屏蔽 reg</span><br><span class="line">MOV 	AL, 0A0H</span><br><span class="line">OUT 	78H, AL		 ;输出命令字 , 70+8H&#x3D;&gt; control reg</span><br></pre></td></tr></table></figure>
+<p>1.简述DMA数据传送方式过程、特点和优点。</p>
+<p>2.在DMA方式数据传输过程中，是由DMAC控制总线。</p>
+<p>3.CPU与外设之间的数据传送控制方式有哪三种？</p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>computer organization</tag>
+        <tag>assembly language</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Appendix-Jury&#39;s Criterion</title>
     <url>/2020/05/15/control_system/Appendix-Jury&#39;s%20Criterion/</url>
     <content><![CDATA[<h1 id="Jury’s-Criterion"><a href="#Jury’s-Criterion" class="headerlink" title="Jury’s Criterion"></a>Jury’s Criterion</h1><a id="more"></a>
@@ -4462,86 +4373,85 @@ T_p = \frac{\pi}{\sqrt{1-\zeta^2}\omega_n}</script><p>here we have</p>
       </tags>
   </entry>
   <entry>
-    <title>Lecture 13-Linearization</title>
-    <url>/2020/05/15/control_system/Lecture%2013-Linearization/</url>
-    <content><![CDATA[<h1 id="Chap-2-Linearizatin"><a href="#Chap-2-Linearizatin" class="headerlink" title="Chap 2: Linearizatin"></a>Chap 2: Linearizatin</h1><a id="more"></a>
+    <title>Appendix-settling and peak time</title>
+    <url>/2020/05/15/control_system/Appendix-T_s%20and%20T_p/</url>
+    <content><![CDATA[<h1 id="T-s-and-T-p"><a href="#T-s-and-T-p" class="headerlink" title="T_s and T_p"></a>T_s and T_p</h1><a id="more"></a>
 <script type="math/tex; mode=display">
-y-y_0 = y_0'(x-x_0)</script><h2 id="example-1"><a href="#example-1" class="headerlink" title="example 1"></a>example 1</h2><p>nonlinear r: $i_r = e^{V_r}$<br>so</p>
+G(s) = \frac{\omega_n^2}{s^2 + 2 \zeta \omega_n s + \omega_n^2} \\ 
+= \frac{\omega_n^2}{(s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)(s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)}\\
+= \frac{A}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
+- \frac{A}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}</script><p>here</p>
 <script type="math/tex; mode=display">
-C \frac{dV}{dt} + i_r -i(t) - 2 = 0</script><p>replace</p>
+-2A j \sqrt{1-\zeta^2}\omega_n = \omega_n^2 \\
+A = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}</script><p>So</p>
 <script type="math/tex; mode=display">
-V = V_0 + \delta V\\
-i_r = e^{V_r} = e^{V_0 + \delta V}</script><p>So we obtain, here C = 1</p>
+G(s) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}} 
+[\frac{1}{s+\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n}
+- \frac{1}{s+\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n}]\\
+g(t) = \frac{j\omega_n}{2\sqrt{1-\zeta^2}}
+[e^{-(\zeta\omega_n + j \sqrt{1-\zeta^2}\omega_n)t}
+-e^{-(\zeta\omega_n - j \sqrt{1-\zeta^2}\omega_n)t}]\\
+= \frac{j\omega_n}{2\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t} 
+[-2j\sin(\sqrt{1-\zeta^2}\omega_n t)]\\
+= \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
+\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>So the output:</p>
 <script type="math/tex; mode=display">
-\frac{d\delta V}{dt} + e^{V_0 + \delta V} - 2 = i(t)</script><p>replace $e^{V_0 + \delta V} \approx e^{V_0} + e^{V_0} \delta V$\<br>So we havee</p>
+Y(s) = \frac{1}{s} G(s)\\
+y(t) = u(t) * g(t) = \int^t_{0_-} g(\tau) d\tau\\
+\mathbb{L}[y'(t)] = sY(s) - y(0_-) = sY(s) = G(s)</script><p>So we have</p>
 <script type="math/tex; mode=display">
-\frac{d\delta V}{dt} + e^{V_0} + e^{V_0} \delta V - 2 = i(t)</script><p>Thus means</p>
+y'(t) = g(t) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n t}
+\sin(\sqrt{1-\zeta^2}\omega_n t)</script><p>Now we want to calculate y(t), consider</p>
 <script type="math/tex; mode=display">
-\frac{d\delta V}{dt} + e^{V_0} \delta V = i(t) + 2 - e^{V_0}</script><p>Because $i_r|_{V_r = V_0} = e^{V_0} = 2, V_0 = ln(2) = 0.693$<br>so, simplyfied equation:</p>
+\int^t_0 e^{-a\tau}\sin(b\tau) d\tau\\
+= \int^t_0 \text{Im}[e^{(-a+jb)\tau}] d\tau\\
+= \text{Im}[ \int^t_0 e^{(-a+jb)\tau} d\tau ]\\
+= \text{Im}[ \frac{1}{a-jb} [1 - e^{(-a+jb)t}] ]\\
+= \text{Im}[ \frac{a+jb}{a^2 + b^2} [1-e^{-at}\cos(bt)
+-je^{-at}\sin(bt)]  ]\\
+= \frac{1}{a^2+b^2} [-ae^{-at}\sin(bt) + b - be^{-at}\cos(bt)]\\
+= \frac{b}{a^2+b^2} - \frac{e^{-at}}{a^2+b^2} \sqrt{a^2+b^2}\sin(bt+\phi)</script><p>Here</p>
 <script type="math/tex; mode=display">
-\frac{d\delta V}{dt} + 2 \delta V = i(t)</script><p>Then do laplace transform $\mathbb{L}$</p>
+\tan(\phi) = \frac{b}{a}</script><p>in all</p>
 <script type="math/tex; mode=display">
-(s+2)\delta V(s) - \delta V(0_-) = I(s)</script><p>because</p>
+y(t) = \int^t_{0_-} g(\tau) d\tau\\
+= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
+\int^t_{0_-} e^{-\zeta\omega_n \tau}
+\sin(\sqrt{1-\zeta^2}\omega_n \tau) d\tau\\
+= \frac{\omega_n}{\sqrt{1-\zeta^2}} 
+[ \frac{\sqrt{1-\zeta^2}\omega_n}{\omega_n^2} - 
+\frac{e^{-\zeta\omega_n t}}{\omega_n}
+\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)]\\
+= 1 - \frac{e^{-\zeta\omega_n t}}{\sqrt{1-\zeta^2}}
+\sin(\sqrt{1-\zeta^2}\omega_n t + \phi)</script><p>Here</p>
 <script type="math/tex; mode=display">
-\int_{0_-}^{\infty} \frac{df(t)}{dt}e^{-st}dt
-= e^{-st} f(t)|_{0_-}^{\infty} + s \int_{0_-}^{\infty} f(t)e^{-st}dt\\
-\mathbb{L}[\frac{df(t)}{dt}] = s\mathbb{L}[f(t)] - f(0_-)</script><h2 id="example-2"><a href="#example-2" class="headerlink" title="example 2"></a>example 2</h2><script type="math/tex; mode=display">
-M \frac{d^2 y(t)}{dt^2} = Mg - \frac{i^2(t)}{y(t)}\\
-
-V(t) = R i(t) + L \frac{d i(t)}{dt}</script><p>V(t) is input, now select varaible</p>
+\tan(\phi) = \frac{\sqrt{1-\zeta^2}}{\zeta}\\
+\sin(\phi) = \sqrt{1-\zeta^2}\\
+\cos(\phi) = \zeta</script><h2 id="Calculate-T-s"><a href="#Calculate-T-s" class="headerlink" title="Calculate T_s"></a>Calculate T_s</h2><p>For T_s</p>
 <script type="math/tex; mode=display">
-X_1 = y(t)\\
-X_2 = \frac{dy(t)}{dt}\\
-X_3 = i(t)</script><p>So we obtain</p>
+T_s = \frac{4}{\zeta \omega_n}\\
+e^{-\zeta\omega_n T_s} = e^{-4} \approx 0.02</script><h2 id="Calculate-overshoot-and-T-p"><a href="#Calculate-overshoot-and-T-p" class="headerlink" title="Calculate overshoot and T_p"></a>Calculate overshoot and T_p</h2><p>set y’(T_p) = 0</p>
 <script type="math/tex; mode=display">
-\dot{X_1} = X_2\\
-\dot{X_2} = -\frac{X_3^2}{MX_1} + g\\
-\dot{X_3} = - \frac{R}{L} X_3 + V(t)</script><p>Find balanced point, suppose input $V(t) = V_0 + \Delta V(t), i(t) = i_0 + \Delta i(t), y(t) = y_0 + \Delta y(t)$\<br>Then we have, by set $\dot{X} = 0$</p>
+y'(t=T_p) = \frac{\omega_n}{\sqrt{1-\zeta^2}}e^{-\zeta\omega_n T_p}
+\sin(\sqrt{1-\zeta^2}\omega_n T_p) = 0\\
+\sqrt{1-\zeta^2}\omega_n T_p = \pi\\
+T_p = \frac{\pi}{\sqrt{1-\zeta^2}\omega_n}</script><p>here we have</p>
 <script type="math/tex; mode=display">
-0 = \frac{dy(t)}{dt} |_{y(t) = y_0}\\
-0 = Mg- \frac{i_0^2}{y_0}\\
-V_0 = R i_0</script><p>now express Phase variable balanced poit with input balanced point $V_0$</p>
+1 + \% = y(t=T_p) \\
+= 1 - \frac{e^{-\zeta\omega_n T_p}}
+{\sqrt{1-\zeta^2}}
+\sin(\sqrt{1-\zeta^2}\omega_n T_p + \phi)\\
+= 1 - \frac{e^{-\zeta\omega_n T_p}}
+{\sqrt{1-\zeta^2}}
+\sin(\pi + \phi)\\
+= 1 + \frac{e^{-\zeta\omega_n T_p}}
+{\sqrt{1-\zeta^2}} \sqrt{1-\zeta^2}\\
+= 1 + e^{-\zeta\omega_n T_p}
+= 1 + e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}</script><p>So, we have</p>
 <script type="math/tex; mode=display">
-i_0 = \frac{V_0}{R}\\
-y_0 = \frac{i_0^2}{Mg} = \frac{V_0^2}{R^2 Mg}</script><p>Thus means</p>
-<script type="math/tex; mode=display">
-X_{10} = y_0 = \frac{V_0^2}{R^2 Mg}\\
-X_{20} = \frac{dy(t)}{dt} |_{y(t) = y_0} = 0\\
-X_{30} = i_0 = \frac{V_0}{R}</script><p>Now define $\delta X \equiv X - X_0, \delta V = V - V_0$</p>
-<script type="math/tex; mode=display">
-\dot{\delta} X_1= \delta X_2\\
-\dot{\delta} X_2= \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_1}|_{X=X_0} \delta X_1 + \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_3}|_{X=X_0} \delta X_3\\
-= [\frac{X_3^2}{MX_1^2}]|_{X=X_0} \delta X_1 + [-\frac{2X_3}{MX_1}]|_{X=X_0} \delta X_3\\
-= \frac{R^2Mg^2}{V_0^2}\delta X_1 + [\frac{-2Rg}{V_0}] \delta X_3\\
-\dot{\delta} X_3 = - \frac{R}{L} \delta X_3 + \delta V(t)</script><p>Thus means</p>
-<script type="math/tex; mode=display">
-\dot{\delta} X = 
-\begin{bmatrix}
-0 & 1 & 0\\
-\frac{R^2Mg^2}{V_0^2} & 0 & \frac{-2Rg}{V_0}\\
-0 & 0 & - \frac{R}{L}
-\end{bmatrix}
-\delta X +
-\begin{bmatrix}
-0\\ 0\\ 1
-\end{bmatrix}
-\delta V</script><p>Then calculate the poles of linearized model:\<br>if poles are all in left plane &lt;=&gt; the model is stable!!!</p>
-<p>Then verify it is Controllable or Not?</p>
-<script type="math/tex; mode=display">
-|C_M| =[B \quad AB \quad A^2B]\
-
-=\begin{bmatrix}
-
-0 & 0 & \frac{-2Rg}{V_0}\\
-
-0 & \frac{-2Rg}{V0} & \frac{2R^2g}{LV0}\\
-
-1 & - \frac{R}{L} & \frac{R^2}{L^2}
-
-\end{bmatrix}
-
-\neq 0</script><p>If so, we could control it, to make the model stable</p>
-]]></content>
+\% = e^{-\pi \frac{\zeta}{\sqrt{1-\zeta^2}}}\\
+-\frac{\ln(\%)}{\pi} = \frac{\zeta}{\sqrt{1-\zeta^2}}\\
+\frac{-\ln(\%)}{\sqrt{\pi^2 + \ln^2(\%)}} = \zeta</script>]]></content>
       <categories>
         <category>控制原理</category>
         <category>PNW课件</category>
@@ -4738,6 +4648,96 @@ T(s) = \frac{C \text{adj}(sI - A + BK)B}{|sI - A + BK|}\\
 <script type="math/tex; mode=display">
 \frac{Y(s)}{R(s)} \equiv T'(s) = \frac{K_e \frac{T(s)}{s}}{1+K_e \frac{T(s)}{s}}\\
 = \frac{K_e N(s)}{sD_2(s) + K_e N(s)}</script><p>So no matter introduce K and K_e, zeros of T(s) Not change</p>
+]]></content>
+      <categories>
+        <category>控制原理</category>
+        <category>PNW课件</category>
+      </categories>
+      <tags>
+        <tag>control system</tag>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lecture 13-Linearization</title>
+    <url>/2020/05/15/control_system/Lecture%2013-Linearization/</url>
+    <content><![CDATA[<h1 id="Chap-2-Linearizatin"><a href="#Chap-2-Linearizatin" class="headerlink" title="Chap 2: Linearizatin"></a>Chap 2: Linearizatin</h1><a id="more"></a>
+<script type="math/tex; mode=display">
+y-y_0 = y_0'(x-x_0)</script><h2 id="example-1"><a href="#example-1" class="headerlink" title="example 1"></a>example 1</h2><p>nonlinear r: $i_r = e^{V_r}$<br>so</p>
+<script type="math/tex; mode=display">
+C \frac{dV}{dt} + i_r -i(t) - 2 = 0</script><p>replace</p>
+<script type="math/tex; mode=display">
+V = V_0 + \delta V\\
+i_r = e^{V_r} = e^{V_0 + \delta V}</script><p>So we obtain, here C = 1</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + e^{V_0 + \delta V} - 2 = i(t)</script><p>replace $e^{V_0 + \delta V} \approx e^{V_0} + e^{V_0} \delta V$\<br>So we havee</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + e^{V_0} + e^{V_0} \delta V - 2 = i(t)</script><p>Thus means</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + e^{V_0} \delta V = i(t) + 2 - e^{V_0}</script><p>Because $i_r|_{V_r = V_0} = e^{V_0} = 2, V_0 = ln(2) = 0.693$<br>so, simplyfied equation:</p>
+<script type="math/tex; mode=display">
+\frac{d\delta V}{dt} + 2 \delta V = i(t)</script><p>Then do laplace transform $\mathbb{L}$</p>
+<script type="math/tex; mode=display">
+(s+2)\delta V(s) - \delta V(0_-) = I(s)</script><p>because</p>
+<script type="math/tex; mode=display">
+\int_{0_-}^{\infty} \frac{df(t)}{dt}e^{-st}dt
+= e^{-st} f(t)|_{0_-}^{\infty} + s \int_{0_-}^{\infty} f(t)e^{-st}dt\\
+\mathbb{L}[\frac{df(t)}{dt}] = s\mathbb{L}[f(t)] - f(0_-)</script><h2 id="example-2"><a href="#example-2" class="headerlink" title="example 2"></a>example 2</h2><script type="math/tex; mode=display">
+M \frac{d^2 y(t)}{dt^2} = Mg - \frac{i^2(t)}{y(t)}\\
+
+V(t) = R i(t) + L \frac{d i(t)}{dt}</script><p>V(t) is input, now select varaible</p>
+<script type="math/tex; mode=display">
+X_1 = y(t)\\
+X_2 = \frac{dy(t)}{dt}\\
+X_3 = i(t)</script><p>So we obtain</p>
+<script type="math/tex; mode=display">
+\dot{X_1} = X_2\\
+\dot{X_2} = -\frac{X_3^2}{MX_1} + g\\
+\dot{X_3} = - \frac{R}{L} X_3 + V(t)</script><p>Find balanced point, suppose input $V(t) = V_0 + \Delta V(t), i(t) = i_0 + \Delta i(t), y(t) = y_0 + \Delta y(t)$\<br>Then we have, by set $\dot{X} = 0$</p>
+<script type="math/tex; mode=display">
+0 = \frac{dy(t)}{dt} |_{y(t) = y_0}\\
+0 = Mg- \frac{i_0^2}{y_0}\\
+V_0 = R i_0</script><p>now express Phase variable balanced poit with input balanced point $V_0$</p>
+<script type="math/tex; mode=display">
+i_0 = \frac{V_0}{R}\\
+y_0 = \frac{i_0^2}{Mg} = \frac{V_0^2}{R^2 Mg}</script><p>Thus means</p>
+<script type="math/tex; mode=display">
+X_{10} = y_0 = \frac{V_0^2}{R^2 Mg}\\
+X_{20} = \frac{dy(t)}{dt} |_{y(t) = y_0} = 0\\
+X_{30} = i_0 = \frac{V_0}{R}</script><p>Now define $\delta X \equiv X - X_0, \delta V = V - V_0$</p>
+<script type="math/tex; mode=display">
+\dot{\delta} X_1= \delta X_2\\
+\dot{\delta} X_2= \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_1}|_{X=X_0} \delta X_1 + \frac{\partial[-\frac{X_3^2}{MX_1}]}{\partial X_3}|_{X=X_0} \delta X_3\\
+= [\frac{X_3^2}{MX_1^2}]|_{X=X_0} \delta X_1 + [-\frac{2X_3}{MX_1}]|_{X=X_0} \delta X_3\\
+= \frac{R^2Mg^2}{V_0^2}\delta X_1 + [\frac{-2Rg}{V_0}] \delta X_3\\
+\dot{\delta} X_3 = - \frac{R}{L} \delta X_3 + \delta V(t)</script><p>Thus means</p>
+<script type="math/tex; mode=display">
+\dot{\delta} X = 
+\begin{bmatrix}
+0 & 1 & 0\\
+\frac{R^2Mg^2}{V_0^2} & 0 & \frac{-2Rg}{V_0}\\
+0 & 0 & - \frac{R}{L}
+\end{bmatrix}
+\delta X +
+\begin{bmatrix}
+0\\ 0\\ 1
+\end{bmatrix}
+\delta V</script><p>Then calculate the poles of linearized model:\<br>if poles are all in left plane &lt;=&gt; the model is stable!!!</p>
+<p>Then verify it is Controllable or Not?</p>
+<script type="math/tex; mode=display">
+|C_M| =[B \quad AB \quad A^2B]\
+
+=\begin{bmatrix}
+
+0 & 0 & \frac{-2Rg}{V_0}\\
+
+0 & \frac{-2Rg}{V0} & \frac{2R^2g}{LV0}\\
+
+1 & - \frac{R}{L} & \frac{R^2}{L^2}
+
+\end{bmatrix}
+
+\neq 0</script><p>If so, we could control it, to make the model stable</p>
 ]]></content>
       <categories>
         <category>控制原理</category>
@@ -5758,42 +5758,6 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>Chap 7 - 信道+信源</title>
-    <url>/2020/05/15/information_theory/Chap_7/</url>
-    <content><![CDATA[<h2 id="Chap-7"><a href="#Chap-7" class="headerlink" title="Chap 7"></a>Chap 7</h2><a id="more"></a>
-<h3 id="信道容量-信道编码问题"><a href="#信道容量-信道编码问题" class="headerlink" title="信道容量 (信道编码问题)"></a>信道容量 (信道编码问题)</h3><h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>利用已给信道</p>
-<ul>
-<li>使传输的信息量最大 (最大信息率问题)</li>
-<li>发生错误的概率任意小，</li>
-</ul>
-<p>提高通信的可靠性</p>
-<h4 id="平均互信息"><a href="#平均互信息" class="headerlink" title="平均互信息"></a>平均互信息</h4><p>I(X;Y)是信源概率分布$p(x_i)(i=1,2,…,n)$或概率密度函数p(x)的上凸函数</p>
-<p>根据上凸函数定义，如果I(X;Y)在定义域内对$p(x_i)$ 的极值存在，则该极值一定是极大值</p>
-<h4 id="信道容量"><a href="#信道容量" class="headerlink" title="信道容量"></a>信道容量</h4><p>C = 在固定信道$p(y_j /x_i)$情况下，平均互信息极大值</p>
-<h3 id="信息率失真函数-信源编码问题"><a href="#信息率失真函数-信源编码问题" class="headerlink" title="信息率失真函数 (信源编码问题)"></a>信息率失真函数 (信源编码问题)</h3><h4 id="目的-1"><a href="#目的-1" class="headerlink" title="目的"></a>目的</h4><p>已知信源和允许失真度D的条件下</p>
-<ul>
-<li><p>信源必须传送给信宿的信息率最小</p>
-<p>[尽可能少的码符号 传送 固定多信源消息]</p>
-</li>
-</ul>
-<p>提高通信的有效性, 反映信源可压缩程度</p>
-<h4 id="信息率失真函数R-D-定义"><a href="#信息率失真函数R-D-定义" class="headerlink" title="信息率失真函数R(D)定义"></a>信息率失真函数R(D)定义</h4><p>信源给定，<br>容忍的失真度D内</p>
-<ul>
-<li>最小平均信息量 (再现信源消息所必须获得)</li>
-</ul>
-<h4 id="平均互信息-1"><a href="#平均互信息-1" class="headerlink" title="平均互信息"></a>平均互信息</h4><p>I(X;Y)又是信道转移概率分布$p(y_j /x_i)$或条件概率密度函数p(y/x)的下凸函数，</p>
-<p>因此在满足保真度准则条件下，I(X;Y)对$p(y_j /x_i)$的条件极值若存在，则一定是极小值</p>
-<h4 id="信息率失真函数"><a href="#信息率失真函数" class="headerlink" title="信息率失真函数"></a>信息率失真函数</h4><p>R(D) = 在固定信源$p(x_i)$, 保真度D下，平均互信息极小值</p>
-]]></content>
-      <categories>
-        <category>信息论</category>
-        <category>BIT课件</category>
-      </categories>
-      <tags>
-        <tag>information theory</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Chap 6 - 译码+Shannon第二定理</title>
     <url>/2020/05/15/information_theory/Chap_6/</url>
     <content><![CDATA[<h2 id="Chap-6"><a href="#Chap-6" class="headerlink" title="Chap 6"></a>Chap 6</h2><a id="more"></a>
@@ -5836,6 +5800,42 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
 <h3 id="无失真信源编码定理"><a href="#无失真信源编码定理" class="headerlink" title="(无失真信源编码定理)"></a>(无失真信源编码定理)</h3><p>若信道的信息传输率R&lt;=信道容量C，</p>
 <p>总能对信源的输出进行适当的编码，使的在无噪无损信道上能无差错的以最大信息传输率C传输信息，</p>
 <p>若R大于C，则无差错传输是不可能的。</p>
+]]></content>
+      <categories>
+        <category>信息论</category>
+        <category>BIT课件</category>
+      </categories>
+      <tags>
+        <tag>information theory</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Chap 7 - 信道+信源</title>
+    <url>/2020/05/15/information_theory/Chap_7/</url>
+    <content><![CDATA[<h2 id="Chap-7"><a href="#Chap-7" class="headerlink" title="Chap 7"></a>Chap 7</h2><a id="more"></a>
+<h3 id="信道容量-信道编码问题"><a href="#信道容量-信道编码问题" class="headerlink" title="信道容量 (信道编码问题)"></a>信道容量 (信道编码问题)</h3><h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>利用已给信道</p>
+<ul>
+<li>使传输的信息量最大 (最大信息率问题)</li>
+<li>发生错误的概率任意小，</li>
+</ul>
+<p>提高通信的可靠性</p>
+<h4 id="平均互信息"><a href="#平均互信息" class="headerlink" title="平均互信息"></a>平均互信息</h4><p>I(X;Y)是信源概率分布$p(x_i)(i=1,2,…,n)$或概率密度函数p(x)的上凸函数</p>
+<p>根据上凸函数定义，如果I(X;Y)在定义域内对$p(x_i)$ 的极值存在，则该极值一定是极大值</p>
+<h4 id="信道容量"><a href="#信道容量" class="headerlink" title="信道容量"></a>信道容量</h4><p>C = 在固定信道$p(y_j /x_i)$情况下，平均互信息极大值</p>
+<h3 id="信息率失真函数-信源编码问题"><a href="#信息率失真函数-信源编码问题" class="headerlink" title="信息率失真函数 (信源编码问题)"></a>信息率失真函数 (信源编码问题)</h3><h4 id="目的-1"><a href="#目的-1" class="headerlink" title="目的"></a>目的</h4><p>已知信源和允许失真度D的条件下</p>
+<ul>
+<li><p>信源必须传送给信宿的信息率最小</p>
+<p>[尽可能少的码符号 传送 固定多信源消息]</p>
+</li>
+</ul>
+<p>提高通信的有效性, 反映信源可压缩程度</p>
+<h4 id="信息率失真函数R-D-定义"><a href="#信息率失真函数R-D-定义" class="headerlink" title="信息率失真函数R(D)定义"></a>信息率失真函数R(D)定义</h4><p>信源给定，<br>容忍的失真度D内</p>
+<ul>
+<li>最小平均信息量 (再现信源消息所必须获得)</li>
+</ul>
+<h4 id="平均互信息-1"><a href="#平均互信息-1" class="headerlink" title="平均互信息"></a>平均互信息</h4><p>I(X;Y)又是信道转移概率分布$p(y_j /x_i)$或条件概率密度函数p(y/x)的下凸函数，</p>
+<p>因此在满足保真度准则条件下，I(X;Y)对$p(y_j /x_i)$的条件极值若存在，则一定是极小值</p>
+<h4 id="信息率失真函数"><a href="#信息率失真函数" class="headerlink" title="信息率失真函数"></a>信息率失真函数</h4><p>R(D) = 在固定信源$p(x_i)$, 保真度D下，平均互信息极小值</p>
 ]]></content>
       <categories>
         <category>信息论</category>
@@ -5890,14 +5890,11 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>apt install</title>
-    <url>/2020/05/17/linux_cmd/apt/</url>
-    <content><![CDATA[<h2 id="apt-install"><a href="#apt-install" class="headerlink" title="apt install"></a>apt install</h2><a id="more"></a>
-<p>安装软件的时候出现了Package has no installation candidate的问题，如：</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">#  apt-get install &lt;packagename&gt;</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency <span class="built_in">tree</span>... Done</span><br><span class="line">Package aptitude is <span class="keyword">not</span> available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another source</span><br><span class="line"><span class="function">E: <span class="title">Package</span> &lt;<span class="title">packagename</span>&gt; <span class="title">has</span> <span class="title">no</span> <span class="title">installation</span> <span class="title">candidate</span></span></span><br></pre></td></tr></table></figure>
-<p>解决方法如下：</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># apt-get update</span><br><span class="line"># apt-get upgrade</span><br><span class="line"># apt-get install &lt;packagename&gt;</span><br></pre></td></tr></table></figure>
-<p>这样就可以正常使用apt-get</p>
+    <title>delete</title>
+    <url>/2020/05/17/linux_cmd/delete/</url>
+    <content><![CDATA[<h2 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h2><a id="more"></a>
+<p>删除文件夹实例：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">rm -rf /var/log/httpd/access</span><br></pre></td></tr></table></figure><br>将会删除<code>/var/log/httpd/access</code>目录以及其下所有文件、文件夹</p>
+<p>删除文件使用实例：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">rm -f /var/log/httpd/access.log</span><br></pre></td></tr></table></figure><br>将会强制删除<code>/var/log/httpd/access.log</code>这个文件</p>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -5928,11 +5925,11 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>delete</title>
-    <url>/2020/05/17/linux_cmd/delete/</url>
-    <content><![CDATA[<h2 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h2><a id="more"></a>
-<p>删除文件夹实例：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">rm -rf /var/log/httpd/access</span><br></pre></td></tr></table></figure><br>将会删除<code>/var/log/httpd/access</code>目录以及其下所有文件、文件夹</p>
-<p>删除文件使用实例：<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">rm -f /var/log/httpd/access.log</span><br></pre></td></tr></table></figure><br>将会强制删除<code>/var/log/httpd/access.log</code>这个文件</p>
+    <title>linux查看磁盘信息</title>
+    <url>/2020/05/15/linux_cmd/disk_info/</url>
+    <content><![CDATA[<h2 id="linux查看磁盘信息"><a href="#linux查看磁盘信息" class="headerlink" title="linux查看磁盘信息"></a>linux查看磁盘信息</h2><p><a href="https://www.jb51.net/LINUXjishu/160497.html" target="_blank" rel="noopener">https://www.jb51.net/LINUXjishu/160497.html</a>  linux查看磁盘挂载的三种方法</p>
+<a id="more"></a>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassin@dassein:~$ <span class="title">df</span> -<span class="title">kv</span></span></span><br><span class="line"><span class="function"><span class="title">Filesystem</span>     1<span class="title">K</span>-<span class="title">blocks</span>     <span class="title">Used</span> <span class="title">Available</span> <span class="title">Use</span>% <span class="title">Mounted</span> <span class="title">on</span></span></span><br><span class="line"><span class="function"><span class="title">udev</span>             6023316        0   6023316   0% /<span class="title">dev</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            1209008    10072   1198936   1% /<span class="title">run</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p8</span>  16834880  4725920  11230728  30% /</span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            6045020      376   6044644   1% /<span class="title">dev</span>/<span class="title">shm</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>               5120        4      5116   1% /<span class="title">run</span>/<span class="title">lock</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            6045020        0   6045020   0% /<span class="title">sys</span>/<span class="title">fs</span>/<span class="title">cgroup</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p5</span>    497696     1156    496540   1% /<span class="title">boot</span>/<span class="title">efi</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            1209004      120   1208884   1% /<span class="title">run</span>/<span class="title">user</span>/1000</span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">sda1</span>       72586216 32109820  40476396  45% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">Windows10</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p1</span> 176656380   311220 176345160   1% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">New</span> <span class="title">Volume</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p6</span>  11468016   139056  10726696   2% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">b7ba5ef9</span>-77<span class="title">f0</span>-4<span class="title">aa2</span>-<span class="title">a1fa</span>-131011320<span class="title">d54</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p7</span>  29666284  3860224  24276052  14% /<span class="title">media</span>/<span class="title">dassin</span>/144362<span class="title">ae</span>-35<span class="title">fa</span>-4437-814<span class="title">c</span>-7<span class="title">a3098a4d903</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">sda5</span>       43817252 30798012  13019240  71% /<span class="title">media</span>/<span class="title">dassin</span>/0000<span class="title">BCCE0004B966</span></span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -5944,11 +5941,14 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>linux查看磁盘信息</title>
-    <url>/2020/05/15/linux_cmd/disk_info/</url>
-    <content><![CDATA[<h2 id="linux查看磁盘信息"><a href="#linux查看磁盘信息" class="headerlink" title="linux查看磁盘信息"></a>linux查看磁盘信息</h2><p><a href="https://www.jb51.net/LINUXjishu/160497.html" target="_blank" rel="noopener">https://www.jb51.net/LINUXjishu/160497.html</a>  linux查看磁盘挂载的三种方法</p>
-<a id="more"></a>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassin@dassein:~$ <span class="title">df</span> -<span class="title">kv</span></span></span><br><span class="line"><span class="function"><span class="title">Filesystem</span>     1<span class="title">K</span>-<span class="title">blocks</span>     <span class="title">Used</span> <span class="title">Available</span> <span class="title">Use</span>% <span class="title">Mounted</span> <span class="title">on</span></span></span><br><span class="line"><span class="function"><span class="title">udev</span>             6023316        0   6023316   0% /<span class="title">dev</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            1209008    10072   1198936   1% /<span class="title">run</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p8</span>  16834880  4725920  11230728  30% /</span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            6045020      376   6044644   1% /<span class="title">dev</span>/<span class="title">shm</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>               5120        4      5116   1% /<span class="title">run</span>/<span class="title">lock</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            6045020        0   6045020   0% /<span class="title">sys</span>/<span class="title">fs</span>/<span class="title">cgroup</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p5</span>    497696     1156    496540   1% /<span class="title">boot</span>/<span class="title">efi</span></span></span><br><span class="line"><span class="function"><span class="title">tmpfs</span>            1209004      120   1208884   1% /<span class="title">run</span>/<span class="title">user</span>/1000</span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">sda1</span>       72586216 32109820  40476396  45% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">Windows10</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p1</span> 176656380   311220 176345160   1% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">New</span> <span class="title">Volume</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p6</span>  11468016   139056  10726696   2% /<span class="title">media</span>/<span class="title">dassin</span>/<span class="title">b7ba5ef9</span>-77<span class="title">f0</span>-4<span class="title">aa2</span>-<span class="title">a1fa</span>-131011320<span class="title">d54</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">nvme0n1p7</span>  29666284  3860224  24276052  14% /<span class="title">media</span>/<span class="title">dassin</span>/144362<span class="title">ae</span>-35<span class="title">fa</span>-4437-814<span class="title">c</span>-7<span class="title">a3098a4d903</span></span></span><br><span class="line"><span class="function">/<span class="title">dev</span>/<span class="title">sda5</span>       43817252 30798012  13019240  71% /<span class="title">media</span>/<span class="title">dassin</span>/0000<span class="title">BCCE0004B966</span></span></span><br></pre></td></tr></table></figure>
+    <title>apt install</title>
+    <url>/2020/05/17/linux_cmd/apt/</url>
+    <content><![CDATA[<h2 id="apt-install"><a href="#apt-install" class="headerlink" title="apt install"></a>apt install</h2><a id="more"></a>
+<p>安装软件的时候出现了Package has no installation candidate的问题，如：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">#  apt-get install &lt;packagename&gt;</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency <span class="built_in">tree</span>... Done</span><br><span class="line">Package aptitude is <span class="keyword">not</span> available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another source</span><br><span class="line"><span class="function">E: <span class="title">Package</span> &lt;<span class="title">packagename</span>&gt; <span class="title">has</span> <span class="title">no</span> <span class="title">installation</span> <span class="title">candidate</span></span></span><br></pre></td></tr></table></figure>
+<p>解决方法如下：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># apt-get update</span><br><span class="line"># apt-get upgrade</span><br><span class="line"># apt-get install &lt;packagename&gt;</span><br></pre></td></tr></table></figure>
+<p>这样就可以正常使用apt-get</p>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -5992,7 +5992,7 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
     <title>linux cmd</title>
     <url>/2020/05/17/linux_cmd/linux_cmd%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h2 id="linux-cmd"><a href="#linux-cmd" class="headerlink" title="linux cmd"></a>linux cmd</h2><a id="more"></a>
-<div class="pdfobject-container" data-target="https://dassein.github.io/pdf/linux_command_reference.pdf" data-height="500px"></div>]]></content>
+<div class="pdfobject-container" data-target="https://dassein.github.io/pdf/linux_command_reference.pdf" data-height="undefined"></div>]]></content>
       <categories>
         <category>linux</category>
         <category>cmd</category>
@@ -6034,6 +6034,25 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
+    <title>linux安装MATLAB</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85MATLAB/</url>
+    <content><![CDATA[<h2 id="linux安装MATLAB"><a href="#linux安装MATLAB" class="headerlink" title="linux安装MATLAB"></a>linux安装MATLAB</h2><a id="more"></a>
+<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><p>下载安装包rar后, 解压为iso</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Downloads$ rar x MATHWORKS_R2014A.part1.rar</span><br><span class="line">RAR <span class="number">5</span>.<span class="number">30</span> beta <span class="number">2</span>   Copyright (c) <span class="number">1993</span>-<span class="number">2015</span> Alexander Roshal   <span class="number">4</span> Aug <span class="number">2015</span></span><br><span class="line">Trial version             <span class="built_in">Type</span> RAR -? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">Extracting from MATHWORKS_R2014A.part1.rar</span><br><span class="line">Extracting  MATHWORKS_R2014A.iso                                      <span class="number">58</span>%</span><br><span class="line">Extracting from MATHWORKS_R2014A.part2.rar</span><br><span class="line">...         MATHWORKS_R2014A.iso                                      OK </span><br><span class="line">All OK</span><br></pre></td></tr></table></figure>
+<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>安装matlab<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">mkdir</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">mount</span> -<span class="title">o</span> <span class="title">loop</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">MATHWORKS_R2014A.iso</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">mount</span>: /<span class="title">dev</span>/<span class="title">loop0</span> <span class="title">is</span> <span class="title">write</span>-<span class="title">protected</span>, <span class="title">mounting</span> <span class="title">read</span>-<span class="title">only</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cd</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">sudo</span> ./<span class="title">install</span></span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">installation</span> <span class="title">files</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Installing</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Finished</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><p>破解matlab</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">cd</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">cp</span> <span class="title">libmwservices.so</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">matlab</span></span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>matlab</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux安装LaTeX工具</title>
     <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85LaTeX%E5%B7%A5%E5%85%B7/</url>
     <content><![CDATA[<h2 id="linux安装LaTeX工具"><a href="#linux安装LaTeX工具" class="headerlink" title="linux安装LaTeX工具"></a>linux安装LaTeX工具</h2><a id="more"></a>
@@ -6058,25 +6077,6 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       <tags>
         <tag>linux</tag>
         <tag>latex</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux安装MATLAB</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85MATLAB/</url>
-    <content><![CDATA[<h2 id="linux安装MATLAB"><a href="#linux安装MATLAB" class="headerlink" title="linux安装MATLAB"></a>linux安装MATLAB</h2><a id="more"></a>
-<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><p>下载安装包rar后, 解压为iso</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Downloads$ rar x MATHWORKS_R2014A.part1.rar</span><br><span class="line">RAR <span class="number">5</span>.<span class="number">30</span> beta <span class="number">2</span>   Copyright (c) <span class="number">1993</span>-<span class="number">2015</span> Alexander Roshal   <span class="number">4</span> Aug <span class="number">2015</span></span><br><span class="line">Trial version             <span class="built_in">Type</span> RAR -? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">Extracting from MATHWORKS_R2014A.part1.rar</span><br><span class="line">Extracting  MATHWORKS_R2014A.iso                                      <span class="number">58</span>%</span><br><span class="line">Extracting from MATHWORKS_R2014A.part2.rar</span><br><span class="line">...         MATHWORKS_R2014A.iso                                      OK </span><br><span class="line">All OK</span><br></pre></td></tr></table></figure>
-<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>安装matlab<br><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">su</span> <span class="title">root</span></span></span><br><span class="line"><span class="function"><span class="title">Password</span>: </span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">mkdir</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">mount</span> -<span class="title">o</span> <span class="title">loop</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">MATHWORKS_R2014A.iso</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">mount</span>: /<span class="title">dev</span>/<span class="title">loop0</span> <span class="title">is</span> <span class="title">write</span>-<span class="title">protected</span>, <span class="title">mounting</span> <span class="title">read</span>-<span class="title">only</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">cd</span> /<span class="title">media</span>/<span class="title">matlab</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">sudo</span> ./<span class="title">install</span></span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">installation</span> <span class="title">files</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Installing</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Finished</span></span></span><br></pre></td></tr></table></figure></p>
-<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><p>破解matlab</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">media</span>/<span class="title">matlab</span># <span class="title">cd</span> /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">cp</span> <span class="title">libmwservices.so</span> /<span class="title">usr</span>/<span class="title">local</span>/<span class="title">MATLAB</span>/<span class="title">R2014a</span>/<span class="title">bin</span>/<span class="title">glnxa64</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">exit</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">matlab</span></span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>matlab</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -6151,28 +6151,6 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>linux安装WPS</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85WPS/</url>
-    <content><![CDATA[<h2 id="linux安装WPS"><a href="#linux安装WPS" class="headerlink" title="linux安装WPS"></a>linux安装WPS</h2><a id="more"></a>
-<h3 id="所需cmd"><a href="#所需cmd" class="headerlink" title="所需cmd"></a>所需cmd</h3><p>首先下载好libpng12-0_1.2.49-1+deb7u2_amd64.deb</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> <span class="title">install</span> <span class="title">libc6</span>-<span class="title">i386</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> <span class="title">install</span> <span class="title">ia32</span>-<span class="title">libs</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> -<span class="title">f</span>  <span class="title">install</span> ./<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">dpkg</span> -<span class="title">i</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> <span class="title">install</span> <span class="title">libc6</span>-<span class="title">i386</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~$ <span class="title">cd</span> ~/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">dpkg</span> -<span class="title">i</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span></span></span><br><span class="line"><span class="function"><span class="title">Selecting</span> <span class="title">previously</span> <span class="title">unselected</span> <span class="title">package</span> <span class="title">wps</span>-<span class="title">office</span>.</span></span><br><span class="line"><span class="function">(<span class="title">Reading</span> <span class="title">database</span> ... 347078 <span class="title">files</span> <span class="title">and</span> <span class="title">directories</span> <span class="title">currently</span> <span class="title">installed</span>.)</span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">to</span> <span class="title">unpack</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Unpacking</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">dpkg</span>: <span class="title">dependency</span> <span class="title">problems</span> <span class="title">prevent</span> <span class="title">configuration</span> <span class="title">of</span> <span class="title">wps</span>-<span class="title">office</span>:</span></span><br><span class="line"><span class="function"> <span class="title">wps</span>-<span class="title">office</span> <span class="title">depends</span> <span class="title">on</span> <span class="title">libpng12</span>-0; <span class="title">however</span>:</span></span><br><span class="line"><span class="function">  <span class="title">Package</span> <span class="title">libpng12</span>-0 <span class="title">is</span> <span class="title">not</span> <span class="title">installed</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">dpkg</span>: <span class="title">error</span> <span class="title">processing</span> <span class="title">package</span> <span class="title">wps</span>-<span class="title">office</span> (--<span class="title">install</span>):</span></span><br><span class="line"><span class="function"> <span class="title">dependency</span> <span class="title">problems</span> - <span class="title">leaving</span> <span class="title">unconfigured</span></span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">bamfdaemon</span> (0.5.3+16.10.20160929-0<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Rebuilding</span> /<span class="title">usr</span>/<span class="title">share</span>/<span class="title">applications</span>/<span class="title">bamf</span>-2.<span class="title">index</span>...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">gnome</span>-<span class="title">menus</span> (3.13.3-6<span class="title">ubuntu4</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">desktop</span>-<span class="title">file</span>-<span class="title">utils</span> (0.23-1<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">mime</span>-<span class="title">support</span> (3.60<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">shared</span>-<span class="title">mime</span>-<span class="title">info</span> (1.7-1) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">hicolor</span>-<span class="title">icon</span>-<span class="title">theme</span> (0.15-1) ...</span></span><br><span class="line"><span class="function"><span class="title">Errors</span> <span class="title">were</span> <span class="title">encountered</span> <span class="title">while</span> <span class="title">processing</span>:</span></span><br><span class="line"><span class="function"> <span class="title">wps</span>-<span class="title">office</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>我们注意到 <code>Package libpng12-0 is not installed.</code></p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> -<span class="title">f</span>  <span class="title">install</span> ./<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span></span></span><br><span class="line"><span class="function"><span class="title">Reading</span> <span class="title">package</span> <span class="title">lists</span>... <span class="title">Done</span></span></span><br><span class="line"><span class="function"><span class="title">Building</span> <span class="title">dependency</span> <span class="title">tree</span>  </span></span><br><span class="line"><span class="function"><span class="title">Reading</span> <span class="title">state</span> <span class="title">information</span>... <span class="title">Done</span></span></span><br><span class="line"><span class="function"><span class="title">Correcting</span> <span class="title">dependencies</span>... <span class="title">Done</span></span></span><br><span class="line"><span class="function"><span class="title">Note</span>, <span class="title">selecting</span> '<span class="title">libpng12</span>-0' <span class="title">instead</span> <span class="title">of</span> './<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span>'</span></span><br><span class="line"><span class="function"><span class="title">The</span> <span class="title">following</span> <span class="title">package</span> <span class="title">was</span> <span class="title">automatically</span> <span class="title">installed</span> <span class="title">and</span> <span class="title">is</span> <span class="title">no</span> <span class="title">longer</span> <span class="title">required</span>:</span></span><br><span class="line"><span class="function">  <span class="title">ubuntu</span>-<span class="title">core</span>-<span class="title">launcher</span></span></span><br><span class="line"><span class="function"><span class="title">Use</span> '<span class="title">sudo</span> <span class="title">apt</span> <span class="title">autoremove</span>' <span class="title">to</span> <span class="title">remove</span> <span class="title">it</span>.</span></span><br><span class="line"><span class="function"><span class="title">The</span> <span class="title">following</span> <span class="title">NEW</span> <span class="title">packages</span> <span class="title">will</span> <span class="title">be</span> <span class="title">installed</span>:</span></span><br><span class="line"><span class="function">  <span class="title">libpng12</span>-0</span></span><br><span class="line"><span class="function">0 <span class="title">upgraded</span>, 1 <span class="title">newly</span> <span class="title">installed</span>, 0 <span class="title">to</span> <span class="title">remove</span> <span class="title">and</span> 0 <span class="title">not</span> <span class="title">upgraded</span>.</span></span><br><span class="line"><span class="function">1 <span class="title">not</span> <span class="title">fully</span> <span class="title">installed</span> <span class="title">or</span> <span class="title">removed</span>.</span></span><br><span class="line"><span class="function"><span class="title">Need</span> <span class="title">to</span> <span class="title">get</span> 0 <span class="title">B</span>/191 <span class="title">kB</span> <span class="title">of</span> <span class="title">archives</span>.</span></span><br><span class="line"><span class="function"><span class="title">After</span> <span class="title">this</span> <span class="title">operation</span>, 308 <span class="title">kB</span> <span class="title">of</span> <span class="title">additional</span> <span class="title">disk</span> <span class="title">space</span> <span class="title">will</span> <span class="title">be</span> <span class="title">used</span>.</span></span><br><span class="line"><span class="function"><span class="title">Get</span>:1 /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span> <span class="title">libpng12</span>-0 <span class="title">amd64</span> 1.2.49-1+<span class="title">deb7u2</span> [191 <span class="title">kB</span>]</span></span><br><span class="line"><span class="function"><span class="title">Selecting</span> <span class="title">previously</span> <span class="title">unselected</span> <span class="title">package</span> <span class="title">libpng12</span>-0:<span class="title">amd64</span>.</span></span><br><span class="line"><span class="function">(<span class="title">Reading</span> <span class="title">database</span> ... 349542 <span class="title">files</span> <span class="title">and</span> <span class="title">directories</span> <span class="title">currently</span> <span class="title">installed</span>.)</span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">to</span> <span class="title">unpack</span> .../<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Unpacking</span> <span class="title">libpng12</span>-0:<span class="title">amd64</span> (1.2.49-1+<span class="title">deb7u2</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Setting</span> <span class="title">up</span> <span class="title">libpng12</span>-0:<span class="title">amd64</span> (1.2.49-1+<span class="title">deb7u2</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">doc</span>-<span class="title">base</span> (0.10.7) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> 1 <span class="title">added</span> <span class="title">doc</span>-<span class="title">base</span> <span class="title">file</span>...</span></span><br><span class="line"><span class="function"><span class="title">Setting</span> <span class="title">up</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">libc</span>-<span class="title">bin</span> (2.24-3<span class="title">ubuntu2</span>) ...</span></span><br></pre></td></tr></table></figure>
-<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">dpkg</span> -<span class="title">i</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span></span></span><br><span class="line"><span class="function">(<span class="title">Reading</span> <span class="title">database</span> ... 349555 <span class="title">files</span> <span class="title">and</span> <span class="title">directories</span> <span class="title">currently</span> <span class="title">installed</span>.)</span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">to</span> <span class="title">unpack</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Unpacking</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) <span class="title">over</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Setting</span> <span class="title">up</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">bamfdaemon</span> (0.5.3+16.10.20160929-0<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Rebuilding</span> /<span class="title">usr</span>/<span class="title">share</span>/<span class="title">applications</span>/<span class="title">bamf</span>-2.<span class="title">index</span>...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">gnome</span>-<span class="title">menus</span> (3.13.3-6<span class="title">ubuntu4</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">desktop</span>-<span class="title">file</span>-<span class="title">utils</span> (0.23-1<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">mime</span>-<span class="title">support</span> (3.60<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">shared</span>-<span class="title">mime</span>-<span class="title">info</span> (1.7-1) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">hicolor</span>-<span class="title">icon</span>-<span class="title">theme</span> (0.15-1) ...</span></span><br></pre></td></tr></table></figure>
-<h3 id="step-4"><a href="#step-4" class="headerlink" title="step 4"></a>step 4</h3><p>检查WPS是否安装成功</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">wps</span></span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>WPS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>linux安装jdk</title>
     <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85jdk/</url>
     <content><![CDATA[<h2 id="linux安装jdk"><a href="#linux安装jdk" class="headerlink" title="linux安装jdk"></a>linux安装jdk</h2><a id="more"></a>
@@ -6199,10 +6177,17 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
-    <title>linux安装typora</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85typora/</url>
-    <content><![CDATA[<h2 id="linux安装typora"><a href="#linux安装typora" class="headerlink" title="linux安装typora"></a>linux安装typora</h2><a id="more"></a>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># optional, but recommended</span><br><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span><br><span class="line"></span><br><span class="line"># add Typora's repository</span><br><span class="line">sudo add-apt-repository 'deb http://typora.io linux/'</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"># install typora</span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></table></figure>
+    <title>linux安装WPS</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85WPS/</url>
+    <content><![CDATA[<h2 id="linux安装WPS"><a href="#linux安装WPS" class="headerlink" title="linux安装WPS"></a>linux安装WPS</h2><a id="more"></a>
+<h3 id="所需cmd"><a href="#所需cmd" class="headerlink" title="所需cmd"></a>所需cmd</h3><p>首先下载好libpng12-0_1.2.49-1+deb7u2_amd64.deb</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> <span class="title">install</span> <span class="title">libc6</span>-<span class="title">i386</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> <span class="title">install</span> <span class="title">ia32</span>-<span class="title">libs</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> -<span class="title">f</span>  <span class="title">install</span> ./<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">dpkg</span> -<span class="title">i</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> <span class="title">install</span> <span class="title">libc6</span>-<span class="title">i386</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~$ <span class="title">cd</span> ~/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">dpkg</span> -<span class="title">i</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span></span></span><br><span class="line"><span class="function"><span class="title">Selecting</span> <span class="title">previously</span> <span class="title">unselected</span> <span class="title">package</span> <span class="title">wps</span>-<span class="title">office</span>.</span></span><br><span class="line"><span class="function">(<span class="title">Reading</span> <span class="title">database</span> ... 347078 <span class="title">files</span> <span class="title">and</span> <span class="title">directories</span> <span class="title">currently</span> <span class="title">installed</span>.)</span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">to</span> <span class="title">unpack</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Unpacking</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">dpkg</span>: <span class="title">dependency</span> <span class="title">problems</span> <span class="title">prevent</span> <span class="title">configuration</span> <span class="title">of</span> <span class="title">wps</span>-<span class="title">office</span>:</span></span><br><span class="line"><span class="function"> <span class="title">wps</span>-<span class="title">office</span> <span class="title">depends</span> <span class="title">on</span> <span class="title">libpng12</span>-0; <span class="title">however</span>:</span></span><br><span class="line"><span class="function">  <span class="title">Package</span> <span class="title">libpng12</span>-0 <span class="title">is</span> <span class="title">not</span> <span class="title">installed</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">dpkg</span>: <span class="title">error</span> <span class="title">processing</span> <span class="title">package</span> <span class="title">wps</span>-<span class="title">office</span> (--<span class="title">install</span>):</span></span><br><span class="line"><span class="function"> <span class="title">dependency</span> <span class="title">problems</span> - <span class="title">leaving</span> <span class="title">unconfigured</span></span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">bamfdaemon</span> (0.5.3+16.10.20160929-0<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Rebuilding</span> /<span class="title">usr</span>/<span class="title">share</span>/<span class="title">applications</span>/<span class="title">bamf</span>-2.<span class="title">index</span>...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">gnome</span>-<span class="title">menus</span> (3.13.3-6<span class="title">ubuntu4</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">desktop</span>-<span class="title">file</span>-<span class="title">utils</span> (0.23-1<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">mime</span>-<span class="title">support</span> (3.60<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">shared</span>-<span class="title">mime</span>-<span class="title">info</span> (1.7-1) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">hicolor</span>-<span class="title">icon</span>-<span class="title">theme</span> (0.15-1) ...</span></span><br><span class="line"><span class="function"><span class="title">Errors</span> <span class="title">were</span> <span class="title">encountered</span> <span class="title">while</span> <span class="title">processing</span>:</span></span><br><span class="line"><span class="function"> <span class="title">wps</span>-<span class="title">office</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>我们注意到 <code>Package libpng12-0 is not installed.</code></p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> -<span class="title">f</span>  <span class="title">install</span> ./<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span></span></span><br><span class="line"><span class="function"><span class="title">Reading</span> <span class="title">package</span> <span class="title">lists</span>... <span class="title">Done</span></span></span><br><span class="line"><span class="function"><span class="title">Building</span> <span class="title">dependency</span> <span class="title">tree</span>  </span></span><br><span class="line"><span class="function"><span class="title">Reading</span> <span class="title">state</span> <span class="title">information</span>... <span class="title">Done</span></span></span><br><span class="line"><span class="function"><span class="title">Correcting</span> <span class="title">dependencies</span>... <span class="title">Done</span></span></span><br><span class="line"><span class="function"><span class="title">Note</span>, <span class="title">selecting</span> '<span class="title">libpng12</span>-0' <span class="title">instead</span> <span class="title">of</span> './<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span>'</span></span><br><span class="line"><span class="function"><span class="title">The</span> <span class="title">following</span> <span class="title">package</span> <span class="title">was</span> <span class="title">automatically</span> <span class="title">installed</span> <span class="title">and</span> <span class="title">is</span> <span class="title">no</span> <span class="title">longer</span> <span class="title">required</span>:</span></span><br><span class="line"><span class="function">  <span class="title">ubuntu</span>-<span class="title">core</span>-<span class="title">launcher</span></span></span><br><span class="line"><span class="function"><span class="title">Use</span> '<span class="title">sudo</span> <span class="title">apt</span> <span class="title">autoremove</span>' <span class="title">to</span> <span class="title">remove</span> <span class="title">it</span>.</span></span><br><span class="line"><span class="function"><span class="title">The</span> <span class="title">following</span> <span class="title">NEW</span> <span class="title">packages</span> <span class="title">will</span> <span class="title">be</span> <span class="title">installed</span>:</span></span><br><span class="line"><span class="function">  <span class="title">libpng12</span>-0</span></span><br><span class="line"><span class="function">0 <span class="title">upgraded</span>, 1 <span class="title">newly</span> <span class="title">installed</span>, 0 <span class="title">to</span> <span class="title">remove</span> <span class="title">and</span> 0 <span class="title">not</span> <span class="title">upgraded</span>.</span></span><br><span class="line"><span class="function">1 <span class="title">not</span> <span class="title">fully</span> <span class="title">installed</span> <span class="title">or</span> <span class="title">removed</span>.</span></span><br><span class="line"><span class="function"><span class="title">Need</span> <span class="title">to</span> <span class="title">get</span> 0 <span class="title">B</span>/191 <span class="title">kB</span> <span class="title">of</span> <span class="title">archives</span>.</span></span><br><span class="line"><span class="function"><span class="title">After</span> <span class="title">this</span> <span class="title">operation</span>, 308 <span class="title">kB</span> <span class="title">of</span> <span class="title">additional</span> <span class="title">disk</span> <span class="title">space</span> <span class="title">will</span> <span class="title">be</span> <span class="title">used</span>.</span></span><br><span class="line"><span class="function"><span class="title">Get</span>:1 /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span> <span class="title">libpng12</span>-0 <span class="title">amd64</span> 1.2.49-1+<span class="title">deb7u2</span> [191 <span class="title">kB</span>]</span></span><br><span class="line"><span class="function"><span class="title">Selecting</span> <span class="title">previously</span> <span class="title">unselected</span> <span class="title">package</span> <span class="title">libpng12</span>-0:<span class="title">amd64</span>.</span></span><br><span class="line"><span class="function">(<span class="title">Reading</span> <span class="title">database</span> ... 349542 <span class="title">files</span> <span class="title">and</span> <span class="title">directories</span> <span class="title">currently</span> <span class="title">installed</span>.)</span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">to</span> <span class="title">unpack</span> .../<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Unpacking</span> <span class="title">libpng12</span>-0:<span class="title">amd64</span> (1.2.49-1+<span class="title">deb7u2</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Setting</span> <span class="title">up</span> <span class="title">libpng12</span>-0:<span class="title">amd64</span> (1.2.49-1+<span class="title">deb7u2</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">doc</span>-<span class="title">base</span> (0.10.7) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> 1 <span class="title">added</span> <span class="title">doc</span>-<span class="title">base</span> <span class="title">file</span>...</span></span><br><span class="line"><span class="function"><span class="title">Setting</span> <span class="title">up</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">libc</span>-<span class="title">bin</span> (2.24-3<span class="title">ubuntu2</span>) ...</span></span><br></pre></td></tr></table></figure>
+<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">dpkg</span> -<span class="title">i</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span></span></span><br><span class="line"><span class="function">(<span class="title">Reading</span> <span class="title">database</span> ... 349555 <span class="title">files</span> <span class="title">and</span> <span class="title">directories</span> <span class="title">currently</span> <span class="title">installed</span>.)</span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">to</span> <span class="title">unpack</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Unpacking</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) <span class="title">over</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Setting</span> <span class="title">up</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">bamfdaemon</span> (0.5.3+16.10.20160929-0<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Rebuilding</span> /<span class="title">usr</span>/<span class="title">share</span>/<span class="title">applications</span>/<span class="title">bamf</span>-2.<span class="title">index</span>...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">gnome</span>-<span class="title">menus</span> (3.13.3-6<span class="title">ubuntu4</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">desktop</span>-<span class="title">file</span>-<span class="title">utils</span> (0.23-1<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">mime</span>-<span class="title">support</span> (3.60<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">shared</span>-<span class="title">mime</span>-<span class="title">info</span> (1.7-1) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">hicolor</span>-<span class="title">icon</span>-<span class="title">theme</span> (0.15-1) ...</span></span><br></pre></td></tr></table></figure>
+<h3 id="step-4"><a href="#step-4" class="headerlink" title="step 4"></a>step 4</h3><p>检查WPS是否安装成功</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">wps</span></span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -6210,8 +6195,7 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </categories>
       <tags>
         <tag>linux</tag>
-        <tag>typora</tag>
-        <tag>markdown</tag>
+        <tag>WPS</tag>
       </tags>
   </entry>
   <entry>
@@ -6248,6 +6232,42 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       </tags>
   </entry>
   <entry>
+    <title>linux安装typora</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85typora/</url>
+    <content><![CDATA[<h2 id="linux安装typora"><a href="#linux安装typora" class="headerlink" title="linux安装typora"></a>linux安装typora</h2><a id="more"></a>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># optional, but recommended</span><br><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span><br><span class="line"></span><br><span class="line"># add Typora's repository</span><br><span class="line">sudo add-apt-repository 'deb http://typora.io linux/'</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"># install typora</span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>typora</tag>
+        <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux安装输入法</title>
+    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="linux安装输入法"><a href="#linux安装输入法" class="headerlink" title="linux安装输入法"></a>linux安装输入法</h2><a id="more"></a>
+<p><a href="http://blog.csdn.net/ljp812184246/article/details/50222125" target="_blank" rel="noopener">http://blog.csdn.net/ljp812184246/article/details/50222125</a>    linux中yum的安装</p>
+<p><a href="http://blog.csdn.net/wzgl__wh/article/details/51327570" target="_blank" rel="noopener">http://blog.csdn.net/wzgl__wh/article/details/51327570</a>    Linux系统下如何使用中文输入法</p>
+<p><a href="https://zhidao.baidu.com/question/582793394878019125.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/582793394878019125.html</a>   linux如何配置中文输入</p>
+<p><a href="https://zhidao.baidu.com/question/619127469641961052.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/619127469641961052.html</a>    Ubuntu 16.04 不支持中文输入法吗</p>
+<p><a href="http://www.cnblogs.com/bluestorm/p/3731330.html" target="_blank" rel="noopener">http://www.cnblogs.com/bluestorm/p/3731330.html</a> 搜狗拼音输入法LINUX版安装</p>
+<p><a href="http://blog.csdn.net/gzliudan/article/details/53052859" target="_blank" rel="noopener">http://blog.csdn.net/gzliudan/article/details/53052859</a>     安装完ubuntu 16.10要做的事情 </p>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>ibus</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux软件安装</title>
     <url>/2020/05/15/linux_install/linux%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%8C%85/</url>
     <content><![CDATA[<h2 id="linux软件安装"><a href="#linux软件安装" class="headerlink" title="linux软件安装"></a>linux软件安装</h2><a id="more"></a>
@@ -6275,26 +6295,6 @@ x(n) &= [\frac{1}{2\pi j} \int^{ + j\infty}_{ - j\infty} F_{DTFT}(j\omega) e^{j\
       <tags>
         <tag>linux</tag>
         <tag>compile</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux安装输入法</title>
-    <url>/2020/05/16/linux_install/linux%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="linux安装输入法"><a href="#linux安装输入法" class="headerlink" title="linux安装输入法"></a>linux安装输入法</h2><a id="more"></a>
-<p><a href="http://blog.csdn.net/ljp812184246/article/details/50222125" target="_blank" rel="noopener">http://blog.csdn.net/ljp812184246/article/details/50222125</a>    linux中yum的安装</p>
-<p><a href="http://blog.csdn.net/wzgl__wh/article/details/51327570" target="_blank" rel="noopener">http://blog.csdn.net/wzgl__wh/article/details/51327570</a>    Linux系统下如何使用中文输入法</p>
-<p><a href="https://zhidao.baidu.com/question/582793394878019125.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/582793394878019125.html</a>   linux如何配置中文输入</p>
-<p><a href="https://zhidao.baidu.com/question/619127469641961052.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/619127469641961052.html</a>    Ubuntu 16.04 不支持中文输入法吗</p>
-<p><a href="http://www.cnblogs.com/bluestorm/p/3731330.html" target="_blank" rel="noopener">http://www.cnblogs.com/bluestorm/p/3731330.html</a> 搜狗拼音输入法LINUX版安装</p>
-<p><a href="http://blog.csdn.net/gzliudan/article/details/53052859" target="_blank" rel="noopener">http://blog.csdn.net/gzliudan/article/details/53052859</a>     安装完ubuntu 16.10要做的事情 </p>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>ibus</tag>
       </tags>
   </entry>
   <entry>

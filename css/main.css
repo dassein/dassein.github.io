@@ -1068,7 +1068,7 @@ pre code {
 }
 .pdfobject-container iframe,
 .pdfobject-container embed {
-  height: 500px;
+  height: ;
   width: 100%;
 }
 .pagination .prev,
@@ -1430,7 +1430,7 @@ pre code {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #6f9de2;
+  background: #0b47b0;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
