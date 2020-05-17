@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dassein.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="cuda例子因为我们装cuda到linux机器后, 会附带cuda工具nsight  (并且之前装好了jdk 8)首先用命令行启动nsight, 建立项目   123dassein@pad:~$ nsightJava HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize&#x3D;256m; support was removed">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cuda例子">
+<meta property="og:url" content="https://dassein.github.io/2020/05/17/cuda%E4%BE%8B%E5%AD%90/index.html">
+<meta property="og:site_name" content="dassein&#39;s blog">
+<meta property="og:description" content="cuda例子因为我们装cuda到linux机器后, 会附带cuda工具nsight  (并且之前装好了jdk 8)首先用命令行启动nsight, 建立项目   123dassein@pad:~$ nsightJava HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize&#x3D;256m; support was removed">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-17T21:48:57.221Z">
+<meta property="article:modified_time" content="2020-05-17T21:48:57.221Z">
+<meta property="article:author" content="dassein">
+<meta property="article:tag" content="cuda">
+<meta property="article:tag" content="nsight">
+<meta property="article:tag" content="parallel computing">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://dassein.github.io/2020/05/17/cuda%E4%BE%8B%E5%AD%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>cuda例子 | dassein's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dassein's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">36</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">32</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">72</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dassein.github.io/2020/05/17/cuda%E4%BE%8B%E5%AD%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dassein">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dassein's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          cuda例子
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-17 16:48:57" itemprop="dateCreated datePublished" datetime="2020-05-17T16:48:57-05:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cuda/" itemprop="url" rel="index"><span itemprop="name">cuda</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="cuda例子"><a href="#cuda例子" class="headerlink" title="cuda例子"></a>cuda例子</h2><p>因为我们装cuda到linux机器后, 会附带cuda工具nsight  (并且之前装好了jdk 8)<br>首先用命令行启动nsight, 建立项目  </p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dassein@pad:~$ <span class="title">nsight</span></span></span><br><span class="line"><span class="function"><span class="title">Java</span> <span class="title">HotSpot</span>(<span class="title">TM</span>) 64-<span class="title">Bit</span> <span class="title">Server</span> <span class="title">VM</span> <span class="title">warning</span>: <span class="title">ignoring</span> <span class="title">option</span> <span class="title">MaxPermSize</span>=256<span class="title">m</span>; <span class="title">support</span> <span class="title">was</span> <span class="title">removed</span> <span class="title">in</span> 8.0</span></span><br><span class="line"><span class="function"><span class="title">CompilerOracle</span>: <span class="title">exclude</span> <span class="title">java</span>/<span class="title">lang</span>/<span class="title">reflect</span>/<span class="title">Array.newInstance</span></span></span><br></pre></td></tr></table></figure>
+<p>粘贴例子代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">矢量求和运算</span><br><span class="line">a[i]+b[i]&#x3D;c[i];</span><br><span class="line">*&#x2F;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;CUDA的头文件</span><br><span class="line">#include &quot;cuda_runtime.h&quot;</span><br><span class="line">#include &quot;device_launch_parameters.h&quot;</span><br><span class="line">&#x2F;&#x2F;C语言的头文件</span><br><span class="line">#include &quot;stdio.h&quot;</span><br><span class="line">#include &quot;time.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;宏定义 N为数组的长度 thread_num表示每个块中的线程数</span><br><span class="line">#define N 60000</span><br><span class="line">#define thread_num  1024</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;GPU函数申明</span><br><span class="line">__global__ void add(int *a, int *b, int *c);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;CPU函数申明</span><br><span class="line">void add_CPU(int *a, int *b, int *c);</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;GPU方法计时申明</span><br><span class="line">    float time_CPU, time_GPU;</span><br><span class="line">    cudaEvent_t start_GPU, stop_GPU, start_CPU, stop_CPU;</span><br><span class="line">    &#x2F;&#x2F;CPU方法计时申明</span><br><span class="line">    float time_cpu, time_gpu;</span><br><span class="line">    clock_t start_cpu, stop_cpu, start_gpu, stop_gpu;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    int a[N], b[N], c[N],c_CPU[N];</span><br><span class="line">    int *dev_a, *dev_b, *dev_c;</span><br><span class="line">    &#x2F;&#x2F;知道了每个块中所开的线程数量，那么我们就要知道我们需要开启多少个块</span><br><span class="line">    int block_num;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;线程块中的数量需要向上取整，下面两个操作有可以&#x2F;*********&#x2F;</span><br><span class="line">    &#x2F;&#x2F;block_num &#x3D; (N % thread_num &#x3D;&#x3D; 0) ? (N &#x2F; thread_num) : (N &#x2F; thread_num + 1);</span><br><span class="line">    block_num &#x3D; (N + thread_num - 1) &#x2F; thread_num;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;在GPU上分配内存</span><br><span class="line">    cudaMalloc((void**)&amp;dev_a, N*sizeof(int));</span><br><span class="line">    cudaMalloc((void**)&amp;dev_b, N*sizeof(int));</span><br><span class="line">    cudaMalloc((void**)&amp;dev_c, N*sizeof(int));</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;在CPU上为a和b进行赋值操作</span><br><span class="line">    for (int i &#x3D; 0; i &lt; N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i] &#x3D; -i;</span><br><span class="line">        b[i] &#x3D; i*i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;创建Event</span><br><span class="line">    cudaEventCreate(&amp;start_CPU);</span><br><span class="line">    cudaEventCreate(&amp;stop_CPU);</span><br><span class="line">    &#x2F;&#x2F;记录当前时间</span><br><span class="line">    cudaEventRecord(start_CPU, 0);</span><br><span class="line">    start_cpu &#x3D; clock();</span><br><span class="line">    &#x2F;&#x2F;CPU计算&#x2F;*******************************************************&#x2F;</span><br><span class="line">    add_CPU(a, b, c_CPU);</span><br><span class="line">    stop_cpu &#x3D; clock();</span><br><span class="line">    &#x2F;&#x2F;记录当前时间</span><br><span class="line">    cudaEventRecord(stop_CPU, 0);</span><br><span class="line">    cudaEventSynchronize(start_CPU);    &#x2F;&#x2F;等待事件完成。</span><br><span class="line">    cudaEventSynchronize(stop_CPU);    &#x2F;&#x2F;等待事件完成。记录之前的任务</span><br><span class="line">    cudaEventElapsedTime(&amp;time_CPU, start_CPU, stop_CPU);    &#x2F;&#x2F;计算时间差</span><br><span class="line">    printf(&quot;The time for CPU:\t%f(ms)\n&quot;, time_CPU);</span><br><span class="line"></span><br><span class="line">    cudaEventDestroy(start_CPU);    &#x2F;&#x2F;消除Event</span><br><span class="line">    cudaEventDestroy(stop_CPU);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;输出CPU结果</span><br><span class="line">    printf(&quot;\nResult from CPU:\n&quot;); </span><br><span class="line">    for (int i &#x3D; 0; i &lt; N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;CPU:\t%d+%d&#x3D;%d\n&quot;,a[i],b[i],c_CPU[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;GPU计算&#x2F;*******************************************************&#x2F;</span><br><span class="line">    &#x2F;&#x2F;内存拷贝CPU-TO-GPU</span><br><span class="line">    cudaMemcpy(dev_a, a, N*sizeof(int), cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(dev_b, b, N*sizeof(int), cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;创建Event</span><br><span class="line">    cudaEventCreate(&amp;start_GPU);</span><br><span class="line">    cudaEventCreate(&amp;stop_GPU);</span><br><span class="line">    &#x2F;&#x2F;记录当前时间</span><br><span class="line">    cudaEventRecord(start_GPU, 0);</span><br><span class="line"></span><br><span class="line">    start_gpu &#x3D; clock();</span><br><span class="line">    &#x2F;&#x2F;调用cuda的核函数</span><br><span class="line">    &#x2F;&#x2F;printf(&quot;block_num&#x3D;%d\tthread_num&#x3D;%d\n&quot;, block_num, thread_num);</span><br><span class="line">    add &lt;&lt; &lt;block_num, thread_num &gt;&gt; &gt;(dev_a, dev_b, dev_c);</span><br><span class="line"></span><br><span class="line">    stop_gpu &#x3D; clock();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;记录当前时间</span><br><span class="line">    cudaEventRecord(stop_GPU, 0);</span><br><span class="line">    cudaEventSynchronize(start_GPU);    &#x2F;&#x2F;等待事件完成。</span><br><span class="line">    cudaEventSynchronize(stop_GPU);    &#x2F;&#x2F;等待事件完成。记录之前的任务</span><br><span class="line">    cudaEventElapsedTime(&amp;time_GPU, start_GPU, stop_GPU);    &#x2F;&#x2F;计算时间差</span><br><span class="line">    printf(&quot;\nThe time for GPU:\t%f(ms)\n&quot;, time_GPU);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;将GPU中的结果拷贝出来</span><br><span class="line">    cudaMemcpy(c, dev_c, N*sizeof(int), cudaMemcpyDeviceToHost);    </span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;输出GPU结果</span><br><span class="line">    printf(&quot;\nResult from GPU:\n&quot;);</span><br><span class="line">    for (int i &#x3D; 0; i &lt; N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;GPU:\t%d+%d&#x3D;%d\n&quot;,a[i],b[i],c[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cudaEventDestroy(start_GPU);    &#x2F;&#x2F;消除Event</span><br><span class="line">    cudaEventDestroy(stop_GPU);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;释放GPU上的内存</span><br><span class="line">    cudaFree(dev_a);</span><br><span class="line">    cudaFree(dev_b);</span><br><span class="line">    cudaFree(dev_c);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    printf(&quot;\nThe time for CPU by event:\t%f(ms)\n&quot;, time_CPU);</span><br><span class="line">    printf(&quot;The time for GPU by event:\t%f(ms)\n&quot;, time_GPU);</span><br><span class="line"></span><br><span class="line">    time_cpu &#x3D; (float)(stop_cpu - start_cpu) &#x2F; CLOCKS_PER_SEC;</span><br><span class="line">    time_gpu &#x3D; (float)(stop_gpu - start_gpu) &#x2F; CLOCKS_PER_SEC;</span><br><span class="line">    printf(&quot;\nThe time for CPU by host:\t%f(ms)\n&quot;, time_cpu);</span><br><span class="line">    printf(&quot;The time for GPU by host:\t%f(ms)\n&quot;, time_gpu);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;GPU函数</span><br><span class="line">__global__ void add(int *a, int *b, int *c)</span><br><span class="line">&#123;</span><br><span class="line">    int tid &#x3D; blockIdx.x*blockDim.x+threadIdx.x;&#x2F;&#x2F;计算该索引处的数据</span><br><span class="line">    if (tid &lt; N)</span><br><span class="line">    &#123;</span><br><span class="line">        c[tid] &#x3D; a[tid] + b[tid];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;CPU函数</span><br><span class="line">void add_CPU(int *a, int *b, int *c)</span><br><span class="line">&#123;</span><br><span class="line">    for (int i &#x3D; 0; i &lt; N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        c[i] &#x3D; a[i] + b[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>即可如类似eclipse一样build, debug</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/cuda/" rel="tag"># cuda</a>
+              <a href="/tags/nsight/" rel="tag"># nsight</a>
+              <a href="/tags/parallel-computing/" rel="tag"># parallel computing</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/17/3d_recons/Infrared%20Single-Shot%20Structured%20Light%20System/" rel="prev" title="特征检测单目红外">
+      <i class="fa fa-chevron-left"></i> 特征检测单目红外
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda例子"><span class="nav-number">1.</span> <span class="nav-text">cuda例子</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dassein"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dassein</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dassein" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dassein" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dassein75325@gmail.com" title="E-Mail → mailto:dassein75325@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/ju-ting-74-63" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;ju-ting-74-63" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dassein</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+</body>
+</html>
