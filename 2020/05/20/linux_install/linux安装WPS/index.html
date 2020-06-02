@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dassein.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="linux安装WPS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux安装WPS">
+<meta property="og:url" content="https://dassein.github.io/2020/05/20/linux_install/linux%E5%AE%89%E8%A3%85WPS/index.html">
+<meta property="og:site_name" content="dassein&#39;s blog">
+<meta property="og:description" content="linux安装WPS">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-20T18:50:21.639Z">
+<meta property="article:modified_time" content="2020-05-16T23:02:00.000Z">
+<meta property="article:author" content="dassein">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="WPS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://dassein.github.io/2020/05/20/linux_install/linux%E5%AE%89%E8%A3%85WPS/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>linux安装WPS | dassein's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dassein's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">70</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">38</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">114</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dassein.github.io/2020/05/20/linux_install/linux%E5%AE%89%E8%A3%85WPS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dassein">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dassein's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux安装WPS
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-20 13:50:21" itemprop="dateCreated datePublished" datetime="2020-05-20T13:50:21-05:00">2020-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-16 18:02:00" itemprop="dateModified" datetime="2020-05-16T18:02:00-05:00">2020-05-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" itemprop="url" rel="index"><span itemprop="name">软件安装</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="linux安装WPS"><a href="#linux安装WPS" class="headerlink" title="linux安装WPS"></a>linux安装WPS</h2><a id="more"></a>
+<h3 id="所需cmd"><a href="#所需cmd" class="headerlink" title="所需cmd"></a>所需cmd</h3><p>首先下载好libpng12-0_1.2.49-1+deb7u2_amd64.deb</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> <span class="title">install</span> <span class="title">libc6</span>-<span class="title">i386</span></span></span><br><span class="line"><span class="function"><span class="title">root</span>@<span class="title">pad</span>:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> <span class="title">install</span> <span class="title">ia32</span>-<span class="title">libs</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> -<span class="title">f</span>  <span class="title">install</span> ./<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">dpkg</span> -<span class="title">i</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="step-1"><a href="#step-1" class="headerlink" title="step 1"></a>step 1</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">root@pad:/<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span># <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> <span class="title">install</span> <span class="title">libc6</span>-<span class="title">i386</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~$ <span class="title">cd</span> ~/<span class="title">Downloads</span></span></span><br><span class="line"><span class="function"><span class="title">dassein</span>@<span class="title">pad</span>:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">dpkg</span> -<span class="title">i</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span></span></span><br><span class="line"><span class="function"><span class="title">Selecting</span> <span class="title">previously</span> <span class="title">unselected</span> <span class="title">package</span> <span class="title">wps</span>-<span class="title">office</span>.</span></span><br><span class="line"><span class="function">(<span class="title">Reading</span> <span class="title">database</span> ... 347078 <span class="title">files</span> <span class="title">and</span> <span class="title">directories</span> <span class="title">currently</span> <span class="title">installed</span>.)</span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">to</span> <span class="title">unpack</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Unpacking</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">dpkg</span>: <span class="title">dependency</span> <span class="title">problems</span> <span class="title">prevent</span> <span class="title">configuration</span> <span class="title">of</span> <span class="title">wps</span>-<span class="title">office</span>:</span></span><br><span class="line"><span class="function"> <span class="title">wps</span>-<span class="title">office</span> <span class="title">depends</span> <span class="title">on</span> <span class="title">libpng12</span>-0; <span class="title">however</span>:</span></span><br><span class="line"><span class="function">  <span class="title">Package</span> <span class="title">libpng12</span>-0 <span class="title">is</span> <span class="title">not</span> <span class="title">installed</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">dpkg</span>: <span class="title">error</span> <span class="title">processing</span> <span class="title">package</span> <span class="title">wps</span>-<span class="title">office</span> (--<span class="title">install</span>):</span></span><br><span class="line"><span class="function"> <span class="title">dependency</span> <span class="title">problems</span> - <span class="title">leaving</span> <span class="title">unconfigured</span></span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">bamfdaemon</span> (0.5.3+16.10.20160929-0<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Rebuilding</span> /<span class="title">usr</span>/<span class="title">share</span>/<span class="title">applications</span>/<span class="title">bamf</span>-2.<span class="title">index</span>...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">gnome</span>-<span class="title">menus</span> (3.13.3-6<span class="title">ubuntu4</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">desktop</span>-<span class="title">file</span>-<span class="title">utils</span> (0.23-1<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">mime</span>-<span class="title">support</span> (3.60<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">shared</span>-<span class="title">mime</span>-<span class="title">info</span> (1.7-1) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">hicolor</span>-<span class="title">icon</span>-<span class="title">theme</span> (0.15-1) ...</span></span><br><span class="line"><span class="function"><span class="title">Errors</span> <span class="title">were</span> <span class="title">encountered</span> <span class="title">while</span> <span class="title">processing</span>:</span></span><br><span class="line"><span class="function"> <span class="title">wps</span>-<span class="title">office</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h3><p>我们注意到 <code>Package libpng12-0 is not installed.</code></p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">apt</span>-<span class="title">get</span> -<span class="title">f</span>  <span class="title">install</span> ./<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span></span></span><br><span class="line"><span class="function"><span class="title">Reading</span> <span class="title">package</span> <span class="title">lists</span>... <span class="title">Done</span></span></span><br><span class="line"><span class="function"><span class="title">Building</span> <span class="title">dependency</span> <span class="title">tree</span>  </span></span><br><span class="line"><span class="function"><span class="title">Reading</span> <span class="title">state</span> <span class="title">information</span>... <span class="title">Done</span></span></span><br><span class="line"><span class="function"><span class="title">Correcting</span> <span class="title">dependencies</span>... <span class="title">Done</span></span></span><br><span class="line"><span class="function"><span class="title">Note</span>, <span class="title">selecting</span> '<span class="title">libpng12</span>-0' <span class="title">instead</span> <span class="title">of</span> './<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span>'</span></span><br><span class="line"><span class="function"><span class="title">The</span> <span class="title">following</span> <span class="title">package</span> <span class="title">was</span> <span class="title">automatically</span> <span class="title">installed</span> <span class="title">and</span> <span class="title">is</span> <span class="title">no</span> <span class="title">longer</span> <span class="title">required</span>:</span></span><br><span class="line"><span class="function">  <span class="title">ubuntu</span>-<span class="title">core</span>-<span class="title">launcher</span></span></span><br><span class="line"><span class="function"><span class="title">Use</span> '<span class="title">sudo</span> <span class="title">apt</span> <span class="title">autoremove</span>' <span class="title">to</span> <span class="title">remove</span> <span class="title">it</span>.</span></span><br><span class="line"><span class="function"><span class="title">The</span> <span class="title">following</span> <span class="title">NEW</span> <span class="title">packages</span> <span class="title">will</span> <span class="title">be</span> <span class="title">installed</span>:</span></span><br><span class="line"><span class="function">  <span class="title">libpng12</span>-0</span></span><br><span class="line"><span class="function">0 <span class="title">upgraded</span>, 1 <span class="title">newly</span> <span class="title">installed</span>, 0 <span class="title">to</span> <span class="title">remove</span> <span class="title">and</span> 0 <span class="title">not</span> <span class="title">upgraded</span>.</span></span><br><span class="line"><span class="function">1 <span class="title">not</span> <span class="title">fully</span> <span class="title">installed</span> <span class="title">or</span> <span class="title">removed</span>.</span></span><br><span class="line"><span class="function"><span class="title">Need</span> <span class="title">to</span> <span class="title">get</span> 0 <span class="title">B</span>/191 <span class="title">kB</span> <span class="title">of</span> <span class="title">archives</span>.</span></span><br><span class="line"><span class="function"><span class="title">After</span> <span class="title">this</span> <span class="title">operation</span>, 308 <span class="title">kB</span> <span class="title">of</span> <span class="title">additional</span> <span class="title">disk</span> <span class="title">space</span> <span class="title">will</span> <span class="title">be</span> <span class="title">used</span>.</span></span><br><span class="line"><span class="function"><span class="title">Get</span>:1 /<span class="title">home</span>/<span class="title">dassein</span>/<span class="title">Downloads</span>/<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span> <span class="title">libpng12</span>-0 <span class="title">amd64</span> 1.2.49-1+<span class="title">deb7u2</span> [191 <span class="title">kB</span>]</span></span><br><span class="line"><span class="function"><span class="title">Selecting</span> <span class="title">previously</span> <span class="title">unselected</span> <span class="title">package</span> <span class="title">libpng12</span>-0:<span class="title">amd64</span>.</span></span><br><span class="line"><span class="function">(<span class="title">Reading</span> <span class="title">database</span> ... 349542 <span class="title">files</span> <span class="title">and</span> <span class="title">directories</span> <span class="title">currently</span> <span class="title">installed</span>.)</span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">to</span> <span class="title">unpack</span> .../<span class="title">libpng12</span>-0<span class="title">_1</span>.2.49-1+<span class="title">deb7u2_amd64.deb</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Unpacking</span> <span class="title">libpng12</span>-0:<span class="title">amd64</span> (1.2.49-1+<span class="title">deb7u2</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Setting</span> <span class="title">up</span> <span class="title">libpng12</span>-0:<span class="title">amd64</span> (1.2.49-1+<span class="title">deb7u2</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">doc</span>-<span class="title">base</span> (0.10.7) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> 1 <span class="title">added</span> <span class="title">doc</span>-<span class="title">base</span> <span class="title">file</span>...</span></span><br><span class="line"><span class="function"><span class="title">Setting</span> <span class="title">up</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">libc</span>-<span class="title">bin</span> (2.24-3<span class="title">ubuntu2</span>) ...</span></span><br></pre></td></tr></table></figure>
+<h3 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">sudo</span> <span class="title">dpkg</span> -<span class="title">i</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span></span></span><br><span class="line"><span class="function">(<span class="title">Reading</span> <span class="title">database</span> ... 349555 <span class="title">files</span> <span class="title">and</span> <span class="title">directories</span> <span class="title">currently</span> <span class="title">installed</span>.)</span></span><br><span class="line"><span class="function"><span class="title">Preparing</span> <span class="title">to</span> <span class="title">unpack</span> <span class="title">wps</span>-<span class="title">office_10</span>.1.0.5672~<span class="title">a21_amd64.deb</span> ...</span></span><br><span class="line"><span class="function"><span class="title">Unpacking</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) <span class="title">over</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Setting</span> <span class="title">up</span> <span class="title">wps</span>-<span class="title">office</span> (10.1.0.5672~<span class="title">a21</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">bamfdaemon</span> (0.5.3+16.10.20160929-0<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Rebuilding</span> /<span class="title">usr</span>/<span class="title">share</span>/<span class="title">applications</span>/<span class="title">bamf</span>-2.<span class="title">index</span>...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">gnome</span>-<span class="title">menus</span> (3.13.3-6<span class="title">ubuntu4</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">desktop</span>-<span class="title">file</span>-<span class="title">utils</span> (0.23-1<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">mime</span>-<span class="title">support</span> (3.60<span class="title">ubuntu1</span>) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">shared</span>-<span class="title">mime</span>-<span class="title">info</span> (1.7-1) ...</span></span><br><span class="line"><span class="function"><span class="title">Processing</span> <span class="title">triggers</span> <span class="title">for</span> <span class="title">hicolor</span>-<span class="title">icon</span>-<span class="title">theme</span> (0.15-1) ...</span></span><br></pre></td></tr></table></figure>
+<h3 id="step-4"><a href="#step-4" class="headerlink" title="step 4"></a>step 4</h3><p>检查WPS是否安装成功</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dassein@pad:~/<span class="title">Downloads</span>$ <span class="title">wps</span></span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/WPS/" rel="tag"># WPS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/20/C%E8%AF%AD%E5%8F%A5/" rel="prev" title="C语句">
+      <i class="fa fa-chevron-left"></i> C语句
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/20/linux_install/linux%E5%AE%89%E8%A3%85Quartus13/" rel="next" title="linux安装Quartus13">
+      linux安装Quartus13 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux安装WPS"><span class="nav-number">1.</span> <span class="nav-text">linux安装WPS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#所需cmd"><span class="nav-number">1.1.</span> <span class="nav-text">所需cmd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#step-1"><span class="nav-number">1.2.</span> <span class="nav-text">step 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#step-2"><span class="nav-number">1.3.</span> <span class="nav-text">step 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#step-3"><span class="nav-number">1.4.</span> <span class="nav-text">step 3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#step-4"><span class="nav-number">1.5.</span> <span class="nav-text">step 4</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dassein"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dassein</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dassein" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dassein" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dassein75325@gmail.com" title="E-Mail → mailto:dassein75325@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/ju-ting-74-63" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;ju-ting-74-63" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dassein</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+</body>
+</html>

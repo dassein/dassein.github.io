@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dassein.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="模&#x2F;数和数&#x2F;模转换">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ch12ADDA转换">
+<meta property="og:url" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/index.html">
+<meta property="og:site_name" content="dassein&#39;s blog">
+<meta property="og:description" content="模&#x2F;数和数&#x2F;模转换">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADDA_control.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/sample_keeper.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD2.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_logic.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_eg1.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A2.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8086.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8088.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2buf.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_1buf.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210_2.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210.png">
+<meta property="article:published_time" content="2020-05-14T02:00:59.458Z">
+<meta property="article:modified_time" content="2020-05-14T03:19:58.776Z">
+<meta property="article:author" content="dassein">
+<meta property="article:tag" content="assembly language">
+<meta property="article:tag" content="computer organization">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADDA_control.png">
+
+<link rel="canonical" href="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>ch12ADDA转换 | dassein's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dassein's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">70</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">38</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">114</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dassein.github.io/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dassein">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dassein's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ch12ADDA转换
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-13 21:00:59 / Modified: 22:19:58" itemprop="dateCreated datePublished" datetime="2020-05-13T21:00:59-05:00">2020-05-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">计算机组成原理</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/BIT%E8%AF%BE%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">BIT课件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="模-数和数-模转换"><a href="#模-数和数-模转换" class="headerlink" title="模/数和数/模转换"></a>模/数和数/模转换</h2><a id="more"></a>
+<h3 id="数据采集基本概念"><a href="#数据采集基本概念" class="headerlink" title="数据采集基本概念"></a>数据采集基本概念</h3><p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADDA_control.png" alt="ADDA_contro"></p>
+<p>传感器: 物理量转换成电信号</p>
+<p>多路模拟开关: 模拟信号源—&gt;转换成数字形式</p>
+<p>信号调理器（SIGNAL CONDITIONING ）:</p>
+<ul>
+<li>信号的电平、极性等转换，以便与A/D变换器所需的电平极性匹配</li>
+<li>阻抗变换作用，隔离后面的负载对传感器的影响</li>
+<li>抑制干扰，提高信噪比</li>
+<li>防止混叠现象</li>
+</ul>
+<p>采样保持(Sample/Hold)电路:</p>
+<ul>
+<li><p>A/D进行转换时间内，保持输入信号不变</p>
+</li>
+<li><p>采样模式: 输出随输入变化，通常增益为1</p>
+<p>在保持模式: 采样保持电路的输出保持命令发出时的输出值</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/sample_keeper.png" alt="sample_holder"></p>
+</li>
+</ul>
+<p>eg : 高速多通道数据采集系统</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD.png" alt="multi_AD"></p>
+<p>eg: 多通道共用A/D变换器</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/multi_AD2.png" alt="multi_AD2"></p>
+<h3 id="A-D转换器及其应用"><a href="#A-D转换器及其应用" class="headerlink" title="A/D转换器及其应用"></a>A/D转换器及其应用</h3><h4 id="AD转换器参数"><a href="#AD转换器参数" class="headerlink" title="AD转换器参数"></a>AD转换器参数</h4><ul>
+<li>量程：输入模拟信号幅度</li>
+<li>带宽：输入模拟信号频率</li>
+<li>转换速率：每秒能进行的转换次数</li>
+<li>分辨率（Resolution）: 位数8位，满量程5V，则其分辨率为8位，或<br>5V/(2^8-1)=19.6mV</li>
+<li>转换精度（Accuracy）: 精度和分辨率的区别，例如某ADC具有24位的分辨率，但其精度相当于16位，低8位表征随机噪声的影响</li>
+</ul>
+<h4 id="ADC0809工作原理及接口"><a href="#ADC0809工作原理及接口" class="headerlink" title="ADC0809工作原理及接口"></a>ADC0809工作原理及接口</h4><p>转换时间是100us，分辨率为8位，单5V供电，输入模拟电压范围为0—5V</p>
+<ul>
+<li><p>8路模拟开关；</p>
+</li>
+<li><p>地址锁存与译码；</p>
+</li>
+<li><p>8位A/D转换；(DAC)</p>
+</li>
+<li><p>三态输出锁存器。</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809.png" alt="ADC0809"></p>
+</li>
+</ul>
+<p>IN0～IN7: 输入，8路模拟输入</p>
+<p>DB0～DB7 : 三态输出，A/D转换数据输出线; </p>
+<p>ADD_A，ADD_B，ADD_C: 输入，模拟通道选择线;</p>
+<p>ALE: 输入，地址锁存使能，上升沿将ADD_A、ADD_B、ADD_C三位地址信号锁存，译码选通对应的模拟通道;</p>
+<p>REF(+)/REF(-): 输入，基准电压输入端，要求1/2[VREF(+)+VREF(-)]=1/2Vc</p>
+<p>模拟输入与数字输出的关系为：N＝(UIN - UREF-) / (UREF+ - UREF-)*28</p>
+<p>START: 输入,脉冲上升使所有内部寄存器清零，下降沿使A/D转换开始</p>
+<p>EOC: 输出，转换结束信号,EOC变为高电平</p>
+<p>OE: 输入，输出允许</p>
+<h4 id="AD574A工作原理"><a href="#AD574A工作原理" class="headerlink" title="AD574A工作原理"></a>AD574A工作原理</h4><p>12位的A/D转换芯片, 转换时间为35us, 输入模拟电压范围：单极性0~+10V或0~+20V；双极性±5V或±10V</p>
+<p>[可直接与8位或16位微处理器接口, 集成时钟&amp;基准电压电路, 输出可读全部12位数据，亦可两个8位方式读取]</p>
+<p>DB0～DB11，三态输出数据线，DB0为LSB,  DB11为MSB</p>
+<p>CE,芯片使能输入, CE由0变1,启动一次转换</p>
+<p>$\overline{CS}$,芯片选择输入,低电平有效</p>
+<p>$R/\overline{C}$,  =1 read &amp;&amp; =0 convert</p>
+<p>STS, 状态信号输出, 转换开始,STS=1; 转换周期完成, STS=0</p>
+<p>A0和$12/\overline{8}$这两个信号控制转换的长度和数据的格式</p>
+<p>$REF_{IN}$   基准电压输入,在使用中,可在REF IN和REF OUT之间接一个100欧的可调电阻,进行增益微调;</p>
+<p>$REF_{OUT}$  基准电压输出,AD574A内有基准电压电路,以供DAC的基准电压,基准电压可以被调到10.00V±1%;</p>
+<p>$BIP_{OFF}$   双极性偏置, 在使用中用于偏置的调整;</p>
+<p>DC: 数字公共端,   AC: 模拟公共端;</p>
+<p>Vlogic  逻辑电源,接+5V;</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_logic.png" alt="ADC574_logic"></p>
+<p>eg. $\overline{CS}$=0,$R/\overline{C}$=0,CE由0—&gt;1,启动一次转换；</p>
+<p>若此时A0=1,表明进行8bit转换; A0=0,表明进行12bit转换</p>
+<p>转换开始后,STS==1,直到转换周期完成STS==0;</p>
+<p>[转换期间,忽略新转换启动信号,不允许输出数据缓冲器输出]</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC574_eg1.png" alt="ADC574_eg1"></p>
+<p>eg. 读取周期自CE==1和$R/\overline{C}$==1时开始；</p>
+<p>$12/\overline{8}$=1,表明是16位接口方式,12位转换结果一次读出；</p>
+<p>$12/\overline{8}$=0,表明是8位接口方式,A0=0使能高8位, A0=1使能低4位数据</p>
+<h4 id="A-D转换器与系统的典型接口"><a href="#A-D转换器与系统的典型接口" class="headerlink" title="A/D转换器与系统的典型接口"></a>A/D转换器与系统的典型接口</h4><ul>
+<li><p>ADC0809通过8255A与系统的接口（P521）</p>
+<p>程序设定8255A的PA口和PC口为输入</p>
+<p>[ADC0809的数据输出经8255A的PA输入给CPU]</p>
+<p>[A/D转换状态信号EOC由PC4输入]</p>
+<p>PB口为输出，均为方式0，</p>
+<p>[ADDA、ADDB和ADDC以及地址锁存信号ALE由8255A的PB3~PB0输入]</p>
+<p>以查询方式来读取A/D转换结果。</p>
+<p>设8255A端口地址为0FFFCH~0FFFFH</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A.png" alt="ADC0809_8255A"></p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/ADC0809_8255A2.png" alt="ADC0809_8255A2"></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">	MOV AL, 98H     ;8255A控制字	</span><br><span class="line">	MOV DX, 0FFFFH	;控制字端口地址</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV AL, 0BH		;选IN3输入端和地址锁存信号</span><br><span class="line">	MOV DX, 0FFFDH</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV AL, 1BH		;start PB4&#x3D;1</span><br><span class="line">	OUT DX, AL		;启动A&#x2F;D转换</span><br><span class="line">	MOV AL, 0BH</span><br><span class="line">	OUT DX, AL</span><br><span class="line">	MOV DX, 0FFFEH</span><br><span class="line">TEST: IN AL, DX			;读C端口状态</span><br><span class="line">	AND AL, 10H		;测试EOC状态（PC4）</span><br><span class="line">	JZ TEST</span><br><span class="line">	MOV DX, 0FFFCH</span><br><span class="line">	IN AL, DX			;读转换结果</span><br><span class="line">	HLT</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>AD574与8086CPU [8283：带锁存器的缓冲器 8286：数据收发器]</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8086.png" alt="AD574_8086"></p>
+</li>
+</ul>
+<ul>
+<li><p>AD574与8088CPU</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/AD574_8088.png" alt="AD574_8088"></p>
+</li>
+</ul>
+<h3 id="D-A转换器及其应用"><a href="#D-A转换器及其应用" class="headerlink" title="D/A转换器及其应用"></a>D/A转换器及其应用</h3><h4 id="DAC指标"><a href="#DAC指标" class="headerlink" title="DAC指标"></a>DAC指标</h4><p>分辨率：满量程$V_{FS}$ ，N位的DAC，分辨率＝$V_{FS}$/(2^N-1)</p>
+<p>转换精度：</p>
+<ul>
+<li>相对转换精度：用数字量最低有效位LSB的一半来表示，±0.5LSB＝±0.5*(1/2^N)＝ ±1/2^(N+1)；</li>
+<li>绝对转换精度：相对转换精度对应的电压值表示，即±$V_{FS}$/2^(N+1)；</li>
+</ul>
+<p>转换速率和建立时间</p>
+<p>线性误差：在整个量程上，转换输出偏离理想转换特性的最大值</p>
+<h4 id="DAC0832"><a href="#DAC0832" class="headerlink" title="DAC0832"></a>DAC0832</h4><p>8位数模转换芯片，片中有R-2R梯形电阻</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832.png" alt="DAC0832"></p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2.png" alt="DAC0832_2"></p>
+<p>DI0～DI7：8位数据输入线；</p>
+<p>$\overline{CS}$：片选端，低电平有效，仅用于控制$\overline{WR1}$；</p>
+<p>ILE：数据允许锁存信号，高电平有效；</p>
+<p>$\overline{WR1}$：写信号1端，低电平有效。用于将输入数据锁存到输入寄存器中。必须与ILE、$\overline{CS}$同时有效；</p>
+<p>$\overline{WR2}$：写信号2端，低电平有效。</p>
+<p>$\overline{XFER}$：传送控制信号，低电平有效。用于控制$\overline{WR2}$ </p>
+<p>[$\overline{WR2}$和$\overline{XFER}$同时有效时，输入寄存器中的数据才能通过DAC寄存器进行D/A转换]</p>
+<p>$V_{REF}$：参考电压，+10V～-10V，电压愈稳定模拟输出精度越高;</p>
+<p>$I_{OUT1}$、$I_{OUT2}$：模拟电流输出端，与运放输入端相接;</p>
+<p>$R_{fb}$: 反馈电阻接出端</p>
+<p>两级输入锁存器：输入寄存器、DAC寄存器</p>
+<p>三种工作方式：</p>
+<ul>
+<li><p>双缓冲工作方式[转换输出模拟信号, 同时输入新的数据==&gt;提高速度,多个输出通道同步]</p>
+<p>eg. CS由A9~A1经译码产生，DAC的地址范围是228-22FH，实际只使用228H和229H两个地址:</p>
+<p>在CPU执行OUT指令时</p>
+<p>若A0=0，DAC0832内部LE1有效，数据总线上的值（AL）—&gt;数据输入寄存器;</p>
+<p> 若A0=1，DAC0832内部LE2有效，数据输入寄存器的值 —&gt;DAC寄存器</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_2buf.png" alt="DAC0832_2buf"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A0832   EQU 228H</span><br><span class="line">MOV    DX, A0832+0       ;A0&#x3D;0</span><br><span class="line">OUT     DX, AL                ;AL的值为待转换的数字</span><br><span class="line">MOV    DX, A0832+1      ;A0&#x3D;1</span><br><span class="line">OUT     DX, AL                ;AL的值无关</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>单缓冲工作方式</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC0832_1buf.png" alt="DAC0832_1buf"></p>
+<p>eg. 设D/A转换端口号为PORTDA，设需转换的数据放在1000H单元，则D/A转换程序为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MOV BX, 1000H</span><br><span class="line">MOV AL, [BX]</span><br><span class="line">MOV DX, PORTDA</span><br><span class="line">OUT  DX, AL</span><br></pre></td></tr></table></figure>
+<p>eg. 工作在单缓冲方式下。</p>
+<p>设D/A转换端口地址为200H，设需转换的数据量为10H，则D/A转换程序为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MOV AL, 10H</span><br><span class="line">MOV DX, 0200H</span><br><span class="line">OUT  DX, AL</span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
+<p>eg. 利用D/A转换器可以输出不同的电压波形，输出三角波的程序段如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">TRG0:    MOV DX, 0200H</span><br><span class="line">		MOV AL, 0H</span><br><span class="line">T1: 	OUT  DX, AL</span><br><span class="line">		INC AL</span><br><span class="line">		JNZ T1</span><br><span class="line">T2: 	OUT  DX, AL</span><br><span class="line">		DEC AL</span><br><span class="line">		JNZ T2</span><br><span class="line">		JMP T1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直通工作方式</p>
+</li>
+</ul>
+<h4 id="12位D-A转换器DAC1210"><a href="#12位D-A转换器DAC1210" class="headerlink" title="12位D/A转换器DAC1210"></a>12位D/A转换器DAC1210</h4><p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210_2.png" alt="DAC1210_2"></p>
+<p>12位D/A转换器DAC1210与CPU的接口</p>
+<p><img src="/2020/05/13/computer_organization/12_ch12ADDA%E8%BD%AC%E6%8D%A2/DAC1210.png" alt="DAC1210"></p>
+<p>eg. DAC占用220H～222H三个端口地址。</p>
+<p>A0地址线不参与I/O地址译码，反相—&gt;$B1/\overline{B2}$。</p>
+<p>设BX寄存器的低12位为待转换的数字量，完成一次转换输出的程序段如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MOV	DX, 220H             </span><br><span class="line">MOV	CL, 4</span><br><span class="line">SHL	BX, CL</span><br><span class="line">MOV	AL, BH		;送高8位数据 </span><br><span class="line">	OUT	DX, AL</span><br><span class="line">	INC	DX           ;送低4位数据</span><br><span class="line">	MOV  AL, BL</span><br><span class="line">	OUT	DX, AL</span><br><span class="line">	INC	DX		          </span><br><span class="line">OUT	DX, AL 		;启动D&#x2F;A转换</span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/assembly-language/" rel="tag"># assembly language</a>
+              <a href="/tags/computer-organization/" rel="tag"># computer organization</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/13/dsp/DTFT/" rel="prev" title="DTFT">
+      <i class="fa fa-chevron-left"></i> DTFT
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/13/computer_organization/1_ch1%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/" rel="next" title="ch1基本组成">
+      ch1基本组成 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模-数和数-模转换"><span class="nav-number">1.</span> <span class="nav-text">模&#x2F;数和数&#x2F;模转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据采集基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">数据采集基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-D转换器及其应用"><span class="nav-number">1.2.</span> <span class="nav-text">A&#x2F;D转换器及其应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AD转换器参数"><span class="nav-number">1.2.1.</span> <span class="nav-text">AD转换器参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ADC0809工作原理及接口"><span class="nav-number">1.2.2.</span> <span class="nav-text">ADC0809工作原理及接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AD574A工作原理"><span class="nav-number">1.2.3.</span> <span class="nav-text">AD574A工作原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-D转换器与系统的典型接口"><span class="nav-number">1.2.4.</span> <span class="nav-text">A&#x2F;D转换器与系统的典型接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D-A转换器及其应用"><span class="nav-number">1.3.</span> <span class="nav-text">D&#x2F;A转换器及其应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DAC指标"><span class="nav-number">1.3.1.</span> <span class="nav-text">DAC指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DAC0832"><span class="nav-number">1.3.2.</span> <span class="nav-text">DAC0832</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12位D-A转换器DAC1210"><span class="nav-number">1.3.3.</span> <span class="nav-text">12位D&#x2F;A转换器DAC1210</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dassein"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dassein</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dassein" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dassein" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dassein75325@gmail.com" title="E-Mail → mailto:dassein75325@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/ju-ting-74-63" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;ju-ting-74-63" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dassein</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+</body>
+</html>

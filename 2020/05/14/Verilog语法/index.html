@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dassein.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Verilog语法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Verilog语法">
+<meta property="og:url" content="https://dassein.github.io/2020/05/14/Verilog%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="dassein&#39;s blog">
+<meta property="og:description" content="Verilog语法">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-15T02:28:20.164Z">
+<meta property="article:modified_time" content="2020-05-15T07:33:16.661Z">
+<meta property="article:author" content="dassein">
+<meta property="article:tag" content="Verilog">
+<meta property="article:tag" content="Quartus">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://dassein.github.io/2020/05/14/Verilog%E8%AF%AD%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Verilog语法 | dassein's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dassein's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">70</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">38</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">114</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dassein.github.io/2020/05/14/Verilog%E8%AF%AD%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dassein">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dassein's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Verilog语法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-14 21:28:20" itemprop="dateCreated datePublished" datetime="2020-05-14T21:28:20-05:00">2020-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-15 02:33:16" itemprop="dateModified" datetime="2020-05-15T02:33:16-05:00">2020-05-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/" itemprop="url" rel="index"><span itemprop="name">数字电路</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/Verilog/" itemprop="url" rel="index"><span itemprop="name">Verilog</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Verilog语法"><a href="#Verilog语法" class="headerlink" title="Verilog语法"></a>Verilog语法</h2><a id="more"></a>
+<h3 id="连续赋值语句-阻塞赋值语句-非阻塞赋值语句"><a href="#连续赋值语句-阻塞赋值语句-非阻塞赋值语句" class="headerlink" title="连续赋值语句, 阻塞赋值语句, 非阻塞赋值语句"></a>连续赋值语句, 阻塞赋值语句, 非阻塞赋值语句</h3><p>数据流的描述是采用连续赋值语句(assign )语句来实现的。语法如下:</p>
+<p>assign net_type = 表达式;</p>
+<p>连续赋值语句用于组合逻辑的建模<br>等式左边是wire 类型的变量<br>等式右边可以是常量. 由运算符如逻辑运算符. 算术运算符参与的表达。</p>
+<p>如下几个实例:</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">wire</span> [<span class="number">3</span>:<span class="number">0</span>] Z, Preset, Clear; <span class="comment">//线网说明</span></span><br><span class="line"><span class="keyword">assign</span> Z = Preset &amp; Clear; <span class="comment">//连续赋值语句</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">wire</span> Cout, C i n ;</span><br><span class="line"><span class="keyword">wire</span> [<span class="number">3</span>:<span class="number">0</span>] Sum, A, B;</span><br><span class="line">. . .</span><br><span class="line"><span class="keyword">assign</span> &#123;Cout, Sum&#125; = A + B + Cin;</span><br><span class="line"><span class="keyword">assign</span> Mux = (S = = <span class="number">3</span>)? D : <span class="number">'bz</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>连续赋值语句的执行是:<br>只要右边表达式任一个变量有变化,表达式立即被计算,<br>计算的结果立即赋给左边信号。</li>
+<li>连续赋值语句之间是并行语句,因此与位置顺序无关<br>(“=”用于阻塞的赋值, 凡是在组合逻辑(如在assign 语句中)赋值请用阻塞赋值)</li>
+</ol>
+<h3 id="行为建模方式"><a href="#行为建模方式" class="headerlink" title="行为建模方式"></a>行为建模方式</h3><p>一般是指用过程赋值语句<br>(initial 语句和always 语句)  </p>
+<ol>
+<li>顺序语句块(begin . . . end):<br>语句块中的语句按给定次序顺序执行;</li>
+</ol>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">begin</span></span><br><span class="line">#<span class="number">2</span> Stream = <span class="number">1</span>;</span><br><span class="line">#<span class="number">5</span> Stream = <span class="number">0</span>;</span><br><span class="line">#<span class="number">3</span> Stream = <span class="number">1</span>;</span><br><span class="line">#<span class="number">4</span> Stream = <span class="number">0</span>;</span><br><span class="line">#<span class="number">2</span> Stream = <span class="number">1</span>;</span><br><span class="line">#<span class="number">5</span> Stream = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>两种过程赋值语句 initial 和 always 语句:<br>这两种语句之间的执行是并行的,即语句的执行与位置顺序无关<br>这两种语句通常与语句块(begin ….end)相结合,则语句块中的执行是按顺序执行<br>initial 语句只执行一次;<br>always 语句与initial 语句相反, 是被重复执行, 执行机制是通过对一个称为敏感变量表的事件驱动来实现的:  </li>
+</ol>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">initial</span></span><br><span class="line">Clk = <span class="number">0</span> ;</span><br><span class="line"><span class="keyword">always</span></span><br><span class="line">#<span class="number">5</span> Clk = ~Clk; <span class="comment">// 周期为10 的方波。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @ ( <span class="keyword">posedge</span> Clk <span class="keyword">or</span> <span class="keyword">posedge</span> Rst )</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">if</span> Rst</span><br><span class="line">Q &lt;= ‘ b <span class="number">0</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">Q &lt;= D; <span class="comment">// D 触发器</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @( sel ,a ,b)</span><br><span class="line">C = sel ? a :b;</span><br><span class="line"><span class="comment">// sel ,a,b 同样称为敏感变量,当三者之一有变化时,always 被执行</span></span><br></pre></td></tr></table></figure>
+<p>对于always:</p>
+<ul>
+<li>对组合逻辑器件的赋值采用阻塞赋值 “=”</li>
+<li>时序逻辑器件的赋值语句采用非阻塞赋值 “&lt;=”,如上的 Q 〈= D;)</li>
+</ul>
+<h3 id="结构建模"><a href="#结构建模" class="headerlink" title="结构建模"></a>结构建模</h3><p>实例化语句:</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">module_name instance_name(port_associations);</span><br></pre></td></tr></table></figure>
+<p>信号端口可以通过位置或名称关联;但是关联方式不能够混合使用<br>端口关联形式如下:</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">port_expr <span class="comment">//通过位置。</span></span><br><span class="line"><span class="variable">.PortName</span> (port_expr) <span class="comment">//通过名称。</span></span><br></pre></td></tr></table></figure>
+<p>port_expr 可以是以下的任何类型:  </p>
+<ol>
+<li>标识符<code>(reg 或net )</code>如: <code>.C(T3),T3</code>为wire型标识符</li>
+<li>位选择 ,如 <code>.C(D[0])</code>,C端口接到D信号的第0bit 位</li>
+<li>部分选择 ,如 <code>.Bus (Din[5:4])</code></li>
+<li>上述类型的合并,如 <code>.Addr({ A1,A2[1:0]})</code></li>
+<li>表达式(只适用于输入端口),如 <code>.A (wire Zire = 0 )</code></li>
+<li>对输入管脚悬空的,则该管脚输入为高阻 Z,输出管脚被悬空的,该输出管脚废弃不用</li>
+</ol>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> <span class="keyword">and</span> (C,A,B);</span><br><span class="line"><span class="keyword">input</span> A,B;</span><br><span class="line"><span class="keyword">output</span> C;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">and</span> A1 (T3, A, B ); <span class="comment">//实例化时采用位置关联,T3对应输出端口C,A对应A,B对应B。</span></span><br><span class="line"><span class="keyword">and</span> A2(</span><br><span class="line"><span class="comment">//实例化时采用名字关联,.C是and 器件的端口,其与信号T3相连</span></span><br><span class="line"><span class="variable">.C</span>(T3),</span><br><span class="line"><span class="variable">.A</span>(A),</span><br><span class="line"><span class="variable">.B</span>(B)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">DFF d1 (</span><br><span class="line"><span class="variable">.Q</span>(QS),</span><br><span class="line"><span class="variable">.Qbar</span> ( ),</span><br><span class="line"><span class="variable">.Data</span> (D ) ,</span><br><span class="line"><span class="variable">.Preset</span> ( ),</span><br><span class="line"><span class="comment">// 该管脚悬空</span></span><br><span class="line"><span class="variable">.Clock</span> (CK)</span><br><span class="line">); <span class="comment">//名称对应方式</span></span><br></pre></td></tr></table></figure>
+<h3 id="书写建议"><a href="#书写建议" class="headerlink" title="书写建议"></a>书写建议</h3><ol>
+<li>条件表达式需用括号括起来</li>
+<li>若为if - if 语句,请使用块语句 begin —- end:</li>
+</ol>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Clk)</span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(R e s e t)</span><br><span class="line">            Q = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            Q = D;</span><br><span class="line">    <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>以上两点建议是为了使代码更加清晰,防止出错。</p>
+<ol>
+<li>对if 语句,除非在时序逻辑中,if 语句需要有else 语句<br>若没有缺省语句, 设计将产生一个锁存器, 锁存器在ASIC设计中有诸多的弊端(可看同步设计技术所介绍)。<br>如下一例:</li>
+</ol>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (T)</span><br><span class="line">    Q = D;</span><br><span class="line"><span class="comment">// 没有else 语句,</span></span><br><span class="line"><span class="comment">// 当T为1(真)时,D 被赋值给Q,</span></span><br><span class="line"><span class="comment">// 当T为0(假)时,因为没有else 语句,电路保持 Q 以前的值,</span></span><br><span class="line"><span class="comment">// 这就形成一个锁存器。</span></span><br></pre></td></tr></table></figure>
+<h3 id="注意语法"><a href="#注意语法" class="headerlink" title="注意语法"></a>注意语法</h3><p>算术表达式结果的长度由最长的操作数决定</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">assign</span> Dbus [<span class="number">7</span>:<span class="number">4</span>] = &#123;Dbus [<span class="number">0</span>], Dbus [<span class="number">1</span>], Dbus[<span class="number">2</span>], Dbus[<span class="number">3</span>] &#125; ;</span><br><span class="line"><span class="comment">// 以反转的顺序将低端4 位赋给高端4 位。</span></span><br></pre></td></tr></table></figure>
+<p>reg 是最常用的寄存器类型, 寄存器类型通常用于对存储单元的描述<br>如在always 语句中进行描述的必须用reg 类型的变量</p>
+<ol>
+<li>reg 类型定义语法如下:<br><code>reg [msb: lsb] reg1, reg2, . . . reg N;</code><br>msb 和lsb 定义了范围,并且均为常数值表达式。</li>
+<li>寄存器类型的值可取负数,但若该变量用于表达式的运算中,则按无符号类型处理</li>
+<li>对数组类型,请按降序方式,如<code>[7:0];</code></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Verilog/" rel="tag"># Verilog</a>
+              <a href="/tags/Quartus/" rel="tag"># Quartus</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/14/linux_install/linux%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%8C%85/" rel="prev" title="linux软件安装">
+      <i class="fa fa-chevron-left"></i> linux软件安装
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/14/volatile%E5%85%B3%E9%94%AE%E5%AD%97/" rel="next" title="volatile关键字">
+      volatile关键字 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Verilog语法"><span class="nav-number">1.</span> <span class="nav-text">Verilog语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连续赋值语句-阻塞赋值语句-非阻塞赋值语句"><span class="nav-number">1.1.</span> <span class="nav-text">连续赋值语句, 阻塞赋值语句, 非阻塞赋值语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行为建模方式"><span class="nav-number">1.2.</span> <span class="nav-text">行为建模方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结构建模"><span class="nav-number">1.3.</span> <span class="nav-text">结构建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#书写建议"><span class="nav-number">1.4.</span> <span class="nav-text">书写建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意语法"><span class="nav-number">1.5.</span> <span class="nav-text">注意语法</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dassein"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dassein</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dassein" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dassein" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dassein75325@gmail.com" title="E-Mail → mailto:dassein75325@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/ju-ting-74-63" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;ju-ting-74-63" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dassein</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+</body>
+</html>

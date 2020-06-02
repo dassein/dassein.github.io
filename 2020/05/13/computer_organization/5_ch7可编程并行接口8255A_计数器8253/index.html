@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dassein.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="8255">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ch7可编程并行接口8255A_计数器8253">
+<meta property="og:url" content="https://dassein.github.io/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/index.html">
+<meta property="og:site_name" content="dassein&#39;s blog">
+<meta property="og:description" content="8255">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8255.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_controlword.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_workmode.png">
+<meta property="og:image" content="https://dassein.github.io/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_eg2.png">
+<meta property="article:published_time" content="2020-05-14T02:00:59.580Z">
+<meta property="article:modified_time" content="2020-05-14T03:18:55.251Z">
+<meta property="article:author" content="dassein">
+<meta property="article:tag" content="assembly language">
+<meta property="article:tag" content="computer organization">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dassein.github.io/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8255.png">
+
+<link rel="canonical" href="https://dassein.github.io/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>ch7可编程并行接口8255A_计数器8253 | dassein's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dassein's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">70</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">38</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">114</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dassein.github.io/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dassein">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dassein's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ch7可编程并行接口8255A_计数器8253
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-13 21:00:59 / Modified: 22:18:55" itemprop="dateCreated datePublished" datetime="2020-05-13T21:00:59-05:00">2020-05-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">计算机组成原理</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/BIT%E8%AF%BE%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">BIT课件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="8255"><a href="#8255" class="headerlink" title="8255"></a>8255</h2><a id="more"></a>
+<p><img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8255.png" alt="8255"></p>
+<p>和CPU一边相连的信号a</p>
+<p>RESET－复位信号；</p>
+<p>D7～D0 －数据线；</p>
+<p>CS#   －片选信号；</p>
+<p>RD#   －读出信号；</p>
+<p>WR#   －写入信号；</p>
+<p>A1、A0－端口选择信号</p>
+<p>和外设一边相连的信号</p>
+<p>PA7～PA0—A组数据信号；</p>
+<p>PB7～PB0—B组数据信号；</p>
+<p>PC7～PC0—C组数据信号。</p>
+<p>有三种基本工作方式：</p>
+<p>p方式0——基本的输入输出方式；</p>
+<p>p方式1——选通的输入输出方式；</p>
+<p>p方式2——双向传输方式；</p>
+<p>eg. 应用1：多片8255的连接</p>
+<p>  某微机系统有两片8255芯片：J1和J2；</p>
+<p>  J1、J2的A1/A0分别和系统地址总线的A2/A1连接；</p>
+<p>  其它控制信号分别连在一起，然后与系统相关信号连接；</p>
+<p>  系统靠片选信号CS#来区分对J1和J2的访问；</p>
+<p>solu:</p>
+<p>A8A7 A6 A5 A4 A3 A2 A1 A0    （Y4 Y5）</p>
+<p>0    1   1    1   0  0    0    0    0      00E0H     </p>
+<p>0    1   1    1   0  0    1    1    0   00E6H</p>
+<p>0    1   1    1   0  1    0    0    0   00E8H</p>
+<p>0    1   1   1   0  1    1     1    0   00EEH</p>
+<p>J1：端口A，方式0，输出</p>
+<p>​        端口B，方式0，输入</p>
+<p>​        端口C高4位，输出</p>
+<p>​        端口C低4位，输入</p>
+<p>控制字：10000011  83H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV	AL,83H</span><br><span class="line">MOV	DX,00E6H</span><br><span class="line">OUT	DX,AL</span><br></pre></td></tr></table></figure>
+<p>J2：端口A，方式0，输入</p>
+<p>​        端口B，方式1，输出</p>
+<p>​        端口C高4位，输出</p>
+<p>端口C低4位，配合端口B工作，可任意为1或0，此处0</p>
+<p>控制字：10010100  94H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV	AL,94H</span><br><span class="line">MOV	DX,00EEH</span><br><span class="line">OUT	DX,AL</span><br></pre></td></tr></table></figure>
+<p>eg. 8255工作于方式0 </p>
+<p>端口地址</p>
+<p>A端口：00D0H;     B端口：  00D2H;</p>
+<p>C端口：00D4H;  控制端口：00D6H;</p>
+<p>A端口：方式0，输出  （传送字符的通道）</p>
+<p>B端口：未用</p>
+<p>C端口高4位：方式0，输出（PC6作为STB#信号输出端） </p>
+<p>C端口低4位：方式0，输入  （PC2作为BUSY信号输入端） </p>
+<p>控制字：</p>
+<p>​    10000001  81H</p>
+<p>A端口：00D0H;   B端口：00D2H;<br>C端口：00D4H; 控制端口：00D6H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">	MOV     AL, 81H</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">	MOV	AL,0DH</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">WAIT:   IN	AL,00D4H</span><br><span class="line">	AND	AL,04H	</span><br><span class="line">	JNZ	WAIT</span><br><span class="line">	MOV	AL,CL</span><br><span class="line">	OUT	00D0H,AL</span><br><span class="line">	MOV	AL,0CH</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">	INC	AL</span><br><span class="line">	OUT	00D6H,AL</span><br><span class="line">;控制字：10000001</span><br><span class="line"></span><br><span class="line">;用置1&#x2F;0 方式使PC6为1，使STB#高电平，00001101B</span><br><span class="line">;读端口C的值</span><br><span class="line"></span><br><span class="line">;如不为0，说明忙信号为1，打印机忙，等待</span><br><span class="line"></span><br><span class="line">;不忙，把CL中字符送端口A</span><br><span class="line"></span><br><span class="line">;用置1&#x2F;0 方式使PC6为0，使STB#低电平，00001100B</span><br><span class="line"></span><br><span class="line">;再使STB#高电平</span><br></pre></td></tr></table></figure>
+<p>eg. 8255工作于方式1 </p>
+<p>设8255端口地址：</p>
+<p>A端口00C0H;   B端口 00C2H;</p>
+<p>C端口00C4H;   控制端口 00C6H</p>
+<p>A端口作为数据通道，工作在方式1，输出方式。PC7自动作为OBF#信号输出端，PC6自动作为ACK#信号输入端。CPU控制PC0产生选通脉冲。OBF#此处无用，悬空。</p>
+<p>PC3自动作为INTR信号输出端。中断类型号0BH</p>
+<p>中断入口地址在2CH~2FH</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">MAIN:MOV   AL,0A0H     </span><br><span class="line">	OUT  0C6H,AL      ;设置控制字    10100000</span><br><span class="line">	MOV   AL,01H        ;PC0&#x3D;1，让选通无效</span><br><span class="line">	OUT    0C6H,AL      </span><br><span class="line">	XOR	AX,AX        ;设置中断处理子程序入口地址：</span><br><span class="line">	MOV   DS,AX        ;1000H:2000H 在2CH~2EH</span><br><span class="line">	MOV   AX,2000H  ;中断类型号为多少？</span><br><span class="line">	MOV   WORD PRT[002C], AX</span><br><span class="line">	MOV   AX,1000H</span><br><span class="line">	MOV   WORD PRT[002E],AX</span><br><span class="line">	MOV   AL,0DH      ;PC6&#x3D;1,允许8255中断</span><br><span class="line">	OUT    0C6,AL</span><br><span class="line">	STI    </span><br><span class="line">;中断处理</span><br><span class="line">TINTR: </span><br><span class="line">	MOV   AL,[DI]       ;[DI]为打印内容, 字符送A端口</span><br><span class="line">	 OUT    0C0H,AL    ;</span><br><span class="line">	 MOV   AL,00          ;PC0&#x3D;0，产生选通信号</span><br><span class="line">	  OUT    0C6H,AL    ;PC0&#x3D;1 ，撤销选通信号</span><br><span class="line">	  INC     AL</span><br><span class="line">	  OUT    0C6H,AL</span><br><span class="line">              …</span><br><span class="line">              IRET</span><br></pre></td></tr></table></figure>
+<h2 id="8253"><a href="#8253" class="headerlink" title="8253"></a>8253</h2><p>8254&amp;8253不同点：</p>
+<ul>
+<li>只有8254内部有状态寄存器；</li>
+<li>8253有2种方式读出计数值，8254增加了读出控制字命令，有3种方式可读出计数值和状态值</li>
+</ul>
+<p>8253内部有三个计数器，他们的结构完全相同。</p>
+<p>每个计数器的输入和输出都决定于设置在控制寄存器中的控制字，互相之间工作完全独立。</p>
+<p>每个计数器通过三个引脚和外部联系:</p>
+<ul>
+<li>一个为时钟输入端CLK，一个为门控信号输入端GATE，另一个为输出端OUT。</li>
+</ul>
+<p>每个计数器内部有</p>
+<ul>
+<li>一个8位的控制寄存器，</li>
+<li>16位的计数初值寄存器CR</li>
+<li>计数执行部件CE</li>
+<li>输出锁存器OL</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253.png" alt="8253"></p>
+<h3 id="控制字"><a href="#控制字" class="headerlink" title="控制字"></a>控制字</h3><p><img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_controlword.png" alt="8253_controlword"></p>
+<h3 id="8253初始化program"><a href="#8253初始化program" class="headerlink" title="8253初始化program"></a>8253初始化program</h3><p>8253CNT0~ CNT2端口地址：0200H~0202H</p>
+<p>控制寄存器端口地址：0203H</p>
+<p>eg. 端口地址：0200H~0203H</p>
+<p>CNT0工作于方式3，二进制计数，计数初值65536</p>
+<p>CNT0控制字：00 11 011 0   36H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">;CNT0初始化编程</span><br><span class="line">MOV AL,36H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0200H</span><br><span class="line">MOV AL,00H</span><br><span class="line">OUT DX,AL</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+<p>eg. 端口地址：0200H~0203H</p>
+<p>CNT1工作于方式2，BCD计数，计数初值1023H</p>
+<p>CNT1控制字：01 11 010 1  75H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">;CNT1初始化编程</span><br><span class="line">MOV AL,75H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0201H</span><br><span class="line">MOV AX,1023H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV AL,AH</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+<p>eg. 端口地址：0200H~0203H</p>
+<p>CNT2工作于方式3，二进制计数，计数初值255</p>
+<p>CNT2控制字：10 01 011 0   96H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">;CNT2初始化编程</span><br><span class="line">MOV AL,96H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX, 0202H</span><br><span class="line">MOV AL,0FFH</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+<h3 id="8253的锁存读出命令program"><a href="#8253的锁存读出命令program" class="headerlink" title="8253的锁存读出命令program"></a>8253的锁存读出命令program</h3><p>方法：</p>
+<p>（1）写锁存命令，使计数值锁存到输出寄存器OL；</p>
+<p>（2）读锁定的计数值</p>
+<p>eg. 若8253端口地址200H~203H，已知CNT1已经工作，现需要读出CNT1的当前计数值</p>
+<p>；锁存命令， CNT0、<br>CNT1和 CNT2分别为00H、40H和80H</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MOV AL,40H    	;锁存命令， CNT0、 CNT1和 CNT2分别为00H、40H和80H</span><br><span class="line">MOV DX,0203H</span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0201H</span><br><span class="line">IN AL,DX</span><br><span class="line">MOV CL,AL</span><br><span class="line">IN AL,DX</span><br><span class="line">MOV CH,AL</span><br></pre></td></tr></table></figure>
+<h3 id="8253-工作mode"><a href="#8253-工作mode" class="headerlink" title="8253 工作mode"></a>8253 工作mode</h3><p>软件触发计数启动</p>
+<ul>
+<li>模式0－计数结束中断</li>
+<li>模式4－软件触发延时选通</li>
+</ul>
+<p>硬件触发计数启动</p>
+<ul>
+<li>模式1－可编程单拍</li>
+<li>模式5－硬件触发延时选通</li>
+</ul>
+<p>周期信号发生器</p>
+<ul>
+<li>模式2－频率发生器</li>
+<li>模式3－方波发生器</li>
+</ul>
+<p><img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_workmode.png" alt="8253_workmode"></p>
+<h3 id="8253实例"><a href="#8253实例" class="headerlink" title="8253实例"></a>8253实例</h3><p>eg. OUT0输出接8259A的IRQ0，用作PC实时时钟的定时中断请求信号。</p>
+<p>工作于方式3，</p>
+<p>CNT0的控制字</p>
+<p>0011 011 0       36H</p>
+<p>计数器初值为0000H，</p>
+<p>对应最大方波周期：  T=65536*838ns» 55ms。</p>
+<p>输出信号频率：   f=1/T=18.206Hz </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MOV	AL, 36H</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AL, 0</span><br><span class="line">OUT	40H, AL</span><br><span class="line">OUT	40H, AL</span><br></pre></td></tr></table></figure>
+<p>用来为动态存储器的刷新提供定时信号。</p>
+<p>工作于方式2。</p>
+<p>CNT1的控制字</p>
+<p>0101 010 0       54H</p>
+<p>计数器初值为18H。</p>
+<p>对应最大方波周期：  T=18*838ns» 15us。</p>
+<p>每次刷新512单元，128次刷新全部64KB。所需时间：</p>
+<p>​      15us*128 »1.92ms&lt;2ms</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MOV	AL, 54H</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AL, 18</span><br><span class="line">OUT	41H, AL</span><br></pre></td></tr></table></figure>
+<p>GATE2接至并行接口8255A的PB0位，用它控制通道2的计数过程。</p>
+<p>输出OUT2经过一个与门，这个与门受PB1位控制。扬声器可由PB0或PB1分别控制发声。8255A的端口地址为60H~63H。</p>
+<p>若要求扬声器发出600Hz的声音，可将计数器2设定为方式3，作为方波发生器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MOV	AL, 10110110B     ;方式3，写入16位计数值</span><br><span class="line">OUT	43H, AL</span><br><span class="line">MOV	AX, 1989		；1.19318MHz&#x2F;600&#x3D;1989</span><br><span class="line">OUT	42H, AL		;写入低8位</span><br><span class="line">MOV AL，AH</span><br><span class="line">OUT	42H, AL		;写入高8位</span><br><span class="line">IN AL, 61H			;读8255A的B端口原输入值</span><br><span class="line">MOV AH, AL</span><br><span class="line">OR AL, 03H		;使PB1和PB0位均为1</span><br><span class="line">OUT 61H,AL		;输出以使扬声器能够发声</span><br></pre></td></tr></table></figure>
+<p>eg. <img src="/2020/05/13/computer_organization/5_ch7%E5%8F%AF%E7%BC%96%E7%A8%8B%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A38255A_%E8%AE%A1%E6%95%B0%E5%99%A88253/8253_eg2.png" alt="8253_eg2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">		NAME EX_1</span><br><span class="line">DATA		SEGMENT</span><br><span class="line">MESS	DB	‘8253 CNT0 IN MODE 3’,0DH,0AH</span><br><span class="line">		DB	‘8253 CNT1 IN MODE 2’,0DH,0AH,‘$’</span><br><span class="line">DATA		ENDS</span><br><span class="line">CODE 	SEGMENT</span><br><span class="line">		ASSUME CS:CODE,DS:DATA</span><br><span class="line">START:	MOV AX,DATA</span><br><span class="line">MOV DS,AX</span><br><span class="line">CLI</span><br><span class="line">MOV DX,0203H	;CNT0初始化，产生方波，周期10ms</span><br><span class="line">MOV AL,36H	; CNT0方式控制字   00110110    </span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0200H</span><br><span class="line">MOV AL,0C4H</span><br><span class="line">OUT DX,AL		;写入低字节计数值          09C4H</span><br><span class="line">MOV AL,09H</span><br><span class="line">OUT DX,AL		;写入高字节计数值</span><br><span class="line">MOV DX,0203H	;CNT1初始化，产生周期性负脉冲信号，MOV AL,74H	;周期1s ，CNT1方式控制字   01110100    </span><br><span class="line">OUT DX,AL</span><br><span class="line">MOV DX,0201H</span><br><span class="line">MOV AL,064H</span><br><span class="line">OUT DX,AL		;写入低字节计数值          64H</span><br><span class="line">MOV AL,00H</span><br><span class="line">OUT DX,AL		;写入高字节计数值</span><br><span class="line">STI</span><br><span class="line">MOV DX,OFFSET MESS</span><br><span class="line">MOV AH,09H</span><br><span class="line">INT 21H</span><br><span class="line">MOV AH,4CH</span><br><span class="line">INT 21H</span><br><span class="line">CODE ENDS</span><br><span class="line">END START</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/assembly-language/" rel="tag"># assembly language</a>
+              <a href="/tags/computer-organization/" rel="tag"># computer organization</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/13/computer_organization/3_ch5%E5%AD%98%E5%82%A8%E5%99%A8/" rel="prev" title="ch5存储器">
+      <i class="fa fa-chevron-left"></i> ch5存储器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/13/computer_organization/8_ch8%E4%B8%AD%E6%96%AD8259/" rel="next" title="ch8中断8259">
+      ch8中断8259 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#8255"><span class="nav-number">1.</span> <span class="nav-text">8255</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8253"><span class="nav-number">2.</span> <span class="nav-text">8253</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制字"><span class="nav-number">2.1.</span> <span class="nav-text">控制字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8253初始化program"><span class="nav-number">2.2.</span> <span class="nav-text">8253初始化program</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8253的锁存读出命令program"><span class="nav-number">2.3.</span> <span class="nav-text">8253的锁存读出命令program</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8253-工作mode"><span class="nav-number">2.4.</span> <span class="nav-text">8253 工作mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8253实例"><span class="nav-number">2.5.</span> <span class="nav-text">8253实例</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dassein"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dassein</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dassein" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dassein" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dassein75325@gmail.com" title="E-Mail → mailto:dassein75325@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/ju-ting-74-63" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;ju-ting-74-63" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dassein</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+</body>
+</html>
